@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<etl>
+		<source>
+			<db conn="db.mbr">
+				<sql>
+					<![CDATA[      
+                select p.MEMBER_ID MEMBER_ID,sysdate UPDATE_DATE
+					  from T_MEMBER_POINT p, T_MEMBER m
+					 where p.member_id = m.member_id
+					   and m.status = '1'
+					   and m.isdelete = '0'
+					   and p.member_id not in (select c.member_id from t_member_repair c where c.UPDATE_DATE>=sysdate-1 )
+					   and p.update_date < sysdate
+					   and p.update_date >= sysdate-1
+					   and rownum<=5000
+					]]>
+				</sql>
+			</db>
+		</source>
+		<destination>
+			<db conn="db.mbr">
+				<table>t_member_repair</table>
+			</db>
+		</destination>
+		<linefilter>
+			<filter name="countercomputehandle" />
+		</linefilter>
+			<mapping>
+			<field src="MEMBER_ID"  dest="MEMBER_ID" stype="key" />
+                 <field src="MEMBER_ID"  dest="MEMBER_NO"/>
+                 <field src="UPDATE_DATE" dest="UPDATE_DATE" type="timestamp"/>
+			<field dest="is_repaired"><fixed>8</fixed></field>		
+		</mapping>
+		
+</etl>

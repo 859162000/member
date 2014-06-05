@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+
+	<job>
+		<name>cinemas</name>
+		<direction>1</direction><!-- 方向，即上传(行)，和下载(行)    -1, 1 -->
+		<dataType>cinemas</dataType><!-- 区分时影院数据，还是总院数据   cinemas,common-->
+		<desc>上行影城数据</desc>
+		<jobStartDate>2011-11-20</jobStartDate><!--文件下载开始日期，下载该日期之后的文件0 15 10 ? * * -->
+		<plandesc>计划时间说明</plandesc>
+		<cronExpression>* * * ? * * </cronExpression>
+		<joblistener>com.wanda.ccs.intf.client.job.receive.ReceiveJob</joblistener>
+	</job>
+</config>
+

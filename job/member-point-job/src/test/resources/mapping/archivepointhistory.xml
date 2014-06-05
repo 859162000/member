@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<etl>
+		<source>
+			<db conn="db.mbr_uat">
+				<sql>
+					<![CDATA[ 
+
+select POINT_HISTORY_ID,
+       MEMBER_ID,
+       SET_TIME,
+       LEVEL_POINT,
+       TICKET_COUNT,
+       ACTIVITY_POINT,
+       EXCHANGE_POINT,
+       EXCHANGE_POINT_EXPIRE_TIME,
+       POINT_TYPE,
+       POINT_SYS,
+       POINT_TRANS_TYPE,
+       POINT_TRANS_CODE,
+       POINT_TRANS_CODE_WEB,
+       ADJ_RESION,
+       ORG_POINT_BALANCE,
+       POINT_BALANCE,
+       IS_SYNC_BALANCE,
+       ISDELETE,
+       CREATE_BY,
+       CREATE_DATE,
+       UPDATE_BY,
+       UPDATE_DATE,
+       VERSION,
+       MEMBER_POINT_ID,
+       ADJ_REASON_TYPE,
+       ADJ_REASON,
+       ORDER_ID,
+       PRODUCT_NAME,
+       IS_SUCCEED,
+       CINEMA_INNER_CODE,
+       POINT_EXT_RULE_ID,
+       TRANS_TYPE,
+       T_TRANS_ORDER_ID,
+       T_TRANS_DETAIL_ID,
+       RECALCU_STATUS,
+       RECALCU_DATE,
+       IS_HISTORY
+  from T_POINT_HISTORY t
+ where 
+  	 set_time  < to_date('${bizdate}', 'yyyy-mm-dd')  
+ and set_time >= to_date('${bizdate}', 'yyyy-mm-dd')  
+
+				]]>
+				</sql>
+			</db>
+		</source>
+		<destination>
+			<db conn="db.mbr_uat">
+				<table>T_POINT_HISTORY_ARCHIVE</table>
+			</db>
+		</destination>
+
+		<mapping>
+			<field src="POINT_HISTORY_ID" dest="POINT_HISTORY_ID" stype="key"  /> 
+			<field src="MEMBER_ID" dest="MEMBER_ID" />
+			<field src="SET_TIME"  dest="SET_TIME" type="timestamp"/> 
+			<field src="LEVEL_POINT" dest="LEVEL_POINT"  />
+			<field src="TICKET_COUNT" dest="TICKET_COUNT" />
+			<field src="ACTIVITY_POINT" dest="ACTIVITY_POINT" ></field>
+			<field src="EXCHANGE_POINT" dest="EXCHANGE_POINT"  />
+			<field src="EXCHANGE_POINT_EXPIRE_TIME"  dest="EXCHANGE_POINT_EXPIRE_TIME" type="timestamp"/> 
+			<field src="POINT_TYPE" dest="POINT_TYPE"  />
+			<field src="POINT_SYS" dest="POINT_SYS" />
+			<field src="POINT_TRANS_TYPE" dest="POINT_TRANS_TYPE"  />
+			<field src="POINT_TRANS_CODE" dest="POINT_TRANS_CODE" />
+			<field src="POINT_TRANS_CODE_WEB" dest="POINT_TRANS_CODE_WEB"  />
+			<field src="ADJ_RESION" dest="ADJ_RESION" />
+			<field src="ORG_POINT_BALANCE" dest="ORG_POINT_BALANCE"  />
+			<field src="POINT_BALANCE" dest="POINT_BALANCE" />
+			<field src="IS_SYNC_BALANCE" dest="IS_SYNC_BALANCE" />
+			 <field src="ISDELETE" dest="ISDELETE"  />
+			<field src="CREATE_BY" dest="CREATE_BY" />
+			<field src="CREATE_DATE"  dest="CREATE_DATE" type="timestamp"/> 
+			<field src="UPDATE_BY" dest="UPDATE_BY" />
+			<field src="UPDATE_DATE"  dest="UPDATE_DATE" type="timestamp"/> 
+			<field  dest="ARCHIEVE_BY" ><fixed>member_sys</fixed></field>
+			<field  dest="ARCHIVE_TIME" type="timestamp"><sysDate/></field>		
+			<field src="VERSION" dest="VERSION" />
+			<field src="MEMBER_POINT_ID" dest="MEMBER_POINT_ID"  />
+			<field src="ADJ_REASON_TYPE" dest="ADJ_REASON_TYPE" />
+			<field src="ADJ_REASON" dest="ADJ_REASON" />
+			<field src="ORDER_ID" dest="ORDER_ID" />
+			<field src="PRODUCT_NAME" dest="PRODUCT_NAME"  />
+			<field src="IS_SUCCEED" dest="IS_SUCCEED" />
+			<field src="CINEMA_INNER_CODE" dest="CINEMA_INNER_CODE" />
+			<field src="POINT_EXT_RULE_ID" dest="POINT_EXT_RULE_ID" />
+			<field src="TRANS_TYPE" dest="TRANS_TYPE" />
+			<field src="T_TRANS_ORDER_ID" dest="T_TRANS_ORDER_ID"  />
+			<field src="T_TRANS_DETAIL_ID" dest="T_TRANS_DETAIL_ID" />
+			<field src="RECALCU_STATUS" dest="RECALCU_STATUS" />
+			<field src="RECALCU_DATE"  dest="RECALCU_DATE" type="timestamp"/> 
+			<field src="IS_HISTORY" dest="IS_HISTORY" />
+		</mapping>
+		
+</etl>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<mapper namespace="com.wanda.ccs.smsgateway.engine.dao.EngineLogDAO">
+	
+	<insert id="insertEngineLog" parameterType="EngineLog">
+		<selectKey order="BEFORE" resultType="java.lang.Long" keyProperty="logId">
+              select s_t_sms_gateway_engine_log.nextval as logId from dual
+        </selectKey>
+		INSERT INTO t_sms_gateway_engine_log
+			(log_id, engine_name, delivery_msg, task_state, task_create_time)
+		VALUES
+			(#{logId,jdbcType=NUMERIC}, #{engineName,jdbcType=VARCHAR}, #{deliveryMsg,jdbcType=VARCHAR}, 0, systimestamp)
+	</insert>
+	
+	<update id="updateTaskState" parameterType="java.util.HashMap">
+		UPDATE
+			t_sms_gateway_engine_log
+		SET
+			task_complete_time = systimestamp,
+			task_name = #{taskName},
+			task_state = #{state}
+		WHERE
+			log_id = #{logId}
+	</update>
+	
+	<insert id="insertTaskError" parameterType="java.util.HashMap">
+		INSERT INTO t_sms_gateway_task_error_log
+			(log_id, error_msg, create_time)
+		VALUES
+			(#{logId,jdbcType=NUMERIC}, #{errorMsg,jdbcType=VARCHAR}, systimestamp)
+	</insert>
+	
+	<insert id="insertEngineError" parameterType="java.util.HashMap">
+		INSERT INTO t_sms_gateway_engine_error_log
+			(log_id, error_msg, create_time)
+		VALUES
+			(#{logId,jdbcType=NUMERIC}, #{errorMsg,jdbcType=VARCHAR}, systimestamp)
+	</insert>
+	
+</mapper>

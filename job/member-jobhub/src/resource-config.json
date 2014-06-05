@@ -1,0 +1,41 @@
+{
+beans: 
+[
+
+	//内置配置DataSource
+	/*
+	{
+		path  : "/dataSource",
+		class : "com.mchange.v2.c3p0.ComboPooledDataSource",
+		scope : "container",
+		//destroyMethod : "close",
+		properties: {
+			driverClass               : "oracle.jdbc.driver.OracleDriver",
+			//jdbcUrl                   : "jdbc:oracle:thin:@localhost:1521:xe",
+			//user                      : "ccs_member",
+			//password                  : "ccs_member",
+			jdbcUrl                   : jdbc:oracle:thin:@10.199.200.242:1521:orcl
+			user                      : ccs_mbr_dev
+			password                  : ccs_mbr_dev
+			initialPoolSize           : 3,
+			minPoolSize               : 3,
+			maxPoolSize               : 20,
+			acquireRetryAttempts      : 3,
+			idleConnectionTestPeriod  : 60,
+			acquireIncrement          : 2,
+			maxStatements             : 0
+		}
+	}
+	*/
+],
+
+aliases: [
+	{to:"/dataSourceSMS", from:"/jndi/ccs/smsreport/sms_datasource"},
+	{to:"/dataSourceQuartz", from:"/jndi/ccs/jobhub/quartz_datasource"},
+	{to:"/dataSource", from:"/jndi/ccs/member/app_datasource"},
+	{to:"/dataSourceOds", from:"/jndi/ccs/member/ods_datasource"},
+	{to:"/quartzInstanceAddress", from:"/jndi/ccs/jobhub/instanceAddress"},
+	{to:"/quartzInstanceId", from:"/jndi/ccs/jobhub/instanceId"}
+]
+
+}

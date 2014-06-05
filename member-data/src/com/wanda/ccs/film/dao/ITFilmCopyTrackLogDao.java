@@ -1,0 +1,1 @@
+package com.wanda.ccs.film.dao;import com.wanda.ccs.model.TFilmCopyTrackLog;import com.xcesys.extras.core.dao.IBaseDao;public interface ITFilmCopyTrackLogDao extends IBaseDao<TFilmCopyTrackLog> {}

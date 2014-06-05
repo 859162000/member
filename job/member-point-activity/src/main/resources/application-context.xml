@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:batch="http://www.springframework.org/schema/batch"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/batch http://www.springframework.org/schema/batch/spring-batch-2.2.xsd
+		http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.1.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd">
+
+	<context:property-placeholder location="classpath:batch.properties" />
+
+	<context:component-scan base-package="com.wanda.member.activity" />
+
+	<!-- Spring Batch MetaData -->
+	<bean id="dataSourceForSpringBatch" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="${batch.jdbc.driver}" />
+		<property name="url" value="${batch.jdbc.url}" />
+		<property name="username" value="${batch.jdbc.user}" />
+		<property name="password" value="${batch.jdbc.password}" />
+	</bean>
+	<bean id="transactionManagerForSpringBatch"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSourceForSpringBatch"/>
+	</bean>
+	
+	<jdbc:initialize-database data-source="dataSourceForSpringBatch">
+		<jdbc:script location="${batch.schema.dropscript}" />
+		<jdbc:script location="${batch.schema.script}" />
+	</jdbc:initialize-database>
+	
+	<!-- Spring Batch MetaData -->
+	
+	<!-- Member DataSource -->
+	<bean id="mbr_dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="${member.jdbc.driver}" />
+		<property name="url" value="${member.jdbc.url}" />
+		<property name="username" value="${member.jdbc.username}" />
+		<property name="password" value="${member.jdbc.password}" />
+		<property name="initialSize" value="${member.jdbc.initialSize}" />
+		<property name="maxActive" value="${member.jdbc.maxActive}" />
+		<property name="maxIdle" value="${member.jdbc.maxIdle}" />
+		<property name="maxWait" value="${member.jdbc.maxWait}" />
+	</bean>
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="mbr_dataSource"/>
+	</bean>
+	<!-- Member DataSource -->
+	
+	<!-- Dw DataSource -->
+	<bean id="dw_dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="${dw.jdbc.driver}" />
+		<property name="url" value="${dw.jdbc.url}" />
+		<property name="username" value="${dw.jdbc.username}" />
+		<property name="password" value="${dw.jdbc.password}" />
+		<property name="initialSize" value="${dw.jdbc.initialSize}" />
+		<property name="maxActive" value="${dw.jdbc.maxActive}" />
+		<property name="maxIdle" value="${dw.jdbc.maxIdle}" />
+		<property name="maxWait" value="${dw.jdbc.maxWait}" />
+	</bean>
+	<!-- Dw DataSource -->
+ 
+	<bean id="mbrSqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="mbr_dataSource" />
+		<property name="configLocation" value="classpath:mybatis-configuration.xml"></property>
+	</bean>
+	
+	<bean id="mbrSqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg index="0" ref="mbrSqlSessionFactory" />
+	</bean>
+	
+	
+	<bean id="jobRepository"
+		class="org.springframework.batch.core.repository.support.JobRepositoryFactoryBean">
+		<property name="dataSource" ref="dataSourceForSpringBatch" />
+		<property name="transactionManager" ref="transactionManagerForSpringBatch" />
+		<property name="databaseType" value="HSQL" />
+	</bean>
+	
+	<bean id="jobLauncher"
+		class="org.springframework.batch.core.launch.support.SimpleJobLauncher">
+		<property name="jobRepository" ref="jobRepository" />
+	</bean>
+
+	 
+</beans>

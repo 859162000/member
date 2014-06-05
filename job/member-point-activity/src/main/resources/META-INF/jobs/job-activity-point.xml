@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:batch="http://www.springframework.org/schema/batch"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/batch http://www.springframework.org/schema/batch/spring-batch-2.2.xsd
+	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+	<import resource="../../application-context.xml" />
+	<import resource="classify-rule.xml" />
+	<import resource="trans-load.xml" />
+	<import resource="process.xml" />
+	<import resource="update-history.xml" />
+	<import resource="rollback.xml" />
+
+	<batch:job id="activityPointByDate">
+		<batch:description>全流程特殊积分JOB按BIZ_DATE执行</batch:description>
+		<batch:step id="step1" parent="rule_classifier" next="step2" />
+		<batch:step id="step2" parent="rule_to_sql" next="step3" />
+		<batch:split id="step3" task-executor="splitTaskExecutor" next="step4">
+			<batch:flow>
+				<batch:step id="step3_ticket_trans_load" parent="ticket_trans_load">
+					<batch:next on="COMPLETED" to="step3_ticket_point_calculate" />
+				</batch:step>
+				<batch:step id="step3_ticket_point_calculate" parent="ticket_point_calculate">
+				</batch:step>
+			</batch:flow>
+			<batch:flow>
+				<batch:step id="step3_goods_trans_load" parent="goods_trans_load">
+					<batch:next on="COMPLETED" to="step3_goods_point_calculate" />
+				</batch:step>
+				<batch:step id="step3_goods_point_calculate" parent="goods_point_calculate">
+				</batch:step>
+			</batch:flow>
+			<batch:flow>
+				<batch:step id="step3_member_load" parent="member_load">
+					<batch:next on="COMPLETED" to="step3_member_point_calculate" />
+				</batch:step>
+				<batch:step id="step3_member_point_calculate" parent="member_point_calculate">
+				</batch:step>
+			</batch:flow>
+		</batch:split>
+		<batch:step id="step4" parent="all_point_history_update"/>
+	</batch:job>
+
+	<batch:job id="runTicketRuleByDate">
+		<batch:description>按BIZ_DATE运行TICKET规则</batch:description>
+		<batch:step id="step1_run_all_ticket_only" parent="rule_classifier" next="step2_run_all_ticket_only" />
+		<batch:step id="step2_run_all_ticket_only" parent="rule_to_sql" next="step3_run_all_ticket_only" />
+		<batch:step id="step3_run_all_ticket_only" parent="ticket_trans_load" next="step4_run_all_ticket_only" />
+		<batch:step id="step4_run_all_ticket_only" parent="ticket_point_calculate" next="step5_run_all_ticket_only" />
+		<batch:step id="step5_run_all_ticket_only" parent="ticket_point_history_update"/>
+	</batch:job>
+	
+	<batch:job id="runGoodsRuleByDate">
+		<batch:description>按BIZ_DATE运行GOODS规则</batch:description>
+		<batch:step id="step1_run_all_goods_only" parent="rule_classifier" next="step2_run_all_goods_only" />
+		<batch:step id="step2_run_all_goods_only" parent="rule_to_sql" next="step3_run_all_goods_only" />
+		<batch:step id="step3_run_all_goods_only" parent="goods_trans_load" next="step4_run_all_goods_only" />
+		<batch:step id="step4_run_all_goods_only" parent="goods_point_calculate" next="step5_run_all_goods_only" />
+		<batch:step id="step5_run_all_goods_only" parent="goods_point_history_update" />
+	</batch:job>
+	
+	<batch:job id="runMemberRuleByDate">
+		<batch:description>按BIZ_DATE运行MEMBER规则</batch:description>
+		<batch:step id="step1_run_all_member_only" parent="rule_classifier" next="step2_run_all_member_only" />
+		<batch:step id="step2_run_all_member_only" parent="rule_to_sql" next="step3_run_all_member_only" />
+		<batch:step id="step3_run_all_member_only" parent="member_load" next="step4_run_all_member_only" />
+		<batch:step id="step4_run_all_member_only" parent="member_point_calculate" />
+	</batch:job>
+	
+	<batch:job id="rollbackAllPointByDate">
+		<batch:description>按BIZ_DATE回滚所有积分</batch:description>
+		<batch:step id="rollback_ticket_all" parent="all_rollback"/>
+	</batch:job>
+	
+	<batch:job id="rollbackTicketPointByDate">
+		<batch:description>按BIZ_DATE回滚TICKET规则产生的积分</batch:description>
+		<batch:step id="rollback_ticket_only" parent="ticket_point_rollback" />
+	</batch:job>
+	
+	<batch:job id="rollbackGoodsPointByDate">
+		<batch:description>按BIZ_DATE回滚GOODS规则产生的积分</batch:description>
+		<batch:step id="rollback_goods_only" parent="goods_point_rollback" />
+	</batch:job>
+	
+	<batch:job id="rollbackMemberPointByDate">
+		<batch:description>按BIZ_DATE回滚MEMBER规则产生的积分</batch:description>
+		<batch:step id="rollback_member_only" parent="member_point_rollback" next="clean_member_table" />
+		<batch:step id="clean_member_table" parent="clean_member_activity_point_table" />
+	</batch:job>
+	
+	<batch:job id="getRuleInfo">
+		<batch:description>生成ruleXML</batch:description>
+		<batch:step id="get_rule_xml" parent="rule_classifier" />
+	</batch:job>
+	
+	
+	
+
+	<bean id="splitTaskExecutor" class="org.springframework.core.task.SimpleAsyncTaskExecutor" />
+	
+</beans>

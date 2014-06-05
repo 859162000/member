@@ -1,0 +1,5 @@
+.warning {
+    background: url("../image/warning.png") no-repeat scroll left center transparent;
+    margin: 0 0px;
+    padding: 23px 0px 20px 19px;
+}

@@ -1,0 +1,1 @@
+package com.wanda.ccs.basemgt.dao;import com.wanda.ccs.model.TCity;import com.xcesys.extras.core.dao.IBaseDao;/** * 城市Dao *  * @author Chen * @date 2011-10-21 */public interface ITCityDao extends IBaseDao<TCity> {}

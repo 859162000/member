@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<etl>
+		<source>
+			<db conn="db.mbr_uat">
+				<sql>
+					<![CDATA[ 
+    select    
+  CINEMA_INNER_CODE,
+BIZ_DATE
+  from T_TICKET_TRANS_DETAIL t     
+     where 
+     BIZ_DATE=to_date('${bizdate}', 'yyyy-mm-dd')
+  group by CINEMA_INNER_CODE,BIZ_DATE
+
+				]]>
+				</sql>
+			</db>
+		</source>
+		<destination>
+			<db conn="db.mbr_uat">
+				<table>T_TICKET_TRANS_DETAIL</table>
+			</db>
+		</destination>
+
+		<linefilter>
+			<filter name="groupbycinema" />
+		</linefilter>
+
+		<mapping>
+			<field src="CINEMA_INNER_CODE" dest="CINEMA_INNER_CODE" stype="key"/>
+			<field src="BIZ_DATE" dest="BIZ_DATE" type="date"/>
+		</mapping>
+		
+</etl>

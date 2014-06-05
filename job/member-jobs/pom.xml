@@ -1,0 +1,48 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>member-jobs</artifactId>
+	<packaging>jar</packaging>
+	<name>CCS Member Jobs</name>
+	<parent>
+		<groupId>com.wanda.ccs.member</groupId>
+		<artifactId>member-job-parent</artifactId>
+		<version>1.4-SNAPSHOT</version>
+		<relativePath>../</relativePath>
+	</parent>
+	<dependencies>
+		<dependency>
+		    <groupId>com.wanda.ccs</groupId>
+		    <artifactId>jobhub-main</artifactId>
+	        <type>jar</type>  
+	        <classifier>classes</classifier> 
+	    </dependency>
+		<dependency>
+			<groupId>com.wanda.ccs.member</groupId>
+			<artifactId>member-point-job</artifactId>
+			<version>${project.version}</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>ccs-job-schedule</artifactId>
+					<groupId>ccs</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>common-solar</artifactId>
+					<groupId>ccs</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>xerces</groupId>
+			<artifactId>xercesImpl</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml</artifactId>
+		</dependency>
+	</dependencies>
+</project>

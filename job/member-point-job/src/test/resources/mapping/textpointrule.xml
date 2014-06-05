@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<etl>
+		<source>
+			<db conn="db.mbr_uat">
+			<!-- status=“30“ 为执行状态 -->
+				<sql>
+					<![CDATA[ 
+					   select   EXT_POINT_RULE_ID
+  ,EXT_POINT_CRITERIA_ID
+  ,CODE
+  ,NAME
+  ,STATUS
+  ,START_DTIME
+  ,END_DTIME
+  ,ADDITION_PERCENT
+  ,ADDITION_CODE
+  ,CREATE_BY
+  ,CREATE_DATE
+  ,UPDATE_BY
+  ,UPDATE_DATE 
+  ,VERSION
+  from T_EXT_POINT_RULE t  
+   where  STATUS ='30'
+    
+  
+
+				]]>
+				</sql>
+			</db>
+		</source>
+		<destination>
+			<db conn="db.mbr_uat">
+				<table>T_EXT_POINT_RULE</table>
+			</db>
+		</destination>
+
+		<linefilter>
+			<filter name="textpointrulestatus" />
+		</linefilter>
+
+		<mapping>
+			<field src="EXT_POINT_RULE_ID"  dest="EXT_POINT_RULE_ID" stype="key" />
+			<field src="EXT_POINT_CRITERIA_ID" dest="EXT_POINT_CRITERIA_ID" />
+			<field src="CODE" dest="CODE" />
+			<field src="NAME" dest="NAME" />
+			<field src="STATUS" dest="STATUS" />
+			<field src="START_DTIME" dest="START_DTIME" type="timestamp" />
+			<field src="END_DTIME" dest="END_DTIME" type="timestamp" />
+			<field src="ADDITION_PERCENT" dest="ADDITION_PERCENT" />
+			<field src="ADDITION_CODE" dest="ADDITION_CODE" />
+			<field src="CREATE_BY" dest="CREATE_BY" />
+			<field src="CREATE_DATE" dest="CREATE_DATE" type="timestamp" />
+			<field src="UPDATE_BY" dest="UPDATE_BY" />
+			<field dest="UPDATE_DATE" type="timestamp"><sysDate/></field>
+			<field src="VERSION" dest="VERSION"  /> 
+		</mapping>
+		
+</etl>

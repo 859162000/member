@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wanda.member.basic.service.TMemberPointMapper" >
+	<insert id="updateBasicPoint" parameterType="com.wanda.member.basic.model.BasicPointTrans" >
+		<selectKey keyProperty="orgPoint" resultType="int" order="BEFORE">   
+			select EXG_POINT_BALANCE from T_MEMBER_POINT where MEMBER_ID = #{memberId,jdbcType=DECIMAL}
+		</selectKey>
+		UPDATE T_MEMBER_POINT
+		   SET EXG_POINT_BALANCE = EXG_POINT_BALANCE + #{levelPoint,jdbcType=DECIMAL},
+		       LEVEL_POINT_TOTAL = LEVEL_POINT_TOTAL + #{levelPoint,jdbcType=DECIMAL},
+		       UPDATE_DATE = SYSDATE,
+		       IS_LEVEL = '0'
+		 WHERE MEMBER_ID = #{memberId,jdbcType=DECIMAL}
+	</insert>
+	
+	<update id="rollbackMemberPoint" parameterType="com.wanda.member.basic.model.BasicPointTrans">
+  	update T_MEMBER_POINT
+  		set EXG_POINT_BALANCE = EXG_POINT_BALANCE - #{levelPoint,jdbcType=DECIMAL},
+		       LEVEL_POINT_TOTAL = LEVEL_POINT_TOTAL - #{levelPoint,jdbcType=DECIMAL},
+		       UPDATE_DATE = SYSDATE
+  		where MEMBER_ID = #{memberId,jdbcType=DECIMAL}
+  </update>
+  
+</mapper>

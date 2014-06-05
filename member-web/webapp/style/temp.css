@@ -1,0 +1,27 @@
+.showMessage {
+	overflow: hidden;
+	text-align: center;
+	list-style: noe;
+	width: 400px;
+	margin: 0 auto;
+}
+
+.showMessage li {
+	float: left;
+	text-align: center;
+	white-space: nowrap;
+	list-style-type: none;
+	font-size: 7;
+	
+}
+
+.title {
+	font-color: 00ff00;
+	font-family: '宋体';
+	text-align: center;
+	font-weight: bolder;
+}
+
+.page {
+	padding: 0 0 0 40%;
+}

@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='utf-8'?>
+<Context>
+	<Resource name="/ccs/member/app_datasource" url="jdbc:oracle:thin:@10.199.201.105:1521:ccsstag"
+		auth="Container" maxActive="10" maxIdle="3" maxWait="-1" username="ccs_mbr_prod" password="ccs_mbr_prod"
+		type="javax.sql.DataSource" defaultAutoCommit="false" driverClassName="oracle.jdbc.OracleDriver"/>
+
+	<Resource name="/ccs/member/ods_datasource" url="jdbc:oracle:thin:@10.199.201.105:1521:ccsstag"
+		auth="Container" maxActive="10" maxIdle="3" maxWait="-1" username="ccs_mbr_dw" password="ccs_mbr_dw"
+		type="javax.sql.DataSource" defaultAutoCommit="false" driverClassName="oracle.jdbc.OracleDriver"/>
+
+	<Resource name="/ccs/jobhub/quartz_datasource" url="jdbc:oracle:thin:@localhost:1521:xe"
+		auth="Container" maxActive="10" maxIdle="3" maxWait="-1" username="ccs_member" password="ccs_member"
+		type="javax.sql.DataSource" defaultAutoCommit="false" driverClassName="oracle.jdbc.OracleDriver"/>
+
+	<Environment name="/ccs/jobhub/instanceId" value="salve"
+         type="java.lang.String" override="false"/>
+         
+	<Environment name="/ccs/jobhub/instanceAddress" value="http://locahost:8091/jobhub"
+         type="java.lang.String" override="false"/>
+
+	
+</Context>

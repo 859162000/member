@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<mapper namespace="com.wanda.ccs.smsgateway.engine.dao.SendLogDAO">
+	
+	
+	<insert id="insertSendLog" parameterType="SendLog">
+		<selectKey order="BEFORE" resultType="java.lang.Long" keyProperty="sendId">
+              select s_t_sms_gateway_send_log.nextval as sendId from dual
+        </selectKey>
+		INSERT INTO t_sms_gateway_send_log
+			(send_id, log_id, engine_name, task_name, mobile_no, send_msg, service_up, sp_number, link_id, system_id, settle_id, channel_id, platform, add_queue_state, create_time)
+		VALUES
+			(#{sendId,jdbcType=NUMERIC}, #{logId,jdbcType=NUMERIC}, #{engineName,jdbcType=VARCHAR}, #{taskName,jdbcType=VARCHAR}, #{mobileNo,jdbcType=VARCHAR}, #{sendMsg,jdbcType=VARCHAR}, #{serviceUp,jdbcType=VARCHAR}, #{spNumber,jdbcType=VARCHAR}, #{linkId,jdbcType=VARCHAR}, #{systemId}, #{settleId,jdbcType=VARCHAR}, #{channelId,jdbcType=VARCHAR}, #{platform,jdbcType=VARCHAR}, 0, systimestamp)
+	</insert>
+	
+	<update id="updateAddQueueSuccess" parameterType="java.lang.Long">
+		UPDATE
+			t_sms_gateway_send_log
+		SET
+			add_queue_time = systimestamp,
+			add_queue_state = 1
+		WHERE
+			send_id = #{sendId}
+	</update>
+	
+	<update id="updateAddQueueFailed" parameterType="java.lang.Long">
+		UPDATE
+			t_sms_gateway_send_log
+		SET
+			add_queue_time = systimestamp,
+			add_queue_state = -1
+		WHERE
+			send_id = #{sendId}
+	</update>
+	
+	<select id="querySendedCount" resultType="java.lang.Integer" parameterType="java.util.HashMap">
+		<![CDATA[
+		SELECT  
+    		count(1) 
+        FROM 
+            t_sms_gateway_send_log 
+        WHERE 
+            mobile_no = #{mobileNo}
+        AND
+            (sysdate-to_date(to_char(create_time,'yyyy-mm-dd hh24:mi:ss'),'yyyy-mm-dd hh24:mi:ss'))*24*60*60 <= #{second}
+		]]>
+	</select>
+	
+</mapper>

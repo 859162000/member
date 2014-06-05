@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+
+	<!-- 清除临时统计结果 -->
+	<entry key="CLEAN_MEMBER_LEVEL"><![CDATA[
+		truncate table T_MEMBER_NEXT_LEVEL_REQUIRE
+	]]></entry>
+	
+	<!-- 统计会员下一集等级所需条件 -->
+	<entry key="CALCULATE_MEMBER_NEXT_LEVEL"><![CDATA[
+		insert into T_MEMBER_NEXT_LEVEL_REQUIRE(member_id,mem_level,target_level,level_point,ticket_count,next_level_ticket,next_level_point)
+		select 
+			ml.member_id,
+			ml.mem_level,
+			ml.target_level,
+			level_point_total,
+			ticket_count,
+			case when mem_level+1=2 then 12-nvl(ticket_count,0)
+			  when mem_level+1=3 then 24-nvl(ticket_count,0)
+			  when mem_level+1=4 then 48-nvl(ticket_count,0)
+			  else 0 end as next_level_ticket,
+			case when mem_level+1=2 then 500-nvl(level_point_total,0)
+			  when mem_level+1=3 then 1000-nvl(level_point_total,0)
+			  when mem_level+1=4 then 3000-nvl(level_point_total,0)
+			  else 0 end as next_level_point 
+		from T_MEMBER_LEVEL ml
+		left join (
+			select 
+				ph.member_id,
+				sum(ph.ticket_count) as TICKET_COUNT,
+				sum(ph.level_point) as LEVEL_POINT_TOTAL
+			from T_POINT_HISTORY ph
+				where ph.ISDELETE = 0
+				and ph.IS_HISTORY = 0
+				and ph.SET_TIME > to_date(? || '-01-01','yyyy-mm-dd')
+				and ph.SET_TIME < to_date(? || '-01-01','yyyy-mm-dd')
+			group by ph.member_id
+		) final on ml.member_id=final.member_id
+	]]></entry>
+	
+	<!-- 更新统计结果到T_MEMBER_LEVEL表 -->
+	<entry key="SYNC_MEMBER_NEXT_LEVEL"><![CDATA[
+		MERGE INTO T_MEMBER_LEVEL ll
+		USING T_MEMBER_NEXT_LEVEL_REQUIRE lr
+		ON ( ll.member_id = lr.member_id )
+		WHEN MATCHED THEN UPDATE SET ll.level_point_offset=case when lr.next_level_point>0 then lr.next_level_point else 0 end, ll.ticket_offset= case when lr.next_level_ticket>0 then lr.next_level_ticket else 0 end
+	]]></entry>
+	
+	<!-- 判断当前是否存在历史数据 -->
+	<entry key="EXIST_TEMP_DATE"><![CDATA[
+		select count(lr.member_id) from T_MEMBER_NEXT_LEVEL_REQUIRE lr
+	]]></entry>
+	
+</properties>

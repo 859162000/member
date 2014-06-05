@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wanda.ccs.mbr.mapper.TagBuildMapper">
+	<update id="cleanPriceSensitive">
+		update T_MEMBER_TAG tmt
+   			set tmt.price_conscious = '0', tmt.update_date = sysdate
+	</update>
+	<update id="buildPriceSensitive">
+	merge into T_MEMBER_TAG tmt
+		using
+		（  select distinct t.member_key
+		    from t_f_con_member_ticket t
+		   where t.show_biz_date_key between add_months(sysdate, -3) and sysdate
+		     and to_char(t.show_biz_date_key, 'D') = '3'
+		  union
+		  select distinct f.member_key
+		    from t_f_con_member_ticket f,
+		         (select t.card_type_key
+		            from T_D_CON_CARD_TYPE t
+		           where t.type_name like '%优享卡%'
+		              or t.type_name like '%至尊卡%') D
+		   where f.card_type_key = d.card_type_key
+		     and f.show_biz_date_key between add_months(sysdate, -3) and sysdate
+		   ) new_data
+		   on (tmt.member_id = new_data.member_key) 
+		  when matched then
+		    update set tmt.update_date = sysdate,tmt.price_conscious = '1'
+		  when not matched then
+		    insert (member_id,price_conscious  )
+		    values
+		      (member_key,
+       '1')
+	</update>
+	<update id="cleanFamilyComposition">
+		update T_MEMBER_TAG tmt
+   			set tmt.family_number1 = '0'，tmt.family_number2 = '0', tmt.update_date = sysdate
+	</update>
+	<update id="buildFamilyComposition">
+		merge into T_MEMBER_TAG tmt
+		using
+		(
+		  select member_key, 
+		         nvl(max(decode(seed_limit, 1, tick_count, NULL)), '0') family_num1,
+		         nvl(max(decode(seed_limit, 2, tick_count, NULL)), '0') family_num2
+		    from (select member_key,
+		                 tick_count,
+		                 tick_ratio,
+		                 row_number() over(partition by member_key order by tick_count desc) seed_limit
+		            from (select member_key,
+		                         tick_count,
+		                         ratio_to_report(sum(1)) over(partition by member_key) tick_ratio
+		                    from (select t.member_key,
+		                                 decode(count(*), 2, 2, 1, 1, 3) tick_count
+		                            from t_f_con_member_ticket t
+		                           where t.show_biz_date_key between
+		                                 trunc(sysdate - 365) and trunc(sysdate)
+		                             and t.re_admissions = 0
+		                           group by t.member_key, t.BK_CT_ORDER_CODE)
+		                   group by member_key, tick_count)
+		                   <![CDATA[
+		                     where tick_ratio > 0.35)
+		   						where seed_limit <= 2
+		                   ]]>  
+		         
+		   group by member_key
+		   ) new_data
+		   on (tmt.member_id = new_data.member_key) 
+		  when matched then
+		    update set tmt.update_date  = sysdate,tmt.family_number1 = new_data.family_num1,tmt.family_number2 = new_data.family_num2
+		  when not matched then
+		    insert(member_id,family_number1,family_number2 )
+		    values
+		      (member_key,
+		       new_data.family_num1,
+       new_data.family_num2)
+	</update>
+	<!-- 
+	<update id="cleanAbnormalConsumption">
+	
+	</update>
+	 -->
+	<update id="buildAbnormalConsumption">
+	merge into T_MEMBER_TAG tmt
+	using
+	(
+	  select distinct t.member_key
+	    from t_f_con_member_ticket t
+	   where t.show_biz_date_key between trunc(sysdate - 7) and trunc(sysdate)
+	     and t.re_admissions = 0
+	   group by t.member_key, t.show_biz_date_key
+	  having count(distinct t.bk_ct_order_code) >= 7
+	  union
+	  select t.member_key
+	    from t_f_con_member_ticket t
+	   where t.show_biz_date_key between trunc(sysdate - 7) and trunc(sysdate)
+	   group by t.member_key, t.show_biz_date_key
+	  having sum(t.bk_admissions) >= 1001
+	  ) new_data
+	      on (tmt.member_id = new_data.member_key)
+	  when matched then
+	    update set tmt.update_date = sysdate,tmt.trade_abnormal = '1'
+	  when not matched then
+	    insert(member_id,trade_abnormal )
+	    values
+	      (member_key,
+	       '1')
+	</update>
+	<update id="cleanMembersAcitveRate">
+		update T_MEMBER_TAG tmt
+  			 set tmt.activity_level = '0', tmt.update_date = sysdate
+	</update>
+	<update id="buildMembersAcitveRate">
+	merge into T_MEMBER_TAG tmt
+	using
+	(
+	 <![CDATA[
+	  select t.member_key,
+	         case
+	           when max(t.biz_date_key) >= add_months(sysdate, -1) then
+	            '50'
+	           when max(t.biz_date_key) < add_months(sysdate, -1) and
+	                max(t.biz_date_key) >= add_months(sysdate, -3) then
+	            '40'
+	           when max(t.biz_date_key) < add_months(sysdate, -3) and
+	                max(t.biz_date_key) >= add_months(sysdate, -6) then
+	            '30'
+	           when max(t.biz_date_key) < add_months(sysdate, -6) and
+	                max(t.biz_date_key) >= add_months(sysdate, -12) then
+	            '20'
+	           else
+	            '10'
+	         end act_lvl
+	          ]]>  
+	    from t_f_con_member_cinema t
+	   group by t.member_key
+	  ) new_data
+	      on (tmt.member_id = new_data.member_key)
+	  when matched then
+	    update set tmt.update_date = sysdate,tmt.activity_level = new_data.act_lvl
+	  when not matched then
+	    insert(member_id,activity_level )
+	    values
+	      (member_key,
+	       new_data.act_lvl)
+	</update>
+	<update id="cleanEchannelPreference">
+		update T_MEMBER_TAG tmt
+  			 set tmt.update_date = sysdate,tmt.online_trade_type = '-999'
+	</update>
+	<update id="buildEchannelPreference">
+		merge into T_MEMBER_TAG tmt
+			using
+			(
+			  select member_key, flag
+			    from (select t.member_key,
+			                 decode(t.channel_key, 47, '20', '10') flag,
+			                 ratio_to_report(count(distinct nvl(t.bk_ct_order_code,
+			                                           t.bk_cs_order_code))) over(partition by t.member_key) rate
+			            from t_f_con_member_cinema t
+			           where t.biz_date_key between add_months(trunc(sysdate), -1) and
+			                 trunc(sysdate)
+			             and t.re_admissions = 0
+			             and t.channel_key != -999
+			             and t.bk_ct_order_code || t.bk_cs_order_code is not null
+			           group by t.member_key, decode(t.channel_key, 47, '20', '10')
+			           order by t.member_key)
+			   where rate > 0.5
+			   ) new_data
+			   on (tmt.member_id = new_data.member_key)
+			 when matched then
+			    update
+			       set tmt.update_date = sysdate, tmt.online_trade_type = new_data.flag
+			  when not matched then
+			    insert(member_id,online_trade_type )
+			    values
+			      (member_key,
+			       new_data.flag)
+	</update>
+	<update id="cleanFilmPreferences">
+		update T_MEMBER_TAG tmt
+		   set tmt.fav_film_type1 = '-999',
+		       tmt.fav_film_type2 = '-999',
+		       tmt.fav_film_type3 = '-999',
+		       tmt.update_date    = sysdate
+	</update>
+	<update id="buildFilmPreferences">
+		merge into T_MEMBER_TAG tmt
+			using
+			(
+			  select member_key,
+			         nvl(max(decode(ph, 1, film_type, NULL)), -999) ph1,
+			         nvl(max(decode(ph, 2, film_type, NULL)), -999) ph2,
+			         nvl(max(decode(ph, 3, film_type, NULL)), -999) ph3
+			    from (select member_key,
+			                 film_type,
+			                 row_number() over(partition by member_key order by cnt desc) ph
+			            from (select fmt.member_key, tft.type film_type, count(1) cnt
+			                    from t_d_con_film          dcf,
+			                         t_f_con_member_ticket fmt,
+			                         T_FT_TYPE  tft
+			                   where dcf.seqid = tft.film_id
+			                     and dcf.film_key = fmt.film_key
+			                   group by fmt.member_key, tft.type))
+			   group by member_key
+			  ) new_data
+			      on (tmt.member_id = new_data.member_key)
+			  when matched then
+			    update
+			       set tmt.update_date    = sysdate,
+			           tmt.fav_film_type1 = new_data.ph1,
+			           tmt.fav_film_type2 = new_data.ph2,
+			           tmt.fav_film_type3 = new_data.ph3
+			  when not matched then
+			    insert(member_id ,fav_film_type1 ,fav_film_type2 ,fav_film_type3 )
+			    values
+			      (member_key,
+			       new_data.ph1,
+			       new_data.ph2,
+			       new_data.ph3)
+	</update>
+</mapper>

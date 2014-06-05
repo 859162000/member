@@ -1,0 +1,1 @@
+package com.wanda.ccs.schedule.dao;import com.wanda.ccs.model.TSchedulePlanD;import com.xcesys.extras.core.dao.IBaseDao;public interface ITSchedulePlanDDao extends IBaseDao<TSchedulePlanD> {}

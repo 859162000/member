@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- ================================================================== -->
+<!--                                                                    -->
+<!--                 Global Type Conversion Rules                       -->
+<!--                                                                    -->
+<!-- ================================================================== -->
+<config>
+	<convert from="*" to="DATE">
+		<x2date format="MM/dd/yyyy" null="../../.." />
+	</convert>
+
+	<convert from="*" to="TIMESTAMP">
+		<x2timestamp format="MM/dd/yy HH:mm:ss" />
+	</convert>
+
+	<convert from="*" to="BIGINT">
+		<x2long />
+	</convert>
+
+	<convert from="*" to="SMALLINT, INTEGER">
+		<x2int />
+	</convert>
+
+	<convert from="*" to="CHAR, LONGVARCHAR, VARCHAR">
+		<x2str />
+	</convert>
+
+	<convert from="java.util.Date, java.sql.Date"
+		to="CHAR, LONGVARCHAR, VARCHAR">
+		<date2str format="MM/dd/yyyy" null="../../.." />
+	</convert>
+
+	<convert from="java.sql.Timestamp"
+		to="CHAR, LONGVARCHAR, VARCHAR">
+		<timestamp2str format="MM/dd/yyyy HH:mm:ss" />
+	</convert>
+
+	<convert from="*" to="DECIMAL, DOUBLE, NUMERIC, FLOAT">
+		<x2double />
+	</convert>
+</config>

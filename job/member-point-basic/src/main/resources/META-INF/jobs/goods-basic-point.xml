@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:batch="http://www.springframework.org/schema/batch"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/batch http://www.springframework.org/schema/batch/spring-batch-2.2.xsd
+	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+	<batch:step id="goods_load_partitioned_step">
+		<batch:partition step="goods_trans_load_step"
+			partitioner="goodsPartitioner">
+			<batch:handler task-executor="goodsPartitionedTaskExecutor" />
+		</batch:partition>
+	</batch:step>
+	
+	<batch:step id="goods_calculate_partitioned_step">
+		<batch:partition step="goods_calculate_step"
+			partitioner="goodsPartitioner">
+			<batch:handler task-executor="calculatePartitionedTaskExecutor" />
+		</batch:partition>
+	</batch:step>
+
+	<bean id="goodsPartitioner" class="com.wanda.member.basic.partitioner.GoodsPartitioner"
+		scope="step">
+		<property name="dwSqlSession" ref="dw53SqlSession" />
+		<property name="bizDate" value="#{jobParameters['biz_date']}" />
+	</bean>
+
+	<batch:step id="goods_trans_load_step">
+		<batch:tasklet>
+			<batch:chunk reader="goodsTransJdbcReader" processor="goodsTransProcessor" writer="goodsTransWriter"
+				commit-interval="1000" />
+		</batch:tasklet>
+	</batch:step>
+	
+	<batch:step id="goods_calculate_step">
+		<batch:tasklet>
+			<batch:chunk reader="goodsCalculateFileReader"
+				processor="goodsCalculateProcessor" writer="goodsCalculateWriter"
+				commit-interval="1000" />
+		</batch:tasklet>
+	</batch:step>
+	
+	<bean id="goodsTransProcessor" class="com.wanda.member.basic.processor.TransProcessor" scope="step" >
+		<property name="bizDate" value="#{jobParameters['biz_date']}"/>
+		<property name="innerCode" value="#{stepExecutionContext['innerCode']}"/>
+		<property name="transType" value="con"/>
+	</bean>
+	
+	<bean id="goodsCalculateProcessor" class="com.wanda.member.basic.processor.GoodsCalculateProcessor"
+		scope="step">
+		<property name="bizDate" value="#{jobParameters['biz_date']}" />
+		<property name="innerCode" value="#{stepExecutionContext['innerCode']}" />
+		<property name="transType" value="con" />
+	</bean>
+
+	<bean id="goodsTransJdbcReader"
+		class="org.springframework.batch.item.database.JdbcCursorItemReader"
+		scope="step">
+		<property name="dataSource" ref="dw53_dataSource" />
+		<property name="rowMapper">
+			<bean class="com.wanda.member.basic.model.BasicPointTransRowMapper" />
+		</property>
+		<property name="sql">
+			<value>
+		select consale_cinema.INNER_CODE,
+			member.MEMBER_KEY,
+			sum(consale.BK_SALE_AMOUNT - consale.RE_SALE_AMOUNT) AMOUNT,
+			nvl(consale.BK_CS_ORDER_CODE,consale.RE_CS_ORDER_CODE) ORDER_CODE,
+			consale_item.ITEM_CODE,
+			TO_CHAR(consale.BOOK_BIZ_DATE_KEY, 'yyyy-mm-dd') as BIZ_DATE 
+		 from 
+			CCS_NRPT2.T_F_CON_MEMBER_SALE consale,
+			CCS_NRPT2.T_D_CON_CINEMA consale_cinema,
+			CCS_NRPT2.T_D_CON_CS_SALE_ITEM consale_item,
+			CCS_NRPT2.T_D_CON_MEMBER member 
+		 where 
+			consale_cinema.CINEMA_KEY = consale.CINEMA_KEY and 
+			member.MEMBER_KEY=consale.MEMBER_KEY and 
+			consale.SALE_ITEM_KEY = consale_item.SALE_ITEM_KEY and 
+			member.STATUS='1' and member.ISDELETE = 0 and 
+			consale_cinema.INNER_CODE= ?
+			and consale.BOOK_BIZ_DATE_KEY = to_date(?, 'yyyy-mm-dd')
+			and consale.PAY_METHOD_KEY != 232 
+		group by consale_cinema.INNER_CODE, member.MEMBER_KEY,
+			nvl(consale.BK_CS_ORDER_CODE,consale.RE_CS_ORDER_CODE),
+			consale_item.ITEM_CODE,consale.BOOK_BIZ_DATE_KEY
+			</value>
+		</property>
+		<property name="preparedStatementSetter">
+			<bean
+				class="org.springframework.batch.core.resource.ListPreparedStatementSetter">
+				<property name="parameters">
+					<list>
+						<value>#{stepExecutionContext['innerCode']}</value>
+						<value>#{jobParameters['biz_date']}</value>
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="goodsTransWriter" class="org.springframework.batch.item.file.FlatFileItemWriter"
+		scope="step">
+		<property name="resource"
+			value="file:#{jobParameters['output.folder']}/#{jobParameters['biz_date']}/goods/goods_#{jobParameters['biz_date']}_#{stepExecutionContext['innerCode']}_trans.cvs" />
+		<property name="lineAggregator" ref="transLineAggregator"/>
+		<property name="shouldDeleteIfExists" value="false" />
+		<property name="encoding" value="UTF-8" />
+	</bean>
+	
+	<bean id="goodsCalculateFileReader" class="org.springframework.batch.item.file.FlatFileItemReader"
+		scope="step">
+		<property name="resource"
+			value="file:#{jobParameters['output.folder']}/#{jobParameters['biz_date']}/goods/goods_#{jobParameters['biz_date']}_#{stepExecutionContext['innerCode']}_trans.cvs" />
+		<property name="lineMapper" ref="transFileLineMapper" />
+		<property name="encoding" value="UTF-8" />
+	</bean>
+	
+	<bean id="goodsCalculateAllFilesReader"
+		class="org.springframework.batch.item.file.MultiResourceItemReader"
+		scope="step">
+		<property name="resources"
+			value="file:#{jobParameters['output.folder']}/#{jobParameters['biz_date']}/goods/goods_#{jobParameters['biz_date']}_*_trans.cvs" />
+		<property name="delegate">
+			<bean class="org.springframework.batch.item.file.FlatFileItemReader">
+				<property name="lineMapper" ref="transFileLineMapper"/>
+				<property name="encoding" value="UTF-8" />
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="goodsCalculateWriter"
+		class="org.springframework.batch.item.support.CompositeItemWriter"
+		scope="step">
+		<property name="delegates">
+			<list>
+				<ref bean="tMemberPointTableWriter" />
+				<ref bean="tPointHistoryTableWriter" />
+				<ref bean="goodsProcessLogWriter" />
+				<ref bean="pointChangeWriter" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="goodsProcessLogWriter" class="org.springframework.batch.item.file.FlatFileItemWriter" scope="step">
+		<property name="lineAggregator" ref="successLogLineAggregator" />
+		<property name="encoding" value="UTF-8" />
+		<property name="resource"
+			value="file:#{jobParameters['output.folder']}/#{jobParameters['biz_date']}/goods/goods_#{jobParameters['biz_date']}_#{stepExecutionContext['innerCode']}_success.cvs" />
+	</bean>
+
+</beans>

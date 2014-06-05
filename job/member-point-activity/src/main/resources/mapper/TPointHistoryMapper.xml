@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wanda.member.activity.service.TPointHistoryMapper" >
+
+  <insert id="insertActivityPoint" 
+  	parameterType="com.wanda.member.activity.model.ActivityPointUpdataParameter" >
+  	<selectKey keyProperty="pointHistoryId" resultType="String" order="BEFORE">   
+		select S_T_POINT_HISTORY.NEXTVAL from dual
+	</selectKey>
+    insert into T_POINT_HISTORY (POINT_HISTORY_ID, MEMBER_ID, SET_TIME, 
+      LEVEL_POINT, TICKET_COUNT, ACTIVITY_POINT, 
+      EXCHANGE_POINT, EXCHANGE_POINT_EXPIRE_TIME, 
+      POINT_TYPE, POINT_SYS, POINT_TRANS_TYPE, 
+      POINT_TRANS_CODE, ADJ_RESION,
+      ORG_POINT_BALANCE, POINT_BALANCE, IS_SYNC_BALANCE, 
+      ISDELETE, CREATE_BY, CREATE_DATE, VERSION, 
+      CINEMA_INNER_CODE, POINT_EXT_RULE_ID, TRANS_TYPE )
+    values (#{pointHistoryId,jdbcType=DECIMAL}, #{memberKey,jdbcType=DECIMAL}, to_date(#{setTime,jdbcType=TIMESTAMP} || ' 23:59:59', 'yyyy-mm-dd HH24:mi:ss'), 
+      0, 0, #{activityPoint,jdbcType=DECIMAL}, #{activityPoint,jdbcType=DECIMAL}, trunc(ADD_MONTHS(sysdate, 24),'YYYY') - 1/24/60/60, 
+      3, 3, 3, 
+      #{orderCode,jdbcType=VARCHAR}, #{adjResion,jdbcType=OTHER}, 
+      #{orgPoint,jdbcType=DECIMAL}, (#{orgPoint,jdbcType=DECIMAL}+#{activityPoint,jdbcType=DECIMAL}),
+      1, 0, 'member_sys', sysdate, 1, 
+      #{innerCode,jdbcType=VARCHAR}, #{extPointRuleId,jdbcType=VARCHAR}, #{transType,jdbcType=VARCHAR})
+  </insert>
+  
+  <insert id="insertActivityPointHistory" 
+  	parameterType="com.wanda.member.activity.model.ActivityPointUpdataParameter" >
+    insert into T_ACTIVITY_POINT_HISTORY (POINT_HISTORY_ID,RULE_TYPE,MEMBER_ID,INNER_CODE,
+    		ACTIVITY_POINT,ORDER_CODE,ITEM_CODE,
+    		ADJ_RESON,RULE_ID,CRITERIA_ID,SET_TIME,ORG_POINT,
+    		BATCH_ID,CREATE_TIME)
+    values (#{pointHistoryId,jdbcType=DECIMAL}, #{ruleType,jdbcType=VARCHAR},#{memberKey,jdbcType=DECIMAL},#{innerCode,jdbcType=VARCHAR},
+    			#{activityPoint,jdbcType=DECIMAL},#{orderCode,jdbcType=VARCHAR},#{item,jdbcType=VARCHAR},
+    			#{adjResion,jdbcType=VARCHAR},#{extPointRuleId,jdbcType=VARCHAR},#{extPointCriteriaId,jdbcType=VARCHAR},to_date(#{setTime,jdbcType=TIMESTAMP} || ' 23:59:59', 'yyyy-mm-dd HH24:mi:ss'), 
+    			#{orgPoint,jdbcType=DECIMAL},#{batchId,jdbcType=VARCHAR},systimestamp)
+  </insert>
+  
+  <delete id="deleteActivityPointHistoryByDate" parameterType="java.util.HashMap">
+  	delete T_ACTIVITY_POINT_HISTORY where TRUNC(SET_TIME) = TO_DATE(#{setTime,jdbcType=TIMESTAMP},'yyyy-mm-dd')
+  </delete>
+  
+  <select id="countActivityPoint" resultType="java.lang.Integer" parameterType="com.wanda.member.activity.model.ActivityPointMember">
+  		select count(1) from T_ACTIVITY_POINT_HISTORY
+  			where RULE_ID = #{extPointRuleId,jdbcType=VARCHAR}
+  				  and CRITERIA_ID = #{extPointCriteriaId,jdbcType=VARCHAR}
+  				  and MEMBER_ID = #{memberKey,jdbcType=DECIMAL}
+  </select>
+  
+  <update id="updateActivityPoint" parameterType="com.wanda.member.activity.model.ActivityPointUpdataParameter" >
+  	update T_POINT_HISTORY
+  		set ORG_POINT_BALANCE = #{orgPoint,jdbcType=DECIMAL},
+  			POINT_BALANCE = #{pointBlance,jdbcType=DECIMAL}
+  		where POINT_HISTORY_ID = #{pointHistoryId,jdbcType=DECIMAL}
+  		
+  </update>
+  
+  <update id="rollbackPointHistory" parameterType="com.wanda.member.activity.model.ActivityPointUpdataParameter">
+  	update T_POINT_HISTORY
+  		set ISDELETE = 1,
+  			UPDATE_BY = 'member_sys',
+  			UPDATE_DATE = sysdate
+  		where POINT_HISTORY_ID = #{pointHistoryId,jdbcType=DECIMAL}
+  </update>
+  
+  <insert id="czPointHistory" 
+  	parameterType="com.wanda.member.activity.model.ActivityPointUpdataParameter" >
+  	<selectKey keyProperty="pointHistoryId" resultType="String" order="BEFORE">   
+		select S_T_POINT_HISTORY.NEXTVAL from dual
+	</selectKey>
+    insert into T_POINT_HISTORY (POINT_HISTORY_ID, MEMBER_ID, SET_TIME, 
+      LEVEL_POINT, TICKET_COUNT, ACTIVITY_POINT, 
+      EXCHANGE_POINT, EXCHANGE_POINT_EXPIRE_TIME, 
+      POINT_TYPE, POINT_SYS, POINT_TRANS_TYPE, 
+       ADJ_RESION,
+      IS_SYNC_BALANCE, 
+      ISDELETE, CREATE_BY, CREATE_DATE, VERSION, 
+      CINEMA_INNER_CODE, POINT_EXT_RULE_ID )
+    values (#{pointHistoryId,jdbcType=DECIMAL}, #{memberKey,jdbcType=DECIMAL}, to_date(#{setTime,jdbcType=TIMESTAMP} || ' 23:59:59', 'yyyy-mm-dd HH24:mi:ss'), 
+      0, 0, #{activityPoint,jdbcType=DECIMAL}*-1, #{activityPoint,jdbcType=DECIMAL}*-1, trunc(ADD_MONTHS(sysdate, 24),'YYYY') - 1/24/60/60, 
+      4, 3, 4, 
+      '特殊积分冲正记录', 
+      1, 1, 'member_sys', sysdate, 1, 
+      #{innerCode,jdbcType=VARCHAR}, #{extPointRuleId,jdbcType=VARCHAR})
+  </insert>
+  
+</mapper>

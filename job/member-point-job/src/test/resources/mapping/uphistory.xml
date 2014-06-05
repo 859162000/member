@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<etl>
+		<source>
+			<db conn="db.mbr_uat">
+				<sql>
+					<![CDATA[ 
+
+select POINT_HISTORY_ID,
+       MEMBER_ID,
+       SET_TIME,
+       LEVEL_POINT,
+       TICKET_COUNT,
+       ACTIVITY_POINT,
+       EXCHANGE_POINT,
+       ISDELETE,
+       UPDATE_BY,
+       UPDATE_DATE,
+       CINEMA_INNER_CODE,
+       RECALCU_STATUS,
+       RECALCU_DATE
+  from T_POINT_HISTORY t
+ where t.point_type <> 6
+  and set_time  < to_date('${bizdate}', 'yyyy-mm-dd') + 1 and set_time >= to_date('${bizdate}', 'yyyy-mm-dd') 
+  and t.Cinema_Inner_Code = '${cinema}'
+
+  
+
+				]]>
+				</sql>
+			</db>
+		</source>
+		<destination>
+			<db conn="db.mbr_uat">
+				<table>T_POINT_HISTORY</table>
+			</db>
+		</destination>
+
+
+		<mapping>
+			<field src="POINT_HISTORY_ID" dest="POINT_HISTORY_ID" stype="key"  /> 
+			<field src="MEMBER_ID" dest="MEMBER_ID" />
+			<field src="SET_TIME"  dest="SET_TIME" type="timestamp"/> 
+			<field src="LEVEL_POINT" dest="LEVEL_POINT"  />
+			<field src="TICKET_COUNT" dest="TICKET_COUNT" />
+			<field src="ACTIVITY_POINT" dest="ACTIVITY_POINT" ></field>
+			<field src="EXCHANGE_POINT" dest="EXCHANGE_POINT"  />
+			<field dest="ISDELETE" ><fixed>1</fixed></field>
+			<field dest="UPDATE_BY" ><fixed>member_sys</fixed></field>
+			<field dest="UPDATE_DATE" type="timestamp"><sysDate/></field>
+			<field src="CINEMA_INNER_CODE" dest="CINEMA_INNER_CODE"/>
+			<field dest="RECALCU_STATUS" ><fixed>1</fixed></field>
+			<field dest="RECALCU_DATE" type="timestamp"><sysDate/></field>
+		</mapping>
+		
+</etl>

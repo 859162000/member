@@ -1,0 +1,1 @@
+package com.wanda.ccs.schedule.dao;import com.wanda.ccs.model.TTaskOutRealTime;import com.xcesys.extras.core.dao.IBaseDao;public interface ITTaskOutRealTimeDao extends IBaseDao<TTaskOutRealTime> {	public void create(String cinemaCode);	}

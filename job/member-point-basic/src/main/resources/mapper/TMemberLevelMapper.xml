@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wanda.member.basic.service.TMemberLevelMapper" >
+
+  <update id="degradeMemberLevel" parameterType="com.wanda.member.basic.model.MbrLevel" >
+    update T_MEMBER_LEVEL
+    set MEM_LEVEL = #{degradeLv,jdbcType=VARCHAR},
+      EXPIRE_DATE = ADD_MONTHs(to_date( #{year,jdbcType=VARCHAR} || '-12-31 23:59:59','yyyy-mm-dd HH24:mi:ss'),12),
+      ORG_LEVEL = #{memLevel,jdbcType=VARCHAR},
+      SET_TIME = sysdate,
+      TARGET_LEVEL = #{memLevel,jdbcType=VARCHAR},
+      UPDATE_BY = 'member_sys',
+      UPDATE_DATE = sysdate,
+      MEMBER_LEVEL_HISTORY_ID = #{levelHisId,jdbcType=DECIMAL}
+    where member_id = #{memberId,jdbcType=DECIMAL}
+  </update>
+</mapper>

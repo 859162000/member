@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:batch="http://www.springframework.org/schema/batch"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/batch http://www.springframework.org/schema/batch/spring-batch-2.2.xsd
+	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+
+	<batch:step id="rule_classifier">
+		<batch:tasklet>
+			<batch:chunk reader="activityPointRuleReader" processor="activityPointRuleProcessor"
+				writer="activityPointRuleWriter" commit-interval="200">
+				<batch:streams>
+					<batch:stream ref="memberRuleWriter" />
+					<batch:stream ref="ticketRuleWriter" />
+					<batch:stream ref="goodsRuleWriter" />
+				</batch:streams>
+			</batch:chunk>
+		</batch:tasklet>
+	</batch:step>
+
+	<batch:step id="rule_to_sql">
+		<batch:tasklet>
+			<batch:chunk reader="ruleXmlReader" processor="ruleToSqlProcessor"
+				writer="ruleToSqlWriter" commit-interval="10" />
+		</batch:tasklet>
+		<batch:listeners>
+			<batch:listener ref="promotionListener" />
+		</batch:listeners>
+	</batch:step>
+	
+	<bean id="promotionListener" class="org.springframework.batch.core.listener.ExecutionContextPromotionListener">
+	    <property name="keys" value="MEMBER_RULE_ACTIVITY_POINT_SQL_LIST,TICKET_RULE_ACTIVITY_POINT_SQL_LIST,GOODS_RULE_ACTIVITY_POINT_SQL_LIST"/>
+	</bean>
+
+	<bean id="activityPointRuleReader"
+		class="org.mybatis.spring.batch.MyBatisPagingItemReader"
+		scope="step">
+		<property name="sqlSessionFactory" ref="mbrSqlSessionFactory" />
+		<property name="parameterValues">
+			<map>
+				<entry key="rule_id">
+					<value>#{jobParameters['rule_id']}</value>
+				</entry>
+				<entry key="biz_date">
+					<value>#{jobParameters['biz_date']}</value>
+				</entry>
+			</map>
+		</property>
+		<property name="queryId" value="com.wanda.member.activity.service.TExtPointRuleMapper.getRule" />
+		<property name="pageSize" value="200"/>
+	</bean>
+
+	<bean id="ruleMarshaller" class="org.springframework.oxm.xstream.XStreamMarshaller">
+		<property name="aliases">
+			<map>
+				<entry key="rule" value="com.wanda.member.activity.model.ActivityPointRule" />
+				<entry key="rules" value="java.util.List" />
+			</map>
+		</property>
+	</bean>
+
+	<bean id="activityPointRuleProcessor"
+		class="com.wanda.member.activity.processor.ActivityPointRuleProcessor" />
+
+	<bean id="activityPointRuleWriter"
+		class="com.wanda.member.activity.writer.ActivityPointRuleXmlItemWriter">
+		<property name="memberRuleWriter" ref="memberRuleWriter" />
+		<property name="ticketRuleWriter" ref="ticketRuleWriter" />
+		<property name="goodsRuleWriter" ref="goodsRuleWriter" />
+	</bean>
+
+	<bean id="memberRuleWriter" class="org.springframework.batch.item.xml.StaxEventItemWriter"
+		scope="step">
+		<property name="resource"
+			value="file:#{jobParameters['output.folder']}/#{jobParameters['biz_date']}/rule/member_rule.xml" />
+		<property name="marshaller" ref="ruleMarshaller" />
+		<property name="rootTagName" value="rules" />
+	</bean>
+
+	<bean id="ticketRuleWriter" class="org.springframework.batch.item.xml.StaxEventItemWriter"
+		scope="step">
+		<property name="resource"
+			value="file:#{jobParameters['output.folder']}/#{jobParameters['biz_date']}/rule/ticket_rule.xml" />
+		<property name="marshaller" ref="ruleMarshaller" />
+		<property name="rootTagName" value="rules" />
+	</bean>
+
+	<bean id="goodsRuleWriter" class="org.springframework.batch.item.xml.StaxEventItemWriter"
+		scope="step">
+		<property name="resource"
+			value="file:#{jobParameters['output.folder']}/#{jobParameters['biz_date']}/rule/goods_rule.xml" />
+		<property name="marshaller" ref="ruleMarshaller" />
+		<property name="rootTagName" value="rules" />
+	</bean>
+
+	<bean id="ruleToSqlWriter" class="com.wanda.member.activity.writer.RuleToSqlWriter"
+		scope="step">
+	</bean>
+
+	<bean id="ruleToSqlProcessor" class="com.wanda.member.activity.processor.RuleToSqlProcessor"
+		scope="step">
+		<property name="bizDate" value="#{jobParameters['biz_date']}" />
+		<property name="memberId" value="#{jobParameters['member_id']}" />
+		<property name="cinemaInnerCode" value="#{jobParameters['cinema_inner_code']}" />
+	</bean>
+
+	<bean id="ruleXmlReader"
+		class="org.springframework.batch.item.file.MultiResourceItemReader"
+		scope="step">
+		<property name="resources"
+			value="file:#{jobParameters['output.folder']}/#{jobParameters['biz_date']}/rule/*_rule.xml" />
+		<property name="delegate">
+			<bean class="org.springframework.batch.item.xml.StaxEventItemReader">
+				<property name="unmarshaller" ref="ruleMarshaller" />
+				<property name="fragmentRootElementName" value="rule" />
+			</bean>
+		</property>
+	</bean>
+
+</beans>

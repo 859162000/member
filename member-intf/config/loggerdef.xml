@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- ================================================================== -->
+<!--                                                                    -->
+<!--                     Logger Definition                              -->
+<!--                                                                    -->
+<!-- ================================================================== -->
+
+<config>
+	<loggerdef name="console" class="com.icebean.risketl.logger.Console">
+		<context type="*">
+			<event>*</event>
+		</context>
+	</loggerdef>
+</config>

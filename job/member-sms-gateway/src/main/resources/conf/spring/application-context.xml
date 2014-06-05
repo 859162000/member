@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+			http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+			http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+			http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.5.xsd
+			http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+	
+	<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:conf/cfg.properties</value>
+				<value>classpath:conf/jdbc.properties</value>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="configurationUtil" class="com.wanda.ccs.smsgateway.utils.ConfigurationUtil">
+		<property name="resource"
+			value="classpath:conf/cfg.properties" />
+	</bean>
+	
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource"/>
+	</bean>
+	
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
+		<property name="url" value="${jdbc.url}" />
+		<property name="username" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+		<property name="maxWait" value="1000" />
+		<property name="initialSize" value="10" />
+		<property name="maxIdle" value="20" />
+		<property name="minIdle" value="5" />
+		<property name="maxActive" value="50" />
+		<property name="defaultAutoCommit" value="true" />
+		<property name="removeAbandonedTimeout" value="180" />
+		<property name="logAbandoned" value="true" />
+		<property name="removeAbandoned" value="true" />
+		
+		<property name="testWhileIdle" value="true"/><!-- 打开检查,用异步线程evict进行检查 -->  
+        <property name="testOnBorrow" value="false"/>  
+        <property name="testOnReturn" value="false"/>
+        <property name="validationQuery" value="select sysdate from dual"/>
+        <property name="timeBetweenEvictionRunsMillis" value="30000"/>
+        <property name="numTestsPerEvictionRun" value="20"/>
+	</bean>
+	
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="configLocation" value="classpath:conf/spring/mybatis-configuration.xml"></property>
+	</bean>
+	
+	<import resource="classpath:conf/spring/application-smsgateway.xml" />
+	
+</beans>

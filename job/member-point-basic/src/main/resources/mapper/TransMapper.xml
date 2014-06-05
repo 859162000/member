@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wanda.member.basic.service.TransMapper" >
+	<resultMap type="com.wanda.member.basic.model.BasicPointTrans" id="basicPointTransResultMap">
+		<result column="INNER_CODE" property="innerCode" jdbcType="VARCHAR"/>
+		<result column="MEMBER_KEY" property="memberId" jdbcType="VARCHAR"/>
+		<result column="AMOUNT" property="amount" jdbcType="DECIMAL"/>
+		<result column="ORDER_CODE" property="orderCode" jdbcType="VARCHAR"/>
+		<result column="ITEM_CODE" property="itemCode" jdbcType="VARCHAR"/>
+		<result column="BIZ_DATE" property="bizDate" jdbcType="VARCHAR"/>
+	</resultMap>
+
+	<select id="selectTicketTransCinema" resultType="java.lang.String">
+		select DISTINCT transSales_cinema.INNER_CODE
+		 from 
+		CCS_NRPT2.T_F_CON_MEMBER_TICKET transSales,
+		CCS_NRPT2.T_D_CON_CINEMA transSales_cinema
+		 where 
+		transSales_cinema.CINEMA_KEY = transSales.CINEMA_KEY
+		and transSales.SHOW_BIZ_DATE_KEY = to_date(#{bizDate,jdbcType=VARCHAR}, 'yyyy-mm-dd')
+		order by transSales_cinema.INNER_CODE
+	</select>
+	<select id="selectGoodsTransCinema" resultType="java.lang.String">
+		select DISTINCT consale_cinema.INNER_CODE
+		 from 
+		CCS_NRPT2.T_F_CON_MEMBER_SALE consale,
+		CCS_NRPT2.T_D_CON_CINEMA consale_cinema
+		 where 
+		consale_cinema.CINEMA_KEY = consale.CINEMA_KEY and
+		consale.BOOK_BIZ_DATE_KEY = to_date(#{bizDate,jdbcType=VARCHAR}, 'yyyy-mm-dd')
+		order by consale_cinema.INNER_CODE
+	</select>
+
+</mapper>

@@ -1,0 +1,1 @@
+package com.wanda.ccs.basemgt.dao;import com.wanda.ccs.model.TSetting;import com.xcesys.extras.core.dao.IBaseDao;public interface ITSettingDao extends IBaseDao<TSetting> {}

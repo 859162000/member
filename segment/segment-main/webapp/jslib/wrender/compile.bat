@@ -1,0 +1,1 @@
+java -jar ../../../tools/closure-compiler-20130722/compiler.jar --js wrender.js --js wrender.common.js --js wrender.composite.js --js wrender.date.js --js wrender.datetime.js --js wrender.select.js --js wrender.tree.js --js_output_file wrender-all.min.js

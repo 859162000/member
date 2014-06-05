@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<mapper namespace="com.wanda.ccs.smsgateway.engine.dao.TransCheckCodeDAO">
+	
+	<insert id="insertTransCheckCode" parameterType="java.util.HashMap">
+		INSERT INTO T_TRANS_CHECK_CODE 
+			(TRANS_CHECK_CODE_ID,CHECK_CODE,GEN_TIME,MOBILE)
+		values
+			(S_T_TRANS_CHECK_CODE.NEXTVAL,#{checkCode,jdbcType=VARCHAR},SysDate,#{mobileNo,jdbcType=VARCHAR})
+	</insert>
+	
+	<select id="queryTransCheckCode" parameterType="java.lang.String" resultType="java.util.HashMap">
+	<![CDATA[
+		select trans_check_code_id, check_code from (
+			select * from t_trans_check_code where mobile = #{mobileNo,jdbcType=VARCHAR} order by gen_time desc
+		) where rownum = 1 and (sysdate-to_date(to_char(gen_time,'yyyy-mm-dd hh24:mi:ss'),'yyyy-mm-dd hh24:mi:ss'))*24*60*60 <=300
+		]]>
+	</select>
+	
+	<update id="updateTransCheckCodeGenTime" parameterType="java.math.BigDecimal" >
+		update t_trans_check_code set gen_time = systimestamp where trans_check_code_id = #{transCheckCodeId}
+	</update>
+	
+</mapper>

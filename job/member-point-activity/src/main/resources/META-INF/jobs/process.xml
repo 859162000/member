@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:batch="http://www.springframework.org/schema/batch"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/batch http://www.springframework.org/schema/batch/spring-batch-2.2.xsd
+	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+	<batch:step id="ticket_point_calculate">
+		<batch:tasklet>
+			<batch:chunk reader="ticketTransReader" processor="ticketPointCalculateProcessor"
+				writer="activityPointTableWriter" commit-interval="1000">
+				<batch:streams>
+					<batch:stream ref="ticketProcessLogWriter"/>
+				</batch:streams>
+			</batch:chunk>
+		</batch:tasklet>
+	</batch:step>
+
+	<batch:step id="goods_point_calculate">
+		<batch:tasklet>
+			<batch:chunk reader="goodsTransReader" processor="goodsPointCalculateProcessor"
+				writer="activityPointTableWriter" commit-interval="1000">
+				<batch:streams>
+					<batch:stream ref="goodsProcessLogWriter"/>
+				</batch:streams>
+			</batch:chunk>
+		</batch:tasklet>
+	</batch:step>
+
+	<batch:step id="member_point_calculate">
+		<batch:tasklet>
+			<batch:chunk reader="memberTransReader" processor="memberPointCalculateProcessor"
+				writer="activityPointTableWriter" commit-interval="1000">
+				<!-- <batch:streams>
+					<batch:stream ref="memberProcessLogWriter"/>
+				</batch:streams>	 -->
+			</batch:chunk>	
+		</batch:tasklet>
+	</batch:step>
+	
+	<bean id="ticketTransReader"
+		class="org.springframework.batch.item.file.MultiResourceItemReader"
+		scope="step">
+		<property name="resources"
+			value="file:#{jobParameters['output.folder']}/#{jobParameters['biz_date']}/incoming/ticket/ticket_*_#{jobParameters['biz_date']}.cvs" />
+		<property name="delegate">
+			<bean class="org.springframework.batch.item.file.FlatFileItemReader">
+				<property name="lineMapper">
+					<bean
+						class="org.springframework.batch.item.file.mapping.DefaultLineMapper">
+						<property name="lineTokenizer">
+							<bean
+								class="org.springframework.batch.item.file.transform.DelimitedLineTokenizer">
+								<property name="names"
+									value="bizDate,extPointRuleId,extPointCriteriaId,pointPercent,pointAddition,innerCode,memberKey,ctOrderCode,ticketNumber,admissions" />
+							</bean>
+						</property>
+						<property name="fieldSetMapper">
+							<bean
+								class="com.wanda.member.activity.model.ActivityPointTicketFieldSetMapper" />
+						</property>
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+	<bean id="goodsTransReader"
+		class="org.springframework.batch.item.file.MultiResourceItemReader"
+		scope="step">
+		<property name="resources"
+			value="file:#{jobParameters['output.folder']}/#{jobParameters['biz_date']}/incoming/goods/goods_*_#{jobParameters['biz_date']}.cvs" />
+		<property name="delegate">
+			<bean class="org.springframework.batch.item.file.FlatFileItemReader">
+				<property name="lineMapper">
+					<bean
+						class="org.springframework.batch.item.file.mapping.DefaultLineMapper">
+						<property name="lineTokenizer">
+							<bean
+								class="org.springframework.batch.item.file.transform.DelimitedLineTokenizer">
+								<property name="names"
+									value="bizDate,extPointRuleId,extPointCriteriaId,pointPercent,pointAddition,innerCode,memberKey,csOrderCode,itemCode,saleAmount" />
+							</bean>
+						</property>
+						<property name="fieldSetMapper">
+							<bean
+								class="com.wanda.member.activity.model.ActivityPointGoodsFieldSetMapper" />
+						</property>
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+	<bean id="memberTransReader"
+		class="org.springframework.batch.item.file.MultiResourceItemReader"
+		scope="step">
+		<property name="resources"
+			value="file:#{jobParameters['output.folder']}/#{jobParameters['biz_date']}/incoming/member/member_*_#{jobParameters['biz_date']}.cvs" />
+		<property name="delegate">
+			<bean class="org.springframework.batch.item.file.FlatFileItemReader">
+				<property name="lineMapper">
+					<bean
+						class="org.springframework.batch.item.file.mapping.DefaultLineMapper">
+						<property name="lineTokenizer">
+							<bean
+								class="org.springframework.batch.item.file.transform.DelimitedLineTokenizer">
+								<property name="names"
+									value="bizDate,extPointRuleId,extPointCriteriaId,pointAdditionCode,memberKey" />
+							</bean>
+						</property>
+						<property name="fieldSetMapper">
+							<bean
+								class="com.wanda.member.activity.model.ActivityPointMemberFieldSetMapper" />
+						</property>
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="ticketPointCalculateProcessor"
+		class="com.wanda.member.activity.processor.TicketPointCalculateProcessor"
+		scope="step">
+	</bean>
+	<bean id="goodsPointCalculateProcessor"
+		class="com.wanda.member.activity.processor.GoodsPointCalculateProcessor"
+		scope="step">
+	</bean>
+	<bean id="memberPointCalculateProcessor"
+		class="com.wanda.member.activity.processor.MemberPointCalculateProcessor"
+		scope="step">
+	</bean>
+
+	<bean id="activityPointTableWriter"
+		class="org.springframework.batch.item.support.CompositeItemWriter"
+		scope="step">
+		<property name="delegates">
+			<list>
+				<ref bean="tMemberPointTableWriter" />
+				<ref bean="tPointHistoryTableWriter" />
+				<ref bean="processSuccessWriter" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="tPointHistoryTableWriter" class="org.mybatis.spring.batch.MyBatisBatchItemWriter"
+		scope="step">
+		<property name="sqlSessionTemplate" ref="mbrSqlSession" />
+		<property name="statementId"
+			value="com.wanda.member.activity.service.TPointHistoryMapper.insertActivityPoint" />
+	</bean>
+
+	<bean id="tMemberPointTableWriter" class="org.mybatis.spring.batch.MyBatisBatchItemWriter"
+		scope="step">
+		<property name="sqlSessionTemplate" ref="mbrSqlSession" />
+		<property name="statementId"
+			value="com.wanda.member.activity.service.TMemberPointMapper.updateActivityPoint" />
+	</bean>
+
+	<bean id="processSuccessWriter"
+		class="org.springframework.batch.item.support.ClassifierCompositeItemWriter">
+		<property name="classifier">
+			<bean
+				class="org.springframework.classify.BackToBackPatternClassifier">
+				<property name="routerDelegate">
+					<bean class="com.wanda.member.activity.classify.ProcessSuccessLogClassifier" />
+				</property>
+				<property name="matcherMap">
+					<map>
+						<entry key="TICKET_RULE" value-ref="ticketProcessLogWriter" />
+						<entry key="GOODS_RULE" value-ref="goodsProcessLogWriter" />
+						<entry key="MEMBER_RULE" value-ref="memberProcessLogWriter" />
+					</map>
+				</property>
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="ticketProcessLogWriter" class="org.springframework.batch.item.file.FlatFileItemWriter" scope="step">
+		<property name="lineAggregator" ref="successLogField" />
+		<property name="resource"
+			value="file:#{jobParameters['output.folder']}/#{jobParameters['biz_date']}/process/ticket_success.cvs" />
+	</bean>
+	<bean id="goodsProcessLogWriter" class="org.springframework.batch.item.file.FlatFileItemWriter" scope="step">
+		<property name="lineAggregator" ref="successLogField" />
+		<property name="resource"
+			value="file:#{jobParameters['output.folder']}/#{jobParameters['biz_date']}/process/goods_success.cvs" />
+	</bean>
+	
+	<!-- <bean id="memberProcessLogWriter" class="org.springframework.batch.item.file.FlatFileItemWriter" scope="step">
+		<property name="lineAggregator" ref="successLogField" />
+		<property name="resource"
+			value="file:#{jobParameters['output.folder']}/#{jobParameters['biz_date']}/process/member_success.cvs" />
+	</bean> -->
+	<bean id="memberProcessLogWriter" class="org.mybatis.spring.batch.MyBatisBatchItemWriter"
+		scope="step">
+		<property name="sqlSessionTemplate" ref="mbrSqlSession" />
+		<property name="statementId"
+			value="com.wanda.member.activity.service.TPointHistoryMapper.insertActivityPointHistory" />
+	</bean>
+	
+	<bean id="successLogField" class="org.springframework.batch.item.file.transform.DelimitedLineAggregator">
+				<property name="fieldExtractor">
+					<bean
+						class="org.springframework.batch.item.file.transform.BeanWrapperFieldExtractor">
+						<property name="names"
+							value="setTime,batchId,innerCode,orderCode,item,extPointRuleId,extPointCriteriaId,pointHistoryId,memberKey,orgPoint,activityPoint" />
+					</bean>
+				</property>
+			</bean>
+	
+
+</beans>

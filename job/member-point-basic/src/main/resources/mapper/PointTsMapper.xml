@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wanda.member.basic.service.PointTsMapper" >
+
+  <insert id="insertPointHistory" 
+  	parameterType="java.util.Map" >
+    insert into T_POINT_HISTORY (POINT_HISTORY_ID, MEMBER_ID, SET_TIME, 
+      LEVEL_POINT, TICKET_COUNT, ACTIVITY_POINT, 
+      EXCHANGE_POINT, EXCHANGE_POINT_EXPIRE_TIME, 
+      POINT_TYPE, POINT_SYS, POINT_TRANS_TYPE, 
+      POINT_TRANS_CODE, POINT_TRANS_CODE_WEB, ADJ_RESION, 
+      ORG_POINT_BALANCE, POINT_BALANCE, IS_SYNC_BALANCE, 
+      ISDELETE, CREATE_BY, CREATE_DATE, 
+      UPDATE_BY, UPDATE_DATE, VERSION, 
+      MEMBER_POINT_ID, ADJ_REASON_TYPE, ADJ_REASON, 
+      ORDER_ID, PRODUCT_NAME, IS_SUCCEED, 
+      CINEMA_INNER_CODE, POINT_EXT_RULE_ID, TRANS_TYPE, 
+      T_TRANS_ORDER_ID, T_TRANS_DETAIL_ID, RECALCU_STATUS, 
+      RECALCU_DATE, IS_HISTORY)
+    values (#{POINT_HISTORY_ID,jdbcType=DECIMAL}, #{MEMBER_ID,jdbcType=DECIMAL}, #{SET_TIME,jdbcType=TIMESTAMP}, 
+      #{LEVEL_POINT,jdbcType=DECIMAL}, #{TICKET_COUNT,jdbcType=DECIMAL}, #{ACTIVITY_POINT,jdbcType=DECIMAL}, 
+      #{EXCHANGE_POINT,jdbcType=DECIMAL}, #{EXCHANGE_POINT_EXPIRE_TIME,jdbcType=TIMESTAMP}, 
+      #{POINT_TYPE,jdbcType=VARCHAR}, #{POINT_SYS,jdbcType=VARCHAR}, #{POINT_TRANS_TYPE,jdbcType=VARCHAR}, 
+      #{POINT_TRANS_CODE,jdbcType=VARCHAR}, #{POINT_TRANS_CODE_WEB,jdbcType=VARCHAR}, #{ADJ_RESION,jdbcType=VARCHAR}, 
+      #{ORG_POINT_BALANCE,jdbcType=DECIMAL}, #{POINT_BALANCE,jdbcType=DECIMAL}, #{IS_SYNC_BALANCE,jdbcType=CHAR}, 
+      #{ISDELETE,jdbcType=DECIMAL}, #{CREATE_BY,jdbcType=VARCHAR}, #{CREATE_DATE,jdbcType=TIMESTAMP}, 
+      #{UPDATE_BY,jdbcType=VARCHAR}, #{UPDATE_DATE,jdbcType=TIMESTAMP}, #{VERSION,jdbcType=DECIMAL}, 
+      #{MEMBER_POINT_ID,jdbcType=DECIMAL}, #{ADJ_REASON_TYPE,jdbcType=VARCHAR}, #{ADJ_REASON,jdbcType=VARCHAR}, 
+      #{ORDER_ID,jdbcType=VARCHAR}, #{PRODUCT_NAME,jdbcType=VARCHAR}, #{IS_SUCCEED,jdbcType=CHAR}, 
+      #{CINEMA_INNER_CODE,jdbcType=VARCHAR}, #{POINT_EXT_RULE_ID,jdbcType=VARCHAR}, #{TRANS_TYPE,jdbcType=VARCHAR}, 
+      #{T_TRANS_ORDER_ID,jdbcType=DECIMAL}, #{T_TRANS_DETAIL_ID,jdbcType=DECIMAL}, #{RECALCU_STATUS,jdbcType=VARCHAR}, 
+      #{RECALCU_DATE,jdbcType=TIMESTAMP}, #{IS_HISTORY,jdbcType=VARCHAR})
+  </insert>
+  
+  <insert id="insertMemberKpi" parameterType="java.util.Map" >
+  	insert into T_MEMBER_KPI (
+  		MEMBER_KPI_ID,
+		KPI_YEAR,
+		CINEMA_ID,
+		KPI_VALUE,
+		CREATE_BY,
+		CREATE_DATE,
+		UPDATE_BY,
+		UPDATE_DATE,
+		VERSION,
+		KPI_NAME,
+		KPI_TYPE
+  	)
+  	values (
+  		#{MEMBER_KPI_ID,jdbcType=DECIMAL},
+  		#{KPI_YEAR,jdbcType=VARCHAR},
+  		#{CINEMA_ID,jdbcType=DECIMAL},
+  		#{KPI_VALUE,jdbcType=DECIMAL},
+  		#{CREATE_BY,jdbcType=VARCHAR},
+  		#{CREATE_DATE,jdbcType=TIMESTAMP},
+  		#{UPDATE_BY,jdbcType=VARCHAR},
+  		#{UPDATE_DATE,jdbcType=TIMESTAMP},
+  		#{VERSION,jdbcType=DECIMAL},
+  		#{KPI_NAME,jdbcType=VARCHAR},
+  		#{KPI_TYPE,jdbcType=VARCHAR}
+  	)					
+  </insert>
+  
+  <delete id="delPointHistory" parameterType="java.util.Map">
+  	<![CDATA[ 
+  	delete T_POINT_HISTORY 
+  	where set_time  < to_date(#{bizDate,jdbcType=VARCHAR}, 'yyyy-mm-dd') + 30/24
+				 and set_time >= to_date(#{bizDate,jdbcType=VARCHAR}, 'yyyy-mm-dd') + 6/24 
+				 and (is_history <>1 or is_history is null)
+	]]>
+  </delete>
+  <delete id="delMemberKpi" parameterType="java.util.Map">
+  	delete T_MEMBER_KPI
+  </delete>
+  
+</mapper>

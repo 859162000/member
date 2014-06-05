@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<etl>
+		<source>
+			<db conn="db.mbr_uat">
+				<sql>
+					<![CDATA[ 
+ 					          
+select p.MEMBER_ID,p.UPDATE_DATE
+  from T_MEMBER_POINT p, T_MEMBER m
+ where p.member_id = m.member_id
+   and m.status = '1'
+   and m.isdelete = '0'
+   and p.update_date < to_date('${bizdateend}', 'yyyy-mm-dd') + 1
+   and p.update_date >= to_date('${bizdate}', 'yyyy-mm-dd')
+  
+				]]>
+				</sql>
+			</db>
+		</source>
+		<destination>
+			<db conn="db.mbr_uat">
+				<table>T_MEMBER_LEVEL</table>
+			</db>
+		</destination>
+
+		<linefilter>
+			<filter name="downlevellinehandle" />
+		</linefilter>
+
+		<mapping>
+			<field src="MEMBER_ID"  dest="MEMBER_ID" stype="key" />
+			<field dest="MEM_LEVEL" />
+			<field dest="EXPIRE_DATE" type="timestamp" />
+			<field dest="SET_TIME" type="timestamp" />
+			<field dest="TARGET_LEVEL" />
+			<field dest="LEVEL_POINT_OFFSET" />
+			<field dest="TICKET_OFFSET" />
+			<field dest="LEVEL_ID" />
+			<field dest="ISDELETE" />
+			<field dest="CREATE_BY" />
+			<field dest="CREATE_DATE" type="timestamp"/>
+			<field dest="UPDATE_BY" />
+			<field src="UPDATE_DATE" dest="UPDATE_DATE" type="date"/>
+			<field dest="VERSION" />
+			<field dest="MEMBER_LEVEL_HISTORY_ID" /> 
+		</mapping>
+		
+</etl>

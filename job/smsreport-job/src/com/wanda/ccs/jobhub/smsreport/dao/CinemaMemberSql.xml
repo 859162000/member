@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+	<!-- 会员数的sql统计 -->
+	<entry key="MEMBER_SQL"><![CDATA[
+		select 
+			b.inner_code, 
+			sum(a.recruit_member_count) as NEW_MEMBER,
+			sum(case when a.channel_key not in('48','49','50') then a.recruit_member_count else 0 end) as NOT_NET_MEMBER,
+			sum(case when a.channel_key in ('48','49','50') then a.recruit_member_count else 0 end) as NET_MEMBER,
+			sum(case when a.biz_date_key = to_date(?, 'yyyy-mm-dd') then a.member_count else 0 end) as NEW_MEMBER_SUM,
+			sum(case when a.channel_key not in('48','49','50') and a.biz_date_key = to_date(?, 'yyyy-mm-dd') then a.member_count else 0 end) as NOT_NET_MEMBER_SUM,
+			sum(case when a.channel_key in('48','49','50') and a.biz_date_key = to_date(?, 'yyyy-mm-dd') then a.member_count else 0 end) as NET_MEMBER_SUM
+		from 
+			CCS_NRPT2.t_f_con_vip_recruit a,CCS_NRPT2.t_d_con_cinema b 
+		where 
+			a.cinema_key =b.cinema_key and a.biz_date_key = to_date(?, 'yyyy-mm-dd') 
+		group by b.inner_code
+	]]></entry>
+	
+	<!-- 票房 -->
+	<entry key="TICKET_SQL"><![CDATA[
+		select 
+			b.inner_code, 
+			sum(case when a.member_key>0 and a.show_biz_date_key = to_date(?,'yyyy-mm-dd') and a.channel_key = '47' then a.bk_admissions else 0 end)-sum(case when a.member_key>0 and a.show_biz_date_key = to_date(?,'yyyy-mm-dd') and a.channel_key = '47' then a.re_admissions else 0 end) as NOT_NET_TICKET_SUM,
+			sum(case when a.member_key>0 and a.show_biz_date_key = to_date(?,'yyyy-mm-dd') and a.channel_key in('48','49','50') then a.bk_admissions else 0 end)-sum(case when a.member_key>0 and a.show_biz_date_key = to_date(?,'yyyy-mm-dd') and a.channel_key in('48','49','50') then a.re_admissions else 0 end) as NET_TICKET_SUM
+		from 
+			CCS_NRPT2.t_f_con_ticket a,CCS_NRPT2.t_d_con_cinema b 
+		where 
+			a.cinema_key=b.cinema_key group by b.inner_code
+	]]></entry>
+	
+	<!-- 卖品 -->
+	<entry key="GOODS_SQL"><![CDATA[
+		select 
+			b.inner_code, 
+			sum(case when a.member_key>0 then a.bk_sale_amount else 0 end)-sum(case when a.member_key>0 then a.re_sale_amount else 0 end) as NOT_NET_GOODS_SUM 
+		from 
+			CCS_NRPT2.t_f_con_sale a,CCS_NRPT2.t_d_con_cinema b 
+		where 
+			a.cinema_key=b.cinema_key and a.book_biz_date_key=to_date(?,'yyyy-mm-dd') 
+		group by b.inner_code
+	]]></entry>
+	
+	<!-- 可兑换积分兑换 -->
+	<entry key="EXCHANGE_POINT_SQL"><![CDATA[
+		select 
+			b.inner_code, 
+			-sum(case when point_type_key =6 then new_credid else 0 end) as EXCHANGE_POINT 
+		from 
+			CCS_NRPT2.t_f_con_vip_credit a,CCS_NRPT2.t_d_con_cinema b 
+		where 
+			a.cinema_key = b.cinema_key and a.biz_date_key = to_date(?, 'yyyy-mm-dd') 
+		group by b.inner_code
+	]]></entry>
+	
+	<!-- 可兑换积分增加 -->
+	<entry key="EXCHANGE_POINT_NEW_SQL"><![CDATA[
+		select 
+			b.inner_code, 
+			sum(a.new_credid) as EXCHANGE_POINT_NEW 
+		from 
+			CCS_NRPT2.t_f_con_vip_credit a,CCS_NRPT2.t_d_con_cinema b 
+		where 
+			a.cinema_key = b.cinema_key and a.biz_date_key = to_date(?, 'yyyy-mm-dd') 
+		group by b.inner_code
+	]]></entry>
+	
+	<!-- 可兑换积分余额 -->
+	<entry key="EXCHANGE_POINT_BALANCE_SQL"><![CDATA[
+		select 
+			b.inner_code, 
+			sum(a.reserve_credit) as EXCHANGE_POINT_BALANCE 
+		from 
+			CCS_NRPT2.t_f_con_vip_credit_total a,CCS_NRPT2.t_d_con_cinema b 
+		where 
+			a.cinema_key=b.cinema_key and a.biz_date_key = to_date(?, 'yyyy-mm-dd') 
+		group by b.inner_code
+	]]></entry>
+	
+	<!-- 会员月票房累计，以后分线上，线下 -->
+	<entry key="TICKET_MONTH_SQL"><![CDATA[
+		select 
+			b.inner_code,
+			sum(case when a.member_key>0 and a.show_biz_date_key >= to_date(?,'yyyy-mm-dd') and a.channel_key = '47' then a.bk_admissions else 0 end)-sum(case when a.member_key>0 and a.show_biz_date_key >= to_date(?,'yyyy-mm-dd') and a.channel_key = '47' then a.re_admissions else 0 end) as NOT_NET_TICKET_MONTH_SUM, 
+			sum(case when a.member_key>0 and a.show_biz_date_key >= to_date(?,'yyyy-mm-dd') and a.channel_key in('48','49','50') then a.bk_admissions else 0 end)-sum(case when a.member_key>0 and a.show_biz_date_key >= to_date(?,'yyyy-mm-dd') and a.channel_key in('48','49','50') then a.re_admissions else 0 end) as NET_TICKET_MONTH_SUM 
+		from 
+			CCS_NRPT2.t_f_con_ticket a,CCS_NRPT2.t_d_con_cinema b 
+		where 
+			a.cinema_key=b.cinema_key 
+		group by b.inner_code
+	]]></entry>
+	
+	<!-- 会员年票房累计，以后分线上，线下 -->
+	<entry key="TICKET_YEAR_SQL"><![CDATA[
+		select 
+			b.inner_code,
+			sum(case when a.member_key>0 and a.show_biz_date_key >= to_date(?,'yyyy-mm-dd') and a.channel_key not in('48','49','50') then a.bk_admissions else 0 end)-sum(case when a.member_key>0 and a.show_biz_date_key >= to_date(?,'yyyy-mm-dd') and a.channel_key not in('48','49','50') then a.re_admissions else 0 end) as NOT_NET_TICKET_YEAR_SUM, 
+			sum(case when a.member_key>0 and a.show_biz_date_key >= to_date(?,'yyyy-mm-dd') and a.channel_key in('48','49','50') then a.bk_admissions else 0 end)-sum(case when a.member_key>0 and a.show_biz_date_key >= to_date(?,'yyyy-mm-dd') and a.channel_key in('48','49','50') then a.re_admissions else 0 end) as NET_TICKET_YEAR_SUM 
+		from 
+			CCS_NRPT2.t_f_con_ticket a,CCS_NRPT2.t_d_con_cinema b 
+		where 
+			a.cinema_key=b.cinema_key 
+		group by b.inner_code
+	]]></entry>
+	
+</properties>

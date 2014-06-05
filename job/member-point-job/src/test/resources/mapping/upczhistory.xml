@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<etl>
+		<source>
+			<db conn="db.mbr_uat">
+				<sql>
+					<![CDATA[ 
+		select 
+       MEMBER_ID,
+       SET_TIME,
+      sum( LEVEL_POINT) LEVEL_POINT,
+      sum(    ACTIVITY_POINT) ACTIVITY_POINT,
+      sum(    EXCHANGE_POINT) EXCHANGE_POINT,
+       ISDELETE,
+       CINEMA_INNER_CODE,
+       RECALCU_STATUS
+  from T_POINT_HISTORY t
+ where t.point_type <> 6
+   and trunc(set_time) = to_date('${bizdate}', 'yyyy-mm-dd')
+   and t.Cinema_Inner_Code = '${cinema}'
+   and RECALCU_STATUS='1'
+   group by MEMBER_ID,SET_TIME,ISDELETE, CINEMA_INNER_CODE,RECALCU_STATUS
+  
+
+				]]>
+				</sql>
+			</db>
+		</source>
+		<destination>
+			<db conn="db.mbr_uat">
+				<table>T_POINT_HISTORY</table>
+			</db>
+		</destination>
+
+		<linefilter>
+			<filter name="reversalpointhistorylinehandle" />
+		</linefilter>
+
+		<mapping>
+			<field seq="S_T_POINT_HISTORY" dest="POINT_HISTORY_ID" />
+			<field src="MEMBER_ID" dest="MEMBER_ID" />
+			<field src="SET_TIME"  dest="SET_TIME" type="timestamp"/> 
+			<field src="LEVEL_POINT" dest="LEVEL_POINT"  />
+			<field dest="TICKET_COUNT" ><fixed>0</fixed></field>
+			<field src="ACTIVITY_POINT" dest="ACTIVITY_POINT" />
+			<field src="EXCHANGE_POINT" dest="EXCHANGE_POINT"  />
+			<field dest="EXCHANGE_POINT_EXPIRE_TIME"  type="timestamp"><sysDate/><fixed>2014-12-31 23:59:59</fixed></field>
+			<field dest="POINT_TYPE" ><fixed>4</fixed></field>
+			<field dest="POINT_SYS" ><fixed>3</fixed></field>
+			<field dest="POINT_TRANS_TYPE" ><fixed>4</fixed></field>
+			<field dest="POINT_TRANS_CODE" />
+			<field dest="ADJ_RESION" ><fixed>积分重算：冲正记录</fixed></field>
+			<field dest="ORG_POINT_BALANCE" /> 
+			<field dest="POINT_BALANCE" /> 
+			<field dest="IS_SYNC_BALANCE" ><fixed>1</fixed></field>
+			<field dest="ISDELETE" ><fixed>1</fixed></field>
+			<field dest="CREATE_BY" ><fixed>member_sys</fixed></field>
+			<field dest="CREATE_DATE" type="timestamp"><sysDate/></field>
+			<field dest="UPDATE_BY" ><fixed>member_sys</fixed></field>
+			<field dest="UPDATE_DATE" type="timestamp"><sysDate/></field>
+			<field dest="VERSION" ><fixed>1</fixed></field>
+			<field src="MEMBER_ID" dest="MEMBER_POINT_ID" />
+			<field src="CINEMA_INNER_CODE" dest="CINEMA_INNER_CODE"/>
+			<field src="RECALCU_STATUS" dest="RECALCU_STATUS"/>
+		</mapping>
+		
+</etl>

@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:batch="http://www.springframework.org/schema/batch"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/batch http://www.springframework.org/schema/batch/spring-batch-2.2.xsd
+	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+	<batch:step id="level_partitioned_step">
+		<batch:partition step="level_load_step"
+			partitioner="levelPartitioner">
+			<batch:handler task-executor="levelPartitionedTaskExecutor" />
+		</batch:partition>
+	</batch:step>
+	
+	<bean id="levelPartitionedTaskExecutor"
+		class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+		<property name="corePoolSize" value="5" />
+	</bean>
+
+	<bean id="levelPartitioner" class="com.wanda.member.basic.partitioner.LevelPartitioner"
+		scope="step">
+	</bean>
+
+	<batch:step id="level_load_step">
+		<batch:tasklet>
+			<batch:chunk reader="levelJdbcReader" processor="degradeProcessor" writer="levelDegradeWriter" commit-interval="200" />
+		</batch:tasklet>
+	</batch:step>
+	
+	<bean id="degradeProcessor" class="com.wanda.member.basic.processor.DegradeProcessor"
+		scope="step">
+		<property name="year" value="#{jobParameters['year']}" />
+		<property name="level" value="#{stepExecutionContext['level']}" />
+	</bean>
+
+	<bean id="levelJdbcReader"
+		class="org.springframework.batch.item.database.JdbcCursorItemReader"
+		scope="step">
+		<property name="dataSource" ref="mbr_dataSource" />
+		<property name="rowMapper">
+			<bean class="com.wanda.member.basic.model.MbrLevelRowMapper" />
+		</property>
+		<property name="sql">
+			<value>
+			<![CDATA[ 
+				SELECT m.member_id,ml.MEM_LEVEL,sum(ph.TICKET_COUNT) as TICKET_COUNT,sum(level_point) as LEVEL_POINT_TOTAL
+				FROM T_MEMBER_LEVEL ml,
+				  t_member m,
+				  T_POINT_HISTORY ph
+				WHERE m.MEMBER_ID = ml.MEMBER_ID
+				AND m.ISDELETE     = 0
+				and m.MEMBER_ID = ph.MEMBER_ID
+				and ph.SET_TIME >= to_date(? || '-08-05','yyyy-mm-dd')
+				and ph.SET_TIME <= ADD_MONTHS(to_date(? || '-01-01','yyyy-mm-dd'),12)-1/86400
+				and ph.ISDELETE = 0
+				and ph.IS_HISTORY = 0
+				AND ml.MEM_LEVEL = ?
+				and m.member_id = 6143469
+				group by m.member_id,ml.MEM_LEVEL
+				]]>
+			</value>
+		</property>
+		<property name="preparedStatementSetter">
+			<bean
+				class="org.springframework.batch.core.resource.ListPreparedStatementSetter">
+				<property name="parameters">
+					<list>
+						<value type="java.lang.String">#{jobParameters['year']}</value>
+						<value type="java.lang.String">#{jobParameters['year']}</value>
+						<value type="java.lang.String">#{stepExecutionContext['level']}</value>
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="levelDegradeWriter"
+		class="org.springframework.batch.item.support.CompositeItemWriter"
+		scope="step">
+		<property name="delegates">
+			<list>
+				<ref bean="insertEventDegrade" />
+				<ref bean="updateMemberLevel" />
+				<ref bean="degradeLogWriter" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="degradeLogWriter" class="org.springframework.batch.item.file.FlatFileItemWriter"
+		scope="step">
+		<property name="resource"
+			value="file:#{jobParameters['output.folder']}/degrade/#{jobParameters['year']}/level_#{stepExecutionContext['level']}.cvs" />
+		<property name="lineAggregator" ref="levelLineAggregator" />
+		<property name="shouldDeleteIfExists" value="false" />
+		<property name="encoding" value="UTF-8" />
+	</bean>
+	
+	<bean id="levelLineAggregator"
+		class="org.springframework.batch.item.file.transform.DelimitedLineAggregator">
+		<property name="fieldExtractor">
+			<bean
+				class="org.springframework.batch.item.file.transform.BeanWrapperFieldExtractor">
+				<property name="names"
+					value="levelHisId,year,memberId,levelPointTotal,ticketCount" />
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="insertEventDegrade" class="org.mybatis.spring.batch.MyBatisBatchItemWriter">
+		<property name="sqlSessionTemplate" ref="mbrSqlSession" />
+		<property name="statementId"
+			value="com.wanda.member.basic.service.TLevelHistoryMapper.degradeLevelHistory" />
+	</bean>
+	<bean id="updateMemberLevel" class="org.mybatis.spring.batch.MyBatisBatchItemWriter">
+		<property name="sqlSessionTemplate" ref="mbrSqlSession" />
+		<property name="statementId"
+			value="com.wanda.member.basic.service.TMemberLevelMapper.degradeMemberLevel" />
+	</bean>
+
+
+</beans>

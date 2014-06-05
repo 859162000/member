@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:batch="http://www.springframework.org/schema/batch"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/batch http://www.springframework.org/schema/batch/spring-batch-2.2.xsd
+	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+	<import resource="../../data-source.xml" />
+	<import resource="../../application-context.xml" />
+	<import resource="mbr-degrade.xml" />
+
+	<batch:job id="mbrDegradeByYear">
+		<batch:description>会员降级</batch:description>
+		<batch:step id="step1_level_load" parent="level_partitioned_step" />
+	</batch:job>
+	
+</beans>

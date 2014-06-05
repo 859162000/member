@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+
+	<!-- 清除上次统计时的临时数据 -->
+	<entry key="CLEAN_ALL_DNA"><![CDATA[
+		truncate table ACX_HuangNiu;
+		truncate table ACX_Behavior_Film_Tkt;
+		truncate table ACX_Behavior_Base;
+		truncate table ACX_Behavior_Index;
+		truncate table ACX_Behavior_Stand;
+		truncate table ACX_Behavior_Distance
+	]]></entry>
+	
+	<!-- 统计黄牛会员 -->
+	<entry key="ACX_HUANGNIU"><![CDATA[
+		insert into ACX_HuangNiu
+		select distinct member_key from (
+			select member_key
+			from ccs_nrpt2.T_F_CON_MEMBER_CINEMA
+			group by biz_date_key,member_key
+			having count(distinct bk_order_code)>6
+			union all
+			select member_key
+			from ccs_nrpt2.T_F_CON_MEMBER_CINEMA
+			group by to_char(biz_date_key,'IY:IW'),member_key
+			having sum(bk_total_income-re_total_income)>1000
+		) xx
+	]]></entry>
+	
+	<!--  -->
+	<entry key="ACX_BEHAVIOR_FILM_TKT"><![CDATA[
+		insert into ACX_Behavior_Film_Tkt(member_key,film_key,show_date_key,show_hour_key,film_amount,film_tkt_qty)
+		select member_key,film_key,show_date_key,show_hour_key,
+		sum(bk_admissions)-sum(re_admissions) film_amount,
+		count(bk_ticket_number)-count(re_ticket_number) film_tkt_qty
+		from ccs_nrpt2.T_F_CON_MEMBER_TICKET
+		where show_date_key between to_date(?,'yyyymmdd') and to_date(?,'yyyymmdd')
+		group by member_key,film_key,show_date_key,show_hour_key
+		having count(bk_ticket_number)-count(re_ticket_number)>0
+	]]></entry>
+	
+	<!--  -->
+	<entry key="ACX_BEHAVIOR_BASE"><![CDATA[
+		insert into ACX_Behavior_Base
+		select mem_f.member_key,film_amount,film_tkt_qty,film,avg_discount,
+		nvl(sale_amount,0.0),nvl(sale,0)*1.0/film sale_perc,
+		great_movie,digital_movie,Imax_movie,f3d_movie,loc_china,
+		loc_europe,scene_science,scene_history,EMOTION_story,EMOTION_terror,
+		EMOTION_comedy,THEME_love,THEME_action,THEME_police,THEME_adventure,
+		THEME_disaster,DISPLAY_cartoon,DISPLAY_feature,audtype_children,audtype_family
+		from (
+			select tkt.member_key,
+			sum(film_amount) film_amount,
+			sum(film_tkt_qty) film_tkt_qty,
+			count(distinct to_char(tkt.film_key,'099999999') || to_char(show_date_key,' yyyy-mm-dd') || to_char(show_hour_key,'99')) film,
+			avg(case when raw_price>0 then film_amount/film_tkt_qty/raw_price else 0 end) as avg_discount,
+			count(distinct case when HOLLYWOOD=1 then to_char(tkt.film_key,'099999999') || to_char(show_date_key,' yyyy-mm-dd') || to_char(show_hour_key,'99') end ) as great_movie,
+			count(distinct case when FILM_DIGITAL=2 then to_char(tkt.film_key,'099999999') || to_char(show_date_key,' yyyy-mm-dd') || to_char(show_hour_key,'99') end ) as digital_movie,
+			count(distinct case when IMAX_NORMAL=2 then to_char(tkt.film_key,'099999999') || to_char(show_date_key,' yyyy-mm-dd') || to_char(show_hour_key,'99') end ) as Imax_movie,
+			count(distinct case when f2D_3D=2 then to_char(tkt.film_key,'099999999') || to_char(show_date_key,' yyyy-mm-dd') || to_char(show_hour_key,'99') end ) as f3d_movie,
+			count(distinct case when LOCATION=2 then to_char(tkt.film_key,'099999999') || to_char(show_date_key,' yyyy-mm-dd') || to_char(show_hour_key,'99') end ) as loc_china,
+			count(distinct case when LOCATION=4 then to_char(tkt.film_key,'099999999') || to_char(show_date_key,' yyyy-mm-dd') || to_char(show_hour_key,'99') end ) as loc_europe,
+			count(distinct case when SCENE=2 then to_char(tkt.film_key,'099999999') || to_char(show_date_key,' yyyy-mm-dd') || to_char(show_hour_key,'99') end ) as scene_science,
+			count(distinct case when SCENE=3 then to_char(tkt.film_key,'099999999') || to_char(show_date_key,' yyyy-mm-dd') || to_char(show_hour_key,'99') end ) as scene_history,
+			count(distinct case when EMOTION=1 then to_char(tkt.film_key,'099999999') || to_char(show_date_key,' yyyy-mm-dd') || to_char(show_hour_key,'99') end ) as EMOTION_story,
+			count(distinct case when EMOTION=2 then to_char(tkt.film_key,'099999999') || to_char(show_date_key,' yyyy-mm-dd') || to_char(show_hour_key,'99') end ) as EMOTION_terror,
+			count(distinct case when EMOTION=3 then to_char(tkt.film_key,'099999999') || to_char(show_date_key,' yyyy-mm-dd') || to_char(show_hour_key,'99') end ) as EMOTION_comedy,
+			count(distinct case when THEME=1 then to_char(tkt.film_key,'099999999') || to_char(show_date_key,' yyyy-mm-dd') || to_char(show_hour_key,'99') end ) as THEME_love,
+			count(distinct case when THEME=2 then to_char(tkt.film_key,'099999999') || to_char(show_date_key,' yyyy-mm-dd') || to_char(show_hour_key,'99') end ) as THEME_action,
+			count(distinct case when THEME=3 then to_char(tkt.film_key,'099999999') || to_char(show_date_key,' yyyy-mm-dd') || to_char(show_hour_key,'99') end ) as THEME_police,
+			count(distinct case when THEME=5 then to_char(tkt.film_key,'099999999') || to_char(show_date_key,' yyyy-mm-dd') || to_char(show_hour_key,'99') end ) as THEME_adventure,
+			count(distinct case when THEME=6 then to_char(tkt.film_key,'099999999') || to_char(show_date_key,' yyyy-mm-dd') || to_char(show_hour_key,'99') end ) as THEME_disaster,
+			count(distinct case when DISPLAY=2 then to_char(tkt.film_key,'099999999') || to_char(show_date_key,' yyyy-mm-dd') || to_char(show_hour_key,'99') end ) as DISPLAY_cartoon,
+			count(distinct case when DISPLAY=3 then to_char(tkt.film_key,'099999999') || to_char(show_date_key,' yyyy-mm-dd') || to_char(show_hour_key,'99') end ) as DISPLAY_feature,
+			count(distinct case when audience_type=1 then to_char(tkt.film_key,'099999999') || to_char(show_date_key,' yyyy-mm-dd') || to_char(show_hour_key,'99') end ) as audtype_children,
+			count(distinct case when audience_type=2 then to_char(tkt.film_key,'099999999') || to_char(show_date_key,' yyyy-mm-dd') || to_char(show_hour_key,'99') end ) as audtype_family
+			from ACX_Behavior_Film_Tkt tkt
+			join ACX_Behavior_Film_Property f on tkt.film_key = f.film_key 
+			join ccs_nrpt2.t_d_con_member mem on tkt.member_key = mem.member_key 
+			    and recruit_time<to_date(?,'yyyymmdd') --会员期必须大于一个月
+			left join ACX_HuangNiu hn on tkt.member_key = hn.member_key
+			where hn.member_key is null
+			group by tkt.member_key
+		) mem_f
+		left join (
+			select member_key,sum(bk_sale_amount)-sum(re_sale_amount) sale_amount,
+			count(distinct bk_cs_order_code)-count(distinct re_cs_order_code) sale
+			from ccs_nrpt2.T_F_CON_MEMBER_SALE
+			where book_biz_date_key between to_date(?,'yyyymmdd') and to_date(?,'yyyymmdd')
+			group by member_key
+		) mem_cs on mem_f.member_key = mem_cs.member_key
+	]]></entry>
+	
+	<!--  -->
+	<entry key="ACX_BEHAVIOR_INDEX"><![CDATA[
+		insert into ACX_Behavior_Index
+		select member_key,
+		film_amount*1.0/avg_film_amount*100	film_amount_index,
+		film_tkt_qty*1.0/avg_film_tkt_qty*100	film_tkt_qty_index,
+		film*1.0/avg_film*100	film_index,
+		avg_discount*1.0/avg_avg_discount*100	avg_discount_index,
+		sale_amount*1.0/avg_sale_amount*100	sale_amount_index,
+		sale_perc*1.0/avg_sale_perc*100	sale_perc_index,
+		great_movie*1.0/avg_great_movie*100	great_movie_index,
+		digital_movie*1.0/avg_digital_movie*100	digital_movie_index,
+		Imax_movie*1.0/avg_Imax_movie*100	Imax_movie_index,
+		f3d_movie*1.0/avg_f3d_movie*100	f3d_movie_index,
+		loc_china*1.0/avg_loc_china*100	loc_china_index,
+		loc_europe*1.0/avg_loc_europe*100	loc_europe_index,
+		scene_science*1.0/avg_scene_science*100	scene_science_index,
+		scene_history*1.0/avg_scene_history*100	scene_history_index,
+		EMOTION_story*1.0/avg_EMOTION_story*100	EMOTION_story_index,
+		EMOTION_terror*1.0/avg_EMOTION_terror*100	EMOTION_terror_index,
+		EMOTION_comedy*1.0/avg_EMOTION_comedy*100	EMOTION_comedy_index,
+		THEME_love*1.0/avg_THEME_love*100	THEME_love_index,
+		THEME_action*1.0/avg_THEME_action*100	THEME_action_index,
+		THEME_police*1.0/avg_THEME_police*100	THEME_police_index,
+		THEME_adventure*1.0/avg_THEME_adventure*100	THEME_adventure_index,
+		THEME_disaster*1.0/avg_THEME_disaster*100	THEME_disaster_index,
+		DISPLAY_cartoon*1.0/avg_DISPLAY_cartoon*100	DISPLAY_cartoon_index,
+		DISPLAY_feature*1.0/avg_DISPLAY_feature*100	DISPLAY_feature_index,
+		audtype_children*1.0/avg_audtype_children*100	audtype_children_index,
+		audtype_family*1.0/avg_audtype_family*100	audtype_family_index
+		from ACX_Behavior_Base
+		join (
+			select 
+			avg(film_amount*1.0) avg_film_amount,
+			avg(film_tkt_qty*1.0) avg_film_tkt_qty,
+			avg(film*1.0) avg_film,
+			avg(avg_discount*1.0) avg_avg_discount,
+			avg(sale_amount*1.0) avg_sale_amount,
+			avg(sale_perc*1.0) avg_sale_perc,
+			avg(great_movie*1.0) avg_great_movie,
+			avg(digital_movie*1.0) avg_digital_movie,
+			avg(Imax_movie*1.0) avg_Imax_movie,
+			avg(f3d_movie*1.0) avg_f3d_movie,
+			avg(loc_china*1.0) avg_loc_china,
+			avg(loc_europe*1.0) avg_loc_europe,
+			avg(scene_science*1.0) avg_scene_science,
+			avg(scene_history*1.0) avg_scene_history,
+			avg(EMOTION_story*1.0) avg_EMOTION_story,
+			avg(EMOTION_terror*1.0) avg_EMOTION_terror,
+			avg(EMOTION_comedy*1.0) avg_EMOTION_comedy,
+			avg(THEME_love*1.0) avg_THEME_love,
+			avg(THEME_action*1.0) avg_THEME_action,
+			avg(THEME_police*1.0) avg_THEME_police,
+			avg(THEME_adventure*1.0) avg_THEME_adventure,
+			avg(THEME_disaster*1.0) avg_THEME_disaster,
+			avg(DISPLAY_cartoon*1.0) avg_DISPLAY_cartoon,
+			avg(DISPLAY_feature*1.0) avg_DISPLAY_feature,
+			avg(audtype_children*1.0) avg_audtype_children,
+			avg(audtype_family*1.0) avg_audtype_family	
+			from ACX_Behavior_Base
+		) avg on 1=1
+	]]></entry>
+	
+	<!--  -->
+	<entry key="ACX_BEHAVIOR_STAND"><![CDATA[
+		insert into ACX_Behavior_Stand
+		select member_key,
+		(film_amount_index-avg_film_amount_index)/stdev_film_amount_index,
+		(film_tkt_qty_index-avg_film_tkt_qty_index)/stdev_film_tkt_qty_index,
+		(film_index-avg_film_index)/stdev_film_index,
+		(avg_discount_index-avg_avg_discount_index)/stdev_stdev_discount_index,
+		(sale_amount_index-avg_sale_amount_index)/stdev_sale_amount_index,
+		(sale_perc_index-avg_sale_perc_index)/stdev_sale_perc_index,
+		(great_movie_index-avg_great_movie_index)/stdev_great_movie_index,
+		(digital_movie_index-avg_digital_movie_index)/stdev_digital_movie_index,
+		(Imax_movie_index-avg_Imax_movie_index)/stdev_Imax_movie_index,
+		(f3d_movie_index-avg_f3d_movie_index)/stdev_f3d_movie_index,
+		(loc_china_index-avg_loc_china_index)/stdev_loc_china_index,
+		(loc_europe_index-avg_loc_europe_index)/stdev_loc_europe_index,
+		(scene_science_index-avg_scene_science_index)/stdev_scene_science_index,
+		(scene_history_index-avg_scene_history_index)/stdev_scene_history_index,
+		(EMOTION_story_index-avg_EMOTION_story_index)/stdev_EMOTION_story_index,
+		(EMOTION_terror_index-avg_EMOTION_terror_index)/stdev_EMOTION_terror_index,
+		(EMOTION_comedy_index-avg_EMOTION_comedy_index)/stdev_EMOTION_comedy_index,
+		(THEME_love_index-avg_THEME_love_index)/stdev_THEME_love_index,
+		(THEME_action_index-avg_THEME_action_index)/stdev_THEME_action_index,
+		(THEME_police_index-avg_THEME_police_index)/stdev_THEME_police_index,
+		(THEME_adventure_index-avg_THEME_adventure_index)/stdev_THEME_adventure_index,
+		(THEME_disaster_index-avg_THEME_disaster_index)/stdev_THEME_disaster_index,
+		(DISPLAY_cartoon_index-avg_DISPLAY_cartoon_index)/stdev_DISPLAY_cartoon_index,
+		(DISPLAY_feature_index-avg_DISPLAY_feature_index)/stdev_DISPLAY_feature_index,
+		(audtype_children_index-avg_audtype_children_index)/stdev_audtype_children_index,
+		(audtype_family_index-avg_audtype_family_index)/stdev_audtype_family_index
+		from ACX_Behavior_Index
+		join (
+			select 
+			avg(film_amount_index)	avg_film_amount_index,
+			avg(film_tkt_qty_index)	avg_film_tkt_qty_index,
+			avg(film_index)	avg_film_index,
+			avg(avg_discount_index)	avg_avg_discount_index,
+			avg(sale_amount_index)	avg_sale_amount_index,
+			avg(sale_perc_index)	avg_sale_perc_index,
+			avg(great_movie_index)	avg_great_movie_index,
+			avg(digital_movie_index)	avg_digital_movie_index,
+			avg(Imax_movie_index)	avg_Imax_movie_index,
+			avg(f3d_movie_index)	avg_f3d_movie_index,
+			avg(loc_china_index)	avg_loc_china_index,
+			avg(loc_europe_index)	avg_loc_europe_index,
+			avg(scene_science_index)	avg_scene_science_index,
+			avg(scene_history_index)	avg_scene_history_index,
+			avg(EMOTION_story_index)	avg_EMOTION_story_index,
+			avg(EMOTION_terror_index)	avg_EMOTION_terror_index,
+			avg(EMOTION_comedy_index)	avg_EMOTION_comedy_index,
+			avg(THEME_love_index)	avg_THEME_love_index,
+			avg(THEME_action_index)	avg_THEME_action_index,
+			avg(THEME_police_index)	avg_THEME_police_index,
+			avg(THEME_adventure_index)	avg_THEME_adventure_index,
+			avg(THEME_disaster_index)	avg_THEME_disaster_index,
+			avg(DISPLAY_cartoon_index)	avg_DISPLAY_cartoon_index,
+			avg(DISPLAY_feature_index)	avg_DISPLAY_feature_index,
+			avg(audtype_children_index)	avg_audtype_children_index,
+			avg(audtype_family_index)	avg_audtype_family_index
+			from ACX_Behavior_Index
+		) avg on 1=1
+		join (
+			select
+			stddev(film_amount_index)	stdev_film_amount_index,
+			stddev(film_tkt_qty_index)	stdev_film_tkt_qty_index,
+			stddev(film_index)	stdev_film_index,
+			stddev(avg_discount_index)	stdev_stdev_discount_index,
+			stddev(sale_amount_index)	stdev_sale_amount_index,
+			stddev(sale_perc_index)	stdev_sale_perc_index,
+			stddev(great_movie_index)	stdev_great_movie_index,
+			stddev(digital_movie_index)	stdev_digital_movie_index,
+			stddev(Imax_movie_index)	stdev_Imax_movie_index,
+			stddev(f3d_movie_index)	stdev_f3d_movie_index,
+			stddev(loc_china_index)	stdev_loc_china_index,
+			stddev(loc_europe_index)	stdev_loc_europe_index,
+			stddev(scene_science_index)	stdev_scene_science_index,
+			stddev(scene_history_index)	stdev_scene_history_index,
+			stddev(EMOTION_story_index)	stdev_EMOTION_story_index,
+			stddev(EMOTION_terror_index)	stdev_EMOTION_terror_index,
+			stddev(EMOTION_comedy_index)	stdev_EMOTION_comedy_index,
+			stddev(THEME_love_index)	stdev_THEME_love_index,
+			stddev(THEME_action_index)	stdev_THEME_action_index,
+			stddev(THEME_police_index)	stdev_THEME_police_index,
+			stddev(THEME_adventure_index)	stdev_THEME_adventure_index,
+			stddev(THEME_disaster_index)	stdev_THEME_disaster_index,
+			stddev(DISPLAY_cartoon_index)	stdev_DISPLAY_cartoon_index,
+			stddev(DISPLAY_feature_index)	stdev_DISPLAY_feature_index,
+			stddev(audtype_children_index)	stdev_audtype_children_index,
+			stddev(audtype_family_index)	stdev_audtype_family_index
+			from ACX_Behavior_Index
+		) std on 1=1
+	]]></entry>
+	
+	<!--  -->
+	<entry key="ACX_BEHAVIOR_STAND_UPDATE"><![CDATA[
+		update ACX_Behavior_Stand
+		set 
+		film_amount_index_stand=CASE WHEN ABS(film_amount_index_stand)>=6 THEN 6 ELSE ISNULL(film_amount_index_stand,0)	END,
+		film_tkt_qty_index_stand=CASE WHEN ABS(film_tkt_qty_index_stand)>=6 THEN 6 ELSE ISNULL(film_tkt_qty_index_stand,0)	END,
+		film_index_stand=CASE WHEN ABS(film_index_stand)>=6 THEN 6 ELSE ISNULL(film_index_stand,0)	END,
+		avg_discount_index_stand=CASE WHEN ABS(avg_discount_index_stand)>=6 THEN 6 ELSE ISNULL(avg_discount_index_stand,0)	END,
+		sale_amount_index_stand=CASE WHEN ABS(sale_amount_index_stand)>=6 THEN 6 ELSE ISNULL(sale_amount_index_stand,0)	END,
+		sale_perc_index_stand=CASE WHEN ABS(sale_perc_index_stand)>=6 THEN 6 ELSE ISNULL(sale_perc_index_stand,0)	END,
+		great_movie_index_stand=CASE WHEN ABS(great_movie_index_stand)>=6 THEN 6 ELSE ISNULL(great_movie_index_stand,0)	END,
+		digital_movie_index_stand=CASE WHEN ABS(digital_movie_index_stand)>=6 THEN 6 ELSE ISNULL(digital_movie_index_stand,0)	END,
+		Imax_movie_index_stand=CASE WHEN ABS(Imax_movie_index_stand)>=6 THEN 6 ELSE ISNULL(Imax_movie_index_stand,0)	END,
+		f3d_movie_index_stand=CASE WHEN ABS(f3d_movie_index_stand)>=6 THEN 6 ELSE ISNULL(f3d_movie_index_stand,0)	END,
+		loc_china_index_stand=CASE WHEN ABS(loc_china_index_stand)>=6 THEN 6 ELSE ISNULL(loc_china_index_stand,0)	END,
+		loc_europe_index_stand=CASE WHEN ABS(loc_europe_index_stand)>=6 THEN 6 ELSE ISNULL(loc_europe_index_stand,0)	END,
+		scene_science_index_stand=CASE WHEN ABS(scene_science_index_stand)>=6 THEN 6 ELSE ISNULL(scene_science_index_stand,0)	END,
+		scene_history_index_stand=CASE WHEN ABS(scene_history_index_stand)>=6 THEN 6 ELSE ISNULL(scene_history_index_stand,0)	END,
+		EMOTION_story_index_stand=CASE WHEN ABS(EMOTION_story_index_stand)>=6 THEN 6 ELSE ISNULL(EMOTION_story_index_stand,0)	END,
+		EMOTION_terror_index_stand=CASE WHEN ABS(EMOTION_terror_index_stand)>=6 THEN 6 ELSE ISNULL(EMOTION_terror_index_stand,0)	END,
+		EMOTION_comedy_index_stand=CASE WHEN ABS(EMOTION_comedy_index_stand)>=6 THEN 6 ELSE ISNULL(EMOTION_comedy_index_stand,0)	END,
+		THEME_love_index_stand=CASE WHEN ABS(THEME_love_index_stand)>=6 THEN 6 ELSE ISNULL(THEME_love_index_stand,0)	END,
+		THEME_action_index_stand=CASE WHEN ABS(THEME_action_index_stand)>=6 THEN 6 ELSE ISNULL(THEME_action_index_stand,0)	END,
+		THEME_police_index_stand=CASE WHEN ABS(THEME_police_index_stand)>=6 THEN 6 ELSE ISNULL(THEME_police_index_stand,0)	END,
+		THEME_adventure_index_stand=CASE WHEN ABS(THEME_adventure_index_stand)>=6 THEN 6 ELSE ISNULL(THEME_adventure_index_stand,0)	END,
+		THEME_disaster_index_stand=CASE WHEN ABS(THEME_disaster_index_stand)>=6 THEN 6 ELSE ISNULL(THEME_disaster_index_stand,0)	END,
+		DISPLAY_cartoon_index_stand=CASE WHEN ABS(DISPLAY_cartoon_index_stand)>=6 THEN 6 ELSE ISNULL(DISPLAY_cartoon_index_stand,0)	END,
+		DISPLAY_feature_index_stand=CASE WHEN ABS(DISPLAY_feature_index_stand)>=6 THEN 6 ELSE ISNULL(DISPLAY_feature_index_stand,0)	END,
+		audtype_children_index_stand=CASE WHEN ABS(audtype_children_index_stand)>=6 THEN 6 ELSE ISNULL(audtype_children_index_stand,0)	END,
+		audtype_family_index_stand=CASE WHEN ABS(audtype_family_index_stand)>=6 THEN 6 ELSE ISNULL(audtype_family_index_stand,0)	END
+	]]></entry>
+	
+	<!--  -->
+	<entry key="ACX_BEHAVIOR_DISTANCE"><![CDATA[
+		insert into ACX_Behavior_Distance
+		select 
+			member_key, 
+			cluster_index,
+			POWER(film_amount_index_stand-total_spending_index,2)+
+			POWER(avg_discount_index_stand-avg_discount_index,2)+
+			POWER(sale_amount_index_stand-total_snack_spending_index,2)+
+			POWER(sale_perc_index_stand-snack_perc_index,2)+
+			POWER(great_movie_index_stand-great_movie_perc_index,2)+
+			POWER(digital_movie_index_stand-digital_movie_perc_index,2)+
+			POWER(Imax_movie_index_stand-Imax_movie_perc_index,2)+
+			POWER(f3d_movie_index_stand-f3d_movie_perc_index,2)+
+			POWER(loc_china_index_stand-loc_china_perc_index,2)+
+			POWER(loc_europe_index_stand-loc_europe_perc_index,2)+
+			POWER(scene_science_index_stand-scene_science_perc_index,2)+
+			POWER(scene_history_index_stand-scene_history_perc_index,2)+
+			POWER(EMOTION_story_index_stand-EMOTION_story_perc_index,2)+
+			POWER(EMOTION_terror_index_stand-EMOTION_terror_perc_index,2)+
+			POWER(EMOTION_comedy_index_stand-EMOTION_comedy_perc_index,2)+
+			POWER(THEME_love_index_stand-THEME_love_perc_index,2)+
+			POWER(THEME_action_index_stand-THEME_action_perc_index,2)+
+			POWER(THEME_police_index_stand-THEME_police_perc_index,2)+
+			POWER(THEME_adventure_index_stand-THEME_adventure_perc_index,2)+
+			POWER(THEME_disaster_index_stand-THEME_disaster_perc_index,2)+
+			POWER(DISPLAY_cartoon_index_stand-DISPLAY_cartoon_perc_index,2)+
+			POWER(DISPLAY_feature_index_stand-DISPLAY_feature_perc_index,2)+
+			POWER(audtype_children_index_stand-audtype_children_perc_index,2)+
+			POWER(audtype_family_index_stand-audtype_family_perc_index,2) AS distance
+		from ACX_Behavior_Stand stand
+		join ACX_Behavior_Mean mean on 1=1
+	]]></entry>
+	
+	<!--  -->
+	<entry key="ACX_BEHAVIOR_SEGMENT"><![CDATA[
+		insert into ACX_Behavior_Segment
+		select ? as beh_month,member_key,
+	       case when cluster_index in (1,4,7) then 1
+		        when cluster_index in (2,5,10,12) then 2
+				when cluster_index =3 then 3
+				when cluster_index=6 then 4
+				when cluster_index in (8,9) then 5
+	            when cluster_index=11 then 6
+				when cluster_index=13 then 7
+	            when cluster_index in (14,15) then 8
+	            when cluster_index is null then 9 
+	            else cluster_index end as refresh_cluster_index
+		from (
+			select dis.member_key,min(cluster_index) cluster_index
+			from ACX_Behavior_Distance dis
+			join (
+				select member_key,min(distance) min_distance from ACX_Behavior_Distance group by member_key
+			) min_dis on dis.member_key = min_dis.member_key
+			group by dis.member_key
+		) final
+	]]></entry>
+	
+</properties>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wanda.member.basic.service.TPointHistoryMapper" >
+
+  <insert id="insertBasicPoint" 
+  	parameterType="com.wanda.member.basic.model.BasicPointTrans" >
+  	<selectKey keyProperty="pointHistoryId" resultType="String" order="BEFORE">   
+		select S_T_POINT_HISTORY.NEXTVAL from dual
+	</selectKey>
+    insert into T_POINT_HISTORY (POINT_HISTORY_ID, MEMBER_ID, SET_TIME, 
+      LEVEL_POINT, TICKET_COUNT, ACTIVITY_POINT, 
+      EXCHANGE_POINT, EXCHANGE_POINT_EXPIRE_TIME, 
+      POINT_TYPE, POINT_SYS, POINT_TRANS_TYPE, 
+      POINT_TRANS_CODE, ADJ_RESION,
+      ORG_POINT_BALANCE, POINT_BALANCE, IS_SYNC_BALANCE, 
+      ISDELETE, CREATE_BY, CREATE_DATE, VERSION, 
+      CINEMA_INNER_CODE, TRANS_TYPE )
+    values (#{pointHistoryId,jdbcType=DECIMAL}, #{memberId,jdbcType=DECIMAL}, to_date(#{bizDate,jdbcType=TIMESTAMP} || ' 23:59:59', 'yyyy-mm-dd HH24:mi:ss'), 
+      #{levelPoint,jdbcType=DECIMAL}, 1, 0, #{levelPoint,jdbcType=DECIMAL}, trunc(ADD_MONTHS(sysdate, 24),'YYYY') - 1/24/60/60, 
+      1, 3, 1, 
+      #{orderCode,jdbcType=VARCHAR}, #{adjResion,jdbcType=OTHER}, 
+      #{orgPoint,jdbcType=DECIMAL}, (#{orgPoint,jdbcType=DECIMAL}+#{levelPoint,jdbcType=DECIMAL}),
+      1, 0, 'member_sys', sysdate, 1, 
+      #{innerCode,jdbcType=VARCHAR}, #{transType,jdbcType=VARCHAR})
+  </insert>
+  
+  <update id="updateBasicPoint" parameterType="com.wanda.member.basic.model.BasicPointTrans" >
+  	update T_POINT_HISTORY
+  		set ORG_POINT_BALANCE = #{orgPoint,jdbcType=DECIMAL},
+  			POINT_BALANCE = #{pointBlance,jdbcType=DECIMAL}
+  		where POINT_HISTORY_ID = #{pointHistoryId,jdbcType=DECIMAL}
+  		
+  </update>
+  
+  <update id="rollbackPointHistory" parameterType="com.wanda.member.basic.model.BasicPointTrans">
+  	update T_POINT_HISTORY
+  		set ISDELETE = 1,
+  			UPDATE_BY = 'member_sys',
+  			UPDATE_DATE = sysdate
+  		where POINT_HISTORY_ID = #{pointHistoryId,jdbcType=DECIMAL}
+  </update>
+  
+  <insert id="czPointHistory" 
+  	parameterType="com.wanda.member.basic.model.BasicPointTrans" >
+  	<selectKey keyProperty="pointHistoryId" resultType="String" order="BEFORE">   
+		select S_T_POINT_HISTORY.NEXTVAL from dual
+	</selectKey>
+    insert into T_POINT_HISTORY (POINT_HISTORY_ID, MEMBER_ID, SET_TIME, 
+      LEVEL_POINT, TICKET_COUNT, ACTIVITY_POINT, 
+      EXCHANGE_POINT, EXCHANGE_POINT_EXPIRE_TIME, 
+      POINT_TYPE, POINT_SYS, POINT_TRANS_TYPE, 
+       ADJ_RESION,
+      IS_SYNC_BALANCE, 
+      ISDELETE, CREATE_BY, CREATE_DATE, VERSION, 
+      CINEMA_INNER_CODE )
+    values (#{pointHistoryId,jdbcType=DECIMAL}, #{memberId,jdbcType=DECIMAL}, to_date(#{bizDate,jdbcType=TIMESTAMP} || ' 23:59:59', 'yyyy-mm-dd HH24:mi:ss'), 
+      #{levelPoint,jdbcType=DECIMAL}*-1, 0, 0, #{levelPoint,jdbcType=DECIMAL}*-1, trunc(ADD_MONTHS(sysdate, 24),'YYYY') - 1/24/60/60, 
+      4, 3, 4, 
+      '基础积分冲正记录', 
+      1, 1, 'member_sys', sysdate, 1, 
+      #{innerCode,jdbcType=VARCHAR})
+  </insert>
+  
+  <update id="updateActivityPoint" parameterType="com.wanda.member.basic.model.BasicPointTrans" >
+  	update T_POINT_HISTORY
+  		set ORG_POINT_BALANCE = #{orgPoint,jdbcType=DECIMAL},
+  			POINT_BALANCE = #{pointBlance,jdbcType=DECIMAL}
+  		where POINT_HISTORY_ID = #{pointHistoryId,jdbcType=DECIMAL}
+  </update>
+  
+</mapper>

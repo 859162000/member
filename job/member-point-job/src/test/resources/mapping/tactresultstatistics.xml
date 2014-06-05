@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<etl>
+		<source>
+			<db conn="db.mbr_uat">
+				<sql>
+				<![CDATA[ 
+					select CMN_ACTIVITY_ID,
+				       VOUCHER_POOL_ID,
+				       EXT_POINT_RULE_ID,
+				       CONTACT_COUNT,
+				       RES_CONFIG_TYPE,
+				       RES_SEGMENT_ID,
+				       ALTER_SEGMENT_ID,
+				       CONTROL_RES_COUNT,
+				       RES_COUNT,
+				       ALTER_RES_COUNT,
+				       UPDATE_BY,
+				       UPDATE_DATE,
+				       VERSION,
+				       ACT_RESULT_ID,
+				       STATUS,
+				       CONTROL_COUNT 
+				 	 from t_act_result
+				 	where status = '30'
+				]]>
+				</sql>
+			</db>
+		</source>
+		<destination>
+			<db conn="db.mbr_uat">
+				<table>T_ACT_RESULT</table>
+			</db>
+		</destination>
+		<linefilter>
+			<filter name="tactresultstatisticslinehandle" />
+		</linefilter>
+
+
+		<mapping>
+			<field src="ACT_RESULT_ID" dest="ACT_RESULT_ID" stype="key"  /> 
+			<field src="CMN_ACTIVITY_ID" dest="CMN_ACTIVITY_ID" />
+			<field src="VOUCHER_POOL_ID"  dest="VOUCHER_POOL_ID"  /> 
+			<field src="EXT_POINT_RULE_ID" dest="EXT_POINT_RULE_ID"  />
+			<field src="CONTACT_COUNT" dest="CONTACT_COUNT" />
+			<field src="RES_CONFIG_TYPE" dest="RES_CONFIG_TYPE" /> 
+			<field src="RES_SEGMENT_ID" dest="RES_SEGMENT_ID"  />
+			<field src="ALTER_SEGMENT_ID"  dest="ALTER_SEGMENT_ID" /> 
+			<field src="CONTROL_RES_COUNT" dest="CONTROL_RES_COUNT"  />
+			<field src="RES_COUNT" dest="RES_COUNT" />
+			<field src="ALTER_RES_COUNT" dest="ALTER_RES_COUNT"  />
+			<field src="UPDATE_BY" dest="UPDATE_BY" />
+			<field src="UPDATE_DATE"  dest="UPDATE_DATE" type="timestamp"/> 
+			<field src="STATUS" dest="STATUS" />
+			<field src="CONTROL_COUNT" dest="CONTROL_COUNT"  /> 
+		 
+		</mapping>
+		
+</etl>

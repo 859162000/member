@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wanda.member.basic.service.TLevelHistoryMapper" >
+  
+  <insert id="degradeLevelHistory" parameterType="com.wanda.member.basic.model.MbrLevel" >
+  	<selectKey keyProperty="levelHisId" resultType="String" order="BEFORE">   
+		select S_T_LEVEL_HISTORY.nextVal SEQ from dual
+	</selectKey>
+    insert into T_LEVEL_HISTORY (LEVEL_HISTORY_ID, MEM_LEVEL, EXPIRE_DATE, 
+      ORG_MEM_LEVEL, ORG_EXPIRE_DATE, SET_TIME, 
+      RESON_TYPE, REASON, CHG_TYPE, 
+      MEMBER_ID, LEVEL_POINT, TICKET_COUNT, 
+      ISDELETE, CREATE_BY, CREATE_DATE, 
+      UPDATE_BY, UPDATE_DATE, VERSION
+      )
+    values (#{levelHisId,jdbcType=DECIMAL}, #{degradeLv,jdbcType=VARCHAR}, ADD_MONTHs(to_date( #{year,jdbcType=VARCHAR} || '-12-31 23:59:59','yyyy-mm-dd HH24:mi:ss'),12), 
+      #{memLevel,jdbcType=VARCHAR}, (#{year,jdbcType=VARCHAR} || '-12-31 23:59:59'), sysdate, 
+      4, 'member_sys', 'DOWN', 
+      #{memberId,jdbcType=DECIMAL}, #{levelPointTotal,jdbcType=DECIMAL}, #{ticketCount,jdbcType=DECIMAL}, 
+      0, 'member_sys', sysdate, 
+      'member_sys', sysdate, 1
+      )
+  </insert>
+</mapper>

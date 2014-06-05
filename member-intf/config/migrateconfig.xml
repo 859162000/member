@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>	
+	<property>
+		<name>basePath</name>
+		<desc>上传下载基本目录</desc>
+		<value>C:/NewWork/ftpdir/</value>
+	</property>
+</config>

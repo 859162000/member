@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:batch="http://www.springframework.org/schema/batch"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/batch http://www.springframework.org/schema/batch/spring-batch-2.2.xsd
+	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+
+	<batch:step id="ticket_trans_load">
+		<batch:partition step="ticketTransPartitionedStep"
+			partitioner="ticketPartitioner">
+		</batch:partition>
+	</batch:step>
+
+	<batch:step id="goods_trans_load">
+		<batch:partition step="goodsTransPartitionedStep"
+			partitioner="goodsPartitioner">
+		</batch:partition>
+	</batch:step>
+
+	<batch:step id="member_load">
+		<batch:partition step="memberTransPartitionedStep"
+			partitioner="memberPartitioner">
+		</batch:partition>
+	</batch:step>
+
+	<batch:step id="ticketTransPartitionedStep">
+		<batch:tasklet>
+			<batch:chunk reader="ticketReader" processor="ticketProcessor"
+				writer="ticketWriter" commit-interval="1000" />
+		</batch:tasklet>
+	</batch:step>
+
+	<batch:step id="goodsTransPartitionedStep">
+		<batch:tasklet>
+			<batch:chunk reader="goodsReader" processor="goodsProcessor"
+				writer="goodsWriter" commit-interval="1000" />
+		</batch:tasklet>
+	</batch:step>
+
+	<batch:step id="memberTransPartitionedStep">
+		<batch:tasklet>
+			<batch:chunk reader="memberReader" processor="memberProcessor"
+				writer="memberWriter" commit-interval="1000" />
+		</batch:tasklet>
+	</batch:step>
+	
+	<bean id="ticketPartitioner"
+		class="com.wanda.member.activity.partitioner.TicketRuleSqlPartitioner"
+		scope="step">
+		<property name="rulePartitionReader">
+			<bean class="org.springframework.batch.item.xml.StaxEventItemReader">
+				<property name="resource"
+					value="file:#{jobParameters['output.folder']}/#{jobParameters['biz_date']}/rule/ticket_rule.xml" />
+				<property name="unmarshaller" ref="ruleMarshaller" />
+				<property name="fragmentRootElementName" value="rules" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="goodsPartitioner"
+		class="com.wanda.member.activity.partitioner.GoodsRuleSqlPartitioner"
+		scope="step">
+		<property name="rulePartitionReader">
+			<bean class="org.springframework.batch.item.xml.StaxEventItemReader">
+				<property name="resource"
+					value="file:#{jobParameters['output.folder']}/#{jobParameters['biz_date']}/rule/goods_rule.xml" />
+				<property name="unmarshaller" ref="ruleMarshaller" />
+				<property name="fragmentRootElementName" value="rules" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="memberPartitioner"
+		class="com.wanda.member.activity.partitioner.MemberRuleSqlPartitioner"
+		scope="step">
+		<property name="rulePartitionReader">
+			<bean class="org.springframework.batch.item.xml.StaxEventItemReader">
+				<property name="resource"
+					value="file:#{jobParameters['output.folder']}/#{jobParameters['biz_date']}/rule/member_rule.xml" />
+				<property name="unmarshaller" ref="ruleMarshaller" />
+				<property name="fragmentRootElementName" value="rules" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="ticketReader" class="com.wanda.member.activity.reader.TicketTransReader"
+		scope="step">
+		<property name="dataSource" ref="dw_dataSource" />
+		<property name="rowMapper">
+			<bean class="com.wanda.member.activity.model.ActivityPointTicketRowMapper" />
+		</property>
+	</bean>
+
+	<bean id="goodsReader" class="com.wanda.member.activity.reader.GoodsTransReader"
+		scope="step">
+		<property name="dataSource" ref="dw_dataSource" />
+		<property name="rowMapper">
+			<bean class="com.wanda.member.activity.model.ActivityPointGoodsRowMapper" />
+		</property>
+	</bean>
+
+	<bean id="memberReader" class="com.wanda.member.activity.reader.MemberTransReader"
+		scope="step">
+		<property name="dataSource" ref="dw_dataSource" />
+		<property name="rowMapper">
+			<bean class="com.wanda.member.activity.model.ActivityPointMemberRowMapper" />
+		</property>
+	</bean>
+
+	<bean id="ticketProcessor" class="com.wanda.member.activity.processor.TicketProcessor"
+		scope="step">
+		<property name="pointPercent"
+			value="#{stepExecutionContext['point_addition_percent']}" />
+		<property name="pointAddition"
+			value="#{stepExecutionContext['point_addition_code']}" />
+		<property name="extPointRuleId" value="#{stepExecutionContext['ext_point_rule_id']}" />
+		<property name="extPointCriteriaId"
+			value="#{stepExecutionContext['ext_point_criteria_id']}" />
+		<property name="bizDate" value="#{jobParameters['biz_date']}" />
+	</bean>
+	<bean id="goodsProcessor" class="com.wanda.member.activity.processor.GoodsProcessor"
+		scope="step">
+		<property name="pointPercent"
+			value="#{stepExecutionContext['point_addition_percent']}" />
+		<property name="pointAddition"
+			value="#{stepExecutionContext['point_addition_code']}" />
+		<property name="extPointRuleId" value="#{stepExecutionContext['ext_point_rule_id']}" />
+		<property name="extPointCriteriaId"
+			value="#{stepExecutionContext['ext_point_criteria_id']}" />
+		<property name="bizDate" value="#{jobParameters['biz_date']}" />
+	</bean>
+	<bean id="memberProcessor" class="com.wanda.member.activity.processor.MemberProcessor"
+		scope="step">
+		<property name="pointAdditionCode"
+			value="#{stepExecutionContext['point_addition_code']}" />
+		<property name="extPointRuleId" value="#{stepExecutionContext['ext_point_rule_id']}" />
+		<property name="extPointCriteriaId"
+			value="#{stepExecutionContext['ext_point_criteria_id']}" />
+		<property name="bizDate" value="#{jobParameters['biz_date']}" />
+		<property name="mbrSqlSession" ref="mbrSqlSession"/>
+	</bean>
+
+	<bean id="ticketWriter" class="org.springframework.batch.item.file.FlatFileItemWriter"
+		scope="step">
+		<property name="resource"
+			value="file:#{jobParameters['output.folder']}/#{jobParameters['biz_date']}/incoming/ticket/ticket_#{stepExecutionContext['rule_suffix']}_#{jobParameters['biz_date']}.cvs" />
+		<property name="lineAggregator" ref="ticketLineAggregator" />
+		<property name="shouldDeleteIfExists" value="true" />
+	</bean>
+
+	<bean id="goodsWriter" class="org.springframework.batch.item.file.FlatFileItemWriter"
+		scope="step">
+		<property name="resource"
+			value="file:#{jobParameters['output.folder']}/#{jobParameters['biz_date']}/incoming/goods/goods_#{stepExecutionContext['rule_suffix']}_#{jobParameters['biz_date']}.cvs" />
+		<property name="lineAggregator" ref="goodsLineAggregator" />
+		<property name="shouldDeleteIfExists" value="true" />
+	</bean>
+
+	<bean id="memberWriter" class="org.springframework.batch.item.file.FlatFileItemWriter"
+		scope="step">
+		<property name="resource"
+			value="file:#{jobParameters['output.folder']}/#{jobParameters['biz_date']}/incoming/member/member_#{stepExecutionContext['rule_suffix']}_#{jobParameters['biz_date']}.cvs" />
+		<property name="lineAggregator" ref="memberLineAggregator"/>
+		<property name="shouldDeleteIfExists" value="true" />
+	</bean>
+	
+	<bean id="ticketLineAggregator" class="org.springframework.batch.item.file.transform.DelimitedLineAggregator">
+				<property name="fieldExtractor">
+					<bean
+						class="org.springframework.batch.item.file.transform.BeanWrapperFieldExtractor">
+						<property name="names"
+							value="bizDate,extPointRuleId,extPointCriteriaId,pointPercent,pointAddition,innerCode,memberKey,ctOrderCode,ticketNumber,admissions" />
+					</bean>
+				</property>
+	</bean>
+	
+	<bean id="goodsLineAggregator" class="org.springframework.batch.item.file.transform.DelimitedLineAggregator">
+				<property name="fieldExtractor">
+					<bean
+						class="org.springframework.batch.item.file.transform.BeanWrapperFieldExtractor">
+						<property name="names"
+							value="bizDate,extPointRuleId,extPointCriteriaId,pointPercent,pointAddition,innerCode,memberKey,csOrderCode,itemCode,saleAmount" />
+					</bean>
+				</property>
+	</bean>
+	
+	<bean id="memberLineAggregator" class="org.springframework.batch.item.file.transform.DelimitedLineAggregator">
+				<property name="fieldExtractor">
+					<bean
+						class="org.springframework.batch.item.file.transform.BeanWrapperFieldExtractor">
+						<property name="names"
+							value="bizDate,extPointRuleId,extPointCriteriaId,pointAdditionCode,memberKey" />
+					</bean>
+				</property>
+	</bean>
+	
+	<!-- <bean id="ticketPartitionTaskExecutor"
+		class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+		<property name="corePoolSize" value="5" />
+		<property name="maxPoolSize" value="20" />
+		<property name="queueCapacity" value="10000" />
+	</bean>
+	<bean id="goodsPartitionTaskExecutor"
+		class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+		<property name="corePoolSize" value="5" />
+		<property name="maxPoolSize" value="20" />
+		<property name="queueCapacity" value="10000" />
+	</bean>
+	<bean id="memberPartitionTaskExecutor"
+		class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+		<property name="corePoolSize" value="5" />
+		<property name="maxPoolSize" value="20" />
+		<property name="queueCapacity" value="10000" /> 
+	</bean>-->
+
+</beans>

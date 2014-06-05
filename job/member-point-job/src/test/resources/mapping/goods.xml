@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<etl>
+		<source>
+			<db conn="db.stg">
+				<sql>
+					<![CDATA[
+with gs as(
+select SALE_UNIT,MEMBER_ID,MEMBER_NUM,ORDER_ID,Order_ID,CINEMA_ID,TOTAL_AMOUNT AS AMOUNT,'Y' AS REFUND_FLAG,TO_CHAR(CREATE_TIME,'YYYY-MM-DD HH24:MI:SS') AS CREATE_TIME ,TO_CHAR(CREATE_TIME,'yyyymmdd') DATE_KEY,BIZ_DATE as BIZ_DATE
+from (select g.SALE_UNIT,o.ORDER_ID,o.MEMBER_ID,o.MEMBER_NUM,o.Order_ID,o.BIZ_DATE, o.CREATE_TIME,o.Cinema_id,g.Oder_ID,g.GOODS_ID,g.seqid ,(g.Goods_Count*g.Unit_Price) as TOTAL_AMOUNT,g.Goods_Count,g.Unit_Price, row_number() 
+over(partition by g.ODER_ID ,g.GOODS_ID ,g.GOODS_COST order by g.UPDATE_TIME desc nulls last) RNUM from T_POS_DETAIL_GOODS_ORDER o, 
+T_POS_DETAIL_GOODS g where  (o.MEMBER_ID IS NOT NULL OR o.MEMBER_NUM IS NOT NULL) AND o.cinema_id='${cinema}' and o.Biz_Date= to_date('${bizdate}', 'yyyy-mm-dd') and o.Order_ID = g.Oder_ID ) where RNUM=1
+),
+gr as(
+select SALE_UNIT,MEMBER_ID,MEMBER_NUM,ORDER_ID,Order_ID,CINEMA_ID,Total_Amount AS AMOUNT,'N' AS REFUND_FLAG,TO_CHAR(CREATETIME,'YYYY-MM-DD HH24:MI:SS') AS CREATE_TIME ,TO_CHAR(CREATETIME,'yyyymmdd') DATE_KEY,BizDate as BIZ_DATE 
+from (select g.SALE_UNIT,o.ORDER_ID,o.MEMBER_ID,o.MEMBER_NUM,o.REFUND_ID as Order_ID,o.CINEMA_ID,o.CREATETIME,o.BizDate,(g.Goods_Count*g.Unit_Price) as TOTAL_AMOUNT,g.Goods_ID,g.Goods_Count,g.Unit_Price,  row_number() over(partition by g.ORDER_ID,g.GOODS_ID,g.GOODS_COST  order by UPDATE_TIME desc nulls last) RNUM 
+from T_POS_GOODS_REFUND g, T_POS_GOODS_REFUND_ORDER o where (o.MEMBER_ID IS NOT NULL OR o.MEMBER_NUM IS NOT NULL) AND o.cinema_id='${cinema}' and o.BIZDATE=to_date('${bizdate}', 'yyyy-mm-dd') and o.REFUND_ID=g.ORDER_ID) where RNUM=1
+),
+sg as(
+select ORDER_ID,max(p1)||','||max(p2)||','||max(p3)||','||max(p4)||','||max(p5) as goodsName from (
+SELECT ORDER_ID,
+max(decode(rn，1，SALE_UNIT，null)) p1,
+max(decode(rn，2，SALE_UNIT，null)) p2,
+max(decode(rn，3，SALE_UNIT，null)) p3,
+max(decode(rn，4，SALE_UNIT，null)) p4,
+max(decode(rn，5，SALE_UNIT，null)) p5
+from (select  SALE_UNIT,Order_ID, row_number() over (partition by Order_ID  order by Order_ID) rn from gs )group by Order_ID,SALE_UNIT) group by ORDER_ID),
+sr as(
+select ORDER_ID,max(p1)||','||max(p2)||','||max(p3)||','||max(p4)||','||max(p5) as goodsName from (
+SELECT ORDER_ID,
+max(decode(rn，1，SALE_UNIT，null)) p1,
+max(decode(rn，2，SALE_UNIT，null)) p2,
+max(decode(rn，3，SALE_UNIT，null)) p3,
+max(decode(rn，4，SALE_UNIT，null)) p4,
+max(decode(rn，5，SALE_UNIT，null)) p5
+from (select  SALE_UNIT,Order_ID, row_number() over (partition by Order_ID  order by Order_ID) rn from gr )group by Order_ID,SALE_UNIT) group by ORDER_ID)
+
+select sg.goodsName,ts.* from (select MEMBER_ID,MEMBER_NUM,ORDER_ID,Order_ID,CINEMA_ID, sum(AMOUNT) as AMOUNT,REFUND_FLAG,CREATE_TIME ,DATE_KEY,BIZ_DATE from gs  group by POS_ORDER_ID,MEMBER_ID,MEMBER_NUM,Order_ID,CINEMA_ID,REFUND_FLAG,CREATE_TIME,DATE_KEY,BIZ_DATE) ts ,sg where ts.Order_ID=sg.ORDER_ID
+union all
+select sr.goodsName,tr.* from (select MEMBER_ID,MEMBER_NUM,ORDER_ID,Order_ID,CINEMA_ID,(0-sum(AMOUNT)) as AMOUNT,REFUND_FLAG,CREATE_TIME ,DATE_KEY,BIZ_DATE from gr group by MEMBER_ID,MEMBER_NUM,POS_ORDER_ID,Order_ID,CINEMA_ID,REFUND_FLAG,CREATE_TIME,DATE_KEY,BIZ_DATE)tr,sr where tr.Order_ID=sr.ORDER_ID
+				]]>
+				</sql>
+			</db>
+		</source>
+		<destination>
+			<db conn="db.mbr">
+				<table>T_GOODS_TRANS_ORDER</table>
+			</db>
+		</destination>
+
+		<linefilter>
+			<filter name="isgoodsmember" />
+		</linefilter>
+
+		<mapping>
+			<field seq="S_T_GOODS_TRANS_ORDER" dest="GOODS_TRANS_ID" />
+			<field src="ORDER_ID" dest="TRANS_ORDER_ID" />
+			<field src="ORDER_ID" dest="ORDER_ID" />
+			<field src="AMOUNT" dest="TOTAL_AMOUNT" />
+			<field src="MEMBER_NUM" dest="MEMBER_NUM" />
+			<field dest="IS_POINT" ><fixed>2</fixed></field>
+			<field src="REFUND_FLAG" dest="TRANS_TYPE"></field>
+			<field src="CINEMA_ID" dest="CINEMA_INNER_CODE" />
+			<field src="MEMBER_ID" dest="MEMBER_ID" />
+			<field src="GOODSNAME" dest="GOOD_NAME">
+			<java>
+				<![CDATA[
+						if(null!=value&&"".equals(value)){
+							if("1".equals(value)){
+								return "M"
+							}else if("0".equals(value)){
+								return "F"
+							}else{
+								return "";
+							}
+						}else{
+							return "";
+						}
+				]]>
+				</java>
+			</field>
+			<field src="CREATE_TIME" dest="TRANS_TIME" type="timestamp"/>
+			<field src="BIZ_DATE" dest="BIZ_DATE" type="date"/>
+		</mapping>
+		
+</etl>

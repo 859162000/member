@@ -1,0 +1,1 @@
+package com.wanda.ccs.basemgt.dao;import com.wanda.ccs.model.THall;import com.xcesys.extras.core.dao.IBaseDao;/** * 影厅Dao *  * @author Chenxm * @date 2011-10-26 */public interface ITHallDao extends IBaseDao<THall> {}

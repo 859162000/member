@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:batch="http://www.springframework.org/schema/batch"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/batch http://www.springframework.org/schema/batch/spring-batch-2.2.xsd
+	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+	<batch:step id="ticket_load_partitioned_step">
+		<batch:partition step="ticket_trans_load_step"
+			partitioner="ticketPartitioner">
+			<batch:handler task-executor="ticketPartitionedTaskExecutor" />
+		</batch:partition>
+	</batch:step>
+	
+	<batch:step id="ticket_four_partitioned_step">
+		<batch:partition step="ticket_four_step"
+			partitioner="ticketPartitioner">
+			<batch:handler task-executor="ticketPartitionedTaskExecutor" />
+		</batch:partition>
+	</batch:step>
+
+	<batch:step id="ticket_calculate_partitioned_step">
+		<batch:partition step="ticket_calculate_step"
+			partitioner="ticketPartitioner">
+			<batch:handler task-executor="calculatePartitionedTaskExecutor" />
+		</batch:partition>
+	</batch:step>
+	
+
+	<bean id="ticketPartitioner" class="com.wanda.member.basic.partitioner.TicketPartitioner"
+		scope="step">
+		<property name="dwSqlSession" ref="dw53SqlSession" />
+		<property name="bizDate" value="#{jobParameters['biz_date']}" />
+	</bean>
+
+	<batch:step id="ticket_trans_load_step">
+		<batch:tasklet>
+			<batch:chunk reader="ticketTransJdbcReader" processor="ticketTransProcessor"
+				writer="ticketTransWriter" commit-interval="1000" />
+		</batch:tasklet>
+	</batch:step>
+	
+	<batch:step id="ticket_four_step">
+		<batch:tasklet>
+			<batch:chunk reader="ticketCalculateFileReader" writer="ticketFourWriter"
+			chunk-completion-policy="atomicCompletionPolicy"/>
+		</batch:tasklet>
+	</batch:step>
+	
+	<batch:step id="ticket_calculate_step">
+		<batch:tasklet>
+			<batch:chunk reader="ticketCalculateFileReader"
+				processor="ticketCalculateProcessor" writer="ticketCalculateWriter"
+				commit-interval="1000" />
+		</batch:tasklet>
+	</batch:step>
+
+	
+	<bean id="ticketTransProcessor" class="com.wanda.member.basic.processor.TransProcessor"
+		scope="step">
+		<property name="bizDate" value="#{jobParameters['biz_date']}" />
+		<property name="innerCode" value="#{stepExecutionContext['innerCode']}" />
+		<property name="transType" value="ticket" />
+	</bean>
+	
+	<bean id="ticketCalculateProcessor" class="com.wanda.member.basic.processor.TicketCalculateProcessor"
+		scope="step">
+		<property name="bizDate" value="#{jobParameters['biz_date']}" />
+		<property name="innerCode" value="#{stepExecutionContext['innerCode']}" />
+		<property name="transType" value="ticket" />
+		<property name="fourTicketReader">
+			<bean class="org.springframework.batch.item.file.FlatFileItemReader">
+				<property name="resource"
+					value="file:#{jobParameters['output.folder']}/#{jobParameters['biz_date']}/ticket/ticket_#{jobParameters['biz_date']}_#{stepExecutionContext['innerCode']}_four.cvs" />
+				<property name="lineMapper" ref="transFileLineMapper" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="ticketTransJdbcReader"
+		class="org.springframework.batch.item.database.JdbcCursorItemReader"
+		scope="step">
+		<property name="dataSource" ref="dw53_dataSource" />
+		<property name="rowMapper">
+			<bean class="com.wanda.member.basic.model.BasicPointTransRowMapper" />
+		</property>
+		<property name="sql">
+			<value>
+				select transSales_cinema.INNER_CODE,
+				member.MEMBER_KEY,
+				sum(transSales.Bk_Admissions - transSales.Re_Admissions) as AMOUNT,
+				nvl(transSales.BK_CT_ORDER_CODE,transSales.RE_CT_ORDER_CODE) as
+				ORDER_CODE,
+				nvl(transSales.BK_TICKET_NUMBER,transSales.re_TICKET_NUMBER) as
+				ITEM_CODE,
+				TO_CHAR(transSales.SHOW_BIZ_DATE_KEY, 'yyyy-mm-dd') as BIZ_DATE
+				from
+				CCS_NRPT2.T_F_CON_MEMBER_TICKET transSales,
+				CCS_NRPT2.T_D_CON_CINEMA transSales_cinema,
+				CCS_NRPT2.T_D_CON_MEMBER member
+				where
+				transSales_cinema.CINEMA_KEY = transSales.CINEMA_KEY and
+				member.MEMBER_KEY=transSales.MEMBER_KEY and
+				member.STATUS='1' and member.ISDELETE = 0 and
+				transSales_cinema.INNER_CODE = ?
+				and transSales.SHOW_BIZ_DATE_KEY = to_date(?, 'yyyy-mm-dd')
+				and transSales.PAY_METHOD_KEY != 232
+				group by transSales_cinema.INNER_CODE,NVL (transSales.BK_TICKET_NUMBER,
+				transSales.re_TICKET_NUMBER),
+				NVL (transSales.BK_CT_ORDER_CODE,
+				transSales.RE_CT_ORDER_CODE),MEMBER.MEMBER_KEY,
+				transSales.SHOW_BIZ_DATE_KEY
+			</value>
+		</property>
+		<property name="preparedStatementSetter">
+			<bean
+				class="org.springframework.batch.core.resource.ListPreparedStatementSetter">
+				<property name="parameters">
+					<list>
+						<value>#{stepExecutionContext['innerCode']}</value>
+						<value>#{jobParameters['biz_date']}</value>
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="ticketTransWriter" class="org.springframework.batch.item.file.FlatFileItemWriter"
+		scope="step">
+		<property name="resource"
+			value="file:#{jobParameters['output.folder']}/#{jobParameters['biz_date']}/ticket/ticket_#{jobParameters['biz_date']}_#{stepExecutionContext['innerCode']}_trans.cvs" />
+		<property name="lineAggregator" ref="transLineAggregator" />
+		<property name="shouldDeleteIfExists" value="false" />
+		<property name="encoding" value="UTF-8" />
+	</bean>
+
+	<bean id="ticketCalculateFileReader" class="org.springframework.batch.item.file.FlatFileItemReader"
+		scope="step">
+		<property name="resource"
+			value="file:#{jobParameters['output.folder']}/#{jobParameters['biz_date']}/ticket/ticket_#{jobParameters['biz_date']}_#{stepExecutionContext['innerCode']}_trans.cvs" />
+		<property name="lineMapper" ref="transFileLineMapper" />
+		<property name="encoding" value="UTF-8" />
+	</bean>
+	
+	<bean id="ticketCalculateAllFilesReader"
+		class="org.springframework.batch.item.file.MultiResourceItemReader"
+		scope="step">
+		<property name="resources"
+			value="file:#{jobParameters['output.folder']}/#{jobParameters['biz_date']}/ticket/ticket_#{jobParameters['biz_date']}_*_trans.cvs" />
+		<property name="delegate">
+			<bean class="org.springframework.batch.item.file.FlatFileItemReader">
+				<property name="lineMapper" ref="transFileLineMapper"/>
+				<property name="encoding" value="UTF-8" />
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="ticketCalculateWriter"
+		class="org.springframework.batch.item.support.CompositeItemWriter"
+		scope="step">
+		<property name="delegates">
+			<list>
+				<ref bean="tMemberPointTableWriter" />
+				<ref bean="tPointHistoryTableWriter" />
+				<ref bean="ticketProcessLogWriter" />
+				<ref bean="pointChangeWriter" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="ticketProcessLogWriter" class="org.springframework.batch.item.file.FlatFileItemWriter" scope="step">
+		<property name="lineAggregator" ref="successLogLineAggregator" />
+		<property name="encoding" value="UTF-8" />
+		<property name="resource"
+			value="file:#{jobParameters['output.folder']}/#{jobParameters['biz_date']}/ticket/ticket_#{jobParameters['biz_date']}_#{stepExecutionContext['innerCode']}_success.cvs" />
+	</bean>
+	
+	<bean id="ticketFourWriter" class="com.wanda.member.basic.writer.FourTicketWriter" scope="step">
+		<property name="writer">
+			<bean class="org.springframework.batch.item.file.FlatFileItemWriter"
+				scope="step">
+				<property name="encoding" value="UTF-8" />
+				<property name="resource"
+					value="file:#{jobParameters['output.folder']}/#{jobParameters['biz_date']}/ticket/ticket_#{jobParameters['biz_date']}_#{stepExecutionContext['innerCode']}_four.cvs" />
+				<property name="lineAggregator" ref="transLineAggregator" />
+				<property name="shouldDeleteIfExists" value="true" />
+			</bean>
+		</property>
+		<property name="innerCode" value="#{stepExecutionContext['innerCode']}" />
+	</bean>
+
+</beans>

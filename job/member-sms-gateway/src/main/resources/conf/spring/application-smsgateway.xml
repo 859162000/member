@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+			http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+			http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+			http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.5.xsd
+			http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+	
+	<bean id="moEngineExecutor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+		<property name="corePoolSize" value="50" />
+		<property name="maxPoolSize" value="1000" />
+		<property name="queueCapacity" value="10000" />
+	</bean>
+	
+	<bean id="moEngine" class="com.wanda.ccs.smsgateway.engine.MoEngine" scope="prototype">
+		<property name="configurationUtil" ref="configurationUtil" />
+		<property name="executor" ref="moEngineExecutor" />
+	</bean>
+	
+	<bean id="gateWayManager"
+		class="com.wanda.ccs.smsgateway.console.GateWayManager">
+		<property name="moEngine" ref="moEngine" />
+	</bean>
+	
+	<bean id="abstractSendMsgTask" class="com.wanda.ccs.smsgateway.engine.AbstractSendMsgTask" abstract="true"  scope="prototype">
+		<property name="configurationUtil" ref="configurationUtil" />
+	</bean>
+	
+	<bean id="sendCheckCodeTask" class="com.wanda.ccs.smsgateway.engine.impl.SendCheckCodeTask" parent="abstractSendMsgTask" scope="prototype">
+	</bean>
+	<bean id="sendErrorMsgTask" class="com.wanda.ccs.smsgateway.engine.impl.SendErrorMsgTask" parent="abstractSendMsgTask" scope="prototype">
+	</bean>
+	
+	<bean id="engineLogDAO" class="org.mybatis.spring.mapper.MapperFactoryBean" scope="prototype">
+        <property name="mapperInterface" value="com.wanda.ccs.smsgateway.engine.dao.EngineLogDAO"></property>
+        <property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+    </bean>
+    <bean id="transCheckCodeDAO" class="org.mybatis.spring.mapper.MapperFactoryBean" scope="prototype">
+        <property name="mapperInterface" value="com.wanda.ccs.smsgateway.engine.dao.TransCheckCodeDAO"></property>
+        <property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+    </bean>
+    <bean id="sendLogDAO" class="org.mybatis.spring.mapper.MapperFactoryBean" scope="prototype">
+        <property name="mapperInterface" value="com.wanda.ccs.smsgateway.engine.dao.SendLogDAO"></property>
+        <property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+    </bean>
+    <bean id="cinemaDAO" class="org.mybatis.spring.mapper.MapperFactoryBean" scope="prototype">
+        <property name="mapperInterface" value="com.wanda.ccs.smsgateway.engine.dao.CinemaDAO" ></property>
+        <property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+    </bean>
+</beans>

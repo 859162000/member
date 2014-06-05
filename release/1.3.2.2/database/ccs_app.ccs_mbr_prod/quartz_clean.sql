@@ -1,0 +1,13 @@
+drop table qrtz_bnd_blob_triggers cascade constraints;
+drop table qrtz_bnd_calendars cascade constraints;
+drop table qrtz_bnd_cron_triggers cascade constraints;
+drop table qrtz_bnd_fired_triggers cascade constraints;
+drop table qrtz_bnd_jdp_trigger_his cascade constraints;
+drop table qrtz_bnd_job_details cascade constraints;
+drop table qrtz_bnd_job_listeners cascade constraints;
+drop table qrtz_bnd_locks cascade constraints;
+drop table qrtz_bnd_paused_trigger_grps cascade constraints;
+drop table qrtz_bnd_scheduler_state cascade constraints;
+drop table qrtz_bnd_simple_triggers cascade constraints;
+drop table qrtz_bnd_triggers cascade constraints;
+drop table qrtz_bnd_trigger_listeners cascade constraints;

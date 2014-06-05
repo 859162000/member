@@ -1,0 +1,1 @@
+package com.wanda.ccs.basemgt.dao;import com.wanda.ccs.model.THolidays;import com.xcesys.extras.core.dao.IBaseDao;/** * 假期DAO *  * @author Chen * @date 2011-10-21 */public interface ITHolidayDao extends IBaseDao<THolidays> {}

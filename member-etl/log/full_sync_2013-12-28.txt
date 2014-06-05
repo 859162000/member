@@ -1,0 +1,1067 @@
+DEBUG: Using JAVA_HOME
+DEBUG: _PENTAHO_JAVA_HOME=C:\jdk1.6.0_35\jdk1.6.0_35\jre
+DEBUG: _PENTAHO_JAVA=C:\jdk1.6.0_35\jdk1.6.0_35\jre\bin\java.exe
+INFO  28-12 06:05:01,991 - Kitchen - Logging is at level : 详细日志
+INFO  28-12 06:05:01,994 - Kitchen - Start of run.
+INFO  28-12 06:05:02,208 - mbr_dw_full_sync - 开始执行任务
+INFO  28-12 06:05:02,210 - mbr_dw_full_sync - exec(0, 0, START.0)
+INFO  28-12 06:05:02,213 - START - Starting job entry
+INFO  28-12 06:05:02,214 - mbr_dw_full_sync - 开始项[T_FILM]
+INFO  28-12 06:05:02,214 - mbr_dw_full_sync - exec(1, 0, T_FILM.0)
+INFO  28-12 06:05:02,215 - T_FILM - Starting job entry
+INFO  28-12 06:05:02,217 - T_FILM - Opening transformation: [C:\BaseETL\CCS_MBR_DW_ETL\full_sync\transaction\T_FILM.ktr]
+INFO  28-12 06:05:02,218 - T_FILM - Loading transformation from XML file [C:\BaseETL\CCS_MBR_DW_ETL\full_sync\transaction\T_FILM.ktr]
+INFO  28-12 06:05:02,563 - T_FILM - Starting transformation...(file=C:\BaseETL\CCS_MBR_DW_ETL\full_sync\transaction\T_FILM.ktr, name=T_FILM, repinfo=null)
+INFO  28-12 06:05:02,580 - T_FILM - 转换已经从资源库预先载入.
+INFO  28-12 06:05:02,581 - T_FILM - 为了转换解除补丁开始  [T_FILM]
+INFO  28-12 06:05:02,581 - T_FILM - 已经找到的参数数量:0 
+INFO  28-12 06:05:02,581 - T_FILM - 这没有一个重放的转换
+INFO  28-12 06:05:02,581 - T_FILM - 我找到 2 个不同的要执行的步骤.
+INFO  28-12 06:05:02,582 - T_FILM - 分派记录集...
+INFO  28-12 06:05:02,582 - T_FILM -  正在分配行组为步骤 0 --> 获得增量数据
+INFO  28-12 06:05:02,582 - T_FILM -   前一个副本 = 1, 下一个副本=1
+INFO  28-12 06:05:02,594 - T_FILM - 转换分配了新的行组 [获得增量数据.0 - 写入增量数据.0]
+INFO  28-12 06:05:02,594 - T_FILM -  已分配 1 行组为步骤 0 --> 获得增量数据  
+INFO  28-12 06:05:02,594 - T_FILM -  正在分配行组为步骤 1 --> 写入增量数据
+INFO  28-12 06:05:02,594 - T_FILM -  已分配 1 行组为步骤 1 --> 写入增量数据  
+INFO  28-12 06:05:02,594 - T_FILM - 正在分配步骤和步骤数据...
+INFO  28-12 06:05:02,595 - T_FILM -  转换大约分配了 步骤 [获得增量数据] 类型的 [TableInput]
+INFO  28-12 06:05:02,608 - 获得增量数据 - 分散被激活
+INFO  28-12 06:05:02,609 - 获得增量数据 - Starting allocation of buffers & new threads...
+INFO  28-12 06:05:02,609 - 获得增量数据 - 步骤信息: 输入数量=0 输出数量=1
+INFO  28-12 06:05:02,609 - 获得增量数据 - output rel. is  1:1
+INFO  28-12 06:05:02,609 - 获得增量数据 - 发现输出 rowset [获得增量数据.0 - 写入增量数据.0]
+INFO  28-12 06:05:02,609 - 获得增量数据 - 完成分发
+INFO  28-12 06:05:02,610 - T_FILM -  转换已经分配了一个新的步骤: [获得增量数据].0
+INFO  28-12 06:05:02,610 - T_FILM -  转换大约分配了 步骤 [写入增量数据] 类型的 [TableOutput]
+INFO  28-12 06:05:02,615 - 写入增量数据 - 分散被激活
+INFO  28-12 06:05:02,615 - 写入增量数据 - Starting allocation of buffers & new threads...
+INFO  28-12 06:05:02,615 - 写入增量数据 - 步骤信息: 输入数量=1 输出数量=0
+INFO  28-12 06:05:02,615 - 写入增量数据 - 获取来自前一步骤 [写入增量数据] #0 --> 获得增量数据
+INFO  28-12 06:05:02,615 - 写入增量数据 - input rel is 1:1
+INFO  28-12 06:05:02,615 - 写入增量数据 - 发现输入记录集合 [获得增量数据.0 - 写入增量数据.0]
+INFO  28-12 06:05:02,616 - 写入增量数据 - 完成分发
+INFO  28-12 06:05:02,616 - T_FILM -  转换已经分配了一个新的步骤: [写入增量数据].0
+INFO  28-12 06:05:02,616 - T_FILM - 这项转换可以被回放 回放日期是: 2013/12/28 06:05:02
+INFO  28-12 06:05:02,617 - T_FILM - 正在初始化 2 步骤...
+INFO  28-12 06:05:02,618 - 获得增量数据 - Running on slave server #0/1.
+INFO  28-12 06:05:02,619 - 写入增量数据 - Running on slave server #0/1.
+INFO  28-12 06:05:02,632 - 13_read - New database connection defined
+INFO  28-12 06:05:02,632 - 53_DW_PLDW - New database connection defined
+INFO  28-12 06:05:03,152 - 13_read - Connected to database.
+INFO  28-12 06:05:03,157 - 13_read - Auto commit off
+INFO  28-12 06:05:03,157 - 获得增量数据 - Connected to database...
+INFO  28-12 06:05:03,458 - 53_DW_PLDW - Connected to database.
+INFO  28-12 06:05:03,458 - 写入增量数据 - Connected to database [53_DW_PLDW] (commit=1000)
+INFO  28-12 06:05:03,458 - 53_DW_PLDW - Auto commit off
+INFO  28-12 06:05:03,661 - T_FILM - 步骤 [获得增量数据.0] 初始化不完全，有缺陷.
+INFO  28-12 06:05:03,661 - T_FILM - 步骤 [写入增量数据.0] 初始化不完全，有缺陷.
+INFO  28-12 06:05:03,666 - T_FILM - 转换已经分配了 2 线程 和 1 列组.
+INFO  28-12 06:05:03,666 - 获得增量数据 - 开始运行...
+INFO  28-12 06:05:03,667 - 写入增量数据 - 开始运行...
+INFO  28-12 06:05:03,667 - 获得增量数据 - SQL query : SELECT
+  SEQID
+, PUBLISHER_ID
+, FILM_TYPE
+, FILM_CODE
+, FILM_NAME
+, RUNNING_TIME
+, ENGLISH_NAME
+, PAI_CI_HAO
+, FILM_LEVEL
+, COUNTRY
+, SUBTITLE1
+, SUBTITLE2
+, FILM_SET
+, AUDIO_TYPE
+, YEAR_MONTH
+, PREMIERE_DATE
+, END_DATE
+, ACCOUNT_RATIO
+, TAX_RATIO
+, PUBLISHER_ID2
+, DISPLAY_NAME
+, PIN_CODE
+, SERIES_NAME
+, SHOW_SET
+, ACCOUNT_TYPE
+, FILM_ACCOUNT_TYPE
+, PRICE_BASE_ID
+, FILM_CATE
+, LANGUAGE
+, COPY_COUNT
+, DIGIT_COPY_COUNT
+, FILM_COMPANY
+, PRODUCER
+, DIRECTOR
+, MAIN_ACTORS
+, STORY_BRIEF
+, CREATE_DATE
+, CREATE_BY
+, UPDATE_DATE
+, UPDATE_BY
+, DELETED
+, DELETE_DATE
+, DELETE_BY
+, VERSION
+, RELEASE_TYPE
+, IS_DIGITAL
+, IS_3D
+, IS_FILM
+, IS_IMAX
+, IS_REALD
+, UNIQUE_FILM_ID
+, MODIFIED
+FROM CCS_REPORT.T_FILM
+
+INFO  28-12 06:05:03,706 - 写入增量数据 - Prepared statement : INSERT INTO CCS_MBR_DW.T_FILM (SEQID, PUBLISHER_ID, FILM_TYPE, FILM_CODE, FILM_NAME, RUNNING_TIME, ENGLISH_NAME, PAI_CI_HAO, FILM_LEVEL, COUNTRY, SUBTITLE1, SUBTITLE2, FILM_SET, AUDIO_TYPE, YEAR_MONTH, PREMIERE_DATE, END_DATE, ACCOUNT_RATIO, TAX_RATIO, PUBLISHER_ID2, DISPLAY_NAME, PIN_CODE, SERIES_NAME, SHOW_SET, ACCOUNT_TYPE, FILM_ACCOUNT_TYPE, PRICE_BASE_ID, FILM_CATE, LANGUAGE, COPY_COUNT, DIGIT_COPY_COUNT, FILM_COMPANY, PRODUCER, DIRECTOR, MAIN_ACTORS, STORY_BRIEF, CREATE_DATE, CREATE_BY, UPDATE_DATE, UPDATE_BY, DELETED, DELETE_DATE, DELETE_BY, VERSION, RELEASE_TYPE, IS_DIGITAL, IS_3D, IS_FILM, IS_IMAX, IS_REALD, UNIQUE_FILM_ID, MODIFIED) VALUES ( ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?)
+INFO  28-12 06:05:05,591 - 获得增量数据 - Finished reading query, closing connection.
+INFO  28-12 06:05:05,593 - 13_read - Connection to database closed!
+INFO  28-12 06:05:05,593 - 获得增量数据 - 完成处理 (I=12278, O=0, R=0, W=12278, U=0, E=0
+INFO  28-12 06:05:05,621 - 53_DW_PLDW - Connection to database closed!
+INFO  28-12 06:05:05,622 - 写入增量数据 - 完成处理 (I=0, O=12278, R=12278, W=12278, U=0, E=0
+INFO  28-12 06:05:05,627 - mbr_dw_full_sync - 开始项[T_FT_TYPE]
+INFO  28-12 06:05:05,627 - mbr_dw_full_sync - exec(2, 0, T_FT_TYPE.0)
+INFO  28-12 06:05:05,628 - T_FT_TYPE - Starting job entry
+INFO  28-12 06:05:05,628 - T_FT_TYPE - Opening transformation: [C:\BaseETL\CCS_MBR_DW_ETL\full_sync\transaction\T_FT_TYPE.ktr]
+INFO  28-12 06:05:05,629 - T_FT_TYPE - Loading transformation from XML file [C:\BaseETL\CCS_MBR_DW_ETL\full_sync\transaction\T_FT_TYPE.ktr]
+INFO  28-12 06:05:05,663 - T_FT_TYPE - Starting transformation...(file=C:\BaseETL\CCS_MBR_DW_ETL\full_sync\transaction\T_FT_TYPE.ktr, name=T_FT_TYPE, repinfo=null)
+INFO  28-12 06:05:05,663 - T_FT_TYPE - 转换已经从资源库预先载入.
+INFO  28-12 06:05:05,664 - T_FT_TYPE - 为了转换解除补丁开始  [T_FT_TYPE]
+INFO  28-12 06:05:05,664 - T_FT_TYPE - 已经找到的参数数量:0 
+INFO  28-12 06:05:05,664 - T_FT_TYPE - 这没有一个重放的转换
+INFO  28-12 06:05:05,664 - T_FT_TYPE - 我找到 2 个不同的要执行的步骤.
+INFO  28-12 06:05:05,664 - T_FT_TYPE - 分派记录集...
+INFO  28-12 06:05:05,664 - T_FT_TYPE -  正在分配行组为步骤 0 --> 获得增量数据
+INFO  28-12 06:05:05,665 - T_FT_TYPE -   前一个副本 = 1, 下一个副本=1
+INFO  28-12 06:05:05,665 - T_FT_TYPE - 转换分配了新的行组 [获得增量数据.0 - 写入增量数据.0]
+INFO  28-12 06:05:05,665 - T_FT_TYPE -  已分配 1 行组为步骤 0 --> 获得增量数据  
+INFO  28-12 06:05:05,665 - T_FT_TYPE -  正在分配行组为步骤 1 --> 写入增量数据
+INFO  28-12 06:05:05,665 - T_FT_TYPE -  已分配 1 行组为步骤 1 --> 写入增量数据  
+INFO  28-12 06:05:05,665 - T_FT_TYPE - 正在分配步骤和步骤数据...
+INFO  28-12 06:05:05,665 - T_FT_TYPE -  转换大约分配了 步骤 [获得增量数据] 类型的 [TableInput]
+INFO  28-12 06:05:05,666 - 获得增量数据 - 分散被激活
+INFO  28-12 06:05:05,666 - 获得增量数据 - Starting allocation of buffers & new threads...
+INFO  28-12 06:05:05,666 - 获得增量数据 - 步骤信息: 输入数量=0 输出数量=1
+INFO  28-12 06:05:05,666 - 获得增量数据 - output rel. is  1:1
+INFO  28-12 06:05:05,666 - 获得增量数据 - 发现输出 rowset [获得增量数据.0 - 写入增量数据.0]
+INFO  28-12 06:05:05,666 - 获得增量数据 - 完成分发
+INFO  28-12 06:05:05,667 - T_FT_TYPE -  转换已经分配了一个新的步骤: [获得增量数据].0
+INFO  28-12 06:05:05,667 - T_FT_TYPE -  转换大约分配了 步骤 [写入增量数据] 类型的 [TableOutput]
+INFO  28-12 06:05:05,667 - 写入增量数据 - 分散被激活
+INFO  28-12 06:05:05,667 - 写入增量数据 - Starting allocation of buffers & new threads...
+INFO  28-12 06:05:05,667 - 写入增量数据 - 步骤信息: 输入数量=1 输出数量=0
+INFO  28-12 06:05:05,667 - 写入增量数据 - 获取来自前一步骤 [写入增量数据] #0 --> 获得增量数据
+INFO  28-12 06:05:05,668 - 写入增量数据 - input rel is 1:1
+INFO  28-12 06:05:05,668 - 写入增量数据 - 发现输入记录集合 [获得增量数据.0 - 写入增量数据.0]
+INFO  28-12 06:05:05,668 - 写入增量数据 - 完成分发
+INFO  28-12 06:05:05,668 - T_FT_TYPE -  转换已经分配了一个新的步骤: [写入增量数据].0
+INFO  28-12 06:05:05,669 - T_FT_TYPE - 这项转换可以被回放 回放日期是: 2013/12/28 06:05:05
+INFO  28-12 06:05:05,669 - T_FT_TYPE - 正在初始化 2 步骤...
+INFO  28-12 06:05:05,670 - 获得增量数据 - Running on slave server #0/1.
+INFO  28-12 06:05:05,670 - 写入增量数据 - Running on slave server #0/1.
+INFO  28-12 06:05:05,671 - 13_read - New database connection defined
+INFO  28-12 06:05:05,671 - 53_DW_PLDW - New database connection defined
+INFO  28-12 06:05:05,706 - 13_read - Connected to database.
+INFO  28-12 06:05:05,706 - 13_read - Auto commit off
+INFO  28-12 06:05:05,707 - 获得增量数据 - Connected to database...
+INFO  28-12 06:05:05,709 - 53_DW_PLDW - Connected to database.
+INFO  28-12 06:05:05,709 - 写入增量数据 - Connected to database [53_DW_PLDW] (commit=1000)
+INFO  28-12 06:05:05,709 - 53_DW_PLDW - Auto commit off
+INFO  28-12 06:05:05,768 - T_FT_TYPE - 步骤 [获得增量数据.0] 初始化不完全，有缺陷.
+INFO  28-12 06:05:05,768 - T_FT_TYPE - 步骤 [写入增量数据.0] 初始化不完全，有缺陷.
+INFO  28-12 06:05:05,769 - T_FT_TYPE - 转换已经分配了 2 线程 和 1 列组.
+INFO  28-12 06:05:05,774 - 获得增量数据 - 开始运行...
+INFO  28-12 06:05:05,774 - 获得增量数据 - SQL query : SELECT
+  FILM_ID
+, TYPE
+, IDX
+FROM CCS_MBR_DW.T_FT_TYPE
+
+INFO  28-12 06:05:05,774 - 写入增量数据 - 开始运行...
+INFO  28-12 06:05:05,800 - 写入增量数据 - Prepared statement : INSERT INTO CCS_MBR_DW.T_FT_TYPE (FILM_ID, TYPE, IDX) VALUES ( ?,  ?,  ?)
+INFO  28-12 06:05:05,827 - 获得增量数据 - Finished reading query, closing connection.
+INFO  28-12 06:05:05,829 - 13_read - Connection to database closed!
+INFO  28-12 06:05:05,829 - 获得增量数据 - 完成处理 (I=610, O=0, R=0, W=610, U=0, E=0
+INFO  28-12 06:05:05,840 - 53_DW_PLDW - Connection to database closed!
+INFO  28-12 06:05:05,841 - 写入增量数据 - 完成处理 (I=0, O=610, R=610, W=610, U=0, E=0
+INFO  28-12 06:05:05,845 - mbr_dw_full_sync - 开始项[T_ACT_TARGET]
+INFO  28-12 06:05:05,845 - mbr_dw_full_sync - exec(3, 0, T_ACT_TARGET.0)
+INFO  28-12 06:05:05,846 - T_ACT_TARGET - Starting job entry
+INFO  28-12 06:05:05,846 - T_ACT_TARGET - Opening transformation: [C:\BaseETL\CCS_MBR_DW_ETL\full_sync\transaction\T_ACT_TARGET.ktr]
+INFO  28-12 06:05:05,847 - T_ACT_TARGET - Loading transformation from XML file [C:\BaseETL\CCS_MBR_DW_ETL\full_sync\transaction\T_ACT_TARGET.ktr]
+INFO  28-12 06:05:05,924 - T_ACT_TARGET - Starting transformation...(file=C:\BaseETL\CCS_MBR_DW_ETL\full_sync\transaction\T_ACT_TARGET.ktr, name=T_ACT_TARGET, repinfo=null)
+INFO  28-12 06:05:05,925 - T_ACT_TARGET - 转换已经从资源库预先载入.
+INFO  28-12 06:05:05,925 - T_ACT_TARGET - 为了转换解除补丁开始  [T_ACT_TARGET]
+INFO  28-12 06:05:05,925 - T_ACT_TARGET - 已经找到的参数数量:0 
+INFO  28-12 06:05:05,925 - T_ACT_TARGET - 这没有一个重放的转换
+INFO  28-12 06:05:05,926 - T_ACT_TARGET - 我找到 2 个不同的要执行的步骤.
+INFO  28-12 06:05:05,926 - T_ACT_TARGET - 分派记录集...
+INFO  28-12 06:05:05,926 - T_ACT_TARGET -  正在分配行组为步骤 0 --> 获得增量数据
+INFO  28-12 06:05:05,926 - T_ACT_TARGET -   前一个副本 = 1, 下一个副本=1
+INFO  28-12 06:05:05,926 - T_ACT_TARGET - 转换分配了新的行组 [获得增量数据.0 - 写入增量数据.0]
+INFO  28-12 06:05:05,926 - T_ACT_TARGET -  已分配 1 行组为步骤 0 --> 获得增量数据  
+INFO  28-12 06:05:05,926 - T_ACT_TARGET -  正在分配行组为步骤 1 --> 写入增量数据
+INFO  28-12 06:05:05,926 - T_ACT_TARGET -  已分配 1 行组为步骤 1 --> 写入增量数据  
+INFO  28-12 06:05:05,926 - T_ACT_TARGET - 正在分配步骤和步骤数据...
+INFO  28-12 06:05:05,927 - T_ACT_TARGET -  转换大约分配了 步骤 [获得增量数据] 类型的 [TableInput]
+INFO  28-12 06:05:05,927 - 获得增量数据 - 分散被激活
+INFO  28-12 06:05:05,927 - 获得增量数据 - Starting allocation of buffers & new threads...
+INFO  28-12 06:05:05,927 - 获得增量数据 - 步骤信息: 输入数量=0 输出数量=1
+INFO  28-12 06:05:05,927 - 获得增量数据 - output rel. is  1:1
+INFO  28-12 06:05:05,927 - 获得增量数据 - 发现输出 rowset [获得增量数据.0 - 写入增量数据.0]
+INFO  28-12 06:05:05,927 - 获得增量数据 - 完成分发
+INFO  28-12 06:05:05,928 - T_ACT_TARGET -  转换已经分配了一个新的步骤: [获得增量数据].0
+INFO  28-12 06:05:05,928 - T_ACT_TARGET -  转换大约分配了 步骤 [写入增量数据] 类型的 [TableOutput]
+INFO  28-12 06:05:05,928 - 写入增量数据 - 分散被激活
+INFO  28-12 06:05:05,928 - 写入增量数据 - Starting allocation of buffers & new threads...
+INFO  28-12 06:05:05,928 - 写入增量数据 - 步骤信息: 输入数量=1 输出数量=0
+INFO  28-12 06:05:05,928 - 写入增量数据 - 获取来自前一步骤 [写入增量数据] #0 --> 获得增量数据
+INFO  28-12 06:05:05,929 - 写入增量数据 - input rel is 1:1
+INFO  28-12 06:05:05,929 - 写入增量数据 - 发现输入记录集合 [获得增量数据.0 - 写入增量数据.0]
+INFO  28-12 06:05:05,929 - 写入增量数据 - 完成分发
+INFO  28-12 06:05:05,929 - T_ACT_TARGET -  转换已经分配了一个新的步骤: [写入增量数据].0
+INFO  28-12 06:05:05,929 - T_ACT_TARGET - 这项转换可以被回放 回放日期是: 2013/12/28 06:05:05
+INFO  28-12 06:05:05,929 - T_ACT_TARGET - 正在初始化 2 步骤...
+INFO  28-12 06:05:05,930 - 获得增量数据 - Running on slave server #0/1.
+INFO  28-12 06:05:05,930 - 写入增量数据 - Running on slave server #0/1.
+INFO  28-12 06:05:05,931 - CCS_MBMBER - New database connection defined
+INFO  28-12 06:05:05,931 - 53_DW_PLDW - New database connection defined
+INFO  28-12 06:05:05,968 - 53_DW_PLDW - Connected to database.
+INFO  28-12 06:05:05,968 - 写入增量数据 - Connected to database [53_DW_PLDW] (commit=1000)
+INFO  28-12 06:05:05,969 - 53_DW_PLDW - Auto commit off
+INFO  28-12 06:05:05,991 - CCS_MBMBER - Connected to database.
+INFO  28-12 06:05:05,991 - CCS_MBMBER - Auto commit off
+INFO  28-12 06:05:05,991 - 获得增量数据 - Connected to database...
+INFO  28-12 06:05:06,167 - T_ACT_TARGET - 步骤 [获得增量数据.0] 初始化不完全，有缺陷.
+INFO  28-12 06:05:06,167 - T_ACT_TARGET - 步骤 [写入增量数据.0] 初始化不完全，有缺陷.
+INFO  28-12 06:05:06,168 - T_ACT_TARGET - 转换已经分配了 2 线程 和 1 列组.
+INFO  28-12 06:05:06,168 - 获得增量数据 - 开始运行...
+INFO  28-12 06:05:06,169 - 获得增量数据 - SQL query : SELECT
+  ACT_TARGET_ID
+, TARGET_TYPE
+, SEGMENT_ID
+, TOTAL_COUNT
+, MAX_COUNT
+, CONTROL_COUNT
+, CREATE_BY
+, CREATE_DATE
+, UPDATE_BY
+, UPDATE_DATE
+, VERSION
+, STATUS
+FROM CCS_MBR_PROD.T_ACT_TARGET
+
+INFO  28-12 06:05:06,169 - 写入增量数据 - 开始运行...
+INFO  28-12 06:05:06,173 - 写入增量数据 - Prepared statement : INSERT INTO CCS_MBR_DW.T_ACT_TARGET (ACT_TARGET_ID, TARGET_TYPE, SEGMENT_ID, TOTAL_COUNT, MAX_COUNT, CONTROL_COUNT, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, VERSION, STATUS) VALUES ( ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?)
+INFO  28-12 06:05:06,185 - 获得增量数据 - Finished reading query, closing connection.
+INFO  28-12 06:05:06,187 - CCS_MBMBER - Connection to database closed!
+INFO  28-12 06:05:06,187 - 获得增量数据 - 完成处理 (I=163, O=0, R=0, W=163, U=0, E=0
+INFO  28-12 06:05:06,219 - 53_DW_PLDW - Connection to database closed!
+INFO  28-12 06:05:06,219 - 写入增量数据 - 完成处理 (I=0, O=163, R=163, W=163, U=0, E=0
+INFO  28-12 06:05:06,224 - mbr_dw_full_sync - 开始项[T_CAMPAIGN]
+INFO  28-12 06:05:06,224 - mbr_dw_full_sync - exec(4, 0, T_CAMPAIGN.0)
+INFO  28-12 06:05:06,225 - T_CAMPAIGN - Starting job entry
+INFO  28-12 06:05:06,225 - T_CAMPAIGN - Opening transformation: [C:\BaseETL\CCS_MBR_DW_ETL\full_sync\transaction\T_CAMPAIGN.ktr]
+INFO  28-12 06:05:06,225 - T_CAMPAIGN - Loading transformation from XML file [C:\BaseETL\CCS_MBR_DW_ETL\full_sync\transaction\T_CAMPAIGN.ktr]
+INFO  28-12 06:05:06,275 - T_CAMPAIGN - Starting transformation...(file=C:\BaseETL\CCS_MBR_DW_ETL\full_sync\transaction\T_CAMPAIGN.ktr, name=T_CAMPAIGN, repinfo=null)
+INFO  28-12 06:05:06,275 - T_CAMPAIGN - 转换已经从资源库预先载入.
+INFO  28-12 06:05:06,279 - T_CAMPAIGN - 为了转换解除补丁开始  [T_CAMPAIGN]
+INFO  28-12 06:05:06,280 - T_CAMPAIGN - 已经找到的参数数量:0 
+INFO  28-12 06:05:06,280 - T_CAMPAIGN - 这没有一个重放的转换
+INFO  28-12 06:05:06,281 - T_CAMPAIGN - 我找到 2 个不同的要执行的步骤.
+INFO  28-12 06:05:06,281 - T_CAMPAIGN - 分派记录集...
+INFO  28-12 06:05:06,281 - T_CAMPAIGN -  正在分配行组为步骤 0 --> 获得增量数据
+INFO  28-12 06:05:06,281 - T_CAMPAIGN -   前一个副本 = 1, 下一个副本=1
+INFO  28-12 06:05:06,281 - T_CAMPAIGN - 转换分配了新的行组 [获得增量数据.0 - 写入增量数据.0]
+INFO  28-12 06:05:06,281 - T_CAMPAIGN -  已分配 1 行组为步骤 0 --> 获得增量数据  
+INFO  28-12 06:05:06,281 - T_CAMPAIGN -  正在分配行组为步骤 1 --> 写入增量数据
+INFO  28-12 06:05:06,282 - T_CAMPAIGN -  已分配 1 行组为步骤 1 --> 写入增量数据  
+INFO  28-12 06:05:06,282 - T_CAMPAIGN - 正在分配步骤和步骤数据...
+INFO  28-12 06:05:06,282 - T_CAMPAIGN -  转换大约分配了 步骤 [获得增量数据] 类型的 [TableInput]
+INFO  28-12 06:05:06,282 - 获得增量数据 - 分散被激活
+INFO  28-12 06:05:06,282 - 获得增量数据 - Starting allocation of buffers & new threads...
+INFO  28-12 06:05:06,282 - 获得增量数据 - 步骤信息: 输入数量=0 输出数量=1
+INFO  28-12 06:05:06,283 - 获得增量数据 - output rel. is  1:1
+INFO  28-12 06:05:06,283 - 获得增量数据 - 发现输出 rowset [获得增量数据.0 - 写入增量数据.0]
+INFO  28-12 06:05:06,283 - 获得增量数据 - 完成分发
+INFO  28-12 06:05:06,283 - T_CAMPAIGN -  转换已经分配了一个新的步骤: [获得增量数据].0
+INFO  28-12 06:05:06,283 - T_CAMPAIGN -  转换大约分配了 步骤 [写入增量数据] 类型的 [TableOutput]
+INFO  28-12 06:05:06,283 - 写入增量数据 - 分散被激活
+INFO  28-12 06:05:06,284 - 写入增量数据 - Starting allocation of buffers & new threads...
+INFO  28-12 06:05:06,284 - 写入增量数据 - 步骤信息: 输入数量=1 输出数量=0
+INFO  28-12 06:05:06,284 - 写入增量数据 - 获取来自前一步骤 [写入增量数据] #0 --> 获得增量数据
+INFO  28-12 06:05:06,284 - 写入增量数据 - input rel is 1:1
+INFO  28-12 06:05:06,284 - 写入增量数据 - 发现输入记录集合 [获得增量数据.0 - 写入增量数据.0]
+INFO  28-12 06:05:06,284 - 写入增量数据 - 完成分发
+INFO  28-12 06:05:06,285 - T_CAMPAIGN -  转换已经分配了一个新的步骤: [写入增量数据].0
+INFO  28-12 06:05:06,285 - T_CAMPAIGN - 这项转换可以被回放 回放日期是: 2013/12/28 06:05:06
+INFO  28-12 06:05:06,285 - T_CAMPAIGN - 正在初始化 2 步骤...
+INFO  28-12 06:05:06,286 - 获得增量数据 - Running on slave server #0/1.
+INFO  28-12 06:05:06,286 - 写入增量数据 - Running on slave server #0/1.
+INFO  28-12 06:05:06,287 - CCS_MBMBER - New database connection defined
+INFO  28-12 06:05:06,287 - 53_DW_PLDW - New database connection defined
+INFO  28-12 06:05:06,322 - 53_DW_PLDW - Connected to database.
+INFO  28-12 06:05:06,322 - 写入增量数据 - Connected to database [53_DW_PLDW] (commit=1000)
+INFO  28-12 06:05:06,322 - 53_DW_PLDW - Auto commit off
+INFO  28-12 06:05:06,331 - CCS_MBMBER - Connected to database.
+INFO  28-12 06:05:06,331 - CCS_MBMBER - Auto commit off
+INFO  28-12 06:05:06,331 - 获得增量数据 - Connected to database...
+INFO  28-12 06:05:06,512 - T_CAMPAIGN - 步骤 [获得增量数据.0] 初始化不完全，有缺陷.
+INFO  28-12 06:05:06,512 - T_CAMPAIGN - 步骤 [写入增量数据.0] 初始化不完全，有缺陷.
+INFO  28-12 06:05:06,513 - T_CAMPAIGN - 转换已经分配了 2 线程 和 1 列组.
+INFO  28-12 06:05:06,513 - 获得增量数据 - 开始运行...
+INFO  28-12 06:05:06,513 - 获得增量数据 - SQL query : SELECT
+  CAMPAIGN_ID
+, CODE
+, NAME
+, START_DATE
+, END_DATE
+, STATUS
+, TYPE
+, CHANNEL
+, DESCRIPTION
+, CREATION_CINEMA_ID
+, CREATION_AREA_ID
+, ALL_CINEMA
+, CREATE_BY
+, CREATE_DATE
+, UPDATE_BY
+, UPDATE_DATE
+, VERSION
+, CREATION_LEVEL
+, ALLOW_MODIFIER
+, SETTLEMENT_TYPE
+FROM CCS_MBR_PROD.T_CAMPAIGN
+
+INFO  28-12 06:05:06,514 - 写入增量数据 - 开始运行...
+INFO  28-12 06:05:06,523 - 写入增量数据 - Prepared statement : INSERT INTO CCS_MBR_DW.T_CAMPAIGN (CAMPAIGN_ID, CODE, NAME, START_DATE, END_DATE, STATUS, TYPE, CHANNEL, DESCRIPTION, CREATION_CINEMA_ID, CREATION_AREA_ID, ALL_CINEMA, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, VERSION, CREATION_LEVEL, ALLOW_MODIFIER, SETTLEMENT_TYPE) VALUES ( ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?)
+INFO  28-12 06:05:06,538 - 获得增量数据 - Finished reading query, closing connection.
+INFO  28-12 06:05:06,551 - CCS_MBMBER - Connection to database closed!
+INFO  28-12 06:05:06,551 - 获得增量数据 - 完成处理 (I=151, O=0, R=0, W=151, U=0, E=0
+INFO  28-12 06:05:06,566 - 53_DW_PLDW - Connection to database closed!
+INFO  28-12 06:05:06,566 - 写入增量数据 - 完成处理 (I=0, O=151, R=151, W=151, U=0, E=0
+INFO  28-12 06:05:06,570 - mbr_dw_full_sync - 开始项[T_CMN_ACTIVITY]
+INFO  28-12 06:05:06,570 - mbr_dw_full_sync - exec(5, 0, T_CMN_ACTIVITY.0)
+INFO  28-12 06:05:06,571 - T_CMN_ACTIVITY - Starting job entry
+INFO  28-12 06:05:06,571 - T_CMN_ACTIVITY - Opening transformation: [C:\BaseETL\CCS_MBR_DW_ETL\full_sync\transaction\T_CMN_ACTIVITY.ktr]
+INFO  28-12 06:05:06,571 - T_CMN_ACTIVITY - Loading transformation from XML file [C:\BaseETL\CCS_MBR_DW_ETL\full_sync\transaction\T_CMN_ACTIVITY.ktr]
+INFO  28-12 06:05:06,614 - T_CMN_ACTIVITY - Starting transformation...(file=C:\BaseETL\CCS_MBR_DW_ETL\full_sync\transaction\T_CMN_ACTIVITY.ktr, name=T_CMN_ACTIVITY, repinfo=null)
+INFO  28-12 06:05:06,615 - T_CMN_ACTIVITY - 转换已经从资源库预先载入.
+INFO  28-12 06:05:06,615 - T_CMN_ACTIVITY - 为了转换解除补丁开始  [T_CMN_ACTIVITY]
+INFO  28-12 06:05:06,615 - T_CMN_ACTIVITY - 已经找到的参数数量:0 
+INFO  28-12 06:05:06,615 - T_CMN_ACTIVITY - 这没有一个重放的转换
+INFO  28-12 06:05:06,616 - T_CMN_ACTIVITY - 我找到 2 个不同的要执行的步骤.
+INFO  28-12 06:05:06,616 - T_CMN_ACTIVITY - 分派记录集...
+INFO  28-12 06:05:06,616 - T_CMN_ACTIVITY -  正在分配行组为步骤 0 --> 获得增量数据
+INFO  28-12 06:05:06,616 - T_CMN_ACTIVITY -   前一个副本 = 1, 下一个副本=1
+INFO  28-12 06:05:06,616 - T_CMN_ACTIVITY - 转换分配了新的行组 [获得增量数据.0 - 写入增量数据.0]
+INFO  28-12 06:05:06,616 - T_CMN_ACTIVITY -  已分配 1 行组为步骤 0 --> 获得增量数据  
+INFO  28-12 06:05:06,616 - T_CMN_ACTIVITY -  正在分配行组为步骤 1 --> 写入增量数据
+INFO  28-12 06:05:06,617 - T_CMN_ACTIVITY -  已分配 1 行组为步骤 1 --> 写入增量数据  
+INFO  28-12 06:05:06,617 - T_CMN_ACTIVITY - 正在分配步骤和步骤数据...
+INFO  28-12 06:05:06,617 - T_CMN_ACTIVITY -  转换大约分配了 步骤 [获得增量数据] 类型的 [TableInput]
+INFO  28-12 06:05:06,617 - 获得增量数据 - 分散被激活
+INFO  28-12 06:05:06,617 - 获得增量数据 - Starting allocation of buffers & new threads...
+INFO  28-12 06:05:06,617 - 获得增量数据 - 步骤信息: 输入数量=0 输出数量=1
+INFO  28-12 06:05:06,617 - 获得增量数据 - output rel. is  1:1
+INFO  28-12 06:05:06,618 - 获得增量数据 - 发现输出 rowset [获得增量数据.0 - 写入增量数据.0]
+INFO  28-12 06:05:06,618 - 获得增量数据 - 完成分发
+INFO  28-12 06:05:06,618 - T_CMN_ACTIVITY -  转换已经分配了一个新的步骤: [获得增量数据].0
+INFO  28-12 06:05:06,618 - T_CMN_ACTIVITY -  转换大约分配了 步骤 [写入增量数据] 类型的 [TableOutput]
+INFO  28-12 06:05:06,618 - 写入增量数据 - 分散被激活
+INFO  28-12 06:05:06,618 - 写入增量数据 - Starting allocation of buffers & new threads...
+INFO  28-12 06:05:06,619 - 写入增量数据 - 步骤信息: 输入数量=1 输出数量=0
+INFO  28-12 06:05:06,619 - 写入增量数据 - 获取来自前一步骤 [写入增量数据] #0 --> 获得增量数据
+INFO  28-12 06:05:06,619 - 写入增量数据 - input rel is 1:1
+INFO  28-12 06:05:06,619 - 写入增量数据 - 发现输入记录集合 [获得增量数据.0 - 写入增量数据.0]
+INFO  28-12 06:05:06,619 - 写入增量数据 - 完成分发
+INFO  28-12 06:05:06,619 - T_CMN_ACTIVITY -  转换已经分配了一个新的步骤: [写入增量数据].0
+INFO  28-12 06:05:06,620 - T_CMN_ACTIVITY - 这项转换可以被回放 回放日期是: 2013/12/28 06:05:06
+INFO  28-12 06:05:06,620 - T_CMN_ACTIVITY - 正在初始化 2 步骤...
+INFO  28-12 06:05:06,621 - 获得增量数据 - Running on slave server #0/1.
+INFO  28-12 06:05:06,621 - 写入增量数据 - Running on slave server #0/1.
+INFO  28-12 06:05:06,621 - CCS_MBMBER - New database connection defined
+INFO  28-12 06:05:06,621 - 53_DW_PLDW - New database connection defined
+INFO  28-12 06:05:06,657 - 53_DW_PLDW - Connected to database.
+INFO  28-12 06:05:06,658 - 写入增量数据 - Connected to database [53_DW_PLDW] (commit=1000)
+INFO  28-12 06:05:06,658 - 53_DW_PLDW - Auto commit off
+INFO  28-12 06:05:06,663 - CCS_MBMBER - Connected to database.
+INFO  28-12 06:05:06,663 - CCS_MBMBER - Auto commit off
+INFO  28-12 06:05:06,663 - 获得增量数据 - Connected to database...
+INFO  28-12 06:05:06,896 - T_CMN_ACTIVITY - 步骤 [获得增量数据.0] 初始化不完全，有缺陷.
+INFO  28-12 06:05:06,896 - T_CMN_ACTIVITY - 步骤 [写入增量数据.0] 初始化不完全，有缺陷.
+INFO  28-12 06:05:06,897 - T_CMN_ACTIVITY - 转换已经分配了 2 线程 和 1 列组.
+INFO  28-12 06:05:06,897 - 获得增量数据 - 开始运行...
+INFO  28-12 06:05:06,897 - 获得增量数据 - SQL query : SELECT
+  CMN_ACTIVITY_ID
+, NAME
+, CODE
+, START_DTIME
+, END_DTIME
+, STATUS
+, PROMOTION_TYPE
+, DESCRIPTION
+, PRIORITY
+, CAMPAIGN_ID
+, CMN_PHAISE_ID
+, OFFER_ID
+, CREATE_BY
+, CREATE_DATE
+, UPDATE_BY
+, UPDATE_DATE
+, VERSION
+, ACT_TARGET_ID
+, ACT_OFFER_ID
+FROM CCS_MBR_PROD.T_CMN_ACTIVITY
+INFO  28-12 06:05:06,898 - 写入增量数据 - 开始运行...
+INFO  28-12 06:05:06,902 - 写入增量数据 - Prepared statement : INSERT INTO CCS_MBR_DW.T_CMN_ACTIVITY (CMN_ACTIVITY_ID, NAME, CODE, START_DTIME, END_DTIME, STATUS, PROMOTION_TYPE, DESCRIPTION, PRIORITY, CAMPAIGN_ID, CMN_PHAISE_ID, OFFER_ID, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, VERSION, ACT_TARGET_ID, ACT_OFFER_ID) VALUES ( ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?)
+INFO  28-12 06:05:06,963 - 获得增量数据 - Finished reading query, closing connection.
+INFO  28-12 06:05:06,965 - CCS_MBMBER - Connection to database closed!
+INFO  28-12 06:05:06,965 - 获得增量数据 - 完成处理 (I=172, O=0, R=0, W=172, U=0, E=0
+INFO  28-12 06:05:06,994 - 53_DW_PLDW - Connection to database closed!
+INFO  28-12 06:05:06,994 - 写入增量数据 - 完成处理 (I=0, O=172, R=172, W=172, U=0, E=0
+INFO  28-12 06:05:06,999 - mbr_dw_full_sync - 开始项[T_CMN_PHASE]
+INFO  28-12 06:05:06,999 - mbr_dw_full_sync - exec(6, 0, T_CMN_PHASE.0)
+INFO  28-12 06:05:06,999 - T_CMN_PHASE - Starting job entry
+INFO  28-12 06:05:07,000 - T_CMN_PHASE - Opening transformation: [C:\BaseETL\CCS_MBR_DW_ETL\full_sync\transaction\T_CMN_PHASE.ktr]
+INFO  28-12 06:05:07,000 - T_CMN_PHASE - Loading transformation from XML file [C:\BaseETL\CCS_MBR_DW_ETL\full_sync\transaction\T_CMN_PHASE.ktr]
+INFO  28-12 06:05:07,039 - T_CMN_PHASE - Starting transformation...(file=C:\BaseETL\CCS_MBR_DW_ETL\full_sync\transaction\T_CMN_PHASE.ktr, name=T_CMN_PHASE, repinfo=null)
+INFO  28-12 06:05:07,039 - T_CMN_PHASE - 转换已经从资源库预先载入.
+INFO  28-12 06:05:07,039 - T_CMN_PHASE - 为了转换解除补丁开始  [T_CMN_PHASE]
+INFO  28-12 06:05:07,039 - T_CMN_PHASE - 已经找到的参数数量:0 
+INFO  28-12 06:05:07,039 - T_CMN_PHASE - 这没有一个重放的转换
+INFO  28-12 06:05:07,040 - T_CMN_PHASE - 我找到 2 个不同的要执行的步骤.
+INFO  28-12 06:05:07,040 - T_CMN_PHASE - 分派记录集...
+INFO  28-12 06:05:07,040 - T_CMN_PHASE -  正在分配行组为步骤 0 --> 获得增量数据
+INFO  28-12 06:05:07,040 - T_CMN_PHASE -   前一个副本 = 1, 下一个副本=1
+INFO  28-12 06:05:07,040 - T_CMN_PHASE - 转换分配了新的行组 [获得增量数据.0 - 写入增量数据.0]
+INFO  28-12 06:05:07,040 - T_CMN_PHASE -  已分配 1 行组为步骤 0 --> 获得增量数据  
+INFO  28-12 06:05:07,040 - T_CMN_PHASE -  正在分配行组为步骤 1 --> 写入增量数据
+INFO  28-12 06:05:07,040 - T_CMN_PHASE -  已分配 1 行组为步骤 1 --> 写入增量数据  
+INFO  28-12 06:05:07,041 - T_CMN_PHASE - 正在分配步骤和步骤数据...
+INFO  28-12 06:05:07,041 - T_CMN_PHASE -  转换大约分配了 步骤 [获得增量数据] 类型的 [TableInput]
+INFO  28-12 06:05:07,041 - 获得增量数据 - 分散被激活
+INFO  28-12 06:05:07,041 - 获得增量数据 - Starting allocation of buffers & new threads...
+INFO  28-12 06:05:07,041 - 获得增量数据 - 步骤信息: 输入数量=0 输出数量=1
+INFO  28-12 06:05:07,041 - 获得增量数据 - output rel. is  1:1
+INFO  28-12 06:05:07,041 - 获得增量数据 - 发现输出 rowset [获得增量数据.0 - 写入增量数据.0]
+INFO  28-12 06:05:07,042 - 获得增量数据 - 完成分发
+INFO  28-12 06:05:07,042 - T_CMN_PHASE -  转换已经分配了一个新的步骤: [获得增量数据].0
+INFO  28-12 06:05:07,042 - T_CMN_PHASE -  转换大约分配了 步骤 [写入增量数据] 类型的 [TableOutput]
+INFO  28-12 06:05:07,042 - 写入增量数据 - 分散被激活
+INFO  28-12 06:05:07,042 - 写入增量数据 - Starting allocation of buffers & new threads...
+INFO  28-12 06:05:07,042 - 写入增量数据 - 步骤信息: 输入数量=1 输出数量=0
+INFO  28-12 06:05:07,043 - 写入增量数据 - 获取来自前一步骤 [写入增量数据] #0 --> 获得增量数据
+INFO  28-12 06:05:07,043 - 写入增量数据 - input rel is 1:1
+INFO  28-12 06:05:07,043 - 写入增量数据 - 发现输入记录集合 [获得增量数据.0 - 写入增量数据.0]
+INFO  28-12 06:05:07,043 - 写入增量数据 - 完成分发
+INFO  28-12 06:05:07,043 - T_CMN_PHASE -  转换已经分配了一个新的步骤: [写入增量数据].0
+INFO  28-12 06:05:07,043 - T_CMN_PHASE - 这项转换可以被回放 回放日期是: 2013/12/28 06:05:07
+INFO  28-12 06:05:07,044 - T_CMN_PHASE - 正在初始化 2 步骤...
+INFO  28-12 06:05:07,044 - 获得增量数据 - Running on slave server #0/1.
+INFO  28-12 06:05:07,044 - 写入增量数据 - Running on slave server #0/1.
+INFO  28-12 06:05:07,045 - CCS_MBMBER - New database connection defined
+INFO  28-12 06:05:07,045 - 53_DW_PLDW - New database connection defined
+INFO  28-12 06:05:07,082 - 53_DW_PLDW - Connected to database.
+INFO  28-12 06:05:07,082 - 写入增量数据 - Connected to database [53_DW_PLDW] (commit=1000)
+INFO  28-12 06:05:07,082 - 53_DW_PLDW - Auto commit off
+INFO  28-12 06:05:07,085 - CCS_MBMBER - Connected to database.
+INFO  28-12 06:05:07,086 - CCS_MBMBER - Auto commit off
+INFO  28-12 06:05:07,086 - 获得增量数据 - Connected to database...
+INFO  28-12 06:05:07,306 - T_CMN_PHASE - 步骤 [获得增量数据.0] 初始化不完全，有缺陷.
+INFO  28-12 06:05:07,306 - T_CMN_PHASE - 步骤 [写入增量数据.0] 初始化不完全，有缺陷.
+INFO  28-12 06:05:07,307 - T_CMN_PHASE - 转换已经分配了 2 线程 和 1 列组.
+INFO  28-12 06:05:07,307 - 获得增量数据 - 开始运行...
+INFO  28-12 06:05:07,307 - 获得增量数据 - SQL query : SELECT
+  CMN_PHAISE_ID
+, NAME
+, CODE
+, START_DATE
+, END_DATE
+, STATUS
+, DESCRIPTION
+, CAMPAIGN_ID
+, CREATE_BY
+, CREATE_DATE
+, UPDATE_BY
+, UPDATE_DATE
+, VERSION
+FROM CCS_MBR_PROD.T_CMN_PHASE
+
+INFO  28-12 06:05:07,308 - 写入增量数据 - 开始运行...
+INFO  28-12 06:05:07,311 - 写入增量数据 - Prepared statement : INSERT INTO CCS_MBR_DW.T_CMN_PHASE (CMN_PHAISE_ID, NAME, CODE, START_DATE, END_DATE, STATUS, DESCRIPTION, CAMPAIGN_ID, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, VERSION) VALUES ( ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?)
+INFO  28-12 06:05:07,325 - 获得增量数据 - Finished reading query, closing connection.
+INFO  28-12 06:05:07,327 - CCS_MBMBER - Connection to database closed!
+INFO  28-12 06:05:07,327 - 获得增量数据 - 完成处理 (I=164, O=0, R=0, W=164, U=0, E=0
+INFO  28-12 06:05:07,356 - 53_DW_PLDW - Connection to database closed!
+INFO  28-12 06:05:07,357 - 写入增量数据 - 完成处理 (I=0, O=164, R=164, W=164, U=0, E=0
+INFO  28-12 06:05:07,361 - mbr_dw_full_sync - 开始项[T_CONTACT_HISTORY]
+INFO  28-12 06:05:07,362 - mbr_dw_full_sync - exec(7, 0, T_CONTACT_HISTORY.0)
+INFO  28-12 06:05:07,362 - T_CONTACT_HISTORY - Starting job entry
+INFO  28-12 06:05:07,362 - T_CONTACT_HISTORY - Opening transformation: [C:\BaseETL\CCS_MBR_DW_ETL\full_sync\transaction\T_CONTACT_HISTORY.ktr]
+INFO  28-12 06:05:07,362 - T_CONTACT_HISTORY - Loading transformation from XML file [C:\BaseETL\CCS_MBR_DW_ETL\full_sync\transaction\T_CONTACT_HISTORY.ktr]
+INFO  28-12 06:05:07,414 - T_CONTACT_HISTORY - Starting transformation...(file=C:\BaseETL\CCS_MBR_DW_ETL\full_sync\transaction\T_CONTACT_HISTORY.ktr, name=T_CONTACT_HISTORY, repinfo=null)
+INFO  28-12 06:05:07,414 - T_CONTACT_HISTORY - 转换已经从资源库预先载入.
+INFO  28-12 06:05:07,414 - T_CONTACT_HISTORY - 为了转换解除补丁开始  [T_LEVEL_HISTORY]
+INFO  28-12 06:05:07,414 - T_CONTACT_HISTORY - 已经找到的参数数量:0 
+INFO  28-12 06:05:07,415 - T_CONTACT_HISTORY - 这没有一个重放的转换
+INFO  28-12 06:05:07,415 - T_CONTACT_HISTORY - 我找到 2 个不同的要执行的步骤.
+INFO  28-12 06:05:07,415 - T_CONTACT_HISTORY - 分派记录集...
+INFO  28-12 06:05:07,415 - T_CONTACT_HISTORY -  正在分配行组为步骤 0 --> 获得增量数据
+INFO  28-12 06:05:07,415 - T_CONTACT_HISTORY -   前一个副本 = 1, 下一个副本=1
+INFO  28-12 06:05:07,417 - T_CONTACT_HISTORY - 转换分配了新的行组 [获得增量数据.0 - 写入增量数据.0]
+INFO  28-12 06:05:07,417 - T_CONTACT_HISTORY -  已分配 1 行组为步骤 0 --> 获得增量数据  
+INFO  28-12 06:05:07,417 - T_CONTACT_HISTORY -  正在分配行组为步骤 1 --> 写入增量数据
+INFO  28-12 06:05:07,417 - T_CONTACT_HISTORY -  已分配 1 行组为步骤 1 --> 写入增量数据  
+INFO  28-12 06:05:07,417 - T_CONTACT_HISTORY - 正在分配步骤和步骤数据...
+INFO  28-12 06:05:07,417 - T_CONTACT_HISTORY -  转换大约分配了 步骤 [获得增量数据] 类型的 [TableInput]
+INFO  28-12 06:05:07,418 - 获得增量数据 - 分散被激活
+INFO  28-12 06:05:07,418 - 获得增量数据 - Starting allocation of buffers & new threads...
+INFO  28-12 06:05:07,418 - 获得增量数据 - 步骤信息: 输入数量=0 输出数量=1
+INFO  28-12 06:05:07,418 - 获得增量数据 - output rel. is  1:1
+INFO  28-12 06:05:07,418 - 获得增量数据 - 发现输出 rowset [获得增量数据.0 - 写入增量数据.0]
+INFO  28-12 06:05:07,418 - 获得增量数据 - 完成分发
+INFO  28-12 06:05:07,419 - T_CONTACT_HISTORY -  转换已经分配了一个新的步骤: [获得增量数据].0
+INFO  28-12 06:05:07,419 - T_CONTACT_HISTORY -  转换大约分配了 步骤 [写入增量数据] 类型的 [TableOutput]
+INFO  28-12 06:05:07,419 - 写入增量数据 - 分散被激活
+INFO  28-12 06:05:07,419 - 写入增量数据 - Starting allocation of buffers & new threads...
+INFO  28-12 06:05:07,419 - 写入增量数据 - 步骤信息: 输入数量=1 输出数量=0
+INFO  28-12 06:05:07,419 - 写入增量数据 - 获取来自前一步骤 [写入增量数据] #0 --> 获得增量数据
+INFO  28-12 06:05:07,419 - 写入增量数据 - input rel is 1:1
+INFO  28-12 06:05:07,419 - 写入增量数据 - 发现输入记录集合 [获得增量数据.0 - 写入增量数据.0]
+INFO  28-12 06:05:07,420 - 写入增量数据 - 完成分发
+INFO  28-12 06:05:07,420 - T_CONTACT_HISTORY -  转换已经分配了一个新的步骤: [写入增量数据].0
+INFO  28-12 06:05:07,420 - T_CONTACT_HISTORY - 这项转换可以被回放 回放日期是: 2013/12/28 06:05:07
+INFO  28-12 06:05:07,420 - T_CONTACT_HISTORY - 正在初始化 2 步骤...
+INFO  28-12 06:05:07,421 - 获得增量数据 - Running on slave server #0/1.
+INFO  28-12 06:05:07,421 - 写入增量数据 - Running on slave server #0/1.
+INFO  28-12 06:05:07,422 - CCS_MBMBER - New database connection defined
+INFO  28-12 06:05:07,422 - 53_DW_PLDW - New database connection defined
+INFO  28-12 06:05:07,460 - 53_DW_PLDW - Connected to database.
+INFO  28-12 06:05:07,460 - 写入增量数据 - Connected to database [53_DW_PLDW] (commit=1000)
+INFO  28-12 06:05:07,460 - 53_DW_PLDW - Auto commit off
+INFO  28-12 06:05:07,464 - CCS_MBMBER - Connected to database.
+INFO  28-12 06:05:07,464 - CCS_MBMBER - Auto commit off
+INFO  28-12 06:05:07,464 - 获得增量数据 - Connected to database...
+INFO  28-12 06:05:07,686 - T_CONTACT_HISTORY - 步骤 [获得增量数据.0] 初始化不完全，有缺陷.
+INFO  28-12 06:05:07,687 - T_CONTACT_HISTORY - 步骤 [写入增量数据.0] 初始化不完全，有缺陷.
+INFO  28-12 06:05:07,687 - T_CONTACT_HISTORY - 转换已经分配了 2 线程 和 1 列组.
+INFO  28-12 06:05:07,688 - 获得增量数据 - 开始运行...
+INFO  28-12 06:05:07,688 - 获得增量数据 - SQL query : SELECT
+  CONTACT_HISTORY_ID
+, HAS_RESPONSE
+, MEMBER_ID
+, ACT_TARGET_ID
+, CREATE_BY
+, CREATE_DATE
+, UPDATE_BY
+, UPDATE_DATE
+, VERSION
+, HAS_RESPONSE2
+, HAS_SEND
+, IS_CONTROLSET
+FROM CCS_MBR_PROD.T_CONTACT_HISTORY
+
+INFO  28-12 06:05:07,689 - 写入增量数据 - 开始运行...
+INFO  28-12 06:05:07,706 - 写入增量数据 - Prepared statement : INSERT INTO CCS_MBR_DW.T_CONTACT_HISTORY (CONTACT_HISTORY_ID, HAS_RESPONSE, MEMBER_ID, ACT_TARGET_ID, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, VERSION, HAS_RESPONSE2, HAS_SEND, IS_CONTROLSET) VALUES ( ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?)
+INFO  28-12 06:05:10,016 - 获得增量数据 - linenr 50000
+INFO  28-12 06:05:10,032 - 写入增量数据 - linenr 50000
+INFO  28-12 06:05:12,367 - 获得增量数据 - linenr 100000
+INFO  28-12 06:05:12,382 - 写入增量数据 - linenr 100000
+INFO  28-12 06:05:14,520 - 获得增量数据 - linenr 150000
+INFO  28-12 06:05:14,534 - 写入增量数据 - linenr 150000
+INFO  28-12 06:05:16,487 - 获得增量数据 - linenr 200000
+INFO  28-12 06:05:16,501 - 写入增量数据 - linenr 200000
+INFO  28-12 06:05:18,402 - 获得增量数据 - linenr 250000
+INFO  28-12 06:05:18,416 - 写入增量数据 - linenr 250000
+INFO  28-12 06:05:20,423 - 获得增量数据 - linenr 300000
+INFO  28-12 06:05:20,438 - 写入增量数据 - linenr 300000
+INFO  28-12 06:05:22,313 - 获得增量数据 - linenr 350000
+INFO  28-12 06:05:22,330 - 写入增量数据 - linenr 350000
+INFO  28-12 06:05:24,240 - 获得增量数据 - linenr 400000
+INFO  28-12 06:05:24,255 - 写入增量数据 - linenr 400000
+INFO  28-12 06:05:26,181 - 获得增量数据 - linenr 450000
+INFO  28-12 06:05:26,196 - 写入增量数据 - linenr 450000
+INFO  28-12 06:05:28,100 - 获得增量数据 - linenr 500000
+INFO  28-12 06:05:28,116 - 写入增量数据 - linenr 500000
+INFO  28-12 06:05:30,041 - 获得增量数据 - linenr 550000
+INFO  28-12 06:05:30,055 - 写入增量数据 - linenr 550000
+INFO  28-12 06:05:31,957 - 获得增量数据 - linenr 600000
+INFO  28-12 06:05:31,971 - 写入增量数据 - linenr 600000
+INFO  28-12 06:05:33,885 - 获得增量数据 - linenr 650000
+INFO  28-12 06:05:33,900 - 写入增量数据 - linenr 650000
+INFO  28-12 06:05:35,931 - 获得增量数据 - linenr 700000
+INFO  28-12 06:05:35,943 - 写入增量数据 - linenr 700000
+INFO  28-12 06:05:37,991 - 获得增量数据 - linenr 750000
+INFO  28-12 06:05:38,004 - 写入增量数据 - linenr 750000
+INFO  28-12 06:05:40,035 - 获得增量数据 - linenr 800000
+INFO  28-12 06:05:40,049 - 写入增量数据 - linenr 800000
+INFO  28-12 06:05:42,055 - 获得增量数据 - linenr 850000
+INFO  28-12 06:05:42,070 - 写入增量数据 - linenr 850000
+INFO  28-12 06:05:44,144 - 获得增量数据 - linenr 900000
+INFO  28-12 06:05:44,159 - 写入增量数据 - linenr 900000
+INFO  28-12 06:05:46,177 - 获得增量数据 - linenr 950000
+INFO  28-12 06:05:46,191 - 写入增量数据 - linenr 950000
+INFO  28-12 06:05:48,204 - 获得增量数据 - linenr 1000000
+INFO  28-12 06:05:48,219 - 写入增量数据 - linenr 1000000
+INFO  28-12 06:05:50,264 - 获得增量数据 - linenr 1050000
+INFO  28-12 06:05:50,278 - 写入增量数据 - linenr 1050000
+INFO  28-12 06:05:52,275 - 获得增量数据 - linenr 1100000
+INFO  28-12 06:05:52,290 - 写入增量数据 - linenr 1100000
+INFO  28-12 06:05:54,348 - 获得增量数据 - linenr 1150000
+INFO  28-12 06:05:54,365 - 写入增量数据 - linenr 1150000
+INFO  28-12 06:05:56,379 - 获得增量数据 - linenr 1200000
+INFO  28-12 06:05:56,392 - 写入增量数据 - linenr 1200000
+INFO  28-12 06:05:58,417 - 获得增量数据 - linenr 1250000
+INFO  28-12 06:05:58,431 - 写入增量数据 - linenr 1250000
+INFO  28-12 06:06:00,919 - 获得增量数据 - linenr 1300000
+INFO  28-12 06:06:00,933 - 写入增量数据 - linenr 1300000
+INFO  28-12 06:06:02,850 - 获得增量数据 - linenr 1350000
+INFO  28-12 06:06:02,863 - 写入增量数据 - linenr 1350000
+INFO  28-12 06:06:04,866 - 获得增量数据 - linenr 1400000
+INFO  28-12 06:06:04,880 - 写入增量数据 - linenr 1400000
+INFO  28-12 06:06:06,892 - 获得增量数据 - linenr 1450000
+INFO  28-12 06:06:06,907 - 写入增量数据 - linenr 1450000
+INFO  28-12 06:06:08,911 - 获得增量数据 - linenr 1500000
+INFO  28-12 06:06:08,925 - 写入增量数据 - linenr 1500000
+INFO  28-12 06:06:10,997 - 获得增量数据 - linenr 1550000
+INFO  28-12 06:06:11,011 - 写入增量数据 - linenr 1550000
+INFO  28-12 06:06:13,024 - 获得增量数据 - linenr 1600000
+INFO  28-12 06:06:13,039 - 写入增量数据 - linenr 1600000
+INFO  28-12 06:06:15,040 - 获得增量数据 - linenr 1650000
+INFO  28-12 06:06:15,053 - 写入增量数据 - linenr 1650000
+INFO  28-12 06:06:17,055 - 获得增量数据 - linenr 1700000
+INFO  28-12 06:06:17,069 - 写入增量数据 - linenr 1700000
+INFO  28-12 06:06:19,101 - 获得增量数据 - linenr 1750000
+INFO  28-12 06:06:19,117 - 写入增量数据 - linenr 1750000
+INFO  28-12 06:06:21,133 - 获得增量数据 - linenr 1800000
+INFO  28-12 06:06:21,147 - 写入增量数据 - linenr 1800000
+INFO  28-12 06:06:23,129 - 获得增量数据 - linenr 1850000
+INFO  28-12 06:06:23,143 - 写入增量数据 - linenr 1850000
+INFO  28-12 06:06:25,220 - 获得增量数据 - linenr 1900000
+INFO  28-12 06:06:25,235 - 写入增量数据 - linenr 1900000
+INFO  28-12 06:06:27,263 - 获得增量数据 - linenr 1950000
+INFO  28-12 06:06:27,276 - 写入增量数据 - linenr 1950000
+INFO  28-12 06:06:29,205 - 获得增量数据 - Finished reading query, closing connection.
+INFO  28-12 06:06:29,207 - CCS_MBMBER - Connection to database closed!
+INFO  28-12 06:06:29,207 - 获得增量数据 - 完成处理 (I=1997673, O=0, R=0, W=1997673, U=0, E=0
+INFO  28-12 06:06:29,218 - 53_DW_PLDW - Connection to database closed!
+INFO  28-12 06:06:29,218 - 写入增量数据 - 完成处理 (I=0, O=1997673, R=1997673, W=1997673, U=0, E=0
+INFO  28-12 06:06:29,225 - mbr_dw_full_sync - 开始项[T_LEVEL_HISTORY]
+INFO  28-12 06:06:29,225 - mbr_dw_full_sync - exec(8, 0, T_LEVEL_HISTORY.0)
+INFO  28-12 06:06:29,226 - T_LEVEL_HISTORY - Starting job entry
+INFO  28-12 06:06:29,226 - T_LEVEL_HISTORY - Opening transformation: [C:\BaseETL\CCS_MBR_DW_ETL\full_sync\transaction\T_LEVEL_HISTORY.ktr]
+INFO  28-12 06:06:29,226 - T_LEVEL_HISTORY - Loading transformation from XML file [C:\BaseETL\CCS_MBR_DW_ETL\full_sync\transaction\T_LEVEL_HISTORY.ktr]
+INFO  28-12 06:06:29,270 - T_LEVEL_HISTORY - Starting transformation...(file=C:\BaseETL\CCS_MBR_DW_ETL\full_sync\transaction\T_LEVEL_HISTORY.ktr, name=T_LEVEL_HISTORY, repinfo=null)
+INFO  28-12 06:06:29,270 - T_LEVEL_HISTORY - 转换已经从资源库预先载入.
+INFO  28-12 06:06:29,271 - T_LEVEL_HISTORY - 为了转换解除补丁开始  [T_LEVEL_HISTORY]
+INFO  28-12 06:06:29,271 - T_LEVEL_HISTORY - 已经找到的参数数量:0 
+INFO  28-12 06:06:29,271 - T_LEVEL_HISTORY - 这没有一个重放的转换
+INFO  28-12 06:06:29,271 - T_LEVEL_HISTORY - 我找到 2 个不同的要执行的步骤.
+INFO  28-12 06:06:29,271 - T_LEVEL_HISTORY - 分派记录集...
+INFO  28-12 06:06:29,271 - T_LEVEL_HISTORY -  正在分配行组为步骤 0 --> 获得增量数据
+INFO  28-12 06:06:29,271 - T_LEVEL_HISTORY -   前一个副本 = 1, 下一个副本=1
+INFO  28-12 06:06:29,272 - T_LEVEL_HISTORY - 转换分配了新的行组 [获得增量数据.0 - 写入增量数据.0]
+INFO  28-12 06:06:29,272 - T_LEVEL_HISTORY -  已分配 1 行组为步骤 0 --> 获得增量数据  
+INFO  28-12 06:06:29,272 - T_LEVEL_HISTORY -  正在分配行组为步骤 1 --> 写入增量数据
+INFO  28-12 06:06:29,272 - T_LEVEL_HISTORY -  已分配 1 行组为步骤 1 --> 写入增量数据  
+INFO  28-12 06:06:29,272 - T_LEVEL_HISTORY - 正在分配步骤和步骤数据...
+INFO  28-12 06:06:29,272 - T_LEVEL_HISTORY -  转换大约分配了 步骤 [获得增量数据] 类型的 [TableInput]
+INFO  28-12 06:06:29,272 - 获得增量数据 - 分散被激活
+INFO  28-12 06:06:29,273 - 获得增量数据 - Starting allocation of buffers & new threads...
+INFO  28-12 06:06:29,273 - 获得增量数据 - 步骤信息: 输入数量=0 输出数量=1
+INFO  28-12 06:06:29,273 - 获得增量数据 - output rel. is  1:1
+INFO  28-12 06:06:29,273 - 获得增量数据 - 发现输出 rowset [获得增量数据.0 - 写入增量数据.0]
+INFO  28-12 06:06:29,273 - 获得增量数据 - 完成分发
+INFO  28-12 06:06:29,273 - T_LEVEL_HISTORY -  转换已经分配了一个新的步骤: [获得增量数据].0
+INFO  28-12 06:06:29,273 - T_LEVEL_HISTORY -  转换大约分配了 步骤 [写入增量数据] 类型的 [TableOutput]
+INFO  28-12 06:06:29,274 - 写入增量数据 - 分散被激活
+INFO  28-12 06:06:29,274 - 写入增量数据 - Starting allocation of buffers & new threads...
+INFO  28-12 06:06:29,274 - 写入增量数据 - 步骤信息: 输入数量=1 输出数量=0
+INFO  28-12 06:06:29,274 - 写入增量数据 - 获取来自前一步骤 [写入增量数据] #0 --> 获得增量数据
+INFO  28-12 06:06:29,274 - 写入增量数据 - input rel is 1:1
+INFO  28-12 06:06:29,274 - 写入增量数据 - 发现输入记录集合 [获得增量数据.0 - 写入增量数据.0]
+INFO  28-12 06:06:29,274 - 写入增量数据 - 完成分发
+INFO  28-12 06:06:29,275 - T_LEVEL_HISTORY -  转换已经分配了一个新的步骤: [写入增量数据].0
+INFO  28-12 06:06:29,275 - T_LEVEL_HISTORY - 这项转换可以被回放 回放日期是: 2013/12/28 06:06:29
+INFO  28-12 06:06:29,275 - T_LEVEL_HISTORY - 正在初始化 2 步骤...
+INFO  28-12 06:06:29,276 - 获得增量数据 - Running on slave server #0/1.
+INFO  28-12 06:06:29,276 - 写入增量数据 - Running on slave server #0/1.
+INFO  28-12 06:06:29,276 - CCS_MBMBER - New database connection defined
+INFO  28-12 06:06:29,276 - 53_DW_PLDW - New database connection defined
+INFO  28-12 06:06:29,314 - 53_DW_PLDW - Connected to database.
+INFO  28-12 06:06:29,314 - 写入增量数据 - Connected to database [53_DW_PLDW] (commit=1000)
+INFO  28-12 06:06:29,315 - 53_DW_PLDW - Auto commit off
+INFO  28-12 06:06:29,324 - CCS_MBMBER - Connected to database.
+INFO  28-12 06:06:29,324 - CCS_MBMBER - Auto commit off
+INFO  28-12 06:06:29,324 - 获得增量数据 - Connected to database...
+INFO  28-12 06:06:29,553 - T_LEVEL_HISTORY - 步骤 [获得增量数据.0] 初始化不完全，有缺陷.
+INFO  28-12 06:06:29,553 - T_LEVEL_HISTORY - 步骤 [写入增量数据.0] 初始化不完全，有缺陷.
+INFO  28-12 06:06:29,553 - T_LEVEL_HISTORY - 转换已经分配了 2 线程 和 1 列组.
+INFO  28-12 06:06:29,554 - 获得增量数据 - 开始运行...
+INFO  28-12 06:06:29,554 - 获得增量数据 - SQL query : SELECT
+  LEVEL_HISTORY_ID
+, MEM_LEVEL
+, EXPIRE_DATE
+, ORG_MEM_LEVEL
+, ORG_EXPIRE_DATE
+, SET_TIME
+, RESON_TYPE
+, REASON
+, CHG_TYPE
+, MEMBER_ID
+, LEVEL_POINT
+, TICKET_COUNT
+, ISDELETE
+, CREATE_BY
+, CREATE_DATE
+, UPDATE_BY
+, UPDATE_DATE
+, VERSION
+FROM CCS_MBR_PROD.T_LEVEL_HISTORY
+
+INFO  28-12 06:06:29,554 - 写入增量数据 - 开始运行...
+INFO  28-12 06:06:29,585 - 写入增量数据 - Prepared statement : INSERT INTO CCS_MBR_DW.T_LEVEL_HISTORY (LEVEL_HISTORY_ID, MEM_LEVEL, EXPIRE_DATE, ORG_MEM_LEVEL, ORG_EXPIRE_DATE, SET_TIME, RESON_TYPE, REASON, CHG_TYPE, MEMBER_ID, LEVEL_POINT, TICKET_COUNT, ISDELETE, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, VERSION) VALUES ( ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?)
+INFO  28-12 06:06:31,921 - 获得增量数据 - linenr 50000
+INFO  28-12 06:06:31,941 - 写入增量数据 - linenr 50000
+INFO  28-12 06:06:34,243 - 获得增量数据 - linenr 100000
+INFO  28-12 06:06:34,272 - 写入增量数据 - linenr 100000
+INFO  28-12 06:06:36,542 - 获得增量数据 - linenr 150000
+INFO  28-12 06:06:36,559 - 写入增量数据 - linenr 150000
+INFO  28-12 06:06:38,883 - 获得增量数据 - linenr 200000
+INFO  28-12 06:06:38,904 - 写入增量数据 - linenr 200000
+INFO  28-12 06:06:41,232 - 获得增量数据 - linenr 250000
+INFO  28-12 06:06:41,251 - 写入增量数据 - linenr 250000
+INFO  28-12 06:06:43,638 - 获得增量数据 - linenr 300000
+INFO  28-12 06:06:43,657 - 写入增量数据 - linenr 300000
+INFO  28-12 06:06:45,996 - 获得增量数据 - linenr 350000
+INFO  28-12 06:06:46,016 - 写入增量数据 - linenr 350000
+INFO  28-12 06:06:48,314 - 获得增量数据 - linenr 400000
+INFO  28-12 06:06:48,333 - 写入增量数据 - linenr 400000
+INFO  28-12 06:06:50,632 - 获得增量数据 - linenr 450000
+INFO  28-12 06:06:50,650 - 写入增量数据 - linenr 450000
+INFO  28-12 06:06:52,946 - 获得增量数据 - linenr 500000
+INFO  28-12 06:06:52,965 - 写入增量数据 - linenr 500000
+INFO  28-12 06:06:55,288 - 获得增量数据 - linenr 550000
+INFO  28-12 06:06:55,306 - 写入增量数据 - linenr 550000
+INFO  28-12 06:06:57,568 - 获得增量数据 - linenr 600000
+INFO  28-12 06:06:57,586 - 写入增量数据 - linenr 600000
+INFO  28-12 06:06:59,845 - 获得增量数据 - linenr 650000
+INFO  28-12 06:06:59,864 - 写入增量数据 - linenr 650000
+INFO  28-12 06:07:02,355 - 获得增量数据 - linenr 700000
+INFO  28-12 06:07:02,373 - 写入增量数据 - linenr 700000
+INFO  28-12 06:07:04,699 - 获得增量数据 - linenr 750000
+INFO  28-12 06:07:04,718 - 写入增量数据 - linenr 750000
+INFO  28-12 06:07:07,039 - 获得增量数据 - linenr 800000
+INFO  28-12 06:07:07,057 - 写入增量数据 - linenr 800000
+INFO  28-12 06:07:09,259 - 获得增量数据 - linenr 850000
+INFO  28-12 06:07:09,277 - 写入增量数据 - linenr 850000
+INFO  28-12 06:07:11,367 - 获得增量数据 - linenr 900000
+INFO  28-12 06:07:11,386 - 写入增量数据 - linenr 900000
+INFO  28-12 06:07:13,542 - 获得增量数据 - linenr 950000
+INFO  28-12 06:07:13,561 - 写入增量数据 - linenr 950000
+INFO  28-12 06:07:15,848 - 获得增量数据 - linenr 1000000
+INFO  28-12 06:07:15,866 - 写入增量数据 - linenr 1000000
+INFO  28-12 06:07:18,137 - 获得增量数据 - linenr 1050000
+INFO  28-12 06:07:18,155 - 写入增量数据 - linenr 1050000
+INFO  28-12 06:07:20,419 - 获得增量数据 - linenr 1100000
+INFO  28-12 06:07:20,437 - 写入增量数据 - linenr 1100000
+INFO  28-12 06:07:22,715 - 获得增量数据 - linenr 1150000
+INFO  28-12 06:07:22,733 - 写入增量数据 - linenr 1150000
+INFO  28-12 06:07:25,001 - 获得增量数据 - linenr 1200000
+INFO  28-12 06:07:25,019 - 写入增量数据 - linenr 1200000
+INFO  28-12 06:07:27,253 - 获得增量数据 - linenr 1250000
+INFO  28-12 06:07:27,271 - 写入增量数据 - linenr 1250000
+INFO  28-12 06:07:29,528 - 获得增量数据 - linenr 1300000
+INFO  28-12 06:07:29,555 - 写入增量数据 - linenr 1300000
+INFO  28-12 06:07:31,770 - 获得增量数据 - linenr 1350000
+INFO  28-12 06:07:31,788 - 写入增量数据 - linenr 1350000
+INFO  28-12 06:07:34,038 - 获得增量数据 - linenr 1400000
+INFO  28-12 06:07:34,056 - 写入增量数据 - linenr 1400000
+INFO  28-12 06:07:36,330 - 获得增量数据 - linenr 1450000
+INFO  28-12 06:07:36,349 - 写入增量数据 - linenr 1450000
+INFO  28-12 06:07:38,616 - 获得增量数据 - linenr 1500000
+INFO  28-12 06:07:38,635 - 写入增量数据 - linenr 1500000
+INFO  28-12 06:07:40,894 - 获得增量数据 - linenr 1550000
+INFO  28-12 06:07:40,912 - 写入增量数据 - linenr 1550000
+INFO  28-12 06:07:43,188 - 获得增量数据 - linenr 1600000
+INFO  28-12 06:07:43,206 - 写入增量数据 - linenr 1600000
+INFO  28-12 06:07:45,470 - 获得增量数据 - linenr 1650000
+INFO  28-12 06:07:45,488 - 写入增量数据 - linenr 1650000
+INFO  28-12 06:07:47,796 - 获得增量数据 - linenr 1700000
+INFO  28-12 06:07:47,815 - 写入增量数据 - linenr 1700000
+INFO  28-12 06:07:50,117 - 获得增量数据 - linenr 1750000
+INFO  28-12 06:07:50,135 - 写入增量数据 - linenr 1750000
+INFO  28-12 06:07:52,402 - 获得增量数据 - linenr 1800000
+INFO  28-12 06:07:52,421 - 写入增量数据 - linenr 1800000
+INFO  28-12 06:07:54,679 - 获得增量数据 - linenr 1850000
+INFO  28-12 06:07:54,697 - 写入增量数据 - linenr 1850000
+INFO  28-12 06:07:56,942 - 获得增量数据 - linenr 1900000
+INFO  28-12 06:07:56,960 - 写入增量数据 - linenr 1900000
+INFO  28-12 06:07:59,196 - 获得增量数据 - linenr 1950000
+INFO  28-12 06:07:59,214 - 写入增量数据 - linenr 1950000
+INFO  28-12 06:08:01,439 - 获得增量数据 - linenr 2000000
+INFO  28-12 06:08:01,457 - 写入增量数据 - linenr 2000000
+INFO  28-12 06:08:03,699 - 获得增量数据 - linenr 2050000
+INFO  28-12 06:08:03,720 - 写入增量数据 - linenr 2050000
+INFO  28-12 06:08:05,869 - 获得增量数据 - linenr 2100000
+INFO  28-12 06:08:05,890 - 写入增量数据 - linenr 2100000
+INFO  28-12 06:08:08,090 - 获得增量数据 - linenr 2150000
+INFO  28-12 06:08:08,108 - 写入增量数据 - linenr 2150000
+INFO  28-12 06:08:10,193 - 获得增量数据 - linenr 2200000
+INFO  28-12 06:08:10,212 - 写入增量数据 - linenr 2200000
+INFO  28-12 06:08:12,301 - 获得增量数据 - linenr 2250000
+INFO  28-12 06:08:12,322 - 写入增量数据 - linenr 2250000
+INFO  28-12 06:08:14,570 - 获得增量数据 - linenr 2300000
+INFO  28-12 06:08:14,590 - 写入增量数据 - linenr 2300000
+INFO  28-12 06:08:16,868 - 获得增量数据 - linenr 2350000
+INFO  28-12 06:08:16,888 - 写入增量数据 - linenr 2350000
+INFO  28-12 06:08:19,162 - 获得增量数据 - linenr 2400000
+INFO  28-12 06:08:19,182 - 写入增量数据 - linenr 2400000
+INFO  28-12 06:08:21,379 - 获得增量数据 - linenr 2450000
+INFO  28-12 06:08:21,398 - 写入增量数据 - linenr 2450000
+INFO  28-12 06:08:23,656 - 获得增量数据 - linenr 2500000
+INFO  28-12 06:08:23,676 - 写入增量数据 - linenr 2500000
+INFO  28-12 06:08:25,934 - 获得增量数据 - linenr 2550000
+INFO  28-12 06:08:25,954 - 写入增量数据 - linenr 2550000
+INFO  28-12 06:08:28,204 - 获得增量数据 - linenr 2600000
+INFO  28-12 06:08:28,223 - 写入增量数据 - linenr 2600000
+INFO  28-12 06:08:30,446 - 获得增量数据 - linenr 2650000
+INFO  28-12 06:08:30,465 - 写入增量数据 - linenr 2650000
+INFO  28-12 06:08:32,545 - 获得增量数据 - linenr 2700000
+INFO  28-12 06:08:32,564 - 写入增量数据 - linenr 2700000
+INFO  28-12 06:08:34,841 - 获得增量数据 - linenr 2750000
+INFO  28-12 06:08:34,858 - 写入增量数据 - linenr 2750000
+INFO  28-12 06:08:36,935 - 获得增量数据 - linenr 2800000
+INFO  28-12 06:08:36,953 - 写入增量数据 - linenr 2800000
+INFO  28-12 06:08:39,172 - 获得增量数据 - linenr 2850000
+INFO  28-12 06:08:39,190 - 写入增量数据 - linenr 2850000
+INFO  28-12 06:08:41,417 - 获得增量数据 - linenr 2900000
+INFO  28-12 06:08:41,434 - 写入增量数据 - linenr 2900000
+INFO  28-12 06:08:43,689 - 获得增量数据 - linenr 2950000
+INFO  28-12 06:08:43,709 - 写入增量数据 - linenr 2950000
+INFO  28-12 06:08:45,980 - 获得增量数据 - linenr 3000000
+INFO  28-12 06:08:46,174 - 写入增量数据 - linenr 3000000
+INFO  28-12 06:08:48,353 - 获得增量数据 - linenr 3050000
+INFO  28-12 06:08:48,373 - 写入增量数据 - linenr 3050000
+INFO  28-12 06:08:50,649 - 获得增量数据 - linenr 3100000
+INFO  28-12 06:08:50,667 - 写入增量数据 - linenr 3100000
+INFO  28-12 06:08:52,883 - 获得增量数据 - linenr 3150000
+INFO  28-12 06:08:52,910 - 写入增量数据 - linenr 3150000
+INFO  28-12 06:08:55,159 - 获得增量数据 - linenr 3200000
+INFO  28-12 06:08:55,178 - 写入增量数据 - linenr 3200000
+INFO  28-12 06:08:57,453 - 获得增量数据 - linenr 3250000
+INFO  28-12 06:08:57,472 - 写入增量数据 - linenr 3250000
+INFO  28-12 06:08:59,713 - 获得增量数据 - linenr 3300000
+INFO  28-12 06:08:59,731 - 写入增量数据 - linenr 3300000
+INFO  28-12 06:09:01,883 - 获得增量数据 - linenr 3350000
+INFO  28-12 06:09:01,902 - 写入增量数据 - linenr 3350000
+INFO  28-12 06:09:04,195 - 获得增量数据 - linenr 3400000
+INFO  28-12 06:09:04,215 - 写入增量数据 - linenr 3400000
+INFO  28-12 06:09:06,440 - 获得增量数据 - linenr 3450000
+INFO  28-12 06:09:06,457 - 写入增量数据 - linenr 3450000
+INFO  28-12 06:09:08,698 - 获得增量数据 - linenr 3500000
+INFO  28-12 06:09:08,719 - 写入增量数据 - linenr 3500000
+INFO  28-12 06:09:10,999 - 获得增量数据 - linenr 3550000
+INFO  28-12 06:09:11,018 - 写入增量数据 - linenr 3550000
+INFO  28-12 06:09:13,238 - 获得增量数据 - linenr 3600000
+INFO  28-12 06:09:13,256 - 写入增量数据 - linenr 3600000
+INFO  28-12 06:09:15,478 - 获得增量数据 - linenr 3650000
+INFO  28-12 06:09:15,497 - 写入增量数据 - linenr 3650000
+INFO  28-12 06:09:17,755 - 获得增量数据 - linenr 3700000
+INFO  28-12 06:09:17,774 - 写入增量数据 - linenr 3700000
+INFO  28-12 06:09:19,966 - 获得增量数据 - linenr 3750000
+INFO  28-12 06:09:19,985 - 写入增量数据 - linenr 3750000
+INFO  28-12 06:09:22,171 - 获得增量数据 - linenr 3800000
+INFO  28-12 06:09:22,191 - 写入增量数据 - linenr 3800000
+INFO  28-12 06:09:24,311 - 获得增量数据 - linenr 3850000
+INFO  28-12 06:09:24,329 - 写入增量数据 - linenr 3850000
+INFO  28-12 06:09:26,383 - 获得增量数据 - linenr 3900000
+INFO  28-12 06:09:26,402 - 写入增量数据 - linenr 3900000
+INFO  28-12 06:09:28,514 - 获得增量数据 - linenr 3950000
+INFO  28-12 06:09:28,534 - 写入增量数据 - linenr 3950000
+INFO  28-12 06:09:30,802 - 获得增量数据 - linenr 4000000
+INFO  28-12 06:09:30,820 - 写入增量数据 - linenr 4000000
+INFO  28-12 06:09:32,865 - 获得增量数据 - linenr 4050000
+INFO  28-12 06:09:32,882 - 写入增量数据 - linenr 4050000
+INFO  28-12 06:09:35,009 - 获得增量数据 - linenr 4100000
+INFO  28-12 06:09:35,027 - 写入增量数据 - linenr 4100000
+INFO  28-12 06:09:37,118 - 获得增量数据 - linenr 4150000
+INFO  28-12 06:09:37,137 - 写入增量数据 - linenr 4150000
+INFO  28-12 06:09:39,408 - 获得增量数据 - linenr 4200000
+INFO  28-12 06:09:39,427 - 写入增量数据 - linenr 4200000
+INFO  28-12 06:09:41,556 - 获得增量数据 - linenr 4250000
+INFO  28-12 06:09:41,576 - 写入增量数据 - linenr 4250000
+INFO  28-12 06:09:43,692 - 获得增量数据 - linenr 4300000
+INFO  28-12 06:09:43,711 - 写入增量数据 - linenr 4300000
+INFO  28-12 06:09:45,993 - 获得增量数据 - linenr 4350000
+INFO  28-12 06:09:46,012 - 写入增量数据 - linenr 4350000
+INFO  28-12 06:09:48,134 - 获得增量数据 - linenr 4400000
+INFO  28-12 06:09:48,152 - 写入增量数据 - linenr 4400000
+INFO  28-12 06:09:50,362 - 获得增量数据 - linenr 4450000
+INFO  28-12 06:09:50,379 - 写入增量数据 - linenr 4450000
+INFO  28-12 06:09:52,612 - 获得增量数据 - linenr 4500000
+INFO  28-12 06:09:52,631 - 写入增量数据 - linenr 4500000
+INFO  28-12 06:09:54,678 - 获得增量数据 - linenr 4550000
+INFO  28-12 06:09:54,697 - 写入增量数据 - linenr 4550000
+INFO  28-12 06:09:56,911 - 获得增量数据 - linenr 4600000
+INFO  28-12 06:09:56,929 - 写入增量数据 - linenr 4600000
+INFO  28-12 06:09:59,015 - 获得增量数据 - linenr 4650000
+INFO  28-12 06:09:59,033 - 写入增量数据 - linenr 4650000
+INFO  28-12 06:10:01,236 - 获得增量数据 - linenr 4700000
+INFO  28-12 06:10:01,254 - 写入增量数据 - linenr 4700000
+INFO  28-12 06:10:03,387 - 获得增量数据 - linenr 4750000
+INFO  28-12 06:10:03,405 - 写入增量数据 - linenr 4750000
+INFO  28-12 06:10:05,552 - 获得增量数据 - linenr 4800000
+INFO  28-12 06:10:05,571 - 写入增量数据 - linenr 4800000
+INFO  28-12 06:10:07,644 - 获得增量数据 - linenr 4850000
+INFO  28-12 06:10:07,664 - 写入增量数据 - linenr 4850000
+INFO  28-12 06:10:09,946 - 获得增量数据 - linenr 4900000
+INFO  28-12 06:10:09,965 - 写入增量数据 - linenr 4900000
+INFO  28-12 06:10:10,666 - 获得增量数据 - Finished reading query, closing connection.
+INFO  28-12 06:10:10,668 - CCS_MBMBER - Connection to database closed!
+INFO  28-12 06:10:10,669 - 获得增量数据 - 完成处理 (I=4915113, O=0, R=0, W=4915113, U=0, E=0
+INFO  28-12 06:10:10,685 - 53_DW_PLDW - Connection to database closed!
+INFO  28-12 06:10:10,685 - 写入增量数据 - 完成处理 (I=0, O=4915113, R=4915113, W=4915113, U=0, E=0
+INFO  28-12 06:10:10,699 - mbr_dw_full_sync - 开始项[T_SCHEDULE_PLAN_B]
+INFO  28-12 06:10:10,700 - mbr_dw_full_sync - exec(9, 0, T_SCHEDULE_PLAN_B.0)
+INFO  28-12 06:10:10,700 - T_SCHEDULE_PLAN_B - Starting job entry
+INFO  28-12 06:10:10,700 - T_SCHEDULE_PLAN_B - Opening transformation: [C:\BaseETL\CCS_MBR_DW_ETL\full_sync\transaction\T_SCHEDULE_PLAN_B.ktr]
+INFO  28-12 06:10:10,700 - T_SCHEDULE_PLAN_B - Loading transformation from XML file [C:\BaseETL\CCS_MBR_DW_ETL\full_sync\transaction\T_SCHEDULE_PLAN_B.ktr]
+INFO  28-12 06:10:10,755 - T_SCHEDULE_PLAN_B - Starting transformation...(file=C:\BaseETL\CCS_MBR_DW_ETL\full_sync\transaction\T_SCHEDULE_PLAN_B.ktr, name=T_SCHEDULE_PLAN_B, repinfo=null)
+INFO  28-12 06:10:10,755 - T_SCHEDULE_PLAN_B - 转换已经从资源库预先载入.
+INFO  28-12 06:10:10,755 - T_SCHEDULE_PLAN_B - 为了转换解除补丁开始  [T_SCHEDULE_PLAN_B]
+INFO  28-12 06:10:10,755 - T_SCHEDULE_PLAN_B - 已经找到的参数数量:0 
+INFO  28-12 06:10:10,755 - T_SCHEDULE_PLAN_B - 这没有一个重放的转换
+INFO  28-12 06:10:10,756 - T_SCHEDULE_PLAN_B - 我找到 2 个不同的要执行的步骤.
+INFO  28-12 06:10:10,756 - T_SCHEDULE_PLAN_B - 分派记录集...
+INFO  28-12 06:10:10,756 - T_SCHEDULE_PLAN_B -  正在分配行组为步骤 0 --> 获得增量数据
+INFO  28-12 06:10:10,756 - T_SCHEDULE_PLAN_B -   前一个副本 = 1, 下一个副本=1
+INFO  28-12 06:10:10,756 - T_SCHEDULE_PLAN_B - 转换分配了新的行组 [获得增量数据.0 - 写入增量数据.0]
+INFO  28-12 06:10:10,756 - T_SCHEDULE_PLAN_B -  已分配 1 行组为步骤 0 --> 获得增量数据  
+INFO  28-12 06:10:10,757 - T_SCHEDULE_PLAN_B -  正在分配行组为步骤 1 --> 写入增量数据
+INFO  28-12 06:10:10,757 - T_SCHEDULE_PLAN_B -  已分配 1 行组为步骤 1 --> 写入增量数据  
+INFO  28-12 06:10:10,757 - T_SCHEDULE_PLAN_B - 正在分配步骤和步骤数据...
+INFO  28-12 06:10:10,757 - T_SCHEDULE_PLAN_B -  转换大约分配了 步骤 [获得增量数据] 类型的 [TableInput]
+INFO  28-12 06:10:10,757 - 获得增量数据 - 分散被激活
+INFO  28-12 06:10:10,757 - 获得增量数据 - Starting allocation of buffers & new threads...
+INFO  28-12 06:10:10,757 - 获得增量数据 - 步骤信息: 输入数量=0 输出数量=1
+INFO  28-12 06:10:10,758 - 获得增量数据 - output rel. is  1:1
+INFO  28-12 06:10:10,758 - 获得增量数据 - 发现输出 rowset [获得增量数据.0 - 写入增量数据.0]
+INFO  28-12 06:10:10,758 - 获得增量数据 - 完成分发
+INFO  28-12 06:10:10,758 - T_SCHEDULE_PLAN_B -  转换已经分配了一个新的步骤: [获得增量数据].0
+INFO  28-12 06:10:10,758 - T_SCHEDULE_PLAN_B -  转换大约分配了 步骤 [写入增量数据] 类型的 [TableOutput]
+INFO  28-12 06:10:10,759 - 写入增量数据 - 分散被激活
+INFO  28-12 06:10:10,759 - 写入增量数据 - Starting allocation of buffers & new threads...
+INFO  28-12 06:10:10,759 - 写入增量数据 - 步骤信息: 输入数量=1 输出数量=0
+INFO  28-12 06:10:10,759 - 写入增量数据 - 获取来自前一步骤 [写入增量数据] #0 --> 获得增量数据
+INFO  28-12 06:10:10,759 - 写入增量数据 - input rel is 1:1
+INFO  28-12 06:10:10,759 - 写入增量数据 - 发现输入记录集合 [获得增量数据.0 - 写入增量数据.0]
+INFO  28-12 06:10:10,759 - 写入增量数据 - 完成分发
+INFO  28-12 06:10:10,760 - T_SCHEDULE_PLAN_B -  转换已经分配了一个新的步骤: [写入增量数据].0
+INFO  28-12 06:10:10,760 - T_SCHEDULE_PLAN_B - 这项转换可以被回放 回放日期是: 2013/12/28 06:10:10
+INFO  28-12 06:10:10,760 - T_SCHEDULE_PLAN_B - 正在初始化 2 步骤...
+INFO  28-12 06:10:10,761 - 获得增量数据 - Running on slave server #0/1.
+INFO  28-12 06:10:10,761 - 写入增量数据 - Running on slave server #0/1.
+INFO  28-12 06:10:10,762 - 20_pldb - New database connection defined
+INFO  28-12 06:10:10,762 - 53_DW_PLDW - New database connection defined
+INFO  28-12 06:10:10,801 - 53_DW_PLDW - Connected to database.
+INFO  28-12 06:10:10,801 - 20_pldb - Connected to database.
+INFO  28-12 06:10:10,802 - 写入增量数据 - Connected to database [53_DW_PLDW] (commit=1000)
+INFO  28-12 06:10:10,802 - 20_pldb - Auto commit off
+INFO  28-12 06:10:10,802 - 53_DW_PLDW - Auto commit off
+INFO  28-12 06:10:10,802 - 获得增量数据 - Connected to database...
+INFO  28-12 06:10:16,050 - T_SCHEDULE_PLAN_B - 步骤 [获得增量数据.0] 初始化不完全，有缺陷.
+INFO  28-12 06:10:16,050 - T_SCHEDULE_PLAN_B - 步骤 [写入增量数据.0] 初始化不完全，有缺陷.
+INFO  28-12 06:10:16,050 - T_SCHEDULE_PLAN_B - 转换已经分配了 2 线程 和 1 列组.
+INFO  28-12 06:10:16,051 - 获得增量数据 - 开始运行...
+INFO  28-12 06:10:16,051 - 获得增量数据 - SQL query : SELECT 
+SEQID,
+ROUND_NO,
+TYPE,
+SCHEDULE_PLAN_H_ID,
+FILM_ID,
+RUNNING_TIME,
+HALL_ID,
+CLEAN_TIME,
+AD_TIME,
+START_TIME,
+END_TIME,
+SORT_SEQ,
+STATUS,
+CREATE_DATE,
+CREATE_BY,
+UPDATE_DATE,
+UPDATE_BY,
+SUBMIT_TIME,
+SUBMIT_BY,
+SUBMIT,
+APPROVED,
+APPROVED_BY,
+APPROVED_TIME,
+VERSION,
+HALL_CODE,
+ROUND_FILM_ID,
+CHANNEL,
+RATE,
+MEMBER_DISCOUNT,
+MATCH_SEAT,
+PUBLISHED,
+ERROR,
+LOCKED,
+LANGUAGE,
+PRICED,
+BROADCAST,
+FIXED,
+TRAN_STS,
+TRAN_TIME,
+TRAN_FN,
+TRAN_MSG,
+JOIN_NAME,
+STD_PRICE,
+SHOW_DEVICE
+ FROM ccs_app.T_SCHEDULE_PLAN_B WHERE  update_date>=trunc(sysdate - 1 ) + 6/24 and update_date <trunc(sysdate - 1 ) + 30/24
+INFO  28-12 06:10:16,052 - 写入增量数据 - 开始运行...
+INFO  28-12 06:11:10,904 - 写入增量数据 - Prepared statement : INSERT INTO CCS_MBR_DW.T_SCHEDULE_PLAN_B (SEQID, ROUND_NO, TYPE, SCHEDULE_PLAN_H_ID, FILM_ID, RUNNING_TIME, HALL_ID, CLEAN_TIME, AD_TIME, START_TIME, END_TIME, SORT_SEQ, STATUS, CREATE_DATE, CREATE_BY, UPDATE_DATE, UPDATE_BY, SUBMIT_TIME, SUBMIT_BY, SUBMIT, APPROVED, APPROVED_BY, APPROVED_TIME, VERSION, HALL_CODE, ROUND_FILM_ID, CHANNEL, RATE, MEMBER_DISCOUNT, MATCH_SEAT, PUBLISHED, ERROR, LOCKED, LANGUAGE, PRICED, BROADCAST, FIXED, TRAN_STS, TRAN_TIME, TRAN_FN, TRAN_MSG, JOIN_NAME, STD_PRICE, SHOW_DEVICE) VALUES ( ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?)
+INFO  28-12 06:11:12,818 - 获得增量数据 - Finished reading query, closing connection.
+INFO  28-12 06:11:12,821 - 20_pldb - Connection to database closed!
+INFO  28-12 06:11:12,821 - 获得增量数据 - 完成处理 (I=20270, O=0, R=0, W=20270, U=0, E=0
+ERROR 28-12 06:11:12,918 - 写入增量数据 - Unexpected batch update error committing the database connection.
+ERROR 28-12 06:11:12,918 - 写入增量数据 - org.pentaho.di.core.exception.KettleDatabaseBatchException: 
+Error updating batch
+ORA-14400: 插入的分区关键字未映射到任何分区
+
+
+	at org.pentaho.di.core.database.Database.emptyAndCommit(Database.java:1503)
+	at org.pentaho.di.trans.steps.tableoutput.TableOutput.dispose(TableOutput.java:658)
+	at org.pentaho.di.trans.step.RunThread.run(RunThread.java:79)
+	at java.lang.Thread.run(Thread.java:662)
+Caused by: java.sql.BatchUpdateException: ORA-14400: 插入的分区关键字未映射到任何分区
+
+	at oracle.jdbc.driver.DatabaseError.throwBatchUpdateException(DatabaseError.java:629)
+	at oracle.jdbc.driver.OraclePreparedStatement.executeBatch(OraclePreparedStatement.java:9409)
+	at oracle.jdbc.driver.OracleStatementWrapper.executeBatch(OracleStatementWrapper.java:211)
+	at org.pentaho.di.core.database.Database.emptyAndCommit(Database.java:1486)
+	... 3 more
+
+ERROR 28-12 06:11:12,919 - T_SCHEDULE_PLAN_B - 错误被检测到!
+ERROR 28-12 06:11:12,919 - T_SCHEDULE_PLAN_B - 错误被检测到!
+INFO  28-12 06:11:12,925 - 53_DW_PLDW - Connection to database closed!
+INFO  28-12 06:11:12,926 - 写入增量数据 - 完成处理 (I=0, O=20000, R=20270, W=20000, U=0, E=1
+INFO  28-12 06:11:12,927 - T_SCHEDULE_PLAN_B - T_SCHEDULE_PLAN_B
+INFO  28-12 06:11:12,927 - T_SCHEDULE_PLAN_B - T_SCHEDULE_PLAN_B
+INFO  28-12 06:11:12,931 - mbr_dw_full_sync - 完成作业项[T_SCHEDULE_PLAN_B] (结果=[false])
+INFO  28-12 06:11:12,931 - mbr_dw_full_sync - 完成作业项[T_LEVEL_HISTORY] (结果=[false])
+INFO  28-12 06:11:12,931 - mbr_dw_full_sync - 完成作业项[T_CONTACT_HISTORY] (结果=[false])
+INFO  28-12 06:11:12,931 - mbr_dw_full_sync - 完成作业项[T_CMN_PHASE] (结果=[false])
+INFO  28-12 06:11:12,931 - mbr_dw_full_sync - 完成作业项[T_CMN_ACTIVITY] (结果=[false])
+INFO  28-12 06:11:12,932 - mbr_dw_full_sync - 完成作业项[T_CAMPAIGN] (结果=[false])
+INFO  28-12 06:11:12,932 - mbr_dw_full_sync - 完成作业项[T_ACT_TARGET] (结果=[false])
+INFO  28-12 06:11:12,932 - mbr_dw_full_sync - 完成作业项[T_FT_TYPE] (结果=[false])
+INFO  28-12 06:11:12,932 - mbr_dw_full_sync - 完成作业项[T_FILM] (结果=[false])
+INFO  28-12 06:11:12,932 - mbr_dw_full_sync - 任务执行完毕
+INFO  28-12 06:11:12,934 - Kitchen - Finished!
+ERROR 28-12 06:11:12,935 - Kitchen - Finished with errors
+INFO  28-12 06:11:12,936 - Kitchen - Start=2013/12/28 06:05:01.994, Stop=2013/12/28 06:11:12.935
+INFO  28-12 06:11:12,937 - Kitchen - Processing ended after 6 minutes and 10 seconds (370 seconds total).

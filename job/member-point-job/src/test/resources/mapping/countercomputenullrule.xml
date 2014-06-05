@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<etl>
+		<source>
+			<db conn="db.mbr_dw">
+				<sql>
+					<![CDATA[ 
+                      
+			    	select distinct t1.member_id MEMBER_ID from T_MEMBER_REPAIR_N t1,t_f_con_member_cinema t2 ,t_member_repair_n a
+									where t1.member_id = t2.member_key(+)
+			            and a.member_id = t1.member_id
+			            and a.is_repaired=0
+			            and rownum<=10000
+									and t2.member_key is null
+              
+
+					]]>
+				</sql>
+			</db>
+		</source>
+		<destination>
+			<db conn="db.mbr_dw">
+				<table>t_member_repair_n</table>
+			</db>
+		</destination>
+		
+		<mapping>
+			<field src="MEMBER_ID"  dest="MEMBER_ID" stype="key" />
+			<field dest="is_repaired"><fixed>3</fixed></field>			
+		</mapping>
+		
+</etl>

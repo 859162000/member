@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<etl>
+		<source>
+			<db conn="db.mbr_uat">
+				<sql>
+					<![CDATA[ 
+ 					             SELECT
+ 		  T.T_GOODS_TRANS_DETAIL_ID,
+ 		 T.POINT,
+       T.ACTIVITY_POINT,
+       T.LEVEL_POINT,
+       T.IS_POINT,
+       T.IS_GOODS,
+       T.EXT_POINT_RULE_ID,
+              T.BIZ_DATE,
+       T.CINEMA_INNER_CODE
+  from T_GOODS_TRANS_DETAIL t
+ where t.is_point is not null
+   and trunc(BIZ_DATE)=to_date('${bizdate}', 'yyyy-mm-dd')
+	 and CINEMA_INNER_CODE='${cinema}'
+
+				]]>
+				</sql>
+			</db>
+		</source>
+		<destination>
+			<db conn="db.mbr_uat">
+				<table>T_GOODS_TRANS_DETAIL</table>
+			</db>
+		</destination>
+
+
+
+		<mapping>
+			<field src="T_GOODS_TRANS_DETAIL_ID"  dest="T_GOODS_TRANS_DETAIL_ID" stype="key" />
+			<field dest="POINT" ><fixed>0</fixed></field>
+			<field dest="ACTIVITY_POINT" ><fixed>0</fixed></field>
+			<field dest="LEVEL_POINT" ><fixed>0</fixed></field>
+			<field dest="IS_POINT" ><fixed>0</fixed></field>
+			<field dest="IS_GOODS" ><fixed>0</fixed></field>
+			<field src="CINEMA_INNER_CODE" dest="CINEMA_INNER_CODE" />
+			<field src="BIZ_DATE" dest="BIZ_DATE" type="date"/>
+			<field dest="EXT_POINT_RULE_ID" ><fixed> </fixed></field>
+		</mapping>
+		
+</etl>

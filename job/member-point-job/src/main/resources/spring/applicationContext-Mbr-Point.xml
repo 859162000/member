@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="  
+         http://www.springframework.org/schema/context   
+         http://www.springframework.org/schema/context/spring-context-3.0.xsd    
+	     http://www.springframework.org/schema/beans   
+	     http://www.springframework.org/schema/beans/spring-beans-3.0.xsd  
+	     http://www.springframework.org/schema/tx   
+	     http://www.springframework.org/schema/tx/spring-tx-3.0.xsd  
+	     http://www.springframework.org/schema/aop   
+	     http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+	<bean id="propertyConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location" value="classpath:/spring/jdbc.properties" />
+	</bean>
+
+
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
+		<property name="url" value="${jdbc.url}" />
+		<property name="username" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+		<property name="initialSize" value="${jdbc.initialSize}" />
+		<property name="maxActive" value="${jdbc.maxActive}" />
+		<property name="maxIdle" value="${jdbc.maxIdle}" />
+		<property name="maxWait" value="1000" />
+		<property name="poolPreparedStatements" value="true" />
+		<property name="defaultAutoCommit" value="true" />
+	</bean>
+	<bean id="dataSourceDw" class="org.apache.commons.dbcp.BasicDataSource" 	destroy-method="close">
+		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
+		<property name="url" value="${jdbc.url.dw}" />
+		<property name="username" value="${jdbc.username.dw}" />
+		<property name="password" value="${jdbc.password.dw}" />
+		<property name="initialSize" value="${jdbc.initialSize}" />
+		<property name="maxActive" value="${jdbc.maxActive}" />
+		<property name="maxIdle" value="${jdbc.maxIdle}" />
+		<property name="maxWait" value="1000" />
+		<property name="poolPreparedStatements" value="true" />
+		<property name="defaultAutoCommit" value="true" />
+	</bean>
+
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="configLocation" value="classpath:spring/mybatis-configuration.xml"></property>
+	</bean>
+	
+	<bean id="sqlSessionFactoryDw" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSourceDw" />
+		<property name="configLocation" value="classpath:spring/mybatis-configuration.dw.xml"></property>
+	</bean>
+
+	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg index="0" ref="sqlSessionFactory" />
+	</bean>
+	<bean id="sqlSessionDw" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg index="0" ref="sqlSessionFactoryDw" />
+	</bean>
+	
+	<!-- <bean id="myBatisDAO" class="com.m2.product.service.impl.MyBatisDAO"> 
+		<property name="sqlSession" ref="sqlSession" /> </bean> -->
+	<context:component-scan base-package="com.wanda" />
+
+	<!-- <tx:annotation-driven transaction-manager="transactionManager" /> -->
+
+</beans>

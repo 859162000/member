@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:batch="http://www.springframework.org/schema/batch"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/batch http://www.springframework.org/schema/batch/spring-batch-2.2.xsd
+	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+	
+	<batch:step id="clean_point_history">
+		<batch:tasklet>
+			<bean class="com.wanda.member.basic.tasklet.CleanPointHistoryTasklet">
+				<property name="sqlSession" ref="dw13SqlSession" />
+			</bean>
+		</batch:tasklet>
+	</batch:step>
+	<batch:step id="clean_member_kpi">
+		<batch:tasklet>
+			<bean class="com.wanda.member.basic.tasklet.CleanMemberKpiTasklet">
+				<property name="sqlSession" ref="dw13SqlSession" />
+			</bean>
+		</batch:tasklet>
+	</batch:step>
+	
+	<batch:step id="update_status">
+		<batch:tasklet>
+			<bean class="com.wanda.member.basic.tasklet.UpdataStatusTasklet">
+				<property name="sqlSession" ref="dw13FlagSqlSession" />
+			</bean>
+		</batch:tasklet>
+	</batch:step>
+	
+	<batch:step id="check_status">
+		<batch:tasklet>
+			<bean class="com.wanda.member.basic.tasklet.CheckStatusTasklet">
+				<property name="sqlSession" ref="dw13FlagSqlSession" />
+			</bean>
+		</batch:tasklet>
+	</batch:step>
+	
+	<batch:step id="pointhistory_mbr52_to_dw13_step">
+		<batch:tasklet>
+			<batch:chunk reader="pointHistoryJdbcReader" writer="dwPointHistoryWriter" commit-interval="1000" />
+		</batch:tasklet>
+	</batch:step>
+	<batch:step id="member_kpi_mbr52_to_dw13_step">
+		<batch:tasklet>
+			<batch:chunk reader="memberKpiJdbcReader" writer="dwMemberKpiWriter" commit-interval="1000" />
+		</batch:tasklet>
+	</batch:step>
+
+	<bean id="pointHistoryJdbcReader"
+		class="org.springframework.batch.item.database.JdbcCursorItemReader"
+		scope="step">
+		<property name="dataSource" ref="mbr_dataSource" />
+		<property name="rowMapper">
+			<bean class="org.springframework.jdbc.core.ColumnMapRowMapper" />
+		</property>
+		<property name="sql">
+			<value>
+				<![CDATA[ 
+				select POINT_HISTORY_ID,
+				       MEMBER_ID,
+				       SET_TIME,
+				       LEVEL_POINT,
+				       TICKET_COUNT,
+				       ACTIVITY_POINT,
+				       EXCHANGE_POINT,
+				       EXCHANGE_POINT_EXPIRE_TIME,
+				       POINT_TYPE,
+				       POINT_SYS,
+				       POINT_TRANS_TYPE,
+				       POINT_TRANS_CODE,
+				       POINT_TRANS_CODE_WEB,
+				       ADJ_RESION,
+				       ORG_POINT_BALANCE,
+				       POINT_BALANCE,
+				       IS_SYNC_BALANCE,
+				       ISDELETE,
+				       CREATE_BY,
+				       CREATE_DATE,
+				       UPDATE_BY,
+				       UPDATE_DATE,
+				       VERSION,
+				       MEMBER_POINT_ID,
+				       ADJ_REASON_TYPE,
+				       ADJ_REASON,
+				       ORDER_ID,
+				       PRODUCT_NAME,
+				       IS_SUCCEED,
+				       CINEMA_INNER_CODE,
+				       POINT_EXT_RULE_ID,
+				       TRANS_TYPE,
+				       T_TRANS_ORDER_ID,
+				       T_TRANS_DETAIL_ID,
+				       RECALCU_STATUS,
+				       RECALCU_DATE,
+				       IS_HISTORY
+				  from T_POINT_HISTORY t
+				 where 
+				  	 set_time  < to_date(?, 'yyyy-mm-dd') + 30/24
+				 and set_time >= to_date(?, 'yyyy-mm-dd') + 6/24 
+				 and (is_history <>1 or is_history is null) 
+				]]>
+			</value>
+		</property>
+		<property name="preparedStatementSetter">
+			<bean
+				class="org.springframework.batch.core.resource.ListPreparedStatementSetter">
+				<property name="parameters">
+					<list>
+						<value>#{jobParameters['biz_date']}</value>
+						<value>#{jobParameters['biz_date']}</value>
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="memberKpiJdbcReader"
+		class="org.springframework.batch.item.database.JdbcCursorItemReader"
+		scope="step">
+		<property name="dataSource" ref="mbr_dataSource" />
+		<property name="rowMapper">
+			<bean class="org.springframework.jdbc.core.ColumnMapRowMapper" />
+		</property>
+		<property name="sql">
+			<value>
+				<![CDATA[ 
+				SELECT
+					MEMBER_KPI_ID,
+					KPI_YEAR,
+					CINEMA_ID,
+					KPI_VALUE,
+					CREATE_BY,
+					CREATE_DATE,
+					UPDATE_BY,
+					UPDATE_DATE,
+					VERSION,
+					KPI_NAME,
+					KPI_TYPE
+				FROM 
+					T_MEMBER_KPI
+				]]>
+			</value>
+		</property>
+	</bean>
+	
+	
+	<bean id="dwPointHistoryWriter" class="org.mybatis.spring.batch.MyBatisBatchItemWriter"
+		scope="step">
+		<property name="sqlSessionTemplate" ref="dw13SqlSession" />
+		<property name="statementId"
+			value="com.wanda.member.basic.service.PointTsMapper.insertPointHistory" />
+	</bean>
+	<bean id="dwMemberKpiWriter" class="org.mybatis.spring.batch.MyBatisBatchItemWriter"
+		scope="step">
+		<property name="sqlSessionTemplate" ref="dw13SqlSession" />
+		<property name="statementId"
+			value="com.wanda.member.basic.service.PointTsMapper.insertMemberKpi" />
+	</bean>
+	
+
+</beans>

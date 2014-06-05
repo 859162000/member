@@ -1,0 +1,3 @@
+package goovy
+
+print("hello")

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<etl>
+		<source>
+			<db conn="db.mbr_uat">
+				<sql>
+					<![CDATA[ 
+					   select   T_GOODS_TRANS_DETAIL_ID	          
+  ,GOODS_NAME
+  ,AMONT
+  ,TRANS_TYPE
+  ,TRANS_TIME
+  ,GODDS_SUD
+  ,GOODS_COUNT
+  ,POS_ORDER_ID
+  ,ORDER_ID
+  ,BIZ_DATE
+  ,POINT
+  ,PAYMENT_HASH
+  ,LEVEL_POINT 
+  ,ACTIVITY_POINT
+  ,IS_POINT
+  ,IS_GOODS
+  ,EXT_POINT_RULE_ID
+  ,MEMBER_ID
+  ,GOODS_ID
+  from T_GOODS_TRANS_DETAIL t 
+   where IS_POINT ='0'
+      and CINEMA_INNER_CODE='${cinema}'
+   and trunc(BIZ_DATE)=to_date('${bizdate}', 'yyyy-mm-dd')
+								 
+				]]>
+				</sql>
+			</db>
+		</source>
+		<destination>
+			<db conn="db.mbr_uat">
+				<table>T_GOODS_TRANS_DETAIL</table>
+			</db>
+		</destination>
+
+		<linefilter>
+			<filter name="goodsbasicpointlinehandle" />
+		</linefilter>
+
+		<mapping> 
+			<field src="T_GOODS_TRANS_DETAIL_ID"  dest="T_GOODS_TRANS_DETAIL_ID" stype="key" />
+			<field src="GOODS_NAME" dest="GOODS_NAME" />
+			<field src="AMONT" dest="AMONT" />
+			<field src="TRANS_TYPE" dest="TRANS_TYPE" />
+			<field src="TRANS_TIME" dest="TRANS_TIME" type="timestamp" />
+			<field src="GODDS_SUD" dest="GODDS_SUD" />
+			<field src="GOODS_COUNT" dest="GOODS_COUNT" />
+			<field src="POS_ORDER_ID" dest="POS_ORDER_ID" />
+			<field src="ORDER_ID" dest="ORDER_ID" />
+			<field src="BIZ_DATE" dest="BIZ_DATE" type="date"/>
+			<field src="POINT" dest="POINT" />
+			<field src="PAYMENT_HASH" dest="PAYMENT_HASH" />
+			<field src="LEVEL_POINT" dest="LEVEL_POINT"  />
+			<field src="ACTIVITY_POINT" dest="ACTIVITY_POINT" />
+			<field src="IS_POINT" dest="IS_POINT" />
+			<field src="IS_GOODS" dest="IS_GOODS" />
+			<field src="MEMBER_ID" dest="MEMBER_ID" />
+			<field src="EXT_POINT_RULE_ID" dest="EXT_POINT_RULE_ID" />
+			<field src="GOODS_ID" dest="GOODS_ID" />
+		</mapping>
+		
+</etl>

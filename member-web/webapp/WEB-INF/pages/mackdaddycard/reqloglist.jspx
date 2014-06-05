@@ -1,0 +1,48 @@
+<jsp:root version="2.1" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:adk="http://www.aggrepoint.com/adk"
+	xmlns:input="urn:jsptagdir:/WEB-INF/tags/input"
+	xmlns:display="http://displaytag.sf.net">
+	<jsp:directive.page language="java"
+		contentType="text/xml; charset=UTF-8" pageEncoding="UTF-8" />
+
+		<div class="dcontent"> 
+		<adk:form name="frmReqLogPaging" action="search">
+			<adk:func name="search" submit="yes" />
+		</adk:form> 
+		<div class="table" id="reqLogListTable"> 
+		<display:table name="pageResult" id="row" htmlId="idTable" cellspacing="0" cellpadding="0" style="width:100%" export="false" requestURI="">
+			<display:column title="操作名称" property="actionName" headerClass="ac" class="ac" />
+			<display:column title="操作人" property="actionBy" headerClass="ac" class="ac" />
+			<display:column title="操作时间" property="actionTime" headerClass="ac" class="ac" format="{0,date,yyyy-MM-dd HH:mm}" />
+			<display:column title="操作前状态" headerClass="ac" class="ac">
+				<c:choose>
+					<c:when test="${row.fromStatus eq m.DIMTYPE_CARD_ORDER_STATUS_A}">待审核</c:when>
+					<c:when test="${row.fromStatus eq m.DIMTYPE_CARD_ORDER_STATUS_P}">审核通过</c:when>
+					<c:when test="${row.fromStatus eq m.DIMTYPE_CARD_ORDER_STATUS_F}">审核拒绝</c:when>
+					<c:when test="${row.fromStatus eq m.DIMTYPE_CARD_ORDER_STATUS_X}">取消审核</c:when>
+				</c:choose>
+			</display:column>
+			<display:column title="操作后状态" headerClass="ac" class="ac">
+				<c:choose>
+					<c:when test="${row.toStatus eq m.DIMTYPE_CARD_ORDER_STATUS_A}">待审核</c:when>
+					<c:when test="${row.toStatus eq m.DIMTYPE_CARD_ORDER_STATUS_P}">审核通过</c:when>
+					<c:when test="${row.toStatus eq m.DIMTYPE_CARD_ORDER_STATUS_F}">审核拒绝</c:when>
+					<c:when test="${row.toStatus eq m.DIMTYPE_CARD_ORDER_STATUS_X}">取消审核</c:when>
+				</c:choose>
+			</display:column>
+			<display:column title="备注" property="comments" headerClass="ac" class="ac" />
+		</display:table> 
+		</div> 
+		
+	 </div>
+		<!-- 使用JS处理Displaytag的排序与翻页处理 -->
+<script language="javascript">
+	$("#reqLogListTable").displayTagAjax({
+		form : '${adk:encodens("frmReqLogPaging")}'
+	});
+	</script>
+
+</jsp:root>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wanda.member.basic.service.FlagMapper" >
+  
+  <update id="updateStatus" parameterType="java.util.Map">
+  	UPDATE CCS_REPORT.T_SYS_DATA_JOB
+	SET FLAG_MBR_POINTS=1,
+	  time_mbr_points  =sysdate
+	WHERE ymd          = to_char(to_date(#{bizDate,jdbcType=VARCHAR}, 'yyyy-mm-dd'),'yyyymmdd')
+	AND FLAG_MBR       =1
+	AND FLAG_ETL_SQL   =1
+	AND FLAG_MBR_POINTS=0
+  </update>
+  
+  <select id="checkStatus" parameterType="java.util.Map" resultType="java.lang.Integer">
+  	SELECT count(1)
+	FROM CCS_REPORT.T_SYS_DATA_JOB j
+	WHERE ymd          = to_char(to_date(#{bizDate,jdbcType=VARCHAR}, 'yyyy-mm-dd'),'yyyymmdd')
+	AND FLAG_MBR       =1
+	AND FLAG_ETL_SQL   =1
+	AND FLAG_MBR_POINTS=0
+  </select>
+  
+</mapper>

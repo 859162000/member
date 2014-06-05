@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wanda.mms.control.response.MarketingEffectMapper">
+	<select id="getAlterResponseCount" resultType="java.math.BigDecimal" 	parameterType="java.lang.String">
+
+
+with a as
+		( select member_id from (
+		       select con.member_id as member_id from t_contact_history con where con.act_target_id =(
+		            select cmn.act_target_id from t_cmn_activity cmn ,t_act_result act where cmn.cmn_activity_id=act.cmn_activity_id and act.act_result_id=#{resultId}
+		        )
+		        and con.IS_CONTROLSET = 0
+		        
+		  )
+		),b as(
+		    select member_id from (                 
+		      select sm.member_id from t_segm_member sm where sm.segment_id = (
+		      select t.res_segment_id from t_act_result t where t.act_result_id =#{resultId}
+		      )
+		    )
+		
+		),c as(
+		    select member_id from (   
+		           select sm.member_id as member_id from t_segm_member sm where sm.segment_id = (
+		              select t.alter_segment_id from t_act_result t where t.act_result_id =#{resultId}
+		              )
+		    )
+		
+		)
+		select count(a.member_id) cnt from a ,c where a.member_id  = c.member_id 
+		and a.member_id not in (
+			select b.member_id from b 
+		)
+	</select>
+	<select id="getRelResponseCount" resultType="java.math.BigDecimal" 	parameterType="java.math.BigDecimal">
+		with a as
+		( select member_id from (
+			select con.member_id as member_id from t_contact_history con where
+				con.act_target_id =(
+				select cmn.act_target_id from t_cmn_activity cmn ,t_act_result act where
+				cmn.cmn_activity_id=act.cmn_activity_id and act.act_result_id=#{resultId}
+			)
+			and con.IS_CONTROLSET = 0
+		)
+		),b as(
+		select member_id from (
+		select sm.member_id from t_segm_member sm where sm.segment_id = (
+		select t.res_segment_id from t_act_result t where t.act_result_id =#{resultId}
+		)
+		)
+
+		)
+		select count(a.member_id) as cnt from a ,b where a.member_id = b.member_id
+		
+
+	</select>
+	
+	<select id="getContractConunt" resultType="java.math.BigDecimal" 	parameterType="java.math.BigDecimal">
+		select tat.max_count     ContractCount
+	    from t_act_target tat,    
+	    t_cmn_activity tca 
+	    where tca.cmn_activity_id =#{cmnActivityID}
+	    and tca.act_target_id = tat.act_target_id   
+	
+	</select>
+	<select id="getControlcount" resultType="java.math.BigDecimal" 	parameterType="java.math.BigDecimal" >
+		select tat.control_count controlcount 
+	    from t_act_target tat,           
+	    t_cmn_activity tca where tca.cmn_activity_id =#{cmnActivityID}
+	    and tca.act_target_id = tat.act_target_id   
+	</select>
+	<!--  better A''B
+	
+	 with a as
+		( select member_id from (
+		       select con.member_id as member_id from t_contact_history con where con.act_target_id =(
+		            select cmn.act_target_id from t_cmn_activity cmn ,t_act_result act where cmn.cmn_activity_id=act.cmn_activity_id and act.act_result_id=161
+		        )
+		        and con.IS_CONTROLSET = 1
+		        
+		  )
+		),b as(
+		    select member_id from (                 
+		      select sm.member_id from t_segm_member sm where sm.segment_id = (
+		      select t.res_segment_id from t_act_result t where t.act_result_id =161
+		      )
+		    )
+		
+		),c as(
+		    select member_id from (   
+		           select sm.member_id as member_id from t_segm_member sm where sm.segment_id = (
+		              select t.alter_segment_id from t_act_result t where t.act_result_id =161
+		              )
+		    )
+		
+		)
+		select count(a.member_id) cnt from a ,b where a.member_id  = b.member_id 
+	
+	 -->
+	<select id="getControlResCount" resultType="java.math.BigDecimal" 	parameterType="java.math.BigDecimal">
+		select count(distinct tch.member_id) as count_memberid  
+		    from t_contact_history tch, t_segm_member tsm , t_cmn_activity cmn
+		    where  tch.member_id=tsm.member_id and tch.is_controlset  = 1 and tch.act_target_id = cmn.act_target_id 
+		    and cmn.cmn_activity_id =#{cmnActivityID} and tsm.segment_id=#{resSegment}
+	</select>
+	<update id="updateResult" parameterType="map" >
+	 update t_act_result t 
+	 <set>
+      <if test="record.resCount != null">
+      	 res_count= #{record.resCount} ,
+      </if>
+      <if test="record.alterResCount != null">
+		 alter_res_count=#{record.alterResCount},
+      </if>
+      <if test="record.controlResCount != null">
+        control_res_count=#{record.controlResCount},
+      </if>
+      <if test="record.contactCount != null">
+       	CONTACT_COUNT=#{record.contactCount},
+      </if>
+      <if test="record.controlCount != null">
+       CONTROL_COUNT=#{record.controlCount},
+      </if>
+       <if test="record.status != null">
+      status =#{record.status},
+      </if>
+      LAST_CALCULATE_TIME = sysdate
+    </set>
+		where t.act_result_id=#{record.actResultId}
+	</update>
+	
+</mapper>

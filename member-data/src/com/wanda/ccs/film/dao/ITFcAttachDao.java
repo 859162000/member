@@ -1,0 +1,1 @@
+package com.wanda.ccs.film.dao;import com.wanda.ccs.model.TFcAttach;import com.xcesys.extras.core.dao.IBaseDao;public interface ITFcAttachDao extends IBaseDao<TFcAttach> {}

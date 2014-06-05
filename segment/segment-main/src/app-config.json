@@ -1,0 +1,168 @@
+{
+
+beans: 
+[
+
+	{
+		path : "/transactionManager",
+		class :"org.springframework.jdbc.datasource.DataSourceTransactionManager", 
+		initInstance: true, //this bean will be instanced on InstanceSpace creating.
+		scope : "container",
+		properties: {
+			dataSource: "$instance:/dataSource"
+		}
+	},
+	
+	/*{
+		path : "/transactionInterceptor",
+		class :"com.google.code.pathlet.jdbc.TransactionInterceptor", 
+		scope : "container",
+		properties: {
+			transactionManager: "$instance:/transactionManager"
+		}
+	},*/
+	
+	
+	{
+		path : "/readonlyInterceptor",
+		class :"com.google.code.pathlet.jdbc.ConfTransactionInterceptor", 
+		scope : "container",
+		properties: {
+			transactionManager: "$instance:/transactionManager",
+			readOnly: true
+		}
+	},
+	
+	{
+		path : "/writableInterceptor",
+		class :"com.google.code.pathlet.jdbc.ConfTransactionInterceptor", 
+		scope : "container",
+		properties: {
+			transactionManager: "$instance:/transactionManager",
+			rollbackFor: ["java.sql.SQLException", "java.io.IOException"],
+			readOnly: false
+		}
+	},
+	
+	{
+		path : "/annoInterceptor",
+		class :"com.google.code.pathlet.jdbc.AnnoTransactionInterceptor",
+		scope : "container",
+		properties: {
+			transactionManager: "$instance:/transactionManager"
+		}
+	},
+	
+	
+	
+	{
+		path : "/jobScheduleService",
+		class :"com.wanda.ccs.jobhub.client.impl.HttpJobScheduleService", 
+		scope : "container",
+		properties : { 
+			"serverAddress": "$instance:/jobServiceAddress"
+		}
+	}, 
+	
+	{
+		path : "/ognlRequestProcessor",
+		class :"com.google.code.pathlet.web.ognl.OgnlRequestProcessor", 
+		scope : "container"
+	},
+	
+	{
+		path : "/jsonResponseProcessor",
+		class : "com.google.code.pathlet.web.json.JsonResponseProcessor",
+		scope : "container",
+		properties: {
+			serializers: {
+				"java.util.Date": "$instance:/dateTimeSerializer", 
+				"java.sql.Timestamp": "$instance:/dateTimeSerializer", 
+				"java.sql.Date": "$instance:/dateSerializer", 
+				"java.sql.Time": "$instance:/timeSerializer" 
+			}
+		}
+	},
+	
+	{
+		path : "/dateTimeSerializer",
+		class :"com.google.code.pathlet.web.json.DateJsonSerializer", 
+		scope : "container",
+		properties : { formatPattern: "yyyy-MM-dd HH:mm:ss" }
+	},
+	
+	{
+		path : "/dateSerializer",
+		class :"com.google.code.pathlet.web.json.DateJsonSerializer", 
+		scope : "container",
+		properties : { formatPattern: "yyyy-MM-dd" }
+	},
+	
+	{
+		path : "/timeSerializer",
+		class :"com.google.code.pathlet.web.json.DateJsonSerializer", 
+		scope : "container",
+		properties : { formatPattern: "HH:mm:ss" }
+	},
+	
+    	
+	{
+		path : "/ajaxProcessor",
+		class :"com.google.code.pathlet.web.PathletAjaxProcessor", 
+		scope : "container",
+		properties: {
+			container: "$container",
+			requestProcessors: ["$instance:/ognlRequestProcessor"],
+			resultResponseProcessors: ["$instance:/jsonResponseProcessor"],
+			suffix: "do",
+			requestCharset: "UTF-8",
+			responseCharset: "UTF-8"
+		}
+	}
+
+],
+
+pointcuts: [
+	{
+		id: "readonlyPointcut",
+		pathPattern: {includes: "/**/*Service"},
+		methods: "get*,query*,find*,is*,has*"
+	},
+	
+	{
+		id: "writablePointcut",
+		pathPattern: {includes: "/**/*Service"},
+		methods: "add*,set*,put*,save*,update*,insert*,delete*"
+	},
+	
+	{
+		id: "annoPointcut",
+		pathPattern: {includes: "/**/*Service"},
+		methods: "*"
+	}
+],
+
+advices: [
+	/*{
+		id: "transactionReadonly",
+		pointcutId: "readonlyPointcut",
+		advisorPath: "/readonlyInterceptor",
+		adviceMethod: "around"
+	},
+	{
+		id: "transactionWritable",
+		pointcutId: "writablePointcut",
+		advisorPath: "/writableInterceptor",
+		adviceMethod: "around"
+	},*/
+	{
+		id: "transactionAnnotaion",
+		pointcutId: "annoPointcut",
+		advisorPath: "/annoInterceptor",
+		adviceMethod: "around"
+	}
+	
+]
+
+
+}

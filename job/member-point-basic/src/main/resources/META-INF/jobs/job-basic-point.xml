@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:batch="http://www.springframework.org/schema/batch"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/batch http://www.springframework.org/schema/batch/spring-batch-2.2.xsd
+	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+	<import resource="../../data-source.xml" />
+	<import resource="../../application-context.xml" />
+	<import resource="basic-common.xml" />
+	<import resource="ticket-basic-point.xml" />
+	<import resource="goods-basic-point.xml" />
+	<import resource="point-ts.xml" />
+
+	<batch:job id="basicPointByDate">
+		<batch:description>全流程基本积分JOB按BIZ_DATE执行</batch:description>
+		<batch:split id="split_basic_step" task-executor="splitTaskExecutor">
+			<batch:flow>
+				<batch:step id="step1_ticket_trans_load" parent="ticket_load_partitioned_step">
+					<batch:next on="COMPLETED" to="step2_ticket_four_partitioned_step" />
+				</batch:step>
+				<batch:step id="step2_ticket_four_partitioned_step" parent="ticket_four_partitioned_step">
+					<batch:next on="COMPLETED" to="step2_ticket_calculate_step" />
+				</batch:step>
+				<batch:step id="step2_ticket_calculate_step" parent="ticket_calculate_partitioned_step"/>
+			</batch:flow>
+			<batch:flow>
+				<batch:step id="step1_goods_trans_load" parent="goods_load_partitioned_step">
+					<batch:next on="COMPLETED" to="step2_goods_calculate_step" />
+				</batch:step>
+				<batch:step id="step2_goods_calculate_step" parent="goods_calculate_partitioned_step"/>
+			</batch:flow>
+		</batch:split>
+	</batch:job>
+	
+	<batch:job id="basicTicketPointByDate">
+		<batch:description>Ticket基本积分JOB按BIZ_DATE执行</batch:description>
+		<batch:step id="step1_only_ticket_trans_load" parent="ticket_load_partitioned_step" next="step2_only_ticket_four_step" />
+		<batch:step id="step2_only_ticket_four_step" parent="ticket_four_partitioned_step" next="step3_only_ticket_calculate_step"/>
+		<batch:step id="step3_only_ticket_calculate_step" parent="ticket_calculate_partitioned_step"/>
+	</batch:job>
+	
+	<batch:job id="mbr52Todw13">
+		<batch:description>52会员库数据导入到13库</batch:description>
+		<batch:step id="step1_clean_point_history" parent="clean_point_history" next="step2_pointhistory_mbr52_to_dw13" />
+		<batch:step id="step2_pointhistory_mbr52_to_dw13" parent="pointhistory_mbr52_to_dw13_step" next="step3_clean_member_kpi" />
+		<batch:step id="step3_clean_member_kpi" parent="clean_member_kpi" next="step4_member_kpi_mbr52_to_dw13" />
+		<batch:step id="step4_member_kpi_mbr52_to_dw13" parent="member_kpi_mbr52_to_dw13_step" next="step5_update_status" />
+		<batch:step id="step5_update_status" parent="update_status"/>
+	</batch:job>
+	
+	<batch:job id="checkStatusJob">
+		<batch:step id="step1_check_status" parent="check_status"/>
+	</batch:job>
+	
+	<batch:job id="updateStatusJob">
+		<batch:step id="step1_update_status" parent="update_status"/>
+	</batch:job>
+
+	
+</beans>

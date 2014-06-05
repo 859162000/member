@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:batch="http://www.springframework.org/schema/batch"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/batch http://www.springframework.org/schema/batch/spring-batch-2.2.xsd
+		http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.1.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd">
+	<!-- Member DataSource -->
+	<bean id="mbr_dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="${member.jdbc.driver}" />
+		<property name="url" value="${member.jdbc.url}" />
+		<property name="username" value="${member.jdbc.username}" />
+		<property name="password" value="${member.jdbc.password}" />
+		<property name="initialSize" value="${member.jdbc.initialSize}" />
+		<property name="maxActive" value="${member.jdbc.maxActive}" />
+		<property name="maxIdle" value="${member.jdbc.maxIdle}" />
+		<property name="maxWait" value="${member.jdbc.maxWait}" />
+	</bean>
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="mbr_dataSource"/>
+	</bean>
+	<bean id="mbrSqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="mbr_dataSource" />
+		<property name="configLocation" value="classpath:mybatis-configuration-mbr.xml"></property>
+	</bean>
+	
+	<bean id="mbrSqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg index="0" ref="mbrSqlSessionFactory" />
+	</bean>
+	<!-- Member DataSource -->
+	
+	<!-- Dw53 DataSource -->
+	<bean id="dw53_dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="${dw53.jdbc.driver}" />
+		<property name="url" value="${dw53.jdbc.url}" />
+		<property name="username" value="${dw53.jdbc.username}" />
+		<property name="password" value="${dw53.jdbc.password}" />
+		<property name="initialSize" value="${dw53.jdbc.initialSize}" />
+		<property name="maxActive" value="${dw53.jdbc.maxActive}" />
+		<property name="maxIdle" value="${dw53.jdbc.maxIdle}" />
+		<property name="maxWait" value="${dw53.jdbc.maxWait}" />
+	</bean>
+	<bean id="dw53SqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dw53_dataSource" />
+		<property name="configLocation" value="classpath:mybatis-configuration-dw53.xml"></property>
+	</bean>
+	
+	<bean id="dw53SqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg index="0" ref="dw53SqlSessionFactory" />
+	</bean>
+	<!-- Dw53 DataSource -->
+	
+	<!-- Dw13 DataSource -->
+	<bean id="dw13_dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="${dw13.jdbc.driver}" />
+		<property name="url" value="${dw13.jdbc.url}" />
+		<property name="username" value="${dw13.jdbc.username}" />
+		<property name="password" value="${dw13.jdbc.password}" />
+		<property name="initialSize" value="${dw13.jdbc.initialSize}" />
+		<property name="maxActive" value="${dw13.jdbc.maxActive}" />
+		<property name="maxIdle" value="${dw13.jdbc.maxIdle}" />
+		<property name="maxWait" value="${dw13.jdbc.maxWait}" />
+	</bean>
+	
+	<bean id="dw13SqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dw13_dataSource" />
+		<property name="configLocation" value="classpath:mybatis-configuration-dw13.xml"></property>
+	</bean>
+	
+	<bean id="dw13SqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg index="0" ref="dw13SqlSessionFactory" />
+	</bean>
+	<!-- Dw13 DataSource -->
+	
+	<!-- Dw13 FLAG DataSource -->
+	<bean id="dw13_flag_dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="${dw13flag.jdbc.driver}" />
+		<property name="url" value="${dw13flag.jdbc.url}" />
+		<property name="username" value="${dw13flag.jdbc.username}" />
+		<property name="password" value="${dw13flag.jdbc.password}" />
+		<property name="initialSize" value="${dw13flag.jdbc.initialSize}" />
+		<property name="maxActive" value="${dw13flag.jdbc.maxActive}" />
+		<property name="maxIdle" value="${dw13flag.jdbc.maxIdle}" />
+		<property name="maxWait" value="${dw13flag.jdbc.maxWait}" />
+	</bean>
+	
+	<bean id="dw13FlagSqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dw13_flag_dataSource" />
+		<property name="configLocation" value="classpath:mybatis-configuration-dw13-flag.xml"></property>
+	</bean>
+	
+	<bean id="dw13FlagSqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg index="0" ref="dw13FlagSqlSessionFactory" />
+	</bean>
+	<!-- Dw13 FLAG DataSource -->
+	 
+</beans>
