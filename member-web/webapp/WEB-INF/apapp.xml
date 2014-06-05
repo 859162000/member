@@ -1,0 +1,129 @@
+<?xml version='1.0' encoding='UTF-8'?>
+
+<webapp>
+	<param name="servername" value="CCSMEMBER" />
+	<param name="tempdir" value="/ccs/temp/" />
+
+	<dynamic_load></dynamic_load>
+
+	<plugin>
+		<user id="default" module="com.wanda.ccs.auth.CcsUserEngine"
+			default="y" />
+		<psn id="default" module="com.aggrepoint.adk.plugin.WinletPsnEngine"
+			default="y" />
+		<logger id="default" module="com.wanda.ccs.log.WinletLogger"
+			default="y" />
+	</plugin>
+
+	<retcode_level>
+		<level id="0" db="c" desc="成功">
+			<logger id="default" />
+		</level>
+		<level id="1" db="r" desc="业务异常" default="y">
+			<logger id="default" />
+		</level>
+		<level id="9" db="r" desc="系统异常">
+			<logger id="default" />
+		</level>
+	</retcode_level>
+
+	<retcode throw="com.xcesys.extras.core.exception.ValidationException"
+		level="9" lmsg="输入数据验证异常" url="/WEB-INF/pages/validation_error.jspx"
+		dialog="yes" title="数据验证错误" />
+	<retcode throw="java.lang.Exception" level="9" lmsg="遇到异常"
+		url="/WEB-INF/pages/error.jspx" dialog="yes" title="出错了!" />
+	<retcode id="9001" level="9" lmsg="初始化失败" />
+	<retcode id="9002" level="9" lmsg="资源找不到" />
+	<retcode id="9003" level="9" lmsg="预执行出错" />
+	<retcode id="9004" level="9" lmsg="展现出错" />
+	<retcode id="8000" lmsg="hide" winmode="hide" />
+
+	<uri path="queryUserInfo" module="com.wanda.ccs.admin.auth.QueryUserInfo"
+		load="y">
+		<logparam name="sid" />
+		<retcode id="0" lmsg="返回用户身份" url="/WEB-INF/pages/auth/sso/userinfo.jspx" />
+		<retcode id="1" lmsg="查询用户身份出错" url="/WEB-INF/pages/auth/sso/error.jspx" />
+	</uri>
+
+	<uri path="app">
+		<!-- 会员查询 -->
+	     <win path="member_search" module="com.wanda.ccs.member.MemberLet" view="search" scope="page" />
+	     <win path="member_list" module="com.wanda.ccs.member.MemberLet" view="list" scope="page" />
+	     <win path="member_edit" module="com.wanda.ccs.member.MemberLet" view="edit" scope="page" />
+	      <win path="memberstatus_edit" module="com.wanda.ccs.member.MemberLet" view="editstatus" scope="page" />
+	     <win path="member_options" module="com.wanda.ccs.member.MemberLet" view="options" scope="page" />
+	     
+	       <!-- 批量导入会员 -->
+	     <win path="abatch_search" module="com.wanda.ccs.file.AbatchMemberLet" view="search" scope="page" />
+	     <win path="abatch_list" module="com.wanda.ccs.file.AbatchMemberLet" view="list" scope="page" />
+	     <win path="abatch_edit" module="com.wanda.ccs.file.AbatchMemberLet" view="edit" scope="page" />
+	     
+	      
+	     <!-- 批量导入kpi -->
+		  <win path="kpi_search" module="com.wanda.ccs.file.AbatchKPILet" view="search" scope="page" />
+	     <win path="kpi_list" module="com.wanda.ccs.file.AbatchKPILet" view="list" scope="page" />
+	     <win path="kpi_edit" module="com.wanda.ccs.file.AbatchKPILet" view="edit" scope="page" />
+	     
+	      <!-- 批量调整积分 -->
+	     <win path="abatch_point_search" module="com.wanda.ccs.file.AbatchChangePointLet" view="search" scope="page" />
+	     <win path="abatch_point_list" module="com.wanda.ccs.file.AbatchChangePointLet" view="list" scope="page" />
+	     <win path="abatch_point_edit" module="com.wanda.ccs.file.AbatchChangePointLet" view="edit" scope="page" />
+	
+	
+	     
+	     <!-- 营销活动 -->
+	     <win path="campaign_search" module="com.wanda.ccs.campaign.CampaignManLet" view="search" scope="page" />
+	     <!-- 活动波次 -->
+	     <win path="campaign_list" module="com.wanda.ccs.campaign.CampaignManLet" view="campaign_list" scope="page" />
+	     <win path="campaign_edit" module="com.wanda.ccs.campaign.CampaignManLet" view="tree" scope="page" />
+	     
+	     <!-- 活动波次 -->
+	     <win path="acitvity_list" module="com.wanda.ccs.campaign.ActivityManLet" view="activity_list" scope="page" />
+	     <win path="acitvity_edit" module="com.wanda.ccs.campaign.ActivityManLet" view="activity_edit" scope="page" />
+	     <!-- 编辑波次目标 -->
+	     <win path="target_edit" module="com.wanda.ccs.campaign.ActivityManLet" view="target_edit" scope="page" />
+	     <!-- 编辑波次响应统计方式 -->
+	     <win path="result_edit" module="com.wanda.ccs.campaign.ActResultManLet" view="edit" scope="page" />
+	     
+	     
+	     <!-- 选择适用影城 -->
+	     <win path="sel_cinema" module="com.wanda.ccs.campaign.SelCinemaLet" view="edit" scope="page" />
+	     <!-- 选择授权人 -->
+	     <win path="sel_user" module="com.wanda.ccs.campaign.SelUserLet" view="search" scope="page" />
+	     <!-- 选择特殊积分规则 -->
+	     <win path="sel_ext_point_rule" module="com.wanda.ccs.campaign.SelExtPointRuleLet" view="search" scope="page" />
+	     <!-- 选择券库 -->
+	     <win path="sel_voucher_pool" module="com.wanda.ccs.campaign.SelVoucherPoolLet" view="search" scope="page" />
+	     <!-- 选择客群 -->
+	     <win path="sel_segment" module="com.wanda.ccs.campaign.SelSegmentLet" view="search" scope="page" />
+	     
+	     <!-- 波次目标文件管理 -->
+	     <win path="target_file_man" module="com.wanda.ccs.campaign.TargetFileManLet" view="search" scope="page" />
+	     
+	     
+	     <!-- 特殊积分规则管理 -->
+	     <win path="ext_point_rule_search" module="com.wanda.ccs.member.ExtPointRuleLet" view="search" scope="page" />
+	     <win path="ext_point_rule_list" module="com.wanda.ccs.member.ExtPointRuleLet" view="list" scope="page" />
+	     <win path="ext_point_rule_edit" module="com.wanda.ccs.member.ExtPointRuleLet" view="edit" scope="page" />
+	     
+	     <!-- 券库管理 -->
+	      <win path="voucher_pool_search" module="com.wanda.ccs.member.TVoucherPoolLet" view="search" scope="page" />
+	     <win path="voucher_pool_list" module="com.wanda.ccs.member.TVoucherPoolLet" view="list" scope="page" />
+	     <win path="voucher_pool_edit" module="com.wanda.ccs.member.TVoucherPoolLet" view="edit" scope="page" />
+	     
+	     <!-- 券发放管理 -->
+	     <win path="mem_voucher_rule_search" module="com.wanda.ccs.member.TMemVoucherRuleLet" view="search" scope="page" />
+	     <win path="mem_voucher_rule_list" module="com.wanda.ccs.member.TMemVoucherRuleLet" view="list" scope="page" />
+	     <win path="mem_voucher_rule_edit" module="com.wanda.ccs.member.TMemVoucherRuleLet" view="edit" scope="page" />
+	     
+	      <!-- 选择特殊积分规则条件 -->
+	     <win path="select_ext_point_criteria" module="com.wanda.ccs.member.SelExtPointCriteriaLet" view="search" scope="page" />
+	     
+	     <!-- 券发放规则 选择券库 -->
+	     <win path="select_voucher_pool" module="com.wanda.ccs.member.SelectVoucherPoolLet" view="search" scope="page" />
+	     
+	     <!-- 实体会员卡 -->
+	     <win path="card_order_main" module="com.wanda.ccs.mackdaddycard.MackDaddyCardOrderLet" view="main" scope="page" />
+	     <win path="card_order_edit" module="com.wanda.ccs.mackdaddycard.MackDaddyCardOrderLet" view="edit" scope="page" />
+	</uri>
+</webapp>

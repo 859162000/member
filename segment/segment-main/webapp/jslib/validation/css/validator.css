@@ -1,0 +1,17 @@
+/**********************************
+
+Name: cmxform Styles
+
+***********************************/
+input.error { border: 1px dotted red; }
+select.error { MARGIN:-2px; border: 1px dotted red; }
+textarea.error {border:1px dotted #FF0000;}
+.tooltip {
+		display:none;
+		background-color:#ffa;
+		border:1px solid #cc9;
+		padding:3px;
+		font-size:13px;
+		-moz-box-shadow: 2px 2px 11px #666;
+		-webkit-box-shadow: 2px 2px 11px #666;
+	}

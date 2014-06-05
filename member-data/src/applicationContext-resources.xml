@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans default-lazy-init="true"
+	xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="  
+			http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+			http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+			http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd 
+			http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.0.xsd 
+			http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+	<!-- load properties -->
+	<context:property-placeholder location="classpath:jdbc-local.properties" ignore-unresolvable="true" />
+	 <jee:jndi-lookup id="dataSource" jndi-name="ccs/member/app_datasource" cache="true" />
+	 
+	 <!-- 
+	    使用JNDI配置JobScheduler的WebService服务地址， 
+	    需要在Tomcat的server.xml中配置下列信息（请根据实际地址调整配置）：
+	 	<Environment name="env/ccs_mbr_job" value="http://10.199.88.141:8080/job/ws/rest"
+         type="java.lang.String" override="false"/>
+	  -->
+	 <jee:jndi-lookup id="jobhubServerAddress" jndi-name="ccs/member/jobhub_address" cache="true" />
+	 
+
+	<!-- Setting for using jdbc data source. -->
+	<!-- <bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource"
+		p:driverClassName="${jdbc.driverClassName}" p:url="${jdbc.url}"
+		p:username="${jdbc.username}" p:password="${jdbc.password}" /> -->
+	
+	<bean id="jobScheduleService" class="com.wanda.ccs.jobhub.client.impl.HttpJobScheduleService">    
+		<property name="serverAddress" ref="jobhubServerAddress" />
+	</bean>
+</beans>

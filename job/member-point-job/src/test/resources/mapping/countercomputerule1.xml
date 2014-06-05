@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<etl>
+		<source>
+			<db conn="db.mbr_dw">
+				<sql>
+					<![CDATA[ 
+					select member_key MEMBER_ID, cinema_key from (
+							select member_key, cinema_key,count(cinema_key) over(partition by member_key) key_seed
+							  from (select member_key,
+							               cinema_key,
+							               rank() over(partition by member_key order by tick_cnt desc) cnt_order
+							          from (select t.member_key,
+							                       t.cinema_key,
+							                       count(distinct t.bk_ticket_number) - count(distinct t.re_ticket_number) tick_cnt
+							                  from t_f_con_member_ticket t,t_member_repair_n a
+							                  where t.member_key = a.member_id
+							                  and a.is_repaired = 0							                  
+							                 group by member_key, cinema_key)
+							                 )
+							         where cnt_order = 1
+							)where key_seed = 1 and rownum<=1000
+					]]>
+				</sql>
+			</db>
+		</source>
+		<destination>
+			<db conn="db.mbr_dw">
+				<table>t_member_repair_n</table>
+			</db>
+		</destination>
+		<linefilter>
+			<filter name="countercomputerule1handle" />
+		</linefilter>
+			<mapping>
+			<field src="MEMBER_ID"  dest="MEMBER_ID" stype="key" />
+			<field src="CINEMA_KEY" dest="REGIST_CINEMA_ID" />
+			<field dest="is_repaired"><fixed>2</fixed></field>			
+		</mapping>
+		
+</etl>

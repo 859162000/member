@@ -1,0 +1,43 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Insert title here</title>
+
+<script language="javascript">
+ function callInterface(){
+ 	//var obj = document.getElementById("interface");
+    var index = document.getElementById("interface").selectedIndex;
+    var value = document.getElementById("interface").options[index].value;
+ 	document.actionlist.action=location.href+value;
+ 	alert(document.actionlist.action);
+	document.forms[0].submit(); 
+}
+</script>
+</head>
+<body>
+	<form name="actionlist" method="post">
+	接口 名称:
+	<SELECT NAME="interface1" id="interface">
+		<option value="member/register">会员注册</option>
+		<option value="member/updatemember">会员信息修改</option>
+		<option value="member/checkmember">会员识别</option>
+		<option value="member/gettranshistory">会员消费历史查询</option>
+		<option value="member/getpointhistory">会员积分历史查询</option>
+		<option value="member/getpointsbalance">会员可用积分查询</option>
+		<option value="member/redeemonline">会员积分兑换扣减</option>
+		<option value="member/redeemresult">会员积分兑换扣减（充正）</option>
+		<option value="member/querycardlist">会员关联卡列表查询</option>
+		<option value="member/queryvoucherlist">会员关券列表查询</option>
+		<option value="member/checkvoucher">会员券验证</option>
+		<option value="member/bindvoucher">会员券绑定解绑</option>
+		<option value="member/issuemembercard">发放会员卡</option>
+		<option value="member/sendcheckcode">会员短信验证码</option>
+		<option value="member/passcheckcode">会员验证码识别</option>
+		<option value="member/memberjoincard">卡前台发卡转会员</option>
+	</SELECT>
+	<br>xml:<textarea name="xml" style="width: 600px; height: 400px"></textarea>
+	<br><input  type="button" value="调用" onclick="javascript:callInterface();">
+	</form>
+	</body>
+</html>

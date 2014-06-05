@@ -1,0 +1,15 @@
+{
+
+modules: 
+[
+	{
+		id: 'member-jobs',
+		class: 'com.google.code.pathlet.core.impl.ClassPathModule',
+		classPaths: ['${webapp.basedir}${member-jobs-module.classpath}'],
+		resourcePattern: {includes: '/jobhub/member/**/*'},
+		listener: 'com.wanda.ccs.jobhub.member.MemberJobsModuleListener',
+		autoReload: true
+	}
+]
+
+}

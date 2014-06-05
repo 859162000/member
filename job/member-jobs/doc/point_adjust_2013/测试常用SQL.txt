@@ -1,0 +1,28 @@
+积分 负积分回零 记录
+select h.* from ccs_mbr_prod.T_POINT_HISTORY h 
+where 
+  h.point_type='4' and h.adj_reason_type='7' 
+  and h.set_time>to_date('2014-01-01 00:00:00', 'yyyy-mm-dd hh24:mi:ss')
+
+所有进行了年底清零的会员数量
+select count( h.point_history_id) from ccs_mbr_prod.T_POINT_HISTORY h 
+where h.point_type='5' and h.set_time>to_date('2014-01-01 00:00:00', 'yyyy-mm-dd hh24:mi:ss')
+
+所有更新的T_MEMBER_POINT记录数
+select count(p.member_point_id) from t_member_point p where p.update_date > to_date('2014-01-01 00:00:00', 'yyyy-mm-dd hh24:mi:ss')
+
+查看某会员的当前记录记录
+select p.* from t_member_point p where p.member_id=2918002
+
+查看某个会员的积分历史
+select h.point_history_id, h.point_type, h.level_point, h.activity_point, 
+h.exchange_point, h.exchange_point_expire_time, h.org_point_balance, h.point_balance, h.adj_resion, h.set_time 
+from t_point_history h where h.is_history<>'1' and h.isdelete<>'1' and h.member_id=2918002 
+order by h.set_time desc
+
+
+测试点
+===================
+1. 重点关注年底积分为负的
+2. 关注积分有兑换冲正调用的
+   找出兑换冲正的记录。

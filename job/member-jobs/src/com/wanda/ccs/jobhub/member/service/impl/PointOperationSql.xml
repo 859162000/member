@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+	<entry key="queryMemberHistory"><![CDATA[
+	select 
+      member.member_id,
+      member.mobile, 
+      p.member_point_id,
+      history.point_history_id, 
+      p.EXG_POINT_BALANCE as pointBalance, 
+      history.exchange_point as toExpirePoint, 
+        (
+        select sum(use_history.EXCHANGE_POINT) 
+        from T_POINT_HISTORY use_history 
+        where  
+        use_history.is_history<>'1' and 
+        ((use_history.point_type='6') or /*兑换*/
+        (use_history.point_type='4' and use_history.ADJ_REASON_TYPE='4' and use_history.EXCHANGE_POINT<0)) and /*积分调整 and 调整原因'其他' and 减积分）*/
+        use_history.set_time>=to_date('2013-08-05 00:00:00', 'yyyy-mm-dd hh24:mi:ss') and 
+        use_history.set_time<to_date('2014-01-01 00:00:00', 'yyyy-mm-dd hh24:mi:ss') and
+        use_history.member_id=history.member_id
+         ) as usedPoint 
+	from T_POINT_HISTORY history, T_MEMBER member , T_MEMBER_POINT p
+	where 
+	  p.member_id = history.member_id and
+	  not exists(select history_old.point_history_id from T_POINT_HISTORY history_old where history_old.POINT_TYPE='5' and p.member_id = history_old.member_id) and 
+	  member.member_id = history.member_id and member.ISDELETE='0' and
+	  history.exchange_point > 0 and 
+	  history.set_time>to_date('2013-08-05 00:00:00', 'yyyy-mm-dd hh24:mi:ss') and
+	  history.set_time<to_date('2013-08-06 00:00:00', 'yyyy-mm-dd hh24:mi:ss') and
+	  history.EXCHANGE_POINT_EXPIRE_TIME=to_date('2013-12-31 23:59:59', 'yyyy-mm-dd hh24:mi:ss')
+	]]></entry>
+</properties>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+<transdef name="append" class="com.solar.etl.transform.AppendTransForm" />
+	<transdef name="fixed" class="com.solar.etl.transform.FixedTransform" />
+	<transdef name="java" class="com.solar.etl.transform.JavaTransForm" />
+	<transdef name="sysDate" class="com.solar.etl.transform.SysDate" />
+	<transdef name="javascript" class="com.solar.etl.transform.Javascript" />
+	<transdef name="ifelse" class="com.solar.etl.transform.EqualsXml" />
+	<transdef name="trim" class="com.solar.etl.transform.TrimTransForm" />
+	<transdef name="maxLength" class="com.solar.etl.transform.MaxLengthTransform" />
+	<transdef name="bizDate" class="com.solar.etl.transform.BizDateTransform" />
+	<transdef name="dict" class="com.solar.etl.transform.DictTransform"/>
+	<transdef name="print" class="com.solar.etl.transform.PrintTransform"/>
+
+</config>

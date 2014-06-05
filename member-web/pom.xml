@@ -1,0 +1,126 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>member-web</artifactId>
+	<packaging>war</packaging>
+	<name>CCS Member Web Application</name>
+
+	<parent>
+		<groupId>com.wanda.ccs.member</groupId>
+		<artifactId>member-parent</artifactId>
+		<version>1.4.1</version>
+	</parent>
+
+	<properties>
+		<maven.test.skip>true</maven.test.skip>
+	</properties>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.1</version>
+				<configuration>
+					<skipMain>true</skipMain>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-clean-plugin</artifactId>
+				<version>2.4.1</version>
+				<configuration>
+					<filesets>
+						<fileset><directory>webapp/WEB-INF/classes</directory></fileset>
+					</filesets>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<version>2.6</version>
+				<executions>
+					<execution>
+						<id>copy</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>copy</goal>
+						</goals>
+						<configuration>
+							<artifactItems>
+								<artifactItem>
+									<groupId>com.wanda.ccs.member</groupId>
+									<artifactId>member-data</artifactId>
+									<version>${project.version}</version>
+									<outputDirectory>${project.basedir}/webapp/WEB-INF/lib</outputDirectory>
+								</artifactItem>
+								<!-- copy the jars for compile only -->
+								<artifactItem>
+									<groupId>javax.servlet</groupId>
+									<artifactId>servlet-api</artifactId>
+									<version>2.5</version>
+									<outputDirectory>${project.basedir}/target/lib</outputDirectory>
+								</artifactItem>
+							</artifactItems>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<version>1.7</version>
+				<executions>
+					<execution>
+						<id>compile</id>
+						<phase>compile</phase>
+						<configuration>
+							<target>
+								<!-- Add below property to fix the bug of maven-antrun-plugin: Error 
+									set he JAVA_HOME to JRE directory. -->
+								<property name="build.compiler" value="extJavac" />
+
+								<javac srcdir="${project.basedir}/src" destdir="${project.basedir}/target/classes"
+									encoding="UTF-8" source="1.6" target="1.6">
+									<classpath>
+										<fileset dir="${project.basedir}/target/lib" includes="*.jar" />
+										<fileset dir="${project.basedir}/webapp/WEB-INF/lib"
+											includes="*.jar" />
+									</classpath>
+								</javac>
+							</target>
+						</configuration>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>clean-package</id>
+						<phase>package</phase>
+						<configuration>
+							<tasks>
+								<delete
+									file="${project.basedir}/webapp/WEB-INF/lib/member-data-${project.version}.jar" />
+							</tasks>
+						</configuration>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>2.3</version>
+				<configuration>
+					<webappDirectory>${project.basedir}/webapp</webappDirectory>
+					<!-- <attachClasses>true</attachClasses> --><!-- 把class打包jar作为附件 -->
+					<!--<archiveClasses>true</archiveClasses> --><!-- 把class打包jar放入WEB-INF/lib/下 -->
+				</configuration>
+			</plugin>
+
+		</plugins>
+	</build>
+</project>

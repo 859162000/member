@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+
+<project name="sms_gateway" default="run" basedir=".">
+	<property name="dir.lib" value="lib" />
+
+	<fileset id="locallib" dir="${dir.lib}">
+		<include name="**/*.jar" />
+	</fileset>
+
+	<target name="run" description="run sms_gateway">
+		<java classname="com.wanda.ccs.smsgateway.console.GateWayMain" fork="true">
+			<arg value="${main.arg}" />
+			<jvmarg line="-server -Xms${jvm.xmx} -Xmx${jvm.xmx} -DGATEWAY_PATH=${gateway.home}" />
+			<classpath>
+				<fileset refid="locallib" />
+				<pathelement path="config" />
+			</classpath>
+		</java>
+	</target>
+
+</project>
+

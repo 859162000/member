@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<etl>
+		<source>
+			<db conn="db.mbr">
+				<sql>
+					<![CDATA[ 
+					select member_id   from t_point_history a where a.member_id not in( select member_id from  t_member_repair )
+					and rownum<=100
+					]]>
+				</sql>
+			</db>
+		</source>
+		<destination>
+			<db conn="db.mbr">
+				<table>t_member_repair</table>
+			</db>
+		</destination>
+		<linefilter>
+			<filter name="validatepointhandle" />
+		</linefilter>
+			<mapping>
+			<field src="MEMBER_ID"  dest="MEMBER_ID" stype="key" />
+			<field dest="is_repaired"><fixed>5</fixed></field>			
+		</mapping>
+		
+</etl>

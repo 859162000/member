@@ -1,0 +1,1 @@
+package com.wanda.ccs.price.dao;import com.wanda.ccs.model.TPriceBase;import com.xcesys.extras.core.dao.IBaseDao;public interface ITPriceBaseDao extends IBaseDao<TPriceBase> {}

@@ -1,0 +1,1 @@
+package com.wanda.ccs.basemgt.dao;import com.wanda.ccs.model.TDimDef;import com.xcesys.extras.core.dao.IBaseDao;/** * 维数据Dao *  * @author Chen * @date 2012-01-16 */public interface ITDimManDao extends IBaseDao<TDimDef> {}

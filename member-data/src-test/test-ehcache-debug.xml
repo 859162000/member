@@ -1,0 +1,111 @@
+<ehcache updateCheck="true" monitoring="off" dynamicConfig="false">
+	<diskStore path="java.io.tmpdir" />
+	
+	<!-- 自动方式(在虚拟机模式下不支持) -->
+	<!-- <cacheManagerPeerProviderFactory
+		class="net.sf.ehcache.distribution.RMICacheManagerPeerProviderFactory"
+		properties="peerDiscovery=automatic, multicastGroupAddress=239.255.255.255,   
+        multicastGroupPort=4446, timeToLive=0" /> -->
+       
+    <!-- 手动方式 -->
+    <cacheManagerPeerProviderFactory
+		class="net.sf.ehcache.distribution.RMICacheManagerPeerProviderFactory"
+		properties="peerDiscovery=manual,
+		 rmiUrls=//10.199.88.141:40001/com.wanda.ccs.model.TDimTypeDef"/>
+		
+	<cacheManagerPeerListenerFactory
+		class="net.sf.ehcache.distribution.RMICacheManagerPeerListenerFactory"
+		properties="hostName=localhost, port=40001,   
+        socketTimeoutMillis=12000">
+	</cacheManagerPeerListenerFactory>
+
+	<defaultCache maxElementsInMemory="500" eternal="false"
+		overflowToDisk="false" timeToIdleSeconds="180" timeToLiveSeconds="180"
+		diskPersistent="false" diskExpiryThreadIntervalSeconds="180">
+		<cacheEventListenerFactory
+			class="net.sf.ehcache.distribution.RMICacheReplicatorFactory"
+			properties="replicateAsynchronously=true, replicatePuts=true, replicateUpdates=true,
+				replicateUpdatesViaCopy=false, replicateRemovals=true "/>
+	</defaultCache>
+
+	<!-- See http://ehcache.sourceforge.net/documentation/#mozTocId258426 for 
+		how to configure caching for your objects -->
+
+	<cache name="org.hibernate.cache.UpdateTimestampsCache"
+		maxElementsInMemory="5000" eternal="false" overflowToDisk="false" >
+		<cacheEventListenerFactory
+			class="net.sf.ehcache.distribution.RMICacheReplicatorFactory"
+			properties="replicateAsynchronously=true, replicatePuts=true, replicateUpdates=true,
+				replicateUpdatesViaCopy=false, replicateRemovals=true "/>
+	</cache>
+
+	<!-- Query cache -->
+	<cache name="org.hibernate.cache.StandardQueryCache"
+		maxElementsInMemory="100" eternal="false" timeToIdleSeconds="180"
+		timeToLiveSeconds="180" overflowToDisk="false">
+		<cacheEventListenerFactory
+			class="net.sf.ehcache.distribution.RMICacheReplicatorFactory"
+			properties="replicateAsynchronously=true, replicatePuts=true, replicateUpdates=true,
+				replicateUpdatesViaCopy=false, replicateRemovals=true "/>
+	</cache>
+
+	<!-- hibernate entity cache -->
+	<!-- 基础Entity缓存设置 -->
+	<cache name="com.wanda.ccs.model.TDimTypeDef"
+		maxElementsInMemory="10" eternal="false" timeToIdleSeconds="3000"
+		timeToLiveSeconds="6000" overflowToDisk="false" >
+		<cacheEventListenerFactory
+			class="net.sf.ehcache.distribution.RMICacheReplicatorFactory"
+			properties="replicateAsynchronously=true, replicatePuts=true, replicateUpdates=true,
+				replicateUpdatesViaCopy=false, replicateRemovals=true "/>
+	</cache>
+	<cache name="com.wanda.ccs.model.TDimTypeDef.tDimdefs"
+		maxElementsInMemory="10" eternal="false" timeToIdleSeconds="3000"
+		timeToLiveSeconds="6000" overflowToDisk="false" >
+		<cacheEventListenerFactory
+			class="net.sf.ehcache.distribution.RMICacheReplicatorFactory"
+			properties="replicateAsynchronously=true, replicatePuts=true, replicateUpdates=true,
+				replicateUpdatesViaCopy=false, replicateRemovals=true "/>
+	</cache>
+	<cache name="com.wanda.ccs.model.TCinema" maxElementsInMemory="10"
+		eternal="false" timeToIdleSeconds="180" timeToLiveSeconds="180"
+		overflowToDisk="false" >
+		<cacheEventListenerFactory
+			class="net.sf.ehcache.distribution.RMICacheReplicatorFactory"
+			properties="replicateAsynchronously=true, replicatePuts=true, replicateUpdates=true,
+				replicateUpdatesViaCopy=false, replicateRemovals=true "/>
+	</cache>
+	<cache name="com.wanda.ccs.model.THall" maxElementsInMemory="10"
+		eternal="false" timeToIdleSeconds="180" timeToLiveSeconds="180"
+		overflowToDisk="false">
+		<cacheEventListenerFactory
+			class="net.sf.ehcache.distribution.RMICacheReplicatorFactory"
+			properties="replicateAsynchronously=true, replicatePuts=true, replicateUpdates=true,
+			replicateUpdatesViaCopy=false, replicateRemovals=true "/>
+	</cache>
+	<cache name="com.wanda.ccs.model.TFilm" maxElementsInMemory="10"
+		eternal="false" timeToIdleSeconds="180" timeToLiveSeconds="180"
+		overflowToDisk="false" >
+		<cacheEventListenerFactory
+			class="net.sf.ehcache.distribution.RMICacheReplicatorFactory"
+			properties="replicateAsynchronously=true, replicatePuts=true, replicateUpdates=true,
+				replicateUpdatesViaCopy=false, replicateRemovals=true "/>
+	</cache>
+	<!-- 排片相关Entity缓存设置 -->
+	<cache name="com.wanda.ccs.model.TSchedulePlanH"
+		maxElementsInMemory="10" eternal="false" timeToIdleSeconds="180"
+		timeToLiveSeconds="180" overflowToDisk="false" />
+	<cache name="com.wanda.ccs.model.TSchedulePlanH.planList"
+		maxElementsInMemory="100" eternal="false" timeToIdleSeconds="180"
+		timeToLiveSeconds="180" overflowToDisk="false" />
+	<cache name="com.wanda.ccs.model.TSchedulePlanB"
+		maxElementsInMemory="100" eternal="false" timeToIdleSeconds="180"
+		timeToLiveSeconds="180" overflowToDisk="false" />
+	<cache name="com.wanda.ccs.model.TSchedulePlanB.ticketTypes"
+		maxElementsInMemory="100" eternal="false" timeToIdleSeconds="180"
+		timeToLiveSeconds="180" overflowToDisk="false" />
+	<cache name="com.wanda.ccs.model.TSchedulePlanB.roundFilms"
+		maxElementsInMemory="100" eternal="false" timeToIdleSeconds="180"
+		timeToLiveSeconds="180" overflowToDisk="false" />
+
+</ehcache>

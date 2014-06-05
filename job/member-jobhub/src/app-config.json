@@ -1,0 +1,192 @@
+{
+
+beans: 
+[
+	{
+		path : "/quartzInitializer",
+		class :"com.google.code.pathlet.quartz.PathletQuartzInitializer", 
+		scope : "container",
+		initInstance: true, //this bean will be instanced on InstanceSpace creating.
+		initMethod: "initialize",
+		destroyMethod: "destroy",
+		properties: {
+			configFile: "${classes.basedir}quartz.properties",
+			waitOnShutdown: true,
+			startDelay: 0,
+			dataSource: "$instance:/dataSourceQuartz",
+			dataSourceName: "myDS",  //Name of the datasource in the quartz.properties
+			instanceAddress: "$instance:/quartzInstanceAddress",
+			instanceId: "$instance:/quartzInstanceId"
+		}
+	},
+	
+	{
+		path : "/transactionManager",
+		class :"org.springframework.jdbc.datasource.DataSourceTransactionManager", 
+		scope : "container",
+		properties: {
+			dataSource: "$instance:/dataSource"
+		}
+	},
+	
+	{
+		path : "/transactionManagerQuartz",
+		class :"org.springframework.jdbc.datasource.DataSourceTransactionManager", 
+		scope : "container",
+		properties: {
+			dataSource: "$instance:/dataSourceQuartz"
+		}
+	},
+	
+	{
+		path : "/transactionInterceptor",
+		class :"com.google.code.pathlet.jdbc.TransactionInterceptor", 
+		scope : "container",
+		properties: {
+			transactionManager: "$instance:/transactionManager"
+		}
+	},
+	
+	{
+		path : "/transactionQuartzInterceptor",
+		class :"com.google.code.pathlet.jdbc.TransactionInterceptor", 
+		scope : "container",
+		properties: {
+			transactionManager: "$instance:/transactionManagerQuartz"
+		}
+	},
+	
+	{
+		path : "/jobExecuteInterceptor",
+		class :"com.google.code.pathlet.quartz.JobExecuteInterceptor", 
+		scope : "container"
+	},
+	
+	
+	{
+		path : "/ognlRequestProcessor",
+		class :"com.google.code.pathlet.web.ognl.OgnlRequestProcessor", 
+		scope : "container"
+	},
+	
+	{
+		path : "/jsonResponseProcessor",
+		class : "com.google.code.pathlet.web.json.JsonResponseProcessor",
+		scope : "container",
+		properties: {
+			serializers: {
+				"java.util.Date": "$instance:/dateTimeSerializer", 
+				"java.sql.Timestamp": "$instance:/dateTimeSerializer", 
+				"java.sql.Date": "$instance:/dateSerializer", 
+				"java.sql.Time": "$instance:/timeSerializer" 
+			}
+		}
+	},
+	
+	{
+		path : "/dateTimeSerializer",
+		class :"com.google.code.pathlet.web.json.DateJsonSerializer", 
+		scope : "container",
+		properties : { formatPattern: "yyyy-MM-dd HH:mm:ss" }
+	},
+	
+	{
+		path : "/dateSerializer",
+		class :"com.google.code.pathlet.web.json.DateJsonSerializer", 
+		scope : "container",
+		properties : { formatPattern: "yyyy-MM-dd" }
+	},
+	
+	{
+		path : "/timeSerializer",
+		class :"com.google.code.pathlet.web.json.DateJsonSerializer", 
+		scope : "container",
+		properties : { formatPattern: "HH:mm:ss" }
+	},
+	
+    	
+	{
+		path : "/ajaxProcessor",
+		class :"com.google.code.pathlet.web.PathletAjaxProcessor", 
+		scope : "container",
+		properties: {
+			container: "$container",
+			requestProcessors: ["$instance:/ognlRequestProcessor"],
+			resultResponseProcessors: ["$instance:/jsonResponseProcessor"],
+			suffix: "do",
+			requestCharset: "UTF-8",
+			responseCharset: "UTF-8"
+		}
+	}
+
+],
+
+pointcuts: [
+	{
+		id: "transactionQuartzReadonlyPointcut",
+		pathPattern: {includes: "/admin/**/*Service"},
+		methods: "get*,query*,find*,is*,has*"
+	},
+	{
+		id: "transactionQuartzWritablePointcut",
+		pathPattern: {includes: "/admin/**/*Service"},
+		methods: "add*,save*,update*,insert*,delete*,start*,shut*"
+	},
+	{
+		id: "transactionReadonlyPointcut",
+		pathPattern: {includes: "/jobhub/**/*Service"},
+		methods: "get*,query*,find*,is*,has*"
+	},
+	
+	{
+		id: "transactionWritablePointcut",
+		pathPattern: {includes: "/jobhub/**/*Service"},
+		methods: "add*,save*,update*,insert*,delete*"
+	},
+	
+	{
+		id: "jobExecutePointcut",
+		pathPattern: {includes: "/jobhub/**/*Job"},
+		methods: "execute"
+	}
+],
+
+advices: [
+	{
+		id: "transactionQuartzReadonly",
+		advisorPath: "/transactionQuartzInterceptor",
+		pointcutId: "transactionQuartzReadonlyPointcut",
+		adviceMethod: "aroundReadonly"
+	},
+	
+	{
+		id: "transactionQuartzWritable",
+		advisorPath: "/transactionQuartzInterceptor",
+		pointcutId: "transactionQuartzWritablePointcut",
+		adviceMethod: "aroundWritable"
+	},
+	{
+		id: "transactionReadonly",
+		advisorPath: "/transactionInterceptor",
+		pointcutId: "transactionReadonlyPointcut",
+		adviceMethod: "aroundReadonly"
+	},
+	
+	{
+		id: "transactionWritable",
+		advisorPath: "/transactionInterceptor",
+		pointcutId: "transactionWritablePointcut",
+		adviceMethod: "aroundWritable"
+	},
+	
+	{
+		id: "jobExecute",
+		advisorPath: "/jobExecuteInterceptor",
+		pointcutId: "jobExecutePointcut",
+		adviceMethod: "aroundExecute"
+	}
+	
+]
+
+
+}

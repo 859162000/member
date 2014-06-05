@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app id="PathfulExample" version="2.4"
+	xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+	<display-name>Pathlet E-Shop Example</display-name>
+	<!-- Test filter to print out each HTTP request informations 
+ 	<filter>
+		<filter-name>testFilter</filter-name>
+		<filter-class>com.wanda.ccs.member.ap2in.TestFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>testFilter</filter-name>
+		<url-pattern>*.jsp</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>testFilter</filter-name>
+		<url-pattern>*.do</url-pattern>
+	</filter-mapping>
+	 -->
+
+ 	<filter>
+		<filter-name>userFilter</filter-name>
+		<filter-class>com.wanda.ccs.member.ap2in.AuthUserFilter</filter-class>
+		<!-- 
+		本地环境是，模拟已登录用户信息。配置需放入tomcat的JNDI配置中，配置示例如下：
+		<Environment name="env/ccs_segment_test_user" 
+		value="fromnc:no;name:group;frompos:no;fromsso:no;rights:member.segment.view%2Cmember.segment.edit%2Cmember.extpointruleconditon.view%2Cmember.extpointruleconditon.edit;sysid:100;id:group;level:GROUP;" 
+		type="java.lang.String" override="false"/>
+		 -->
+		<init-param>
+        	<param-name>jndiTestUserProfile</param-name>
+        	<param-value>java:/comp/env/ccs/member/test_user_profile</param-value>
+        </init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>userFilter</filter-name>
+		<url-pattern>*.jsp</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>userFilter</filter-name>
+		<url-pattern>*.do</url-pattern>
+	</filter-mapping>
+	 
+	<filter>
+        <filter-name>pathletAjaxFilter</filter-name>
+        <filter-class>com.google.code.pathlet.web.PathletAjaxFilter</filter-class>
+        <init-param>
+        	<param-name>configs</param-name>
+        	<param-value>classpath:/setting-config.json,classpath:/app-config.json,classpath:/resource-config.json,classpath:/module-config.json</param-value>
+        </init-param>
+        <!--  
+        <init-param>
+        	<param-name>properties</param-name>
+        	<param-value>classpath:/dataSource.properties</param-value>
+        </init-param>
+        -->
+        <init-param>
+        	<param-name>configEncoding</param-name>
+        	<param-value>UTF-8</param-value>
+        </init-param>
+	</filter>
+	<filter-mapping>
+        <filter-name>pathletAjaxFilter</filter-name>
+        <url-pattern>*.do</url-pattern>
+	</filter-mapping>
+	
+	<listener>
+		<listener-class>com.google.code.pathlet.web.PathletRequestListener</listener-class>
+	</listener>
+	
+	<welcome-file-list>
+		<welcome-file>main.jsp</welcome-file>
+	</welcome-file-list>
+</web-app>

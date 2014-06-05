@@ -1,0 +1,1 @@
+package com.wanda.ccs.basemgt.dao;import com.wanda.ccs.model.TCinemaContact;import com.xcesys.extras.core.dao.IBaseDao;/** * 影院联系人Dao *  * @author Chen * @date 2011-10-24 */public interface ITCinemaContactDao extends IBaseDao<TCinemaContact> {}

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- ================================================================== -->
+<!--                                                                    -->
+<!--                     Tester Definition                              -->
+<!--                                                                    -->
+<!-- ================================================================== -->
+<config>
+	<!-- match with regular expression -->
+	<testerdef name="regexp" class="com.icebean.risketl.tester.RegExp" />
+
+	<testerdef name="globalrow"
+		class="com.icebean.risketl.tester.GlobalRow" />
+
+	<testerdef name="sectionrow"
+		class="com.icebean.risketl.tester.SectionRow" />
+
+	<testerdef name="null"
+		class="com.icebean.risketl.tester.Null" />
+
+	<testerdef name="notnull"
+		class="com.icebean.risketl.tester.NotNull" />
+
+	<testerdef name="ge"
+		class="com.icebean.risketl.tester.Ge" />
+
+	<testerdef name="length"
+		class="com.icebean.risketl.tester.Length" />
+
+	<testerdef name="java"
+		class="com.icebean.risketl.tester.Java" />
+
+	<testerdef name="sql"
+		class="com.icebean.risketl.tester.Sql" />
+
+	<testerdef name="streq"
+		class="com.icebean.risketl.tester.StrEq" />
+
+	<testerdef name="doubleeq"
+		class="com.icebean.risketl.tester.DoubleEq" />
+
+	<testerdef name="doublene"
+		class="com.icebean.risketl.tester.DoubleNe" />
+
+	<testerdef name="memeq"
+		class="com.icebean.risketl.tester.MemEq" />
+</config>

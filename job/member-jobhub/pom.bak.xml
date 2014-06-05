@@ -1,0 +1,101 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>member-jobhub</artifactId>
+	<packaging>war</packaging>
+	<name>Member Jobhub Admin Web Application</name>
+	<parent>
+		<groupId>com.wanda.ccs.member</groupId>
+		<artifactId>member-parent</artifactId>
+		<relativePath>../../</relativePath>
+		<version>${member.version}</version>
+	</parent>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.appfuse.plugins</groupId>
+				<artifactId>maven-warpath-plugin</artifactId>
+				<version>2.2.1</version>
+				<extensions>true</extensions>
+				<executions>
+					<execution>
+						<goals>
+							<goal>add-classes</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>2.4</version>
+				<configuration>
+					<warSourceDirectory>${project.basedir}/webapp</warSourceDirectory>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.tomcat.maven</groupId>
+				<artifactId>tomcat6-maven-plugin</artifactId>
+				<version>2.1</version>
+				<configuration>
+					<port>${tomcat.port}</port>
+					<ignorePackaging>true</ignorePackaging>
+					<!-- application path always starts with / -->
+					<path>/jobhub</path>
+					<!-- optional path to a context file -->
+					<contextFile>${project.basedir}/${tomcat.context}</contextFile>
+					<warSourceDirectory>${project.basedir}/webapp</warSourceDirectory>
+					
+					<!-- optional system propoerties you want to add -->
+					<!-- 
+					<systemProperties>
+						<appserver.base>${project.build.directory}/appserver-base</appserver.base>
+					</systemProperties>
+					 -->
+					<!-- if you want to use test dependencies rather than only runtime -->
+					<useTestClasspath>false</useTestClasspath>
+					<!-- optional if you want to add some extra directories into the classloader -->
+					<additionalClasspathDirs>
+						<additionalClasspathDir></additionalClasspathDir>
+					</additionalClasspathDirs>
+				</configuration>
+				<!-- For any extra dependencies needed when running embedded Tomcat (not 
+					WAR dependencies) add them below -->
+				<!--  
+				<dependencies>
+					<dependency>
+						<groupId>org.apache.derby</groupId>
+						<artifactId>derby</artifactId>
+						<version>\${derbyVersion}</version>
+					</dependency>
+					<dependency>
+						<groupId>javax.mail</groupId>
+						<artifactId>mail</artifactId>
+						<version>1.4</version>
+					</dependency>
+				</dependencies>
+				-->
+			</plugin>
+
+		</plugins>
+	</build>
+
+	<dependencies>
+		<dependency>
+		    <groupId>com.wanda.ccs</groupId>
+			<artifactId>jobhub-main</artifactId>
+			<version>1.4.0</version>
+			<type>war</type>
+		</dependency>
+		<dependency>
+		    <groupId>com.wanda.ccs</groupId>
+			<artifactId>jobhub-main</artifactId>
+			<version>1.4.0</version>
+			<type>warpath</type>
+		</dependency>
+
+	</dependencies>
+
+
+</project>

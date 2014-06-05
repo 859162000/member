@@ -1,0 +1,1 @@
+package com.wanda.ccs.basemgt.dao;import com.wanda.ccs.model.TDimTypeDef;import com.xcesys.extras.core.dao.IBaseDao;public interface ITDimTypeDefDao extends IBaseDao<TDimTypeDef> {}

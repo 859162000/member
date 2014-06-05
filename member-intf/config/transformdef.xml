@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- ================================================================== -->
+<!--                                                                    -->
+<!--                  Transformers Definition                           -->
+<!--                                                                    -->
+<!-- ================================================================== -->
+<config>
+	<!-- type conversion, from any type to date -->
+	<transdef name="x2date" class="com.icebean.risketl.transform.X2Date" />
+
+	<!-- type conversion, from any type to timestamp -->
+	<transdef name="x2timestamp"
+		class="com.icebean.risketl.transform.X2Timestamp" />
+
+	<!-- type conversion, from any type to long -->
+	<transdef name="x2long" class="com.icebean.risketl.transform.TransGroup"
+		method="x2long" />
+
+	<!-- type conversion, from any type to int -->
+	<transdef name="x2int" class="com.icebean.risketl.transform.TransGroup"
+		method="x2int" />
+
+	<!-- type conversion, from any type to string -->
+	<transdef name="x2str" class="com.icebean.risketl.transform.TransGroup"
+		method="x2str" />
+
+	<!-- type conversion, from any type to double -->
+	<transdef name="x2double"
+		class="com.icebean.risketl.transform.TransGroup" method="x2double" />
+
+	<transdef name="sysout" class="com.icebean.risketl.transform.TransGroup"
+		method="sysout" />
+
+	<!-- type conversion, from date to string -->
+	<transdef name="date2str"
+		class="com.icebean.risketl.transform.Date2Str" />
+
+	<!-- type conversion, from timestamp to string -->
+	<transdef name="timestamp2str"
+		class="com.icebean.risketl.transform.Timestamp2Str" />
+
+	<!-- trim string -->
+	<transdef name="trim" class="com.icebean.risketl.transform.TransGroup"
+		method="trim" />
+
+	<transdef name="removequote"
+		class="com.icebean.risketl.transform.TransGroup" method="removeQuote" />
+
+	<transdef name="replace"
+		class="com.icebean.risketl.transform.TransGroup" method="replace" />
+
+	<!-- connect strings together -->
+	<transdef name="strconcat"
+		class="com.icebean.risketl.transform.TransGroup" method="strConcat" />
+
+	<!-- add string to the end -->
+	<transdef name="append" class="com.icebean.risketl.transform.Append" />
+
+	<!-- fixed string value -->
+	<transdef name="fixed" class="com.icebean.risketl.transform.Fixed" />
+
+	<!-- fixed string value if current value is null -->
+	<transdef name="ifnull" class="com.icebean.risketl.transform.IfNull" />
+
+	<!-- get system environment value -->
+	<transdef name="sysenv" class="com.icebean.risketl.transform.SysEnv" />
+
+	<!-- system date -->
+	<transdef name="sysdate" class="com.icebean.risketl.transform.SysDate" />
+
+	<!-- thread context attribute -->
+	<transdef name="threadattr"
+		class="com.icebean.risketl.transform.ThreadAttr" />
+
+	<!-- use regular expression to extract value -->
+	<transdef name="regexp" class="com.icebean.risketl.transform.RegExp" />
+
+	<!-- execute java script -->
+	<transdef name="java" class="com.icebean.risketl.transform.Java" />
+
+	<!-- mapping, mapping rule defined by a simple string -->
+	<transdef name="stringmap"
+		class="com.icebean.risketl.transform.StringMap" />
+
+	<transdef name="dbmap" class="com.icebean.risketl.transform.DbMap" />
+
+	<transdef name="dbpivot" class="com.icebean.risketl.transform.DbPivot" />
+
+	<transdef name="memvalue"
+		class="com.icebean.risketl.transform.MemValue" />
+
+	<transdef name="setmem" class="com.icebean.risketl.transform.SetMem" />
+
+	<transdef name="sequence"
+		class="com.icebean.risketl.transform.Sequence" />
+
+	<transdef name="sql" class="com.icebean.risketl.transform.Sql" />
+
+	<transdef name="addint" class="com.icebean.risketl.transform.AddInt" />
+
+	<transdef name="dateadd" class="com.icebean.risketl.transform.DateAdd" />
+
+	<transdef name="setfixedlength"
+		class="com.icebean.risketl.transform.SetFixedLength" />
+</config>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<etl>
+		<source>
+			<db conn="db.mbr_uat">
+				<sql>
+					<![CDATA[ 
+ 				select EXT_POINT_RULE_ID,SEGMENT_ID,CODE,NAME,START_DTIME
+ 				,END_DTIME,ADDITION_PERCENT,ADDITION_CODE,CREATE_BY
+ 				,CREATE_DATE,UPDATE_BY,UPDATE_DATE,VERSION,STATUS 
+ 				from T_EXT_POINT_RULE r where r.status=20 
+				]]>
+				</sql>
+			</db>
+		</source>
+		<destination>
+			<db conn="db.mbr_uat">
+				<table>T_EXT_POINT_RULE</table>
+			</db>
+		</destination>
+
+		<linefilter>
+			<filter name="memberpointlinehandle" />
+		</linefilter>
+
+		<mapping>
+			<field src="EXT_POINT_RULE_ID" dest="EXT_POINT_RULE_ID" />
+			<field src="SEGMENT_ID" dest="SEGMENT_ID" /> 
+			<field src="CODE" dest="CODE"  /> 
+			<field src="NAME" dest="NAME" />
+			<field dest="START_DTIME" type="timestamp"><sysDate/></field>
+			<field dest="END_DTIME" type="timestamp"><sysDate/></field>
+			<field src="ADDITION_PERCENT" dest="ADDITION_PERCENT" />
+			<field src="ADDITION_CODE" dest="ADDITION_CODE" />
+			<field src="CREATE_BY" dest="CREATE_BY" />
+			<field src="CREATE_DATE" dest="CREATE_DATE" />
+			<field src="UPDATE_BY" dest="UPDATE_BY" />
+			<field dest="UPDATE_DATE" type="timestamp"><sysDate/></field>
+			<field src="STATUS" dest="STATUS" />
+		</mapping>
+		
+</etl>

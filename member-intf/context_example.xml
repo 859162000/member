@@ -1,0 +1,8 @@
+<?xml version='1.0' encoding='utf-8'?>
+<Context>
+
+	<Resource name="/ccs/member/app_datasource" url="jdbc:oracle:thin:@10.199.201.105:1521:ccsstag"
+		auth="Container" maxActive="10" maxIdle="3" maxWait="-1" username="ccs_mbr_prod" password="ccs_mbr_prod"
+		type="javax.sql.DataSource" driverClassName="oracle.jdbc.OracleDriver"/>
+
+</Context>

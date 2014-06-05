@@ -1,0 +1,70 @@
+
+1. 积分历史中有一条记录兑换回退的记录，其变化前后的值为0 org_point_balance， POINT_BALANCE
+select history.* from ccs_mbr_prod.t_point_history history where history.point_type=6 and history.exchange_point > 0 and history.org_point_balance >= history.POINT_BALANCE
+2， 积分历史中有很多记录，其变化前后的值相等。org_point_balance=POINT_BALANCE
+select count(history.point_history_id) from ccs_mbr_prod.t_point_history history where history.org_point_balance=history.POINT_BALANCE
+
+3. 积分历史中在回兑冲正时，EXCHANGE_POINT_EXPIRE_TIME 设置的是当前时间。
+   应该设置为对应真实的过期时间。c
+
+
+4. 目前积分历史中的point_type的取值：
+维表中取值 typeid=1021 错误
+1	购买
+2	礼品
+3	奖励
+4	调整
+5	会员终止
+6	积分兑换
+7	其他
+
+接口中定义：
+1 购买 2 赠送 3 奖励 4 调整 5 过期 6 线下兑换 7 网站积分兑换(未用)  8 其他,
+
+实际记录中的数据网站或者线下均取值为6
+
+数据库中存在的值，其中8不知是干什么的
+1,2,3,4,6,8
+
+可以通过这个sql找到很多历史数据。
+select h.* from ccs_mbr_prod.t_point_history h where h.point_type=8 
+
+5. 
+所有产生负的积分包括 积分调整（负） 和 积分兑换（负，is_success<>'0'），时间段
+
+6 point_type=礼品的积分历史分别代表什么意思？
+8月5日后没有礼品的积分兑换历史
+select history.* from ccs_mbr_prod.t_point_history history where history.point_type=2 and history.set_time >= to_date('2013-8-5', 'yyyy-mm-dd')
+
+7. point_type=奖励,似乎都是特殊积分?
+
+8. 加入类型：POINT_TYPE 加入类型： 7积分过期
+
+9. T_MEMBER_POINT 表中的 is_level字段似乎没有使用，在生产数据库中都是'0'. 
+   这个字段需要为李宁。
+   操作：XUpLevel 中调用了 MemberPointDao.upMemberPointBylevel() 函数更新 is_level 字段为1
+
+10. T_POINT_HISTORY 表中的IS_SYNC_BALANCE（是否同步积分账户） 字段的用途？
+
+11. 在做积分兑换时插入了数据到T_TICKET_TRANS_ORDER表 和 T_GOOD_TRANS_ORDER表
+    member-intf工程 - RedeemOnline类 - bizPerform() 函数中
+	为什么？
+
+12. 包含的业务点：
+    会员接口的兑换
+	会员接口的兑换-冲正
+	积分计算--普通积分计算
+	积分计算--特殊积分计算
+    界面上的批量积分调整
+	会员初始化时的积分操作？可能不用
+
+13. 为什么数据库的
+    LEVEL_POINT_TOTAL   当年获得的有效定级积
+	ACTIVITY_POINT      当年获得的有效非定级积分 
+	为什么不是始终增加的？
+
+14. 目前有4条负的可兑换积分记录
+    T_MEMBER_POINT.
+
+	
+

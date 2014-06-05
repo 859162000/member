@@ -1,0 +1,1 @@
+//MES Tool Generator at 2009-02-24 20:29:22 package com.wanda.ccs.basemgt.dao.impl;import org.springframework.stereotype.Repository;import com.wanda.ccs.basemgt.dao.ITSettingDao;import com.wanda.ccs.model.TSetting;import com.xcesys.extras.core.dao.impl.BaseDaoImpl;@Repositorypublic class TSettingDaoImpl extends BaseDaoImpl<TSetting> implements		ITSettingDao {}

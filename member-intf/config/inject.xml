@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- ================================================================== -->
+<!--                                                                    -->
+<!--           Configuration Injection Handler Definition               -->
+<!--                                                                    -->
+<!-- ================================================================== -->
+
+<config>
+	<inject cmd="decrypt">com.icebean.risketl.inject.Cryptography</inject>
+	<inject cmd="sysprop">com.icebean.risketl.inject.InjectSysProp</inject>
+	<!--
+	<inject cmd="property">com.icebean.risketl.inject.InjectProperties</inject>
+	<inject cmd="env">com.icebean.risketl.inject.InjectEnv</inject>
+	-->
+</config>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<etl>
+		<source>
+			<db conn="db.stg">
+				<sql>
+					<![CDATA[
+with O as (
+select * from (select O.MEMBER_ID,O.MEMBER_NUM, O.Continuous_Flag,O.SHOW_DATE_TIME, O.CINEMA_ID, O.ORDER_ID,  O.FILM_CODE, O.HALL_NUM, O.BIZ_DATE, O.SHOW_DATE, O.SHOW_TIME,O.BOOKING_DATE,O.CREATE_TIME, TO_CHAR(O.CREATE_TIME,'yyyymmdd') BOOK_DATE_KEY ,row_number() over (partition by ORDER_ID order by O.UPDATE_TIME desc nulls last) RNUM from  T_POS_DETAIL_TICKET_ORDER O where (O.MEMBER_ID IS NOT NULL OR O.MEMBER_NUM IS NOT NULL) AND o.cinema_id='${cinema}' and O.BIZ_DATE = to_date('${bizdate}', 'yyyy-mm-dd') )where rnum=1),
+T as(
+select * from (select T.REFUND_FLAG,T.TICKET_TYPE, T.TICKET_NUM,T.TICKET_PRICE ,T.ORDER_ID ,row_number() over (partition by T.ORDER_ID,T.TICKET_NUM order by T.REFUND_FLAG desc,T.UPDATE_DATE desc nulls last) RNUM from  T_POS_DETAIL_TICKETS T, O where O.ORDER_ID = T.ORDER_ID AND O.BIZ_DATE = to_date('${bizdate}', 'yyyy-mm-dd'))where rnum=1),
+P as(
+select * from (select P.ORDER_ID,P.TICKET_NUM,P.PAYMENT_TYPE,P.BOX_OFFICE,P.PAYMENTSEQID, row_number() over (partition by P.ORDER_ID,P.TICKET_NUM ,P.PAYMENTSEQID order by p.REFUND_FLAG desc,P.UPDATE_TIME desc nulls last) RNUM from  T_POS_DETAIL_TICKET_PAYMENT P,O where O.ORDER_ID = P.ORDER_ID AND O.BIZ_DATE = to_date('${bizdate}', 'yyyy-mm-dd'))where rnum=1),
+A1 as(
+select  O.CREATE_TIME,O.MEMBER_ID,O.MEMBER_NUM,O.ORDER_ID, O.CINEMA_ID,O.HALL_NUM, O.FILM_CODE ,O.SHOW_DATE_TIME,O.BIZ_DATE, T.TICKET_NUM ,sum(BOX_OFFICE) as TICKET_PRICE
+from O,T,P WHERE O.ORDER_ID = T.ORDER_ID AND O.ORDER_ID = P.ORDER_ID AND T.TICKET_NUM=P.TICKET_NUM and O.Continuous_Flag='N' and T.REFUND_FLAG = 'N'
+group by O.CREATE_TIME,O.MEMBER_ID,O.MEMBER_NUM,O.ORDER_ID, O.CINEMA_ID,O.HALL_NUM, O.FILM_CODE ,O.SHOW_DATE_TIME,O.BIZ_DATE, T.TICKET_NUM ),
+A2 as(
+select  distinct p.TICKET_NUM
+from O,T,P WHERE O.ORDER_ID = T.ORDER_ID AND O.ORDER_ID = P.ORDER_ID AND T.TICKET_NUM=P.TICKET_NUM and O.Continuous_Flag='N' AND P.PAYMENT_TYPE='积分兑换'
+),
+A3 as(
+select * from (select O.POS_ORDER_ID,O.ORDER_ID ,row_number() over (partition by ORDER_ID order by POS_ORDER_ID  asc) RNUM from  T_POS_DETAIL_TICKET_ORDER O  where o.cinema_id='${cinema}' and O.BIZ_DATE = to_date('${bizdate}', 'yyyy-mm-dd')) where RNUM=1
+)
+select A3.POS_ORDER_ID,mo.* from (
+select sum(TICKET_COUNT) as TICKET_COUNT,TO_CHAR(CREATE_TIME,'YYYY-MM-DD HH24:MI:SS') as CREATE_TIME,MEMBER_ID,MEMBER_NUM,ORDER_ID, CINEMA_ID,HALL_NUM, FILM_CODE ,TO_CHAR(SHOW_DATE_TIME,'YYYY-MM-DD HH24:MI:SS') as SHOW_DATE_TIME,BIZ_DATE, sum(AMOUNT) as AMOUNT  ,sum(POINT_AMOUNT) as POINT_AMOUNT from (
+select 0 as TICKET_COUNT ,CREATE_TIME,MEMBER_ID,MEMBER_NUM,ORDER_ID, CINEMA_ID,HALL_NUM, FILM_CODE ,SHOW_DATE_TIME,BIZ_DATE, 0 AS AMOUNT, sum(TICKET_PRICE) as POINT_AMOUNT from A1 WHERE not exists(select 1 from A2  where A2.TICKET_NUM=A1.TICKET_NUM) group by CREATE_TIME,MEMBER_ID,MEMBER_NUM,ORDER_ID, CINEMA_ID,HALL_NUM, FILM_CODE ,SHOW_DATE_TIME,BIZ_DATE, TICKET_PRICE
+union all 
+select count(ORDER_ID) as TICKET_COUNT,CREATE_TIME,MEMBER_ID,MEMBER_NUM,ORDER_ID, CINEMA_ID,HALL_NUM, FILM_CODE ,SHOW_DATE_TIME,BIZ_DATE, sum(TICKET_PRICE) AS AMOUNT, 0 as POINT_AMOUNT  from A1 group by CREATE_TIME,MEMBER_ID,MEMBER_NUM,ORDER_ID, CINEMA_ID,HALL_NUM, FILM_CODE ,SHOW_DATE_TIME,BIZ_DATE, TICKET_PRICE
+) group by CREATE_TIME,MEMBER_ID,MEMBER_NUM,ORDER_ID, CINEMA_ID,HALL_NUM, FILM_CODE ,SHOW_DATE_TIME,BIZ_DATE
+union all
+select   count(O.ORDER_ID) as TICKET_COUNT,TO_CHAR(O.CREATE_TIME,'YYYY-MM-DD HH24:MI:SS') as CREATE_TIME ,O.MEMBER_ID,O.MEMBER_NUM,O.ORDER_ID,O.CINEMA_ID,O.HALL_NUM, O.FILM_CODE ,TO_CHAR(O.SHOW_DATE_TIME,'YYYY-MM-DD HH24:MI:SS') as SHOW_DATE_TIME,O.BIZ_DATE,sum (T.TICKET_PRICE) AS AMOUNT,sum (T.TICKET_PRICE) AS POINT_AMOUNT
+from O,T WHERE O.ORDER_ID = T.ORDER_ID and O.Continuous_Flag='Y' group by O.CREATE_TIME,O.MEMBER_ID,O.MEMBER_NUM,O.ORDER_ID,O.CINEMA_ID,O.HALL_NUM, O.FILM_CODE,O.SHOW_DATE_TIME，O.BIZ_DATE
+) mo ,A3 where mo.ORDER_ID=A3.ORDER_ID
+
+				]]>
+				</sql>
+			</db>
+		</source>
+		<destination>
+			<db conn="db.mbr">
+				<table>T_TICKET_TRANS_ORDER</table>
+			</db>
+		</destination>
+
+		<linefilter>
+			<filter name="ismember" />
+		</linefilter>
+
+		<mapping>
+		
+			<field seq="S_T_TICKET_TRANS_ORDER" dest="TRANS_ID" />
+			<field src="ORDER_ID" dest="TRANS_ORDER_ID" />
+			<field src="POS_ORDER_ID" dest="ORDER_ID" />
+			<field src="AMOUNT" dest="TOTAL_AMOUNT" />
+			<field src="POINT_AMOUNT" dest="POINT_AMOUNT" />
+			<field src="TICKET_COUNT" dest="TICKET_NUM" />
+			<field src="MEMBER_NUM" dest="MEMBER_NUM" />
+			<field src="MEMBER_ID" dest="MEMBER_ID" />
+			<field dest="IS_POINT" ><fixed>2</fixed></field>
+			<field src="CINEMA_ID" dest="CINEMA_INNER_CODE" />
+			<field src="FILM_CODE" dest="FILM_CODE" />
+			<field src="FILM_CODE" dest="FILM_NAME" />
+			<field src="HALL_NUM" dest="HALL_NUM" />
+			<field src="SHOW_DATE_TIME" dest="SHOW_TIME" type="timestamp"/>
+			<field src="BIZ_DATE" dest="BIZ_DATE" type="date"/>
+			<field src="CREATE_TIME" dest="TRANS_TIME" type="timestamp"/>
+			
+		</mapping>
+		
+</etl>

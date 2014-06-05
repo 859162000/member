@@ -1,0 +1,6 @@
+<?xml version='1.0' encoding='UTF-8'?>
+
+<!-- Configuration file for Mapping Loader -->
+<config>
+	<loader>com.icebean.risketl.mloader.DefaultMappingLoader</loader>
+</config>

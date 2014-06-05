@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config> 
+	<handle name="basicpointlinehandle" class="com.wanda.mms.control.stream.BasicPointLineHandle" />
+	<handle name="goodsbasicpointlinehandle" class="com.wanda.mms.control.stream.GoodsBasicPointLineHandle" />
+	<handle name="activitypointlinehandle" class="com.wanda.mms.control.stream.ActivityPointLineHandle" />
+	<handle name="goodsactivitypointlinehandle" class="com.wanda.mms.control.stream.GoodsActivityPointLineHandle" />
+	<handle name="pointlinehandle" class="com.wanda.mms.control.stream.PointLineHandle" />
+	<handle name="goodspointlinehandle" class="com.wanda.mms.control.stream.GoodsPointLineHandle" />
+	<handle name="pointhistoryhandle" class="com.wanda.mms.control.stream.PointHistoryLineHandle" />
+	<handle name="activitypointhistorylinehandle" class="com.wanda.mms.control.stream.ActivityPointHistoryLineHandle" />
+	<handle name="goodspointhistoryhandle" class="com.wanda.mms.control.stream.GoodPointHistoryLineHandle" />
+	<handle name="goodactivitypointhistorylinehandle" class="com.wanda.mms.control.stream.GoodsActivityPointHistoryLineHandle" />
+	<handle name="goodsresultposorder" class="com.wanda.mms.control.stream.GoodsResultposorder" />
+	<handle name="ticketresultposorder" class="com.wanda.mms.control.stream.Resultposorder" />
+	<handle name="textpointrulestatus" class="com.wanda.mms.control.stream.TextPointRulestatus" />
+	<handle name="memberpointlinehandle" class="com.wanda.mms.control.stream.MemberPointLineHandle" />
+	<handle name="reversalpointhistorylinehandle" class="com.wanda.mms.control.stream.ReversalPointHistoryLineHandle" />
+	<handle name="totalactivitypointhistorylinehandle" class="com.wanda.mms.control.stream.TotalActivityPointLineHandle" />
+	<handle name="totalgoodactivitypointhistorylinehandle" class="com.wanda.mms.control.stream.TotalGoodsActivityPointLineHandle" />
+	<handle name="groupbycinema" class="com.wanda.mms.control.stream.GroupByCinema" />
+	<handle name="groupbycinemarepair" class="com.wanda.mms.control.stream.GroupByCinemaRepair" />
+	
+	<handle name="uplevellinehandle" class="com.wanda.mms.control.stream.UpLevelLineHandle" />
+	<handle name="validatepointhandle" class="com.wanda.member.validate.ValidatePointHis" />
+
+	<!-- lining 2013-11-17 start -->
+	<handle name="countercomputehandle" class="com.wanda.member.countermgt.handle.CounterComputeHandle" />
+	<handle name="countercomputerule1handle" class="com.wanda.member.countermgt.handle.CounterComputeHandle" />
+	
+	<!-- lining 2013-11-17 end -->
+
+	<handle name="tactresultlinehandle" class="com.wanda.mms.control.response.TactresultLineHandle" />
+	<handle name="tactresultuplinehandle" class="com.wanda.mms.control.response.TactresultUpLineHandle" />
+	<handle name="tactresultstatisticslinehandle" class="com.wanda.mms.control.response.TactresultStatisticsLineHandle" />
+	　
+	
+</config>

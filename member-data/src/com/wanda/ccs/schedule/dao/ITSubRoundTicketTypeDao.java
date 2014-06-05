@@ -1,0 +1,1 @@
+package com.wanda.ccs.schedule.dao;import com.wanda.ccs.model.TSubRoundTicketType;import com.xcesys.extras.core.dao.IBaseDao;public interface ITSubRoundTicketTypeDao extends IBaseDao<TSubRoundTicketType> {}

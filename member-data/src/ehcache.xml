@@ -1,0 +1,56 @@
+<ehcache updateCheck="true" monitoring="off" dynamicConfig="false">
+	<diskStore path="java.io.tmpdir" />
+	
+
+	<defaultCache maxElementsInMemory="500" eternal="false"
+		overflowToDisk="false" timeToIdleSeconds="180" timeToLiveSeconds="180"
+		diskPersistent="false" diskExpiryThreadIntervalSeconds="600">
+	</defaultCache>
+
+	<!-- See http://ehcache.sourceforge.net/documentation/#mozTocId258426 for 
+		how to configure caching for your objects -->
+
+	<cache name="org.hibernate.cache.UpdateTimestampsCache"
+		maxElementsInMemory="5000" eternal="false" overflowToDisk="false" >
+	</cache>
+
+	<!-- Query cache -->
+	<cache name="org.hibernate.cache.StandardQueryCache"
+		maxElementsInMemory="100" eternal="false" timeToIdleSeconds="180"
+		timeToLiveSeconds="180" overflowToDisk="false">
+	</cache>
+
+	<!-- hibernate entity cache -->
+	<!-- 基础Entity缓存设置 -->
+	<cache name="com.wanda.ccs.model.TDimTypeDef"
+		maxElementsInMemory="10" eternal="false" timeToIdleSeconds="3000"
+		timeToLiveSeconds="6000" overflowToDisk="false" >
+	</cache>
+	<cache name="com.wanda.ccs.model.TDimTypeDef.tDimdefs"
+		maxElementsInMemory="10" eternal="false" timeToIdleSeconds="3000"
+		timeToLiveSeconds="6000" overflowToDisk="false" >
+	</cache>
+	<cache name="com.wanda.ccs.model.TCinema" maxElementsInMemory="10"
+		eternal="false" timeToIdleSeconds="180" timeToLiveSeconds="180"
+		overflowToDisk="false" >
+	</cache>
+<!-- 
+	timeToIdleSeconds:
+    Sets the time to idle for an element before it expires.
+    i.e. The maximum amount of time between accesses before an element expires
+    Is only used if the element is not eternal.
+    Optional attribute. A value of 0 means that an Element can idle for infinity.
+    The default value is 0.
+
+    timeToLiveSeconds:
+    Sets the time to live for an element before it expires.
+    i.e. The maximum time between creation time and when an element expires.
+    Is only used if the element is not eternal.
+    Optional attribute. A value of 0 means that and Element can live for infinity.
+    The default value is 0.
+
+    diskExpiryThreadIntervalSeconds:
+    The number of seconds between runs of the disk expiry thread. The default value
+    is 120 seconds.
+ -->
+</ehcache>

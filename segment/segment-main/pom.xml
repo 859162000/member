@@ -1,0 +1,194 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>segment-main</artifactId>
+	<packaging>war</packaging>
+	<name>CCS Segment Project Main</name>
+	<parent>
+		<groupId>com.wanda.ccs.member</groupId>
+		<artifactId>member-segment-parent</artifactId>
+		<version>1.4.1</version>
+	</parent>
+	
+	<properties>
+		<maven.test.skip>true</maven.test.skip>
+		<tomcat.context>context.xml</tomcat.context>
+		<tomcat.port>8080</tomcat.port>
+		<segment-module.classpath>../../segment-module/target/classes</segment-module.classpath>
+	</properties>
+
+	<profiles>
+		<profile>
+			<id>release</id>
+			<properties>
+				<segment-module.classpath>../../modules/segment-module/segment-module.jar</segment-module.classpath>
+			</properties>
+		</profile>
+	</profiles>
+
+	<build>
+		<resources>
+			<resource>
+				<directory>${project.basedir}/src</directory>
+				<includes>
+					<include>**/*</include>
+				</includes>
+				<excludes>
+					<exclude>**/*.java</exclude>
+					<exclude>module-config.json</exclude>
+				</excludes>
+				<filtering>false</filtering>
+			</resource>
+			<resource>
+				<directory>${project.basedir}/src</directory>
+				<filtering>true</filtering>
+				<includes>
+					<include>module-config.json</include>
+				</includes>
+			</resource>
+		</resources>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>2.3</version>
+				<configuration>
+					<webappDirectory>${project.basedir}/webapp</webappDirectory>
+            		<attachClasses>true</attachClasses><!-- 把class打包jar作为附件 -->  
+                    <!--<archiveClasses>true</archiveClasses>--><!-- 把class打包jar放入WEB-INF/lib/下 --> 
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.tomcat.maven</groupId>
+				<artifactId>tomcat6-maven-plugin</artifactId>
+				<version>2.1</version>
+				<configuration>
+					<port>${tomcat.port}</port>
+					<ignorePackaging>true</ignorePackaging>
+					<!-- application path always starts with / -->
+					<path>/segment</path>
+					<!-- optional path to a context file -->
+					<contextFile>${project.basedir}/${tomcat.context}</contextFile>
+					<warSourceDirectory>${project.basedir}/webapp</warSourceDirectory>
+					
+					<!-- optional system propoerties you want to add -->
+					<!-- 
+					<systemProperties>
+						<appserver.base>${project.build.directory}/appserver-base</appserver.base>
+					</systemProperties>
+					 -->
+					<!-- if you want to use test dependencies rather than only runtime -->
+					<useTestClasspath>false</useTestClasspath>
+					<!-- optional if you want to add some extra directories into the classloader -->
+					<additionalClasspathDirs>
+						<additionalClasspathDir></additionalClasspathDir>
+					</additionalClasspathDirs>
+				</configuration>
+				<!-- For any extra dependencies needed when running embedded Tomcat (not 
+					WAR dependencies) add them below -->
+				<!--  
+				<dependencies>
+					<dependency>
+						<groupId>org.apache.derby</groupId>
+						<artifactId>derby</artifactId>
+						<version>\${derbyVersion}</version>
+					</dependency>
+					<dependency>
+						<groupId>javax.mail</groupId>
+						<artifactId>mail</artifactId>
+						<version>1.4</version>
+					</dependency>
+				</dependencies>
+				-->
+			</plugin>
+			<plugin>
+				<artifactId>maven-clean-plugin</artifactId>
+				<version>2.4.1</version>
+				<configuration>
+					<filesets>
+						<fileset><directory>webapp/WEB-INF/classes</directory></fileset>
+						<fileset><directory>webapp/WEB-INF/lib</directory></fileset>
+					</filesets>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+	<dependencies>
+		<dependency>
+		    <groupId>com.wanda.ccs</groupId>
+		    <artifactId>jobhub-client</artifactId>
+	    </dependency>
+		<dependency>
+			<groupId>com.wanda.ccs</groupId>
+			<artifactId>sqlasm</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.wanda.ccs.other</groupId>
+			<artifactId>ojdbc</artifactId>
+		</dependency>
+
+		<dependency>
+		    <groupId>com.google.code.pathlet</groupId>
+		    <artifactId>pathlet-core</artifactId>
+	    </dependency>
+		<dependency>
+		    <groupId>com.google.code.pathlet</groupId>
+		    <artifactId>pathlet-extend</artifactId>
+	    </dependency>
+	    
+		<dependency>
+		    <groupId>commons-logging</groupId>
+		    <artifactId>commons-logging</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>commons-fileupload</groupId>
+			<artifactId>commons-fileupload</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>commons-beanutils</groupId>
+			<artifactId>commons-beanutils</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>javax.mail</groupId>
+			<artifactId>mail</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+		    <exclusions>
+		    	<exclusion>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-expression</artifactId>
+		    	</exclusion>
+		    	<exclusion>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-context</artifactId>
+		    	</exclusion>
+		    	<exclusion>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-aop</artifactId>
+		    	</exclusion>
+		    </exclusions>
+		</dependency>
+		<dependency>
+		    <groupId>c3p0</groupId>
+		    <artifactId>c3p0</artifactId>
+		</dependency>
+	</dependencies>
+
+
+</project>

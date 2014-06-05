@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+	<jdbc id="db.stg" dece="生产报表">
+		<driver>oracle.jdbc.OracleDriver</driver>
+		<url>jdbc:oracle:thin:@(DATA=(SERVICE_NAME=pldw)))</url>
+		<user>ccs_report</user>
+		<password>13123</password>
+	</jdbc>
+
+	<jdbc id="db.mbr" dece="会员系统">
+		<driver>oracle.jdbc.driver.OracleDriver</driver>
+		<url>jdbc:oracle:thin:@10.199.201.105:1521:ccsstag</url>
+		<user>ccs_mbr_prod</user>
+		<password>ccs_mbr_prod</password>
+	</jdbc>
+
+	<jdbc id="ccs_stag" dece="总部系统">
+		<driver>oracle.jdbc.driver.OracleDriver</driver>
+		<url>jdbc:oracle:thin:@10.199.90.20:1521/pldb</url>
+		<user>ccs_read</user>
+		<password></password>
+	</jdbc>
+	<!-- <jdbc id="db.mbr_uat" dece="会员UAT系统"> <driver>oracle.jdbc.driver.OracleDriver</driver> 
+		<url>jdbc:oracle:thin:@10.199.201.39:1521:orapub</url> <user>ccs_mbr_stag</user> 
+		<password>ccs_mbr_stag</password> </jdbc> -->
+	<jdbc id="db.mbr_uat" dece="会员UAT系统">
+		<driver>oracle.jdbc.driver.OracleDriver</driver>
+		<url>jdbc:oracle:thin:@10.199.201.105:1521:ccsstag</url>
+		<user>ccs_mbr_prod</user>
+		<password>ccs_mbr_prod</password>
+	</jdbc>
+	
+	<!-- <jdbc id="db.mbr_flag" dece="会员系统状态"> <driver>oracle.jdbc.driver.OracleDriver</driver> 
+		<url>jdbc:oracle:thin:@10.199.90.13:1521:pldw</url> <user>ccs_flag</user> 
+		<password>ccs_flag</password> </jdbc> -->
+	<jdbc id="db.mbr_flag" dece="会员系统状态">
+		<driver>oracle.jdbc.driver.OracleDriver</driver>
+		<url>jdbc:oracle:thin:@127.0.0.1:1521:orcl</url>
+		<user>ccs_mbr_stag</user>
+		<password>ccs_mbr_stag</password>
+	</jdbc>
+	<jdbc id="db.mbr_dev" dece="会员开发系统">
+		<driver>oracle.jdbc.driver.OracleDriver</driver>
+		<url>jdbc:oracle:thin:@10.199.200.242:1521:orcl</url>
+		<user>ccs_mbr_dev</user>
+		<password>ccs_mbr_dev</password>
+	</jdbc>
+
+</config>

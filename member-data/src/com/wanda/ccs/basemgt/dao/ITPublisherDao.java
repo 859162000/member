@@ -1,0 +1,1 @@
+package com.wanda.ccs.basemgt.dao;import com.wanda.ccs.model.TPublisher;import com.xcesys.extras.core.dao.IBaseDao;/** * 发行商Dao *  * @author Benjamin * @date 2011-10-18 */public interface ITPublisherDao extends IBaseDao<TPublisher> {}

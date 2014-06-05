@@ -1,0 +1,125 @@
+1. 功能上线前准备操作
+======================
+   计算时间在2014-1-1下午积分计算完成之后。
+      a1 检查一下会员现在T_MEMBER_POINT对应的过期积分是否有不等于0的？？
+
+	  a. 查询有效的会员
+	  select count(m.MEMBER_ID) from T_MEMBER m where m.ISDELETE='0' and m.STATUS='1'
+
+      a.2013年底要过期的所有积分
+        
+        
+		select 
+			history.point_history_id, 
+			history.member_id, 
+			p.EXG_POINT_BALANCE as pointBalance, 
+			history.exchange_point as toExpirePoint, 
+		    (
+			  select sum(use_history.EXCHANGE_POINT) 
+			  from T_POINT_HISTORY use_history 
+			  where  
+				use_history.is_history<>'1' and 
+				((use_history.point_type='6') or /*兑换*/
+				(use_history.point_type='4' and use_history.ADJ_REASON_TYPE='4' and use_history.EXCHANGE_POINT<0)) and /*积分调整 and 调整原因'其他' and 减积分）
+				use_history.set_time>=to_date('2013-08-05 00:00:00', 'yyyy-mm-dd hh24:mi:ss') and 
+				use_history.set_time<to_date('2014-01-01 00:00:00', 'yyyy-mm-dd hh24:mi:ss') and
+				use_history.member_id=history.member_id
+		     ) as usedPoint 
+			
+		from T_POINT_HISTORY history, T_MEMBER member, T_MEMBER_POINT p 
+		where 
+			//TODO 加入排除重复的条件。
+			member.member_id = history.member_id and  member.ISDELETE='0' and 
+			p.member_id = member.member_id and
+			history.exchange_point > 0 and 
+			history.set_time>to_date('2013-08-05 00:00:00', 'yyyy-mm-dd hh24:mi:ss') and
+			history.set_time<to_date('2013-08-06 00:00:00', 'yyyy-mm-dd hh24:mi:ss') and
+			history.EXCHANGE_POINT_EXPIRE_TIME=to_date('2013-12-31 23:59:59', 'yyyy-mm-dd hh24:mi:ss') 
+
+		List<PointHistoryVo> pointHistorys = new ArrayList<PointHistoryVo>(BATCH_SIZE + 10); //客群存在异常的负积分现象，所以每200行预空出来10行记录。
+		List<MemberPointVo> memberPoints = new ArrayList<MemberPointVo>(BATCH_SIZE);
+		for(
+			long historyId = rs.getLong(1);
+			long memberId = rs.getLong(2);
+			long toExpirePoint = rs.getLong(3);
+			long pointBalance = rs.getLong(4);
+			long usedPoint = rs.getLong(5); //此应为负数
+			
+			if((toExpirePoint - usedPoint) > 0) {
+
+				
+
+				//进行积分扣减
+				addPointChanges(pointHistorys, memberPoints);
+				if(memberPoints.size() >= BATCH_SIZE) {
+					commitPointChanges(pointHistorys, memberPoints);
+					memberPoints.clean();
+					pointHistorys.clean();
+				}
+			}
+		}
+
+
+		private void addPointChanges(long historyId, long memberId, 
+			long toExpirePoint, long pointBalance, long usedPoint, 
+			List<PointHistoryVo> pointHistorys, List<MemberPointVo> memberPoints) {
+
+			//注意要设置好变化前，和变化后的值。
+			
+			long remainExpirePoint = toExpirePoint - usedPoint; //将扣减的积分数量
+			if(pointBalance < 0) {
+				//TODO 记录已经是小于零的积分值
+			}
+			else if((pointBalance - remainExpirePoint) < 0) {
+				//TODO 记录已经是小于零的积分值
+			}
+			else {
+				//TODO 正常记录
+			}
+		}
+
+		/**
+		 * Batch insert and update the 
+		 */
+		private void commitPointChanges(List<PointHistoryVo> pointHistorys, List<MemberPointVo> memberPoints) {
+			
+		}
+
+
+	  b. 得到今年年底需要清的积分：
+	     2013-12-31年底要过期的所有积分 
+		   - 今年兑换（加合所有的包括冲正，冲正的可抵消对应的兑换 history.is_history<>'1', set_time>=2013-08-05） 
+         必须大于零才保存，否则设置为零。
+      
+	  
+	  lastTotalExpirePoint -  
+	  
+
+      c. 设置所有积分历史中的兑换积分，的过期时间为 2014-12-31
+
+
+2. 年底清零操作
+=======================
+   1. 查找所有的EXG_POINT_EXPIRE_TIME=2013-12-31 23:59:59 的 T_MEMBER_POINT 记录
+
+   2. 对一个会员的清除操作
+      a. 如果EXG_EXPIRE_POINT_BALANCE!=0 设置 EXG_POINT_BALANCE = EXG_POINT_BALANCE - EXG_EXPIRE_POINT_BALANCE 
+	  b. 设置 EXG_EXPIRE_POINT_BALANCE 为更改后的 EXG_POINT_BALANCE
+	  c. 设置 EXG_POINT_EXPIRE_TIME 为 2014-12-31 23:59:59
+      d. 插入积分历史类型为 可兑换积分过期，值为 负的原来 EXG_EXPIRE_POINT_BALANCE。
+
+   3. 注意插入的历史记录有两种。但根据的会员的不同可能会插入0~2条记录。
+      第一种实际清理的历史记录，POINT_TYPE=5 过期
+	  第二中异常的客户记录，POINT_TYPE=4 调整
+	          ADJ_TYPE=7     
+			  ADJ_REASON='负积分回零'
+      
+
+
+3.其他
+==================
+
+a. 验证会员积分的正确性
+  得到会员所有exchange积分并验证, 如果不对给出报警，记录日志文件。
+  select sum(history.exchange_point) 各会员兑换总积分数 from ccs_mbr_prod.t_point_history history
+	 where history.isdelete<>'1' and  history.is_history<>'1' and history.member_id = xxxx

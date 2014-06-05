@@ -1,0 +1,1 @@
+package com.wanda.ccs.film.dao;import com.wanda.ccs.model.TFilmCopySchedule;import com.xcesys.extras.core.dao.IBaseDao;public interface ITFilmCopyScheduleDao extends IBaseDao<TFilmCopySchedule> {}

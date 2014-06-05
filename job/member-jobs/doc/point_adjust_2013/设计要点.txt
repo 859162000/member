@@ -1,0 +1,64 @@
+1. 功能上线前准备操作
+======================
+   1. T_MEMBER_POINT 表中加入过期时间列：
+      EXG_POINT_EXPIRE_TIME  
+      过期时间全部设置为 2013-12-31 23:59:59
+
+   2. 计算出正确的今年将过期的积分值 T_MEMBER_POINT.EXG_EXPIRE_POINT_BALANCE 并重置。
+      a. 得到会员所有exchange积分并验证, 如果不对给出报警，记录日志文件。
+	     select sum(history.exchange_point) 各会员兑换总积分数 from ccs_mbr_prod.t_point_history history
+         where history.isdelete<>'1' and  history.is_history<>'1' and history.member_id = xxxx
+
+	  b. 得到今年年底需要清的积分：
+	     2013-12-31年要过期的所有积分 
+		   - 今年兑换（加合所有的包括冲正，冲正的可抵消对应的兑换 history.is_history<>'1', set_time>=2013-08-05） 
+         必须大于零才保存，否则设置为零。
+
+      c. 设置所有积分历史中的兑换积分，的过期时间为 2014-12-31
+
+
+2. 年底清零操作
+=======================
+   1. 查找所有的EXG_POINT_EXPIRE_TIME=2013-12-31 23:59:59 的 T_MEMBER_POINT 记录
+
+   2. 对一个会员的清除操作
+      a. 如果EXG_EXPIRE_POINT_BALANCE!=0 设置 EXG_POINT_BALANCE = EXG_POINT_BALANCE - EXG_EXPIRE_POINT_BALANCE 
+	  b. 设置 EXG_EXPIRE_POINT_BALANCE 为更改后的 EXG_POINT_BALANCE
+	  c. 设置 EXG_POINT_EXPIRE_TIME 为 2014-12-31 23:59:59
+      d. 插入积分历史类型为 可兑换积分过期，值为 负的原来 EXG_EXPIRE_POINT_BALANCE。
+
+3. 积分变更策略的更改
+=======================
+1. 积分兑换时的运算策略。
+  b.积分运算
+  假设扣减积分为： n
+  EXG_POINT_BALANCE = EXG_POINT_BALANCE - n
+  if(EXG_EXPIRE_POINT_BALANCE > 0) {
+	if(EXG_EXPIRE_POINT_BALANCE > n) {
+		EXG_EXPIRE_POINT_BALANCE = EXG_EXPIRE_POINT_BALANCE - n;
+	}
+    else {
+		EXG_EXPIRE_POINT_BALANCE = 0
+	}
+  }
+
+  更新数据
+     EXG_POINT_BALANCE， EXG_EXPIRE_POINT_BALANCE 
+	(...              ,  ...                     
+  插入历史记录
+     保持处理逻辑不变
+
+
+2. 积分增加时的运算策略（普通积分运算、定级运算）
+   a.检查当前时间是否大于 EXG_POINT_EXPIRE_TIME
+     如果大于执行针对单个用户的《年底清零操作》
+
+   b.积分运算
+    EXG_POINT_BALANCE = EXG_POINT_BALANCE + n
+	  更新数据
+     EXG_POINT_BALANCE， EXG_EXPIRE_POINT_BALANCE 
+	(...              ,  ...                     
+    插入历史记录 -- 保持处理逻辑不变
+
+
+3. 会员初始化时

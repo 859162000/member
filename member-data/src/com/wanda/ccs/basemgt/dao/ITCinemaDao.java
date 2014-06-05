@@ -1,0 +1,1 @@
+package com.wanda.ccs.basemgt.dao;import com.wanda.ccs.model.TCinema;import com.xcesys.extras.core.dao.IBaseDao;/** * 影院Dao *  * @author Chen * @date 2011-10-21 */public interface ITCinemaDao extends IBaseDao<TCinema> {}

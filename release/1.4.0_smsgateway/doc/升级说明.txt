@@ -1,0 +1,24 @@
+a） 部署路径：c:\smsgateway
+b） 应用文件说明：
+			C:\
+			—— smsgateway              
+				—— config
+					—— conf
+						  cfg.properties			应用配置文件
+						  jdbc.properties			数据库配置文件
+						  log4j.properties
+						  telnet.properties			telnet信息配置
+				—— lib
+					  member-sms-gateway-1.3.2.2.jar     短信网关程序
+				—— log
+				start.bat							启动脚本
+				start.xml
+				stop.bat							停止脚本
+				stop.xml
+c） 升级部署说明：
+			> 将smsgateway文件夹复制到C盘根目录下。
+			> 将 member-sms-gateway-1.3.2.2.jar 包拷贝到c:\smsgateway\lib路径下。
+			> 修改c:\smsgateway\config\conf路径下的 jdbc.properties到指定库。
+			> 修改 cfg.properties 文件中的mq.serverip为正式环境RabbitMQ服务器的IP。
+			> 双击运行start.bat 启动应用。（目前使用husdon启动程序）
+			> 

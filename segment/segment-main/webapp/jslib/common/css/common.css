@@ -1,0 +1,37 @@
+
+
+
+
+.contentArea {
+	padding: 0;
+	padding-top: 10px;
+	border-width: 0;
+	width: 98%;
+	display: none;
+}
+
+/**************************/
+/* Message Box style */
+/**************************/
+DIV.checkedIcon { background: url(images/checked.gif) 0 0 no-repeat; height: 48px; width: 48px; margin:0px;}
+DIV.infoIcon { background: url(images/info.gif) 0 0 no-repeat; height: 48px; width: 48px; margin:0px;}
+DIV.warnIcon { background: url(images/warn.gif) 0 0 no-repeat; height: 48px; width: 48px; margin:0px;}
+DIV.errorIcon { background: url(images/error.gif) 0 0 no-repeat; height: 48px; width: 48px; margin:0px;}
+DIV.confirmIcon { background: url(images/confirm.gif) 0 0 no-repeat; height: 48px; width: 48px; margin:0px;}
+DIV.yesnoIcon { background: url(images/confirm.gif) 0 0 no-repeat; height: 48px; width: 48px; margin:0px;}
+DIV.clockIcon { background: url(images/clock.gif) 0 0 no-repeat; height: 48px; width: 48px; margin:0px;}
+#msgBox_dialog_icon{ position:absolute; left:30px; top:50%; margin-top:-24px;}
+#msgBox_dialog_content{ font-size:14px; padding:30px 0 30px 80px;float:left; display:inline; width:280px; line-height:24px;}
+
+
+
+
+
+
+
+
+
+
+
+
+

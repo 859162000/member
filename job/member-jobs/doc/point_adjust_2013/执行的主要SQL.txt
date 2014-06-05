@@ -1,0 +1,45 @@
+
+
+select history.member_id, sum(history.exchange_point) 各会员兑换总积分数 from ccs_mbr_prod.t_point_history history, ccs_mbr_prod.t_member m
+where m.member_id=history.member_id and m.STATUS='1' and m.ISDELETE = 0 and 
+(history.set_time between to_date('2013-12-10', 'yyyy-mm-dd') and to_date('2013-12-15', 'yyyy-mm-dd')) 
+and history.point_type='6' and history.exchange_point<>0 and (history.is_succeed='1' or history.is_succeed is null)
+group by history.member_id
+
+
+
+
+会员当前所有积分
+select sum(history.exchange_point) 各会员兑换总积分数 from ccs_mbr_prod.t_point_history history
+where history.isdelete<>'1' and  history.is_history<>'1' and history.member_id = 78269
+
+
+select history.* from ccs_mbr_prod.t_point_history history
+where  history.set_time >= to_date('2012-1-1', 'yyyy-mm-dd') and history.set_time < to_date('2014-1-1', 'yyyy-mm-dd') and 
+ history.isdelete<>'1' and  history.is_history<>'1' and
+ history.member_id = 78269 
+order by history.set_time asc
+
+
+所有产生负的积分包括 积分调整（负） 和 积分兑换（负，is_success<>'0'），时间段
+
+
+8月5日后没有礼品的积分兑换历史
+select history.* from ccs_mbr_prod.t_point_history history where history.point_type=2 and history.set_time >= to_date('2013-8-5', 'yyyy-mm-dd')
+
+point_type=奖励,似乎都是特殊积分?
+point_type=礼品的积分历史分别代表什么意思？
+
+
+备份和恢复
+=================
+----首次备份使用一次，创建结构与数据均一致的备份表，但不包含索引及约束
+create table t_member_point_2 as select * from t_member_point;
+
+------清空目标表
+truncate table t_member_point;
+-----恢复备份数据
+insert into t_member_point select * from t_member_point_2;
+
+----提交
+commit;

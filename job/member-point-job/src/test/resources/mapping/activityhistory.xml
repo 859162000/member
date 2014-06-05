@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<etl>
+		<source>
+			<db conn="db.mbr_uat">
+				<sql>
+					<![CDATA[ 
+					    select   TICKET_TRANS_DETAIL_ID
+  ,TICKET_TYPE_NAME
+  ,TICKET_TYPE_CODE
+  ,AMOUNT
+  ,PAYMENT_HASH
+  ,TICKET_NO
+  ,TRANS_ORDER_ID
+  ,ORDER_ID
+  ,CINEMA_INNER_CODE
+  ,BIZ_DATE
+  ,POINT
+  ,MEMBER_ID
+  ,HIS_MEMBER_NO 
+  ,LEVEL_POINT
+  ,ACTIVITY_POINT
+  ,IS_POINT
+  ,IS_TICKET
+  ,EXT_POINT_RULE_ID
+  from T_TICKET_TRANS_DETAIL t  
+   where IS_POINT  =3 and IS_TICKET=1 and ACTIVITY_POINT<>0  
+	 and trunc(BIZ_DATE)=to_date('${bizdate}', 'yyyy-mm-dd')
+	 and CINEMA_INNER_CODE='${cinema}'
+  
+
+				]]>
+				</sql>
+			</db>
+		</source>
+		<destination>
+			<db conn="db.mbr_uat">
+				<table>T_TICKET_TRANS_DETAIL</table>
+			</db>
+		</destination>
+
+		<linefilter>
+			<filter name="activitypointhistorylinehandle" />
+		</linefilter>
+
+		<mapping>
+			<field src="TICKET_TRANS_DETAIL_ID"  dest="TICKET_TRANS_DETAIL_ID" stype="key" />
+			<field src="TICKET_TYPE_NAME" dest="TICKET_TYPE_NAME" />
+			<field src="TICKET_TYPE_CODE" dest="TICKET_TYPE_CODE" />
+			<field src="AMOUNT" dest="AMOUNT" />
+			<field src="PAYMENT_HASH" dest="PAYMENT_HASH" />
+			<field src="TICKET_NO" dest="TICKET_NO" />
+			<field src="TRANS_ORDER_ID" dest="TRANS_ORDER_ID" />
+			<field src="ORDER_ID" dest="ORDER_ID" />
+			<field src="CINEMA_INNER_CODE" dest="CINEMA_INNER_CODE" />
+			<field src="BIZ_DATE" dest="BIZ_DATE" type="date"/>
+			<field src="POINT" dest="POINT" />
+			<field src="MEMBER_ID" dest="MEMBER_ID" />
+			<field src="HIS_MEMBER_NO" dest="HIS_MEMBER_NO" />
+			<field src="LEVEL_POINT" dest="LEVEL_POINT"  />
+			<field src="ACTIVITY_POINT" dest="ACTIVITY_POINT" />
+			<field src="IS_POINT" dest="IS_POINT" />
+			<field src="IS_TICKET" dest="IS_TICKET" />
+			<field src="EXT_POINT_RULE_ID" dest="EXT_POINT_RULE_ID" />
+		</mapping>
+		
+</etl>

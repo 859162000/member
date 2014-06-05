@@ -1,0 +1,16 @@
+﻿<?xml version='1.0' encoding='UTF-8'?>
+
+<!-- Configuration file for Database Source -->
+<config>
+<!--
+<source id="direct1" name="jdbc:oracle:thin:@10.199.201.39:1521:orapub" 
+		user="ccs_mbr_stag_test" password="ccs_mbr_stag" 
+		class="com.icebean.core.conn.db.DirectSource" 
+		stmt_dump_time="0" monitor_stmt_num="0" conn_dump_time="0" 
+		>
+		<param name="driver" value="oracle.jdbc.OracleDriver" />
+	</source>-->
+	<source id="ccs_mbr" name="java:comp/env/ccs/member/app_datasource"
+		class="com.icebean.core.conn.db.PoolSource" monitor_stmt_num="0"
+		conn_dump_time="0" stmt_dump_time="0" isdefault="yes" />
+</config>

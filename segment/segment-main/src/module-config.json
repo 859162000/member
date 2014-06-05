@@ -1,0 +1,14 @@
+{
+
+modules: 
+[
+	{
+		id: 'segment',
+		class: 'com.google.code.pathlet.core.impl.ClassPathModule',
+		classPaths: ['${webapp.basedir}${segment-module.classpath}'],
+		resourcePattern: {includes: '/segment/**/*'},
+		autoReload: true
+	}
+]
+
+}

@@ -1,0 +1,73 @@
+{
+
+beans: 
+[
+
+	{
+		path: "/servicePathConverter",
+		scope: "setting",
+		class:"com.google.code.pathlet.core.impl.ClassNamePathConverter",
+		properties: { appendPackage: "service.impl", namePrefix: "", nameSuffix: "Impl"}
+	},
+	
+	{
+		path: "/actionPathConverter",
+		scope: "setting",
+		class: "com.google.code.pathlet.core.impl.ClassNamePathConverter",
+		properties: { appendPackage: "web", namePrefix: "", nameSuffix: ""}
+	},
+	
+	{
+		path : "/factories/commonBeanCreator",
+		scope: "setting",
+		class :"com.google.code.pathlet.core.impl.BeanResourceFactory",
+		properties: {
+			defaultScope: "container",
+			startPath: "/",
+			basePackage: "com.wanda.ccs.member",
+			//注意 excludes:中的 “/dataSource*,”在使用内置dataSource配置时一定要删除，而使用JDNI配置时加入。
+			pathPattern: {includes: "/*", excludes: "/jndi/**/*,/**/*Action,/**/*Service"}
+		}
+	},
+	
+	{
+		path : "/factories/serviceBeanCreator",
+		scope: "setting",
+		class : "com.google.code.pathlet.core.impl.BeanResourceFactory", 
+		properties: {
+			defaultScope: "container",
+			startPath: "/",
+			basePackage: "com.wanda.ccs.member",
+			pathPattern: {includes: "/**/*Service"},
+			pathConverter: "$instance:/servicePathConverter"
+		}
+	},
+	
+	{
+		path : "/factories/actionBeanCreator",
+		scope: "setting",
+		class : "com.google.code.pathlet.core.impl.BeanResourceFactory", 
+		properties: {
+			defaultScope: "request",
+			startPath: "/",
+			basePackage: "com.wanda.ccs.member",
+			pathPattern: {includes: "/**/*Action"},
+			pathConverter: "$instance:/actionPathConverter"
+		}
+	},
+	
+	{
+		path : "/factories/jndiDataSourceCreator",
+		scope: "setting",
+		class :"com.google.code.pathlet.jndi.JndiResourceFactory",
+		properties: {
+			defaultScope: "container",
+			startPath: "/jndi",
+			baseJndiName: "java:/comp/env",
+			pathPattern: {includes: "/jndi/**/*"}
+		}
+	}
+	
+]
+
+}

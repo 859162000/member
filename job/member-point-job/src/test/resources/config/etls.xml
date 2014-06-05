@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<etls>
+	<mapping id="basicpoint" path="basicpoint.xml"/>
+	<mapping id="goodsbasicpoint" path="goodsbasicpoint.xml"/>								    
+	<mapping id="activitypoint" path="activitypoint.xml"/>
+	<mapping id="goodsactivitypoint" path="goodsactivitypoint.xml"/>
+	<mapping id="point" path="point.xml"/>
+	<mapping id="goodspoint" path="goodspoint.xml"/>
+	<mapping id="history" path="history.xml"/>
+	<mapping id="goodshistory" path="goodshistory.xml"/>
+	<mapping id="activityhistory" path="activityhistory.xml"/>
+	<mapping id="goodsactivityhistory" path="goodsactivityhistory.xml"/>
+	<mapping id="goodsresult" path="goodsresult.xml"/>
+	<mapping id="basicresult" path="basicresult.xml"/>
+	<mapping id="textpointrule" path="textpointrule.xml"/>
+	<mapping id="upactivityhistory" path="upactivityhistory.xml"/>
+	<mapping id="uphistory" path="uphistory.xml"/>
+	<mapping id="upczhistory" path="upczhistory.xml"/>
+	<mapping id="tsuphistory" path="tsuphistory.xml"/>
+	
+	<mapping id="totalactivityhistory" path="totalactivityhistory.xml"/>
+	<mapping id="totalgoodsactivityhistory" path="totalgoodsactivityhistory.xml"/>
+	<mapping id="xbtsuphistory" path="xbtsuphistory.xml"/>
+	
+	<!-- lining add -->
+	<mapping id="countercompute" path="countercompute.xml"/>
+	<mapping id="countercomputerule1" path="countercomputerule1.xml"/>
+	<mapping id="countercomputenullrule" path="countercomputenullrule.xml"/>	
+	<mapping id="validatepoint" path="validatepoint.xml"/>	
+	<mapping id="upgoodsdetail" path="upgoodsdetail.xml"/>
+	<mapping id="upgoodsorder" path="upgoodsorder.xml"/>
+	<mapping id="upticketdetail" path="upticketdetail.xml"/>
+	<mapping id="upticketorder" path="upticketorder.xml"/>
+	
+	<mapping id="gbcinema" path="gbcinema.xml"/>
+	<mapping id="gbcinemarepair" path="gbcinemarepair.xml"/>	
+	
+	<mapping id="uplevel" path="uplevel.xml"/>
+	<mapping id="countercompute" path="countercompute.xml"/>		
+	<mapping id="upislevel" path="upislevel.xml"/>	
+	<mapping id="uplevelmemberid" path="uplevelmemberid.xml"/>	
+	
+	
+	<mapping id="tactresult" path="tactresult.xml"/>	
+	<mapping id="tactresultup" path="tactresultup.xml"/>	
+	<mapping id="tactresultstatistics" path="tactresultstatistics.xml"/>	
+	
+	
+</etls>

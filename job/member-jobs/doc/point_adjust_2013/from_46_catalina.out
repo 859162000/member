@@ -1,0 +1,2552 @@
+Please use CMSClassUnloadingEnabled in place of CMSPermGenSweepingEnabled in the future
+Dec 31, 2013 5:10:34 PM org.apache.catalina.core.AprLifecycleListener init
+INFO: The APR based Apache Tomcat Native library which allows optimal performance in production environments was not found on the java.library.path: /opt/jdk1.6.0_45/jre/lib/amd64/server:/opt/jdk1.6.0_45/jre/lib/amd64:/opt/jdk1.6.0_45/jre/../lib/amd64:/usr/java/packages/lib/amd64:/usr/lib64:/lib64:/lib:/usr/lib
+Dec 31, 2013 5:10:35 PM org.apache.coyote.http11.Http11Protocol init
+INFO: Initializing Coyote HTTP/1.1 on http-8080
+Dec 31, 2013 5:10:35 PM org.apache.catalina.startup.Catalina load
+INFO: Initialization processed in 2573 ms
+Dec 31, 2013 5:10:35 PM org.apache.catalina.core.StandardService start
+INFO: Starting service Catalina
+Dec 31, 2013 5:10:35 PM org.apache.catalina.core.StandardEngine start
+INFO: Starting Servlet Engine: Apache Tomcat/6.0.33
+Dec 31, 2013 5:10:35 PM org.apache.catalina.startup.HostConfig deployDescriptor
+INFO: Deploying configuration descriptor host-manager.xml
+Dec 31, 2013 5:10:36 PM org.apache.catalina.startup.HostConfig deployDescriptor
+INFO: Deploying configuration descriptor manager.xml
+Dec 31, 2013 5:10:36 PM org.apache.catalina.startup.HostConfig deployWAR
+INFO: Deploying web application archive jobhub.war
+[INFO](2013-12-31 17:10:37,546) - Pathlet placeholder set property:  webapp.basedir=/home/appuser/tomcat8080/webapps/jobhub/
+[INFO](2013-12-31 17:10:37,547) - Pathlet placeholder set property:  classes.basedir=/home/appuser/tomcat8080/webapps/jobhub/WEB-INF/classes/
+[INFO](2013-12-31 17:10:38,399) - Quartz Initializer loaded, initializing Scheduler...
+SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".
+SLF4J: Defaulting to no-operation (NOP) logger implementation
+SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.
+[INFO](2013-12-31 17:10:38,418) - Scheduler configure has been load from the file '/home/appuser/tomcat8080/webapps/jobhub/WEB-INF/classes/quartz.properties'.
+[INFO](2013-12-31 17:10:39,397) - Scheduler[InstanceId=master_43, name=JobhubScheduler] has been started...
+[INFO](2013-12-31 17:10:39,635) - Module listener initializing[moduleId=member-jobs]
+[WARN](2013-12-31 17:10:39,810) - Module[moduleId=member-jobs] jobs has be cleaned! removed jobs count=5
+Dec 31, 2013 5:10:40 PM org.apache.catalina.startup.HostConfig deployDirectory
+INFO: Deploying web application directory ROOT
+Dec 31, 2013 5:10:40 PM org.apache.coyote.http11.Http11Protocol start
+INFO: Starting Coyote HTTP/1.1 on http-8080
+Dec 31, 2013 5:10:40 PM org.apache.jk.common.ChannelSocket init
+INFO: JK: ajp13 listening on /0.0.0.0:8009
+Dec 31, 2013 5:10:40 PM org.apache.jk.server.JkMain start
+INFO: Jk running ID=0 time=0/37  config=null
+Dec 31, 2013 5:10:40 PM org.apache.catalina.startup.Catalina start
+INFO: Server startup in 4983 ms
+Dec 31, 2013 5:12:08 PM org.apache.coyote.http11.Http11Protocol pause
+INFO: Pausing Coyote HTTP/1.1 on http-8080
+Dec 31, 2013 5:12:09 PM org.apache.catalina.core.StandardService stop
+INFO: Stopping service Catalina
+[INFO](2013-12-31 17:12:10,299) - Quartz Scheduler successful shutdown.
+Dec 31, 2013 5:12:10 PM org.apache.catalina.loader.WebappClassLoader clearReferencesJdbc
+SEVERE: The web application [/jobhub] registered the JDBC driver [oracle.jdbc.OracleDriver] but failed to unregister it when the web application was stopped. To prevent a memory leak, the JDBC Driver has been forcibly unregistered.
+Dec 31, 2013 5:12:10 PM org.apache.catalina.loader.WebappClassLoader clearReferencesThreads
+SEVERE: The web application [/jobhub] appears to have started a thread named [Thread-4] but has failed to stop it. This is very likely to create a memory leak.
+Dec 31, 2013 5:12:10 PM org.apache.catalina.loader.WebappClassLoader clearReferencesThreads
+SEVERE: The web application [/jobhub] appears to have started a thread named [Timer-0] but has failed to stop it. This is very likely to create a memory leak.
+Dec 31, 2013 5:12:10 PM org.apache.coyote.http11.Http11Protocol destroy
+INFO: Stopping Coyote HTTP/1.1 on http-8080
+Please use CMSClassUnloadingEnabled in place of CMSPermGenSweepingEnabled in the future
+Dec 31, 2013 5:20:58 PM org.apache.catalina.core.AprLifecycleListener init
+INFO: The APR based Apache Tomcat Native library which allows optimal performance in production environments was not found on the java.library.path: /opt/jdk1.6.0_45/jre/lib/amd64/server:/opt/jdk1.6.0_45/jre/lib/amd64:/opt/jdk1.6.0_45/jre/../lib/amd64:/usr/java/packages/lib/amd64:/usr/lib64:/lib64:/lib:/usr/lib
+Dec 31, 2013 5:20:58 PM org.apache.coyote.http11.Http11Protocol init
+INFO: Initializing Coyote HTTP/1.1 on http-8080
+Dec 31, 2013 5:20:58 PM org.apache.catalina.startup.Catalina load
+INFO: Initialization processed in 617 ms
+Dec 31, 2013 5:20:58 PM org.apache.catalina.core.StandardService start
+INFO: Starting service Catalina
+Dec 31, 2013 5:20:58 PM org.apache.catalina.core.StandardEngine start
+INFO: Starting Servlet Engine: Apache Tomcat/6.0.33
+Dec 31, 2013 5:20:58 PM org.apache.catalina.startup.HostConfig deployDescriptor
+INFO: Deploying configuration descriptor host-manager.xml
+Dec 31, 2013 5:20:59 PM org.apache.catalina.startup.HostConfig deployDescriptor
+INFO: Deploying configuration descriptor manager.xml
+Dec 31, 2013 5:20:59 PM org.apache.catalina.startup.HostConfig deployWAR
+INFO: Deploying web application archive jobhub.war
+[INFO](2013-12-31 17:20:59,688) - Pathlet placeholder set property:  webapp.basedir=/home/appuser/tomcat8080/webapps/jobhub/
+[INFO](2013-12-31 17:20:59,688) - Pathlet placeholder set property:  classes.basedir=/home/appuser/tomcat8080/webapps/jobhub/WEB-INF/classes/
+[INFO](2013-12-31 17:21:00,431) - Quartz Initializer loaded, initializing Scheduler...
+SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".
+SLF4J: Defaulting to no-operation (NOP) logger implementation
+SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.
+[INFO](2013-12-31 17:21:00,452) - Scheduler configure has been load from the file '/home/appuser/tomcat8080/webapps/jobhub/WEB-INF/classes/quartz.properties'.
+[INFO](2013-12-31 17:21:01,240) - Scheduler[InstanceId=point_clean_temp_46, name=JobhubScheduler] has been started...
+[INFO](2013-12-31 17:21:01,330) - Module listener initializing[moduleId=member-jobs]
+Dec 31, 2013 5:21:01 PM org.apache.catalina.startup.HostConfig deployDirectory
+INFO: Deploying web application directory ROOT
+Dec 31, 2013 5:21:01 PM org.apache.coyote.http11.Http11Protocol start
+INFO: Starting Coyote HTTP/1.1 on http-8080
+Dec 31, 2013 5:21:01 PM org.apache.jk.common.ChannelSocket init
+INFO: JK: ajp13 listening on /0.0.0.0:8009
+Dec 31, 2013 5:21:01 PM org.apache.jk.server.JkMain start
+INFO: Jk running ID=0 time=0/19  config=null
+Dec 31, 2013 5:21:01 PM org.apache.catalina.startup.Catalina start
+INFO: Server startup in 2937 ms
+[INFO](2013-12-31 17:22:13,602) - Job member-jobs.hello fired (by trigger DEFAULT.MT_1vtci4m1ja5a3) at:  17:22:13 12/31/2013
+I am running! 0 of 5 Trigger=DEFAULT.MT_1vtci4m1ja5a3
+I am running! 1 of 5 Trigger=DEFAULT.MT_1vtci4m1ja5a3
+I am running! 2 of 5 Trigger=DEFAULT.MT_1vtci4m1ja5a3
+I am running! 3 of 5 Trigger=DEFAULT.MT_1vtci4m1ja5a3
+I am running! 4 of 5 Trigger=DEFAULT.MT_1vtci4m1ja5a3
+I am finished! Trigger=DEFAULT.MT_1vtci4m1ja5a3
+[INFO](2013-12-31 17:22:23,611) - Job member-jobs.hello fired (by trigger DEFAULT.MT_1vtci4m1ja5a3) execution complete at  17:22:23 12/31/2013 and reports: null
+Dec 31, 2013 5:24:01 PM org.apache.catalina.startup.HostConfig checkResources
+INFO: Reloading context []
+Dec 31, 2013 5:24:01 PM org.apache.catalina.startup.HostConfig checkResources
+INFO: Reloading context [/manager]
+Dec 31, 2013 5:24:01 PM org.apache.catalina.startup.HostConfig checkResources
+INFO: Reloading context [/jobhub]
+[INFO](2013-12-31 17:24:02,203) - Quartz Scheduler successful shutdown.
+Dec 31, 2013 5:24:02 PM org.apache.catalina.loader.WebappClassLoader clearReferencesJdbc
+SEVERE: The web application [/jobhub] registered the JDBC driver [oracle.jdbc.OracleDriver] but failed to unregister it when the web application was stopped. To prevent a memory leak, the JDBC Driver has been forcibly unregistered.
+Dec 31, 2013 5:24:02 PM org.apache.catalina.loader.WebappClassLoader clearReferencesThreads
+SEVERE: The web application [/jobhub] appears to have started a thread named [Thread-4] but has failed to stop it. This is very likely to create a memory leak.
+Dec 31, 2013 5:24:02 PM org.apache.catalina.loader.WebappClassLoader clearReferencesThreads
+SEVERE: The web application [/jobhub] appears to have started a thread named [Timer-0] but has failed to stop it. This is very likely to create a memory leak.
+Exception in thread "Thread-4" java.lang.NullPointerException
+	at com.google.code.pathlet.quartz.PathletQuartzInitializer$2.run(PathletQuartzInitializer.java:215)
+[INFO](2013-12-31 17:24:02,797) - Pathlet placeholder set property:  webapp.basedir=/home/appuser/tomcat8080/webapps/jobhub/
+[INFO](2013-12-31 17:24:02,797) - Pathlet placeholder set property:  classes.basedir=/home/appuser/tomcat8080/webapps/jobhub/WEB-INF/classes/
+[INFO](2013-12-31 17:24:03,426) - Quartz Initializer loaded, initializing Scheduler...
+SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".
+SLF4J: Defaulting to no-operation (NOP) logger implementation
+SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.
+[INFO](2013-12-31 17:24:03,444) - Scheduler configure has been load from the file '/home/appuser/tomcat8080/webapps/jobhub/WEB-INF/classes/quartz.properties'.
+[INFO](2013-12-31 17:24:04,116) - Scheduler[InstanceId=point_clean_temp_46, name=JobhubScheduler] has been started...
+[INFO](2013-12-31 17:24:04,285) - Module listener initializing[moduleId=member-jobs]
+[WARN](2013-12-31 17:24:04,505) - Module[moduleId=member-jobs] jobs has be cleaned! removed jobs count=11
+Dec 31, 2013 5:24:04 PM org.apache.catalina.startup.HostConfig checkResources
+INFO: Reloading context [/host-manager]
+Dec 31, 2013 5:24:24 PM org.apache.coyote.http11.Http11Protocol pause
+INFO: Pausing Coyote HTTP/1.1 on http-8080
+Dec 31, 2013 5:24:25 PM org.apache.catalina.core.StandardService stop
+INFO: Stopping service Catalina
+[INFO](2013-12-31 17:24:25,598) - Quartz Scheduler successful shutdown.
+Dec 31, 2013 5:24:25 PM org.apache.catalina.loader.WebappClassLoader clearReferencesJdbc
+SEVERE: The web application [/jobhub] registered the JDBC driver [oracle.jdbc.OracleDriver] but failed to unregister it when the web application was stopped. To prevent a memory leak, the JDBC Driver has been forcibly unregistered.
+Dec 31, 2013 5:24:25 PM org.apache.catalina.loader.WebappClassLoader clearReferencesThreads
+SEVERE: The web application [/jobhub] appears to have started a thread named [Thread-20] but has failed to stop it. This is very likely to create a memory leak.
+Dec 31, 2013 5:24:25 PM org.apache.catalina.loader.WebappClassLoader clearReferencesThreads
+SEVERE: The web application [/jobhub] appears to have started a thread named [Timer-1] but has failed to stop it. This is very likely to create a memory leak.
+Dec 31, 2013 5:24:25 PM org.apache.coyote.http11.Http11Protocol destroy
+INFO: Stopping Coyote HTTP/1.1 on http-8080
+Please use CMSClassUnloadingEnabled in place of CMSPermGenSweepingEnabled in the future
+Dec 31, 2013 5:24:38 PM org.apache.catalina.core.AprLifecycleListener init
+INFO: The APR based Apache Tomcat Native library which allows optimal performance in production environments was not found on the java.library.path: /opt/jdk1.6.0_45/jre/lib/amd64/server:/opt/jdk1.6.0_45/jre/lib/amd64:/opt/jdk1.6.0_45/jre/../lib/amd64:/usr/java/packages/lib/amd64:/usr/lib64:/lib64:/lib:/usr/lib
+Dec 31, 2013 5:24:38 PM org.apache.coyote.http11.Http11Protocol init
+INFO: Initializing Coyote HTTP/1.1 on http-8080
+Dec 31, 2013 5:24:38 PM org.apache.catalina.startup.Catalina load
+INFO: Initialization processed in 616 ms
+Dec 31, 2013 5:24:38 PM org.apache.catalina.core.StandardService start
+INFO: Starting service Catalina
+Dec 31, 2013 5:24:38 PM org.apache.catalina.core.StandardEngine start
+INFO: Starting Servlet Engine: Apache Tomcat/6.0.33
+Dec 31, 2013 5:24:38 PM org.apache.catalina.startup.HostConfig deployDescriptor
+INFO: Deploying configuration descriptor host-manager.xml
+Dec 31, 2013 5:24:38 PM org.apache.catalina.startup.HostConfig deployDescriptor
+INFO: Deploying configuration descriptor manager.xml
+Dec 31, 2013 5:24:39 PM org.apache.catalina.startup.HostConfig deployWAR
+INFO: Deploying web application archive jobhub.war
+[INFO](2013-12-31 17:24:39,394) - Pathlet placeholder set property:  webapp.basedir=/home/appuser/tomcat8080/webapps/jobhub/
+[INFO](2013-12-31 17:24:39,394) - Pathlet placeholder set property:  classes.basedir=/home/appuser/tomcat8080/webapps/jobhub/WEB-INF/classes/
+[INFO](2013-12-31 17:24:40,122) - Quartz Initializer loaded, initializing Scheduler...
+SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".
+SLF4J: Defaulting to no-operation (NOP) logger implementation
+SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.
+[INFO](2013-12-31 17:24:40,148) - Scheduler configure has been load from the file '/home/appuser/tomcat8080/webapps/jobhub/WEB-INF/classes/quartz.properties'.
+[INFO](2013-12-31 17:25:41,157) - Scheduler[InstanceId=point_clean_temp_46, name=JobhubScheduler] has been started...
+[INFO](2013-12-31 17:25:41,543) - Module listener initializing[moduleId=member-jobs]
+[WARN](2013-12-31 17:25:41,748) - Module[moduleId=member-jobs] jobs has be cleaned! removed jobs count=11
+Dec 31, 2013 5:25:42 PM org.apache.catalina.startup.HostConfig deployDirectory
+INFO: Deploying web application directory ROOT
+Dec 31, 2013 5:25:42 PM org.apache.coyote.http11.Http11Protocol start
+INFO: Starting Coyote HTTP/1.1 on http-8080
+Dec 31, 2013 5:25:42 PM org.apache.jk.common.ChannelSocket init
+INFO: JK: ajp13 listening on /0.0.0.0:8009
+Dec 31, 2013 5:25:42 PM org.apache.jk.server.JkMain start
+INFO: Jk running ID=0 time=0/22  config=null
+Dec 31, 2013 5:25:42 PM org.apache.catalina.startup.Catalina start
+INFO: Server startup in 63636 ms
+[INFO](2013-12-31 17:26:27,644) - Job member-jobs.hello fired (by trigger DEFAULT.MT_15teadcwoal2r) at:  17:26:27 12/31/2013
+I am running! 0 of 5 Trigger=DEFAULT.MT_15teadcwoal2r
+I am running! 1 of 5 Trigger=DEFAULT.MT_15teadcwoal2r
+I am running! 2 of 5 Trigger=DEFAULT.MT_15teadcwoal2r
+I am running! 3 of 5 Trigger=DEFAULT.MT_15teadcwoal2r
+I am running! 4 of 5 Trigger=DEFAULT.MT_15teadcwoal2r
+I am finished! Trigger=DEFAULT.MT_15teadcwoal2r
+[INFO](2013-12-31 17:26:37,653) - Job member-jobs.hello fired (by trigger DEFAULT.MT_15teadcwoal2r) execution complete at  17:26:37 12/31/2013 and reports: null
+[Unloading class sun.reflect.GeneratedSerializationConstructorAccessor3]
+[Unloading class sun.reflect.GeneratedConstructorAccessor8]
+[Unloading class sun.reflect.GeneratedSerializationConstructorAccessor1]
+[Unloading class sun.reflect.GeneratedSerializationConstructorAccessor2]
+[Unloading class sun.reflect.GeneratedSerializationConstructorAccessor4]
+[Unloading class sun.reflect.GeneratedMethodAccessor29]
+[Unloading class sun.reflect.GeneratedSerializationConstructorAccessor5]
+[Unloading class sun.reflect.GeneratedMethodAccessor22]
+[Unloading class sun.reflect.GeneratedSerializationConstructorAccessor6]
+[Unloading class sun.reflect.GeneratedSerializationConstructorAccessor10]
+[Unloading class sun.reflect.GeneratedConstructorAccessor9]
+[Unloading class sun.reflect.GeneratedSerializationConstructorAccessor9]
+[Unloading class sun.reflect.GeneratedSerializationConstructorAccessor7]
+[Unloading class sun.reflect.GeneratedSerializationConstructorAccessor8]
+[INFO](2013-12-31 23:43:53,846) - Job member-jobs.hello fired (by trigger DEFAULT.MT_7t0i3njam5qf6) at:  23:43:53 12/31/2013
+I am running! 0 of 5 Trigger=DEFAULT.MT_7t0i3njam5qf6
+I am running! 1 of 5 Trigger=DEFAULT.MT_7t0i3njam5qf6
+I am running! 2 of 5 Trigger=DEFAULT.MT_7t0i3njam5qf6
+I am running! 3 of 5 Trigger=DEFAULT.MT_7t0i3njam5qf6
+I am running! 4 of 5 Trigger=DEFAULT.MT_7t0i3njam5qf6
+I am finished! Trigger=DEFAULT.MT_7t0i3njam5qf6
+[INFO](2013-12-31 23:44:03,852) - Job member-jobs.hello fired (by trigger DEFAULT.MT_7t0i3njam5qf6) execution complete at  23:44:03 12/31/2013 and reports: null
+[INFO](2014-01-01 00:03:14,028) - Job member-jobs.PointExpire2013Job fired (by trigger DEFAULT.MT_26fevulwthiq4) at:  00:03:14 01/01/2014
+[INFO](2014-01-01 00:10:49,454) - Proceeded member count=1000
+[INFO](2014-01-01 00:12:05,352) - Proceeded member count=2000
+[INFO](2014-01-01 00:13:45,543) - Proceeded member count=3000
+[INFO](2014-01-01 00:15:52,986) - Proceeded member count=4000
+[INFO](2014-01-01 00:16:25,932) - Proceeded member count=5000
+[INFO](2014-01-01 00:17:55,102) - Proceeded member count=6000
+[INFO](2014-01-01 00:18:30,845) - Proceeded member count=7000
+[INFO](2014-01-01 00:19:39,906) - Proceeded member count=8000
+[INFO](2014-01-01 00:20:34,898) - Proceeded member count=9000
+[INFO](2014-01-01 00:21:26,378) - Proceeded member count=10000
+[INFO](2014-01-01 00:22:34,185) - Proceeded member count=11000
+[INFO](2014-01-01 00:23:44,797) - Proceeded member count=12000
+[INFO](2014-01-01 00:24:19,181) - Proceeded member count=13000
+[INFO](2014-01-01 00:24:39,606) - Proceeded member count=14000
+[INFO](2014-01-01 00:25:00,168) - Proceeded member count=15000
+[INFO](2014-01-01 00:25:21,179) - Proceeded member count=16000
+[INFO](2014-01-01 00:25:42,377) - Proceeded member count=17000
+[INFO](2014-01-01 00:26:01,694) - Proceeded member count=18000
+[INFO](2014-01-01 00:26:20,077) - Proceeded member count=19000
+[INFO](2014-01-01 00:26:36,012) - Proceeded member count=20000
+[INFO](2014-01-01 00:26:51,610) - Proceeded member count=21000
+[INFO](2014-01-01 00:27:07,500) - Proceeded member count=22000
+[INFO](2014-01-01 00:27:23,598) - Proceeded member count=23000
+[INFO](2014-01-01 00:28:19,456) - Proceeded member count=24000
+[INFO](2014-01-01 00:28:34,021) - Proceeded member count=25000
+[INFO](2014-01-01 00:28:49,737) - Proceeded member count=26000
+[INFO](2014-01-01 00:29:03,701) - Proceeded member count=27000
+[INFO](2014-01-01 00:29:18,606) - Proceeded member count=28000
+[INFO](2014-01-01 00:29:33,252) - Proceeded member count=29000
+[INFO](2014-01-01 00:29:47,124) - Proceeded member count=30000
+[INFO](2014-01-01 00:30:01,749) - Proceeded member count=31000
+[INFO](2014-01-01 00:30:17,001) - Proceeded member count=32000
+[INFO](2014-01-01 00:30:42,081) - Proceeded member count=33000
+[INFO](2014-01-01 00:31:51,530) - Proceeded member count=34000
+[INFO](2014-01-01 00:33:06,997) - Proceeded member count=35000
+[INFO](2014-01-01 00:34:19,592) - Proceeded member count=36000
+[INFO](2014-01-01 00:35:23,431) - Proceeded member count=37000
+[INFO](2014-01-01 00:36:13,372) - Proceeded member count=38000
+[INFO](2014-01-01 00:36:59,687) - Proceeded member count=39000
+[INFO](2014-01-01 00:38:01,041) - Proceeded member count=40000
+[INFO](2014-01-01 00:39:44,593) - Proceeded member count=41000
+[INFO](2014-01-01 00:41:19,962) - Proceeded member count=42000
+[INFO](2014-01-01 00:42:23,185) - Proceeded member count=43000
+[INFO](2014-01-01 00:43:18,105) - Proceeded member count=44000
+[INFO](2014-01-01 00:43:58,605) - Proceeded member count=45000
+[INFO](2014-01-01 00:44:40,686) - Proceeded member count=46000
+[INFO](2014-01-01 00:45:09,974) - Proceeded member count=47000
+[INFO](2014-01-01 00:45:34,116) - Proceeded member count=48000
+[INFO](2014-01-01 00:45:49,694) - Proceeded member count=49000
+[INFO](2014-01-01 00:46:04,002) - Proceeded member count=50000
+[INFO](2014-01-01 00:46:19,687) - Proceeded member count=51000
+[INFO](2014-01-01 00:46:33,536) - Proceeded member count=52000
+[INFO](2014-01-01 00:46:48,623) - Proceeded member count=53000
+[INFO](2014-01-01 00:47:04,716) - Proceeded member count=54000
+[INFO](2014-01-01 00:47:21,682) - Proceeded member count=55000
+[INFO](2014-01-01 00:48:40,297) - Proceeded member count=56000
+[INFO](2014-01-01 00:48:55,044) - Proceeded member count=57000
+[INFO](2014-01-01 00:49:11,394) - Proceeded member count=58000
+[INFO](2014-01-01 00:49:26,474) - Proceeded member count=59000
+[INFO](2014-01-01 00:49:40,330) - Proceeded member count=60000
+[INFO](2014-01-01 00:49:54,435) - Proceeded member count=61000
+[INFO](2014-01-01 00:50:06,555) - Proceeded member count=62000
+[INFO](2014-01-01 00:50:18,165) - Proceeded member count=63000
+[INFO](2014-01-01 00:50:30,655) - Proceeded member count=64000
+[INFO](2014-01-01 00:50:42,240) - Proceeded member count=65000
+[INFO](2014-01-01 00:50:56,390) - Proceeded member count=66000
+[INFO](2014-01-01 00:51:07,684) - Proceeded member count=67000
+[INFO](2014-01-01 00:51:19,033) - Proceeded member count=68000
+[INFO](2014-01-01 00:51:31,139) - Proceeded member count=69000
+[INFO](2014-01-01 00:51:41,663) - Proceeded member count=70000
+[INFO](2014-01-01 00:51:51,125) - Proceeded member count=71000
+[INFO](2014-01-01 00:52:02,715) - Proceeded member count=72000
+[INFO](2014-01-01 00:52:12,609) - Proceeded member count=73000
+[INFO](2014-01-01 00:52:23,088) - Proceeded member count=74000
+[INFO](2014-01-01 00:52:33,301) - Proceeded member count=75000
+[INFO](2014-01-01 00:52:43,339) - Proceeded member count=76000
+[INFO](2014-01-01 00:52:54,015) - Proceeded member count=77000
+[INFO](2014-01-01 00:53:04,565) - Proceeded member count=78000
+[INFO](2014-01-01 00:53:14,435) - Proceeded member count=79000
+[INFO](2014-01-01 00:53:23,974) - Proceeded member count=80000
+[INFO](2014-01-01 00:53:34,332) - Proceeded member count=81000
+[INFO](2014-01-01 00:53:44,842) - Proceeded member count=82000
+[INFO](2014-01-01 00:53:55,010) - Proceeded member count=83000
+[INFO](2014-01-01 00:54:04,748) - Proceeded member count=84000
+[INFO](2014-01-01 00:54:14,024) - Proceeded member count=85000
+[INFO](2014-01-01 00:54:24,506) - Proceeded member count=86000
+[INFO](2014-01-01 00:54:35,580) - Proceeded member count=87000
+[INFO](2014-01-01 00:54:45,786) - Proceeded member count=88000
+[INFO](2014-01-01 00:54:56,528) - Proceeded member count=89000
+[INFO](2014-01-01 00:55:05,957) - Proceeded member count=90000
+[INFO](2014-01-01 00:55:14,768) - Proceeded member count=91000
+[INFO](2014-01-01 00:55:25,672) - Proceeded member count=92000
+[INFO](2014-01-01 00:55:35,014) - Proceeded member count=93000
+[INFO](2014-01-01 00:55:44,046) - Proceeded member count=94000
+[INFO](2014-01-01 00:55:53,683) - Proceeded member count=95000
+[INFO](2014-01-01 00:56:03,851) - Proceeded member count=96000
+[INFO](2014-01-01 00:56:13,389) - Proceeded member count=97000
+[INFO](2014-01-01 00:56:21,623) - Proceeded member count=98000
+[INFO](2014-01-01 00:56:46,518) - Proceeded member count=99000
+[INFO](2014-01-01 00:57:11,694) - Proceeded member count=100000
+[INFO](2014-01-01 00:57:33,068) - Proceeded member count=101000
+[INFO](2014-01-01 00:57:50,261) - Proceeded member count=102000
+[INFO](2014-01-01 00:58:06,495) - Proceeded member count=103000
+[INFO](2014-01-01 00:58:20,641) - Proceeded member count=104000
+[INFO](2014-01-01 00:58:34,622) - Proceeded member count=105000
+[INFO](2014-01-01 00:58:47,960) - Proceeded member count=106000
+[INFO](2014-01-01 00:59:01,973) - Proceeded member count=107000
+[INFO](2014-01-01 00:59:13,598) - Proceeded member count=108000
+[INFO](2014-01-01 00:59:24,527) - Proceeded member count=109000
+[INFO](2014-01-01 00:59:34,941) - Proceeded member count=110000
+[INFO](2014-01-01 00:59:45,952) - Proceeded member count=111000
+[INFO](2014-01-01 00:59:55,360) - Proceeded member count=112000
+[INFO](2014-01-01 01:00:05,060) - Proceeded member count=113000
+[INFO](2014-01-01 01:00:26,783) - Proceeded member count=114000
+[INFO](2014-01-01 01:00:58,595) - Proceeded member count=115000
+[INFO](2014-01-01 01:01:38,928) - Proceeded member count=116000
+[INFO](2014-01-01 01:02:16,049) - Proceeded member count=117000
+[INFO](2014-01-01 01:02:53,411) - Proceeded member count=118000
+[INFO](2014-01-01 01:03:27,981) - Proceeded member count=119000
+[INFO](2014-01-01 01:04:03,944) - Proceeded member count=120000
+[INFO](2014-01-01 01:04:36,717) - Proceeded member count=121000
+[INFO](2014-01-01 01:05:09,101) - Proceeded member count=122000
+[INFO](2014-01-01 01:06:16,388) - Proceeded member count=123000
+[INFO](2014-01-01 01:06:51,529) - Proceeded member count=124000
+[INFO](2014-01-01 01:07:36,382) - Proceeded member count=125000
+[INFO](2014-01-01 01:08:17,436) - Proceeded member count=126000
+[INFO](2014-01-01 01:08:57,295) - Proceeded member count=127000
+[INFO](2014-01-01 01:09:25,615) - Proceeded member count=128000
+[INFO](2014-01-01 01:10:15,243) - Proceeded member count=129000
+[INFO](2014-01-01 01:10:49,083) - Proceeded member count=130000
+[INFO](2014-01-01 01:11:19,838) - Proceeded member count=131000
+[INFO](2014-01-01 01:11:49,546) - Proceeded member count=132000
+[INFO](2014-01-01 01:12:22,841) - Proceeded member count=133000
+[INFO](2014-01-01 01:13:04,467) - Proceeded member count=134000
+[INFO](2014-01-01 01:13:42,515) - Proceeded member count=135000
+[INFO](2014-01-01 01:14:32,971) - Proceeded member count=136000
+[INFO](2014-01-01 01:15:17,187) - Proceeded member count=137000
+[INFO](2014-01-01 01:15:54,149) - Proceeded member count=138000
+[INFO](2014-01-01 01:16:29,303) - Proceeded member count=139000
+[INFO](2014-01-01 01:17:00,556) - Proceeded member count=140000
+[INFO](2014-01-01 01:17:31,202) - Proceeded member count=141000
+[INFO](2014-01-01 01:18:01,301) - Proceeded member count=142000
+[INFO](2014-01-01 01:18:33,818) - Proceeded member count=143000
+[INFO](2014-01-01 01:18:59,195) - Proceeded member count=144000
+[INFO](2014-01-01 01:19:23,672) - Proceeded member count=145000
+[INFO](2014-01-01 01:19:47,845) - Proceeded member count=146000
+[INFO](2014-01-01 01:20:14,605) - Proceeded member count=147000
+[INFO](2014-01-01 01:20:39,736) - Proceeded member count=148000
+[INFO](2014-01-01 01:21:03,948) - Proceeded member count=149000
+[INFO](2014-01-01 01:21:25,984) - Proceeded member count=150000
+[INFO](2014-01-01 01:21:45,008) - Proceeded member count=151000
+[INFO](2014-01-01 01:22:04,551) - Proceeded member count=152000
+[INFO](2014-01-01 01:22:23,613) - Proceeded member count=153000
+[INFO](2014-01-01 01:22:43,219) - Proceeded member count=154000
+[INFO](2014-01-01 01:23:03,951) - Proceeded member count=155000
+[INFO](2014-01-01 01:23:22,019) - Proceeded member count=156000
+[INFO](2014-01-01 01:23:41,224) - Proceeded member count=157000
+[INFO](2014-01-01 01:23:56,702) - Proceeded member count=158000
+[INFO](2014-01-01 01:24:16,461) - Proceeded member count=159000
+[INFO](2014-01-01 01:24:33,103) - Proceeded member count=160000
+[Unloading class sun.reflect.GeneratedSerializationConstructorAccessor11]
+[Unloading class sun.reflect.GeneratedSerializationConstructorAccessor12]
+[Unloading class sun.reflect.GeneratedSerializationConstructorAccessor13]
+[Unloading class sun.reflect.GeneratedSerializationConstructorAccessor14]
+[INFO](2014-01-01 01:24:52,322) - Proceeded member count=161000
+[INFO](2014-01-01 01:25:09,104) - Proceeded member count=162000
+[INFO](2014-01-01 01:25:27,139) - Proceeded member count=163000
+[INFO](2014-01-01 01:25:43,424) - Proceeded member count=164000
+[INFO](2014-01-01 01:25:59,960) - Proceeded member count=165000
+[INFO](2014-01-01 01:26:16,533) - Proceeded member count=166000
+[INFO](2014-01-01 01:26:40,831) - Proceeded member count=167000
+[INFO](2014-01-01 01:27:00,085) - Proceeded member count=168000
+[INFO](2014-01-01 01:27:18,818) - Proceeded member count=169000
+[INFO](2014-01-01 01:27:35,950) - Proceeded member count=170000
+[INFO](2014-01-01 01:28:03,678) - Proceeded member count=171000
+[INFO](2014-01-01 01:28:20,834) - Proceeded member count=172000
+[INFO](2014-01-01 01:28:39,056) - Proceeded member count=173000
+[INFO](2014-01-01 01:28:56,613) - Proceeded member count=174000
+[INFO](2014-01-01 01:29:12,963) - Proceeded member count=175000
+[INFO](2014-01-01 01:29:28,910) - Proceeded member count=176000
+[INFO](2014-01-01 01:29:43,803) - Proceeded member count=177000
+[INFO](2014-01-01 01:30:00,361) - Proceeded member count=178000
+[INFO](2014-01-01 01:30:15,628) - Proceeded member count=179000
+[INFO](2014-01-01 01:30:34,032) - Proceeded member count=180000
+[INFO](2014-01-01 01:31:08,881) - Proceeded member count=181000
+[INFO](2014-01-01 01:31:40,204) - Proceeded member count=182000
+[INFO](2014-01-01 01:32:09,314) - Proceeded member count=183000
+[INFO](2014-01-01 01:32:36,583) - Proceeded member count=184000
+[INFO](2014-01-01 01:32:59,356) - Proceeded member count=185000
+[INFO](2014-01-01 01:33:18,130) - Proceeded member count=186000
+[INFO](2014-01-01 01:33:37,436) - Proceeded member count=187000
+[INFO](2014-01-01 01:33:52,437) - Proceeded member count=188000
+[INFO](2014-01-01 01:34:05,615) - Proceeded member count=189000
+[INFO](2014-01-01 01:34:19,197) - Proceeded member count=190000
+[INFO](2014-01-01 01:34:30,005) - Proceeded member count=191000
+[INFO](2014-01-01 01:34:39,905) - Proceeded member count=192000
+[INFO](2014-01-01 01:34:49,171) - Proceeded member count=193000
+[INFO](2014-01-01 01:34:58,371) - Proceeded member count=194000
+[INFO](2014-01-01 01:35:08,188) - Proceeded member count=195000
+[INFO](2014-01-01 01:35:16,996) - Proceeded member count=196000
+[INFO](2014-01-01 01:35:24,915) - Proceeded member count=197000
+[INFO](2014-01-01 01:35:32,665) - Proceeded member count=198000
+[INFO](2014-01-01 01:35:41,210) - Proceeded member count=199000
+[INFO](2014-01-01 01:35:49,747) - Proceeded member count=200000
+[INFO](2014-01-01 01:35:56,957) - Proceeded member count=201000
+[INFO](2014-01-01 01:36:04,422) - Proceeded member count=202000
+[INFO](2014-01-01 01:36:11,816) - Proceeded member count=203000
+[INFO](2014-01-01 01:36:20,088) - Proceeded member count=204000
+[INFO](2014-01-01 01:36:27,446) - Proceeded member count=205000
+[INFO](2014-01-01 01:36:37,156) - Proceeded member count=206000
+[INFO](2014-01-01 01:36:45,089) - Proceeded member count=207000
+[INFO](2014-01-01 01:36:55,639) - Proceeded member count=208000
+[INFO](2014-01-01 01:37:05,051) - Proceeded member count=209000
+[INFO](2014-01-01 01:37:13,835) - Proceeded member count=210000
+[INFO](2014-01-01 01:37:22,171) - Proceeded member count=211000
+[INFO](2014-01-01 01:37:30,102) - Proceeded member count=212000
+[INFO](2014-01-01 01:37:37,096) - Proceeded member count=213000
+[INFO](2014-01-01 01:37:44,464) - Proceeded member count=214000
+[INFO](2014-01-01 01:37:52,297) - Proceeded member count=215000
+[INFO](2014-01-01 01:38:00,146) - Proceeded member count=216000
+[INFO](2014-01-01 01:38:08,250) - Proceeded member count=217000
+[INFO](2014-01-01 01:38:14,947) - Proceeded member count=218000
+[INFO](2014-01-01 01:38:22,214) - Proceeded member count=219000
+[INFO](2014-01-01 01:38:29,255) - Proceeded member count=220000
+[INFO](2014-01-01 01:38:37,933) - Proceeded member count=221000
+[INFO](2014-01-01 01:38:44,725) - Proceeded member count=222000
+[INFO](2014-01-01 01:38:52,285) - Proceeded member count=223000
+[INFO](2014-01-01 01:38:58,105) - Proceeded member count=224000
+[INFO](2014-01-01 01:39:05,379) - Proceeded member count=225000
+[INFO](2014-01-01 01:39:11,065) - Proceeded member count=226000
+[INFO](2014-01-01 01:39:18,200) - Proceeded member count=227000
+[INFO](2014-01-01 01:39:24,880) - Proceeded member count=228000
+[INFO](2014-01-01 01:39:31,522) - Proceeded member count=229000
+[INFO](2014-01-01 01:39:39,023) - Proceeded member count=230000
+[INFO](2014-01-01 01:39:44,908) - Proceeded member count=231000
+[INFO](2014-01-01 01:39:51,435) - Proceeded member count=232000
+[INFO](2014-01-01 01:39:57,813) - Proceeded member count=233000
+[INFO](2014-01-01 01:40:04,558) - Proceeded member count=234000
+[INFO](2014-01-01 01:40:11,108) - Proceeded member count=235000
+[INFO](2014-01-01 01:40:17,529) - Proceeded member count=236000
+[INFO](2014-01-01 01:40:24,960) - Proceeded member count=237000
+[INFO](2014-01-01 01:40:31,010) - Proceeded member count=238000
+[INFO](2014-01-01 01:40:37,085) - Proceeded member count=239000
+[INFO](2014-01-01 01:40:43,262) - Proceeded member count=240000
+[INFO](2014-01-01 01:40:49,514) - Proceeded member count=241000
+[INFO](2014-01-01 01:40:54,774) - Proceeded member count=242000
+[INFO](2014-01-01 01:41:00,064) - Proceeded member count=243000
+[INFO](2014-01-01 01:41:05,954) - Proceeded member count=244000
+[INFO](2014-01-01 01:41:10,838) - Proceeded member count=245000
+[INFO](2014-01-01 01:41:15,359) - Proceeded member count=246000
+[INFO](2014-01-01 01:41:19,925) - Proceeded member count=247000
+[INFO](2014-01-01 01:41:34,326) - Proceeded member count=248000
+[INFO](2014-01-01 01:41:39,457) - Proceeded member count=249000
+[INFO](2014-01-01 01:41:44,165) - Proceeded member count=250000
+[INFO](2014-01-01 01:41:48,468) - Proceeded member count=251000
+[INFO](2014-01-01 01:41:53,999) - Proceeded member count=252000
+[INFO](2014-01-01 01:42:00,035) - Proceeded member count=253000
+[INFO](2014-01-01 01:42:06,191) - Proceeded member count=254000
+[INFO](2014-01-01 01:42:12,480) - Proceeded member count=255000
+[INFO](2014-01-01 01:42:17,890) - Proceeded member count=256000
+[INFO](2014-01-01 01:42:23,752) - Proceeded member count=257000
+[INFO](2014-01-01 01:42:28,171) - Proceeded member count=258000
+[INFO](2014-01-01 01:42:33,047) - Proceeded member count=259000
+[INFO](2014-01-01 01:42:38,021) - Proceeded member count=260000
+[INFO](2014-01-01 01:42:43,747) - Proceeded member count=261000
+[INFO](2014-01-01 01:42:49,574) - Proceeded member count=262000
+[INFO](2014-01-01 01:42:54,133) - Proceeded member count=263000
+[INFO](2014-01-01 01:42:59,858) - Proceeded member count=264000
+[INFO](2014-01-01 01:43:05,188) - Proceeded member count=265000
+[INFO](2014-01-01 01:43:10,992) - Proceeded member count=266000
+[INFO](2014-01-01 01:43:16,741) - Proceeded member count=267000
+[ERROR](2014-01-01 01:43:16,750) - Error in the jobHistory Logging!
+org.springframework.transaction.TransactionSystemException: Could not commit JDBC transaction; nested exception is java.sql.SQLRecoverableException: IO Error: Connection timed out
+	at org.springframework.jdbc.datasource.DataSourceTransactionManager.doCommit(DataSourceTransactionManager.java:270)
+	at org.springframework.transaction.support.AbstractPlatformTransactionManager.processCommit(AbstractPlatformTransactionManager.java:754)
+	at org.springframework.transaction.support.AbstractPlatformTransactionManager.commit(AbstractPlatformTransactionManager.java:723)
+	at com.google.code.pathlet.jdbc.TransactionInterceptor.aroundWritable(TransactionInterceptor.java:63)
+	at sun.reflect.GeneratedMethodAccessor27.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at com.google.code.pathlet.config.def.AdviceConfigHandler$AdviceExecutor.execute(AdviceConfigHandler.java:127)
+	at com.google.code.pathlet.core.impl.AopInstanceEvent$CGlibMethodInterceptor.intercept(AopInstanceEvent.java:264)
+	at com.google.code.pathlet.quartz.admin.service.impl.JobHistoryServiceImpl$$EnhancerByCGLIB$$b07d9019.insertFlushJobHistory(<generated>)
+	at com.google.code.pathlet.quartz.PathletQuartzInitializer$2.run(PathletQuartzInitializer.java:206)
+Caused by: java.sql.SQLRecoverableException: IO Error: Connection timed out
+	at oracle.jdbc.driver.T4CConnection.doCommit(T4CConnection.java:665)
+	at oracle.jdbc.driver.PhysicalConnection.commit(PhysicalConnection.java:3901)
+	at oracle.jdbc.driver.PhysicalConnection.commit(PhysicalConnection.java:3907)
+	at org.apache.tomcat.dbcp.dbcp.DelegatingConnection.commit(DelegatingConnection.java:334)
+	at org.apache.tomcat.dbcp.dbcp.PoolingDataSource$PoolGuardConnectionWrapper.commit(PoolingDataSource.java:211)
+	at org.springframework.jdbc.datasource.DataSourceTransactionManager.doCommit(DataSourceTransactionManager.java:267)
+	... 10 more
+Caused by: java.net.SocketException: Connection timed out
+	at java.net.SocketInputStream.socketRead0(Native Method)
+	at java.net.SocketInputStream.read(SocketInputStream.java:129)
+	at oracle.net.ns.Packet.receive(Packet.java:300)
+	at oracle.net.ns.DataPacket.receive(DataPacket.java:106)
+	at oracle.net.ns.NetInputStream.getNextPacket(NetInputStream.java:315)
+	at oracle.net.ns.NetInputStream.read(NetInputStream.java:260)
+	at oracle.net.ns.NetInputStream.read(NetInputStream.java:185)
+	at oracle.net.ns.NetInputStream.read(NetInputStream.java:102)
+	at oracle.jdbc.driver.T4CSocketInputStreamWrapper.readNextPacket(T4CSocketInputStreamWrapper.java:124)
+	at oracle.jdbc.driver.T4CSocketInputStreamWrapper.read(T4CSocketInputStreamWrapper.java:80)
+	at oracle.jdbc.driver.T4CMAREngine.unmarshalUB1(T4CMAREngine.java:1137)
+	at oracle.jdbc.driver.T4CTTIfun.receive(T4CTTIfun.java:290)
+	at oracle.jdbc.driver.T4CTTIfun.doRPC(T4CTTIfun.java:192)
+	at oracle.jdbc.driver.T4C7Ocommoncall.doOCOMMIT(T4C7Ocommoncall.java:75)
+	at oracle.jdbc.driver.T4CConnection.doCommit(T4CConnection.java:610)
+	... 15 more
+[INFO](2014-01-01 01:43:21,977) - Proceeded member count=268000
+[INFO](2014-01-01 01:43:27,109) - Proceeded member count=269000
+[INFO](2014-01-01 01:43:32,022) - Proceeded member count=270000
+[INFO](2014-01-01 01:43:37,169) - Proceeded member count=271000
+[INFO](2014-01-01 01:43:41,933) - Proceeded member count=272000
+[INFO](2014-01-01 01:43:46,997) - Proceeded member count=273000
+[INFO](2014-01-01 01:43:51,244) - Proceeded member count=274000
+[INFO](2014-01-01 01:43:54,908) - Proceeded member count=275000
+[INFO](2014-01-01 01:43:59,521) - Proceeded member count=276000
+[INFO](2014-01-01 01:44:04,149) - Proceeded member count=277000
+[INFO](2014-01-01 01:44:08,554) - Proceeded member count=278000
+[INFO](2014-01-01 01:44:12,231) - Proceeded member count=279000
+[INFO](2014-01-01 01:44:15,706) - Proceeded member count=280000
+[INFO](2014-01-01 01:44:19,968) - Proceeded member count=281000
+[INFO](2014-01-01 01:44:24,473) - Proceeded member count=282000
+[INFO](2014-01-01 01:44:28,072) - Proceeded member count=283000
+[INFO](2014-01-01 01:44:32,575) - Proceeded member count=284000
+[INFO](2014-01-01 01:44:36,933) - Proceeded member count=285000
+[INFO](2014-01-01 01:44:40,694) - Proceeded member count=286000
+[INFO](2014-01-01 01:44:45,487) - Proceeded member count=287000
+[INFO](2014-01-01 01:44:49,654) - Proceeded member count=288000
+[INFO](2014-01-01 01:44:52,947) - Proceeded member count=289000
+[INFO](2014-01-01 01:44:57,723) - Proceeded member count=290000
+[INFO](2014-01-01 01:45:02,283) - Proceeded member count=291000
+[INFO](2014-01-01 01:45:07,725) - Proceeded member count=292000
+[INFO](2014-01-01 01:45:12,065) - Proceeded member count=293000
+[INFO](2014-01-01 01:45:17,849) - Proceeded member count=294000
+[INFO](2014-01-01 01:45:22,412) - Proceeded member count=295000
+[INFO](2014-01-01 01:45:28,268) - Proceeded member count=296000
+[INFO](2014-01-01 01:45:33,318) - Proceeded member count=297000
+[INFO](2014-01-01 01:45:37,879) - Proceeded member count=298000
+[INFO](2014-01-01 01:45:42,352) - Proceeded member count=299000
+[INFO](2014-01-01 01:45:46,447) - Proceeded member count=300000
+[INFO](2014-01-01 01:45:51,184) - Proceeded member count=301000
+[INFO](2014-01-01 01:45:56,356) - Proceeded member count=302000
+[INFO](2014-01-01 01:46:02,332) - Proceeded member count=303000
+[INFO](2014-01-01 01:46:07,148) - Proceeded member count=304000
+[INFO](2014-01-01 01:46:11,340) - Proceeded member count=305000
+[INFO](2014-01-01 01:46:15,543) - Proceeded member count=306000
+[INFO](2014-01-01 01:46:19,737) - Proceeded member count=307000
+[INFO](2014-01-01 01:46:23,629) - Proceeded member count=308000
+[INFO](2014-01-01 01:46:28,298) - Proceeded member count=309000
+[INFO](2014-01-01 01:46:31,765) - Proceeded member count=310000
+[INFO](2014-01-01 01:46:36,045) - Proceeded member count=311000
+[INFO](2014-01-01 01:46:39,950) - Proceeded member count=312000
+[INFO](2014-01-01 01:46:43,753) - Proceeded member count=313000
+[INFO](2014-01-01 01:46:46,770) - Proceeded member count=314000
+[INFO](2014-01-01 01:46:51,058) - Proceeded member count=315000
+[INFO](2014-01-01 01:46:55,225) - Proceeded member count=316000
+[INFO](2014-01-01 01:46:59,701) - Proceeded member count=317000
+[INFO](2014-01-01 01:47:04,003) - Proceeded member count=318000
+[INFO](2014-01-01 01:47:08,199) - Proceeded member count=319000
+[INFO](2014-01-01 01:47:12,679) - Proceeded member count=320000
+[INFO](2014-01-01 01:47:16,882) - Proceeded member count=321000
+[INFO](2014-01-01 01:47:20,290) - Proceeded member count=322000
+[INFO](2014-01-01 01:47:23,818) - Proceeded member count=323000
+[INFO](2014-01-01 01:47:27,604) - Proceeded member count=324000
+[INFO](2014-01-01 01:47:30,513) - Proceeded member count=325000
+[INFO](2014-01-01 01:47:34,257) - Proceeded member count=326000
+[INFO](2014-01-01 01:47:37,832) - Proceeded member count=327000
+[INFO](2014-01-01 01:47:41,526) - Proceeded member count=328000
+[INFO](2014-01-01 01:47:44,884) - Proceeded member count=329000
+[INFO](2014-01-01 01:47:49,187) - Proceeded member count=330000
+[INFO](2014-01-01 01:47:53,120) - Proceeded member count=331000
+[INFO](2014-01-01 01:47:55,994) - Proceeded member count=332000
+[INFO](2014-01-01 01:47:59,866) - Proceeded member count=333000
+[INFO](2014-01-01 01:48:04,199) - Proceeded member count=334000
+[INFO](2014-01-01 01:48:07,891) - Proceeded member count=335000
+[INFO](2014-01-01 01:48:18,574) - Proceeded member count=336000
+[INFO](2014-01-01 01:48:36,172) - Proceeded member count=337000
+[INFO](2014-01-01 01:48:52,562) - Proceeded member count=338000
+[INFO](2014-01-01 01:49:10,052) - Proceeded member count=339000
+[INFO](2014-01-01 01:49:23,258) - Proceeded member count=340000
+[INFO](2014-01-01 01:49:35,239) - Proceeded member count=341000
+[INFO](2014-01-01 01:49:45,938) - Proceeded member count=342000
+[INFO](2014-01-01 01:49:59,445) - Proceeded member count=343000
+[INFO](2014-01-01 01:50:09,565) - Proceeded member count=344000
+[INFO](2014-01-01 01:50:17,139) - Proceeded member count=345000
+[INFO](2014-01-01 01:50:25,362) - Proceeded member count=346000
+[INFO](2014-01-01 01:50:36,858) - Proceeded member count=347000
+[INFO](2014-01-01 01:50:42,659) - Proceeded member count=348000
+[INFO](2014-01-01 01:50:48,808) - Proceeded member count=349000
+[INFO](2014-01-01 01:50:55,634) - Proceeded member count=350000
+[INFO](2014-01-01 01:51:02,355) - Proceeded member count=351000
+[INFO](2014-01-01 01:51:07,909) - Proceeded member count=352000
+[INFO](2014-01-01 01:51:13,686) - Proceeded member count=353000
+[INFO](2014-01-01 01:51:19,432) - Proceeded member count=354000
+[INFO](2014-01-01 01:51:24,801) - Proceeded member count=355000
+[INFO](2014-01-01 01:51:29,258) - Proceeded member count=356000
+[INFO](2014-01-01 01:51:34,367) - Proceeded member count=357000
+[INFO](2014-01-01 01:51:40,689) - Proceeded member count=358000
+[INFO](2014-01-01 01:51:43,934) - Proceeded member count=359000
+[INFO](2014-01-01 01:51:46,927) - Proceeded member count=360000
+[INFO](2014-01-01 01:51:50,658) - Proceeded member count=361000
+[INFO](2014-01-01 01:51:53,844) - Proceeded member count=362000
+[INFO](2014-01-01 01:51:56,347) - Proceeded member count=363000
+[INFO](2014-01-01 01:51:59,677) - Proceeded member count=364000
+[INFO](2014-01-01 01:52:04,661) - Proceeded member count=365000
+[INFO](2014-01-01 01:52:07,476) - Proceeded member count=366000
+[INFO](2014-01-01 01:52:09,824) - Proceeded member count=367000
+[INFO](2014-01-01 01:52:14,324) - Proceeded member count=368000
+[INFO](2014-01-01 01:52:18,203) - Proceeded member count=369000
+[INFO](2014-01-01 01:52:21,372) - Proceeded member count=370000
+[INFO](2014-01-01 01:52:23,798) - Proceeded member count=371000
+[INFO](2014-01-01 01:52:27,360) - Proceeded member count=372000
+[INFO](2014-01-01 01:52:30,475) - Proceeded member count=373000
+[INFO](2014-01-01 01:52:33,661) - Proceeded member count=374000
+[INFO](2014-01-01 01:52:36,319) - Proceeded member count=375000
+[INFO](2014-01-01 01:52:39,406) - Proceeded member count=376000
+[INFO](2014-01-01 01:52:42,583) - Proceeded member count=377000
+[INFO](2014-01-01 01:52:45,609) - Proceeded member count=378000
+[INFO](2014-01-01 01:52:48,848) - Proceeded member count=379000
+[INFO](2014-01-01 01:52:51,948) - Proceeded member count=380000
+[INFO](2014-01-01 01:52:58,614) - Proceeded member count=381000
+[INFO](2014-01-01 01:53:03,186) - Proceeded member count=382000
+[INFO](2014-01-01 01:53:08,294) - Proceeded member count=383000
+[INFO](2014-01-01 01:53:13,282) - Proceeded member count=384000
+[INFO](2014-01-01 01:53:19,730) - Proceeded member count=385000
+[INFO](2014-01-01 01:53:25,927) - Proceeded member count=386000
+[INFO](2014-01-01 01:53:31,189) - Proceeded member count=387000
+[INFO](2014-01-01 01:53:36,484) - Proceeded member count=388000
+[INFO](2014-01-01 01:53:42,395) - Proceeded member count=389000
+[INFO](2014-01-01 01:53:46,724) - Proceeded member count=390000
+[ERROR](2014-01-01 01:53:49,130) - Error exchange point:[memberId=1156245, memberPointId=5356653, mobile=15005965623, historyId=10877067, pointBalance=0, toExpirePoint=320, usedPoint=0]
+[INFO](2014-01-01 01:53:52,954) - Proceeded member count=390999
+[INFO](2014-01-01 01:53:57,349) - Proceeded member count=391999
+[INFO](2014-01-01 01:54:02,654) - Proceeded member count=392999
+[INFO](2014-01-01 01:54:08,198) - Proceeded member count=393999
+[INFO](2014-01-01 01:54:12,522) - Proceeded member count=394999
+[INFO](2014-01-01 01:54:16,551) - Proceeded member count=395999
+[INFO](2014-01-01 01:54:20,954) - Proceeded member count=396999
+[INFO](2014-01-01 01:54:25,845) - Proceeded member count=397999
+[INFO](2014-01-01 01:54:29,448) - Proceeded member count=398999
+[INFO](2014-01-01 01:54:33,232) - Proceeded member count=399999
+[INFO](2014-01-01 01:54:37,156) - Proceeded member count=400999
+[INFO](2014-01-01 01:54:41,537) - Proceeded member count=401999
+[INFO](2014-01-01 01:54:45,410) - Proceeded member count=402999
+[INFO](2014-01-01 01:54:50,420) - Proceeded member count=403999
+[INFO](2014-01-01 01:54:55,508) - Proceeded member count=404999
+[INFO](2014-01-01 01:54:59,200) - Proceeded member count=405999
+[INFO](2014-01-01 01:55:03,589) - Proceeded member count=406999
+[INFO](2014-01-01 01:55:06,792) - Proceeded member count=407999
+[INFO](2014-01-01 01:55:10,864) - Proceeded member count=408999
+[INFO](2014-01-01 01:55:14,706) - Proceeded member count=409999
+[INFO](2014-01-01 01:55:18,641) - Proceeded member count=410999
+[INFO](2014-01-01 01:55:22,427) - Proceeded member count=411999
+[INFO](2014-01-01 01:55:26,435) - Proceeded member count=412999
+[ERROR](2014-01-01 01:55:28,837) - Error exchange point:[memberId=1133301, memberPointId=3882013, mobile=15980232369, historyId=10722292, pointBalance=0, toExpirePoint=1120, usedPoint=0]
+[INFO](2014-01-01 01:55:30,154) - Proceeded member count=413998
+[INFO](2014-01-01 01:55:34,534) - Proceeded member count=414998
+[INFO](2014-01-01 01:55:38,597) - Proceeded member count=415998
+[INFO](2014-01-01 01:55:41,929) - Proceeded member count=416998
+[INFO](2014-01-01 01:55:44,898) - Proceeded member count=417998
+[INFO](2014-01-01 01:55:47,803) - Proceeded member count=418998
+[INFO](2014-01-01 01:55:50,891) - Proceeded member count=419998
+[INFO](2014-01-01 01:55:54,375) - Proceeded member count=420998
+[INFO](2014-01-01 01:55:58,072) - Proceeded member count=421998
+[INFO](2014-01-01 01:56:03,036) - Proceeded member count=422998
+[INFO](2014-01-01 01:56:06,673) - Proceeded member count=423998
+[INFO](2014-01-01 01:56:10,215) - Proceeded member count=424998
+[INFO](2014-01-01 01:56:13,987) - Proceeded member count=425998
+[INFO](2014-01-01 01:56:18,713) - Proceeded member count=426998
+[INFO](2014-01-01 01:56:23,813) - Proceeded member count=427998
+[INFO](2014-01-01 01:56:29,045) - Proceeded member count=428998
+[INFO](2014-01-01 01:56:34,221) - Proceeded member count=429998
+[INFO](2014-01-01 01:56:38,275) - Proceeded member count=430998
+[INFO](2014-01-01 01:56:42,117) - Proceeded member count=431998
+[INFO](2014-01-01 01:56:46,877) - Proceeded member count=432998
+[INFO](2014-01-01 01:56:50,340) - Proceeded member count=433998
+[INFO](2014-01-01 01:56:54,317) - Proceeded member count=434998
+[INFO](2014-01-01 01:56:57,970) - Proceeded member count=435998
+[INFO](2014-01-01 01:57:02,142) - Proceeded member count=436998
+[INFO](2014-01-01 01:57:07,185) - Proceeded member count=437998
+[INFO](2014-01-01 01:57:11,918) - Proceeded member count=438998
+[INFO](2014-01-01 01:57:16,671) - Proceeded member count=439998
+[ERROR](2014-01-01 01:57:19,409) - Error exchange point:[memberId=1017096, memberPointId=5867129, mobile=18607714867, historyId=10780359, pointBalance=0, toExpirePoint=1910, usedPoint=0]
+[INFO](2014-01-01 01:57:21,830) - Proceeded member count=440997
+[INFO](2014-01-01 01:57:27,007) - Proceeded member count=441997
+[INFO](2014-01-01 01:57:30,892) - Proceeded member count=442997
+[INFO](2014-01-01 01:57:36,064) - Proceeded member count=443997
+[INFO](2014-01-01 01:57:40,058) - Proceeded member count=444997
+[INFO](2014-01-01 01:57:44,389) - Proceeded member count=445997
+[INFO](2014-01-01 01:57:49,622) - Proceeded member count=446997
+[INFO](2014-01-01 01:57:54,357) - Proceeded member count=447997
+[INFO](2014-01-01 01:57:57,402) - Proceeded member count=448997
+[INFO](2014-01-01 01:58:01,355) - Proceeded member count=449997
+[INFO](2014-01-01 01:58:05,130) - Proceeded member count=450997
+[INFO](2014-01-01 01:58:09,062) - Proceeded member count=451997
+[INFO](2014-01-01 01:58:13,101) - Proceeded member count=452997
+[INFO](2014-01-01 01:58:17,238) - Proceeded member count=453997
+[INFO](2014-01-01 01:58:20,527) - Proceeded member count=454997
+[INFO](2014-01-01 01:58:24,219) - Proceeded member count=455997
+[INFO](2014-01-01 01:58:29,016) - Proceeded member count=456997
+[INFO](2014-01-01 01:58:31,929) - Proceeded member count=457997
+[INFO](2014-01-01 01:58:36,299) - Proceeded member count=458997
+[INFO](2014-01-01 01:58:40,211) - Proceeded member count=459997
+[INFO](2014-01-01 01:58:43,601) - Proceeded member count=460997
+[INFO](2014-01-01 01:58:47,788) - Proceeded member count=461997
+[INFO](2014-01-01 01:58:51,266) - Proceeded member count=462997
+[INFO](2014-01-01 01:58:54,160) - Proceeded member count=463997
+[INFO](2014-01-01 01:58:57,144) - Proceeded member count=464997
+[INFO](2014-01-01 01:59:01,206) - Proceeded member count=465997
+[INFO](2014-01-01 01:59:04,288) - Proceeded member count=466997
+[INFO](2014-01-01 01:59:07,698) - Proceeded member count=467997
+[INFO](2014-01-01 01:59:10,417) - Proceeded member count=468997
+[INFO](2014-01-01 01:59:13,286) - Proceeded member count=469997
+[INFO](2014-01-01 01:59:16,825) - Proceeded member count=470997
+[INFO](2014-01-01 01:59:20,513) - Proceeded member count=471997
+[INFO](2014-01-01 01:59:23,914) - Proceeded member count=472997
+[INFO](2014-01-01 01:59:28,581) - Proceeded member count=473997
+[INFO](2014-01-01 01:59:31,732) - Proceeded member count=474997
+[INFO](2014-01-01 01:59:35,179) - Proceeded member count=475997
+[INFO](2014-01-01 01:59:38,817) - Proceeded member count=476997
+[INFO](2014-01-01 01:59:42,998) - Proceeded member count=477997
+[INFO](2014-01-01 01:59:47,432) - Proceeded member count=478997
+[INFO](2014-01-01 01:59:53,047) - Proceeded member count=479997
+[INFO](2014-01-01 01:59:56,905) - Proceeded member count=480997
+[INFO](2014-01-01 02:00:01,312) - Proceeded member count=481997
+[INFO](2014-01-01 02:00:05,444) - Proceeded member count=482997
+[INFO](2014-01-01 02:00:09,796) - Proceeded member count=483997
+[ERROR](2014-01-01 02:00:10,299) - Error exchange point:[memberId=1093837, memberPointId=3803041, mobile=13786193794, historyId=10802714, pointBalance=70, toExpirePoint=5520, usedPoint=0]
+[INFO](2014-01-01 02:00:14,068) - Proceeded member count=484996
+[INFO](2014-01-01 02:00:17,539) - Proceeded member count=485996
+[INFO](2014-01-01 02:00:21,464) - Proceeded member count=486996
+[INFO](2014-01-01 02:00:25,277) - Proceeded member count=487996
+[INFO](2014-01-01 02:00:29,063) - Proceeded member count=488996
+[INFO](2014-01-01 02:00:34,651) - Proceeded member count=489996
+[INFO](2014-01-01 02:00:39,809) - Proceeded member count=490996
+[ERROR](2014-01-01 02:00:39,907) - Error exchange point:[memberId=1024229, memberPointId=2965803, mobile=13878153506, historyId=10718269, pointBalance=0, toExpirePoint=390, usedPoint=0]
+[INFO](2014-01-01 02:00:43,081) - Proceeded member count=491995
+[INFO](2014-01-01 02:00:46,769) - Proceeded member count=492995
+[INFO](2014-01-01 02:00:50,267) - Proceeded member count=493995
+[INFO](2014-01-01 02:00:55,257) - Proceeded member count=494995
+[INFO](2014-01-01 02:01:00,558) - Proceeded member count=495995
+[INFO](2014-01-01 02:01:05,065) - Proceeded member count=496995
+[INFO](2014-01-01 02:01:08,869) - Proceeded member count=497995
+[INFO](2014-01-01 02:01:12,650) - Proceeded member count=498995
+[ERROR](2014-01-01 02:01:15,095) - Error exchange point:[memberId=1140881, memberPointId=2639915, mobile=15159609070, historyId=10851702, pointBalance=1618, toExpirePoint=1865, usedPoint=0]
+[INFO](2014-01-01 02:01:16,660) - Proceeded member count=499994
+[INFO](2014-01-01 02:01:19,421) - Proceeded member count=500994
+[INFO](2014-01-01 02:01:22,966) - Proceeded member count=501994
+[INFO](2014-01-01 02:01:26,472) - Proceeded member count=502994
+[INFO](2014-01-01 02:01:29,911) - Proceeded member count=503994
+[INFO](2014-01-01 02:01:34,107) - Proceeded member count=504994
+[INFO](2014-01-01 02:01:38,188) - Proceeded member count=505994
+[INFO](2014-01-01 02:01:42,113) - Proceeded member count=506994
+[INFO](2014-01-01 02:01:45,430) - Proceeded member count=507994
+[INFO](2014-01-01 02:01:49,244) - Proceeded member count=508994
+[INFO](2014-01-01 02:01:53,025) - Proceeded member count=509994
+[INFO](2014-01-01 02:01:57,098) - Proceeded member count=510994
+[INFO](2014-01-01 02:02:00,893) - Proceeded member count=511994
+[INFO](2014-01-01 02:02:04,375) - Proceeded member count=512994
+[INFO](2014-01-01 02:02:07,774) - Proceeded member count=513994
+[INFO](2014-01-01 02:02:11,494) - Proceeded member count=514994
+[INFO](2014-01-01 02:02:16,033) - Proceeded member count=515994
+[INFO](2014-01-01 02:02:20,463) - Proceeded member count=516994
+[INFO](2014-01-01 02:02:24,543) - Proceeded member count=517994
+[INFO](2014-01-01 02:02:36,259) - Proceeded member count=518994
+[INFO](2014-01-01 02:03:13,867) - Proceeded member count=519994
+[INFO](2014-01-01 02:03:49,699) - Proceeded member count=520994
+[INFO](2014-01-01 02:04:22,062) - Proceeded member count=521994
+[INFO](2014-01-01 02:04:44,077) - Proceeded member count=522994
+[INFO](2014-01-01 02:05:05,073) - Proceeded member count=523994
+[INFO](2014-01-01 02:05:22,879) - Proceeded member count=524994
+[INFO](2014-01-01 02:05:40,956) - Proceeded member count=525994
+[INFO](2014-01-01 02:05:56,045) - Proceeded member count=526994
+[INFO](2014-01-01 02:06:11,907) - Proceeded member count=527994
+[INFO](2014-01-01 02:06:22,982) - Proceeded member count=528994
+[INFO](2014-01-01 02:06:35,366) - Proceeded member count=529994
+[INFO](2014-01-01 02:06:41,975) - Proceeded member count=530994
+[INFO](2014-01-01 02:06:45,077) - Proceeded member count=531994
+[INFO](2014-01-01 02:06:48,655) - Proceeded member count=532994
+[INFO](2014-01-01 02:06:51,607) - Proceeded member count=533994
+[ERROR](2014-01-01 02:06:54,331) - Error exchange point:[memberId=1179076, memberPointId=5421489, mobile=15080026446, historyId=10886096, pointBalance=403, toExpirePoint=1035, usedPoint=-100]
+[INFO](2014-01-01 02:06:55,000) - Proceeded member count=534993
+[INFO](2014-01-01 02:06:58,636) - Proceeded member count=535993
+[INFO](2014-01-01 02:07:03,033) - Proceeded member count=536993
+[INFO](2014-01-01 02:07:05,572) - Proceeded member count=537993
+[INFO](2014-01-01 02:07:08,532) - Proceeded member count=538993
+[INFO](2014-01-01 02:07:11,593) - Proceeded member count=539993
+[INFO](2014-01-01 02:07:15,522) - Proceeded member count=540993
+[INFO](2014-01-01 02:07:18,645) - Proceeded member count=541993
+[INFO](2014-01-01 02:07:21,979) - Proceeded member count=542993
+[INFO](2014-01-01 02:07:25,292) - Proceeded member count=543993
+[INFO](2014-01-01 02:07:30,274) - Proceeded member count=544993
+[INFO](2014-01-01 02:07:34,507) - Proceeded member count=545993
+[INFO](2014-01-01 02:07:37,587) - Proceeded member count=546993
+[INFO](2014-01-01 02:07:41,417) - Proceeded member count=547993
+[INFO](2014-01-01 02:07:43,982) - Proceeded member count=548993
+[INFO](2014-01-01 02:07:47,181) - Proceeded member count=549993
+[INFO](2014-01-01 02:07:49,860) - Proceeded member count=550993
+[INFO](2014-01-01 02:07:55,988) - Proceeded member count=551993
+[INFO](2014-01-01 02:07:59,032) - Proceeded member count=552993
+[INFO](2014-01-01 02:08:02,264) - Proceeded member count=553993
+[INFO](2014-01-01 02:08:05,621) - Proceeded member count=554993
+[INFO](2014-01-01 02:08:09,432) - Proceeded member count=555993
+[INFO](2014-01-01 02:08:12,524) - Proceeded member count=556993
+[INFO](2014-01-01 02:08:17,096) - Proceeded member count=557993
+[INFO](2014-01-01 02:08:20,842) - Proceeded member count=558993
+[INFO](2014-01-01 02:08:23,783) - Proceeded member count=559993
+[INFO](2014-01-01 02:08:26,194) - Proceeded member count=560993
+[INFO](2014-01-01 02:08:29,501) - Proceeded member count=561993
+[INFO](2014-01-01 02:08:32,912) - Proceeded member count=562993
+[INFO](2014-01-01 02:08:35,864) - Proceeded member count=563993
+[INFO](2014-01-01 02:08:39,275) - Proceeded member count=564993
+[INFO](2014-01-01 02:08:50,975) - Proceeded member count=565993
+[INFO](2014-01-01 02:09:02,681) - Proceeded member count=566993
+[INFO](2014-01-01 02:09:16,502) - Proceeded member count=567993
+[INFO](2014-01-01 02:09:30,134) - Proceeded member count=568993
+[INFO](2014-01-01 02:09:39,101) - Proceeded member count=569993
+[INFO](2014-01-01 02:09:47,767) - Proceeded member count=570993
+[INFO](2014-01-01 02:09:56,307) - Proceeded member count=571993
+[INFO](2014-01-01 02:10:04,494) - Proceeded member count=572993
+[INFO](2014-01-01 02:10:11,455) - Proceeded member count=573993
+[INFO](2014-01-01 02:10:17,993) - Proceeded member count=574993
+[INFO](2014-01-01 02:10:24,901) - Proceeded member count=575993
+[INFO](2014-01-01 02:10:31,470) - Proceeded member count=576993
+[INFO](2014-01-01 02:10:39,504) - Proceeded member count=577993
+[INFO](2014-01-01 02:10:44,897) - Proceeded member count=578993
+[INFO](2014-01-01 02:10:50,776) - Proceeded member count=579993
+[INFO](2014-01-01 02:10:55,490) - Proceeded member count=580993
+[INFO](2014-01-01 02:11:01,508) - Proceeded member count=581993
+[INFO](2014-01-01 02:11:07,609) - Proceeded member count=582993
+[INFO](2014-01-01 02:11:13,519) - Proceeded member count=583993
+[INFO](2014-01-01 02:11:19,727) - Proceeded member count=584993
+[INFO](2014-01-01 02:11:25,662) - Proceeded member count=585993
+[INFO](2014-01-01 02:11:31,609) - Proceeded member count=586993
+[INFO](2014-01-01 02:11:36,658) - Proceeded member count=587993
+[INFO](2014-01-01 02:11:41,606) - Proceeded member count=588993
+[INFO](2014-01-01 02:11:46,996) - Proceeded member count=589993
+[INFO](2014-01-01 02:11:53,999) - Proceeded member count=590993
+[INFO](2014-01-01 02:11:58,704) - Proceeded member count=591993
+[INFO](2014-01-01 02:12:02,578) - Proceeded member count=592993
+[INFO](2014-01-01 02:12:08,262) - Proceeded member count=593993
+[INFO](2014-01-01 02:12:12,968) - Proceeded member count=594993
+[INFO](2014-01-01 02:12:18,610) - Proceeded member count=595993
+[INFO](2014-01-01 02:12:24,140) - Proceeded member count=596993
+[INFO](2014-01-01 02:12:30,143) - Proceeded member count=597993
+[INFO](2014-01-01 02:12:35,392) - Proceeded member count=598993
+[INFO](2014-01-01 02:12:39,312) - Proceeded member count=599993
+[INFO](2014-01-01 02:12:43,998) - Proceeded member count=600993
+[INFO](2014-01-01 02:12:48,516) - Proceeded member count=601993
+[INFO](2014-01-01 02:12:53,279) - Proceeded member count=602993
+[INFO](2014-01-01 02:12:58,401) - Proceeded member count=603993
+[INFO](2014-01-01 02:13:02,506) - Proceeded member count=604993
+[INFO](2014-01-01 02:13:08,691) - Proceeded member count=605993
+[INFO](2014-01-01 02:13:13,716) - Proceeded member count=606993
+[INFO](2014-01-01 02:13:18,491) - Proceeded member count=607993
+[INFO](2014-01-01 02:13:24,320) - Proceeded member count=608993
+[INFO](2014-01-01 02:13:28,832) - Proceeded member count=609993
+[INFO](2014-01-01 02:13:33,313) - Proceeded member count=610993
+[INFO](2014-01-01 02:13:38,128) - Proceeded member count=611993
+[INFO](2014-01-01 02:13:41,766) - Proceeded member count=612993
+[INFO](2014-01-01 02:13:46,339) - Proceeded member count=613993
+[INFO](2014-01-01 02:13:51,866) - Proceeded member count=614993
+[INFO](2014-01-01 02:13:58,354) - Proceeded member count=615993
+[INFO](2014-01-01 02:14:03,017) - Proceeded member count=616993
+[INFO](2014-01-01 02:14:09,014) - Proceeded member count=617993
+[INFO](2014-01-01 02:14:14,534) - Proceeded member count=618993
+[INFO](2014-01-01 02:14:19,562) - Proceeded member count=619993
+[INFO](2014-01-01 02:14:23,586) - Proceeded member count=620993
+[INFO](2014-01-01 02:14:28,841) - Proceeded member count=621993
+[INFO](2014-01-01 02:14:33,268) - Proceeded member count=622993
+[INFO](2014-01-01 02:14:37,818) - Proceeded member count=623993
+[INFO](2014-01-01 02:14:42,073) - Proceeded member count=624993
+[INFO](2014-01-01 02:14:46,688) - Proceeded member count=625993
+[INFO](2014-01-01 02:14:50,677) - Proceeded member count=626993
+[INFO](2014-01-01 02:14:54,639) - Proceeded member count=627993
+[INFO](2014-01-01 02:14:58,429) - Proceeded member count=628993
+[INFO](2014-01-01 02:15:03,080) - Proceeded member count=629993
+[INFO](2014-01-01 02:15:06,976) - Proceeded member count=630993
+[INFO](2014-01-01 02:15:10,207) - Proceeded member count=631993
+[INFO](2014-01-01 02:15:15,060) - Proceeded member count=632993
+[INFO](2014-01-01 02:15:19,692) - Proceeded member count=633993
+[INFO](2014-01-01 02:15:25,560) - Proceeded member count=634993
+[INFO](2014-01-01 02:15:28,692) - Proceeded member count=635993
+[INFO](2014-01-01 02:15:32,752) - Proceeded member count=636993
+[INFO](2014-01-01 02:15:36,611) - Proceeded member count=637993
+[INFO](2014-01-01 02:15:40,891) - Proceeded member count=638993
+[INFO](2014-01-01 02:15:44,891) - Proceeded member count=639993
+[INFO](2014-01-01 02:15:49,327) - Proceeded member count=640993
+[INFO](2014-01-01 02:15:53,978) - Proceeded member count=641993
+[INFO](2014-01-01 02:15:58,553) - Proceeded member count=642993
+[INFO](2014-01-01 02:16:02,846) - Proceeded member count=643993
+[INFO](2014-01-01 02:16:06,917) - Proceeded member count=644993
+[INFO](2014-01-01 02:16:10,978) - Proceeded member count=645993
+[INFO](2014-01-01 02:16:16,003) - Proceeded member count=646993
+[INFO](2014-01-01 02:16:20,101) - Proceeded member count=647993
+[INFO](2014-01-01 02:16:23,258) - Proceeded member count=648993
+[INFO](2014-01-01 02:16:27,897) - Proceeded member count=649993
+[INFO](2014-01-01 02:16:32,668) - Proceeded member count=650993
+[INFO](2014-01-01 02:16:38,270) - Proceeded member count=651993
+[INFO](2014-01-01 02:16:41,652) - Proceeded member count=652993
+[INFO](2014-01-01 02:16:45,394) - Proceeded member count=653993
+[INFO](2014-01-01 02:16:49,946) - Proceeded member count=654993
+[INFO](2014-01-01 02:16:53,792) - Proceeded member count=655993
+[INFO](2014-01-01 02:16:58,250) - Proceeded member count=656993
+[INFO](2014-01-01 02:17:01,627) - Proceeded member count=657993
+[INFO](2014-01-01 02:17:06,131) - Proceeded member count=658993
+[INFO](2014-01-01 02:17:10,321) - Proceeded member count=659993
+[INFO](2014-01-01 02:17:13,979) - Proceeded member count=660993
+[INFO](2014-01-01 02:17:18,542) - Proceeded member count=661993
+[INFO](2014-01-01 02:17:23,590) - Proceeded member count=662993
+[INFO](2014-01-01 02:17:27,592) - Proceeded member count=663993
+[INFO](2014-01-01 02:17:31,928) - Proceeded member count=664993
+[INFO](2014-01-01 02:17:36,979) - Proceeded member count=665993
+[INFO](2014-01-01 02:17:40,204) - Proceeded member count=666993
+[INFO](2014-01-01 02:17:44,372) - Proceeded member count=667993
+[INFO](2014-01-01 02:17:48,936) - Proceeded member count=668993
+[INFO](2014-01-01 02:17:52,331) - Proceeded member count=669993
+[INFO](2014-01-01 02:17:56,771) - Proceeded member count=670993
+[INFO](2014-01-01 02:18:00,611) - Proceeded member count=671993
+[INFO](2014-01-01 02:18:04,456) - Proceeded member count=672993
+[INFO](2014-01-01 02:18:07,748) - Proceeded member count=673993
+[INFO](2014-01-01 02:18:11,020) - Proceeded member count=674993
+[INFO](2014-01-01 02:18:15,240) - Proceeded member count=675993
+[INFO](2014-01-01 02:18:18,960) - Proceeded member count=676993
+[INFO](2014-01-01 02:18:22,145) - Proceeded member count=677993
+[INFO](2014-01-01 02:18:26,283) - Proceeded member count=678993
+[INFO](2014-01-01 02:18:30,314) - Proceeded member count=679993
+[INFO](2014-01-01 02:18:33,945) - Proceeded member count=680993
+[INFO](2014-01-01 02:18:37,351) - Proceeded member count=681993
+[INFO](2014-01-01 02:18:40,798) - Proceeded member count=682993
+[INFO](2014-01-01 02:18:43,661) - Proceeded member count=683993
+[INFO](2014-01-01 02:18:47,398) - Proceeded member count=684993
+[INFO](2014-01-01 02:18:51,436) - Proceeded member count=685993
+[INFO](2014-01-01 02:18:54,397) - Proceeded member count=686993
+[INFO](2014-01-01 02:18:57,441) - Proceeded member count=687993
+[INFO](2014-01-01 02:19:00,539) - Proceeded member count=688993
+[INFO](2014-01-01 02:19:04,230) - Proceeded member count=689993
+[INFO](2014-01-01 02:19:06,911) - Proceeded member count=690993
+[INFO](2014-01-01 02:19:09,536) - Proceeded member count=691993
+[INFO](2014-01-01 02:19:12,418) - Proceeded member count=692993
+[INFO](2014-01-01 02:19:16,169) - Proceeded member count=693993
+[INFO](2014-01-01 02:19:19,048) - Proceeded member count=694993
+[INFO](2014-01-01 02:19:22,112) - Proceeded member count=695993
+[INFO](2014-01-01 02:19:25,334) - Proceeded member count=696993
+[INFO](2014-01-01 02:19:27,966) - Proceeded member count=697993
+[INFO](2014-01-01 02:19:31,695) - Proceeded member count=698993
+[INFO](2014-01-01 02:19:34,455) - Proceeded member count=699993
+[INFO](2014-01-01 02:19:37,298) - Proceeded member count=700993
+[INFO](2014-01-01 02:19:39,848) - Proceeded member count=701993
+[INFO](2014-01-01 02:19:43,585) - Proceeded member count=702993
+[INFO](2014-01-01 02:19:46,587) - Proceeded member count=703993
+[INFO](2014-01-01 02:19:50,103) - Proceeded member count=704993
+[INFO](2014-01-01 02:19:52,621) - Proceeded member count=705993
+[INFO](2014-01-01 02:20:00,567) - Proceeded member count=706993
+[INFO](2014-01-01 02:20:09,146) - Proceeded member count=707993
+[INFO](2014-01-01 02:20:17,995) - Proceeded member count=708993
+[INFO](2014-01-01 02:20:24,615) - Proceeded member count=709993
+[INFO](2014-01-01 02:20:30,918) - Proceeded member count=710993
+[INFO](2014-01-01 02:20:40,454) - Proceeded member count=711993
+[INFO](2014-01-01 02:20:49,182) - Proceeded member count=712993
+[INFO](2014-01-01 02:20:57,355) - Proceeded member count=713993
+[INFO](2014-01-01 02:21:07,662) - Proceeded member count=714993
+[INFO](2014-01-01 02:21:14,350) - Proceeded member count=715993
+[INFO](2014-01-01 02:21:21,105) - Proceeded member count=716993
+[INFO](2014-01-01 02:21:29,661) - Proceeded member count=717993
+[INFO](2014-01-01 02:21:32,041) - Proceeded member count=718993
+[INFO](2014-01-01 02:21:34,961) - Proceeded member count=719993
+[INFO](2014-01-01 02:21:37,340) - Proceeded member count=720993
+[INFO](2014-01-01 02:21:40,206) - Proceeded member count=721993
+[INFO](2014-01-01 02:21:42,982) - Proceeded member count=722993
+[INFO](2014-01-01 02:21:45,585) - Proceeded member count=723993
+[INFO](2014-01-01 02:21:49,477) - Proceeded member count=724993
+[INFO](2014-01-01 02:21:52,058) - Proceeded member count=725993
+[INFO](2014-01-01 02:21:54,985) - Proceeded member count=726993
+[INFO](2014-01-01 02:21:57,139) - Proceeded member count=727993
+[INFO](2014-01-01 02:22:01,439) - Proceeded member count=728993
+[INFO](2014-01-01 02:22:04,061) - Proceeded member count=729993
+[INFO](2014-01-01 02:22:06,738) - Proceeded member count=730993
+[INFO](2014-01-01 02:22:09,342) - Proceeded member count=731993
+[INFO](2014-01-01 02:22:11,604) - Proceeded member count=732993
+[INFO](2014-01-01 02:22:14,797) - Proceeded member count=733993
+[INFO](2014-01-01 02:22:16,734) - Proceeded member count=734993
+[INFO](2014-01-01 02:22:19,101) - Proceeded member count=735993
+[INFO](2014-01-01 02:22:21,546) - Proceeded member count=736993
+[INFO](2014-01-01 02:22:24,442) - Proceeded member count=737993
+[INFO](2014-01-01 02:22:27,988) - Proceeded member count=738993
+[INFO](2014-01-01 02:22:30,360) - Proceeded member count=739993
+[INFO](2014-01-01 02:22:32,495) - Proceeded member count=740993
+[INFO](2014-01-01 02:22:34,559) - Proceeded member count=741993
+[INFO](2014-01-01 02:22:37,251) - Proceeded member count=742993
+[INFO](2014-01-01 02:22:40,110) - Proceeded member count=743993
+[INFO](2014-01-01 02:22:42,341) - Proceeded member count=744993
+[INFO](2014-01-01 02:22:44,970) - Proceeded member count=745993
+[INFO](2014-01-01 02:22:47,964) - Proceeded member count=746993
+[INFO](2014-01-01 02:22:50,659) - Proceeded member count=747993
+[INFO](2014-01-01 02:22:52,695) - Proceeded member count=748993
+[INFO](2014-01-01 02:22:54,773) - Proceeded member count=749993
+[INFO](2014-01-01 02:22:57,394) - Proceeded member count=750993
+[INFO](2014-01-01 02:23:00,540) - Proceeded member count=751993
+[INFO](2014-01-01 02:23:03,156) - Proceeded member count=752993
+[INFO](2014-01-01 02:23:12,614) - Proceeded member count=753993
+[INFO](2014-01-01 02:23:23,976) - Proceeded member count=754993
+[INFO](2014-01-01 02:23:34,688) - Proceeded member count=755993
+[INFO](2014-01-01 02:23:47,515) - Proceeded member count=756993
+[INFO](2014-01-01 02:23:58,025) - Proceeded member count=757993
+[INFO](2014-01-01 02:24:07,466) - Proceeded member count=758993
+[INFO](2014-01-01 02:24:16,662) - Proceeded member count=759993
+[INFO](2014-01-01 02:24:25,640) - Proceeded member count=760993
+[INFO](2014-01-01 02:24:32,791) - Proceeded member count=761993
+[INFO](2014-01-01 02:24:38,641) - Proceeded member count=762993
+[INFO](2014-01-01 02:24:45,866) - Proceeded member count=763993
+[INFO](2014-01-01 02:24:52,407) - Proceeded member count=764993
+[INFO](2014-01-01 02:24:57,258) - Proceeded member count=765993
+[INFO](2014-01-01 02:25:03,219) - Proceeded member count=766993
+[INFO](2014-01-01 02:25:09,352) - Proceeded member count=767993
+[INFO](2014-01-01 02:25:15,007) - Proceeded member count=768993
+[INFO](2014-01-01 02:25:19,896) - Proceeded member count=769993
+[INFO](2014-01-01 02:25:24,039) - Proceeded member count=770993
+[INFO](2014-01-01 02:25:28,547) - Proceeded member count=771993
+[INFO](2014-01-01 02:25:32,892) - Proceeded member count=772993
+[INFO](2014-01-01 02:25:37,133) - Proceeded member count=773993
+[INFO](2014-01-01 02:25:40,756) - Proceeded member count=774993
+[INFO](2014-01-01 02:25:44,292) - Proceeded member count=775993
+[INFO](2014-01-01 02:25:48,632) - Proceeded member count=776993
+[INFO](2014-01-01 02:25:52,959) - Proceeded member count=777993
+[INFO](2014-01-01 02:25:55,647) - Proceeded member count=778993
+[INFO](2014-01-01 02:25:59,341) - Proceeded member count=779993
+[INFO](2014-01-01 02:26:02,291) - Proceeded member count=780993
+[INFO](2014-01-01 02:26:06,144) - Proceeded member count=781993
+[INFO](2014-01-01 02:26:09,815) - Proceeded member count=782993
+[INFO](2014-01-01 02:26:12,311) - Proceeded member count=783993
+[INFO](2014-01-01 02:26:15,335) - Proceeded member count=784993
+[INFO](2014-01-01 02:26:18,741) - Proceeded member count=785993
+[INFO](2014-01-01 02:26:21,852) - Proceeded member count=786993
+[INFO](2014-01-01 02:26:25,081) - Proceeded member count=787993
+[INFO](2014-01-01 02:26:28,594) - Proceeded member count=788993
+[INFO](2014-01-01 02:26:31,715) - Proceeded member count=789993
+[INFO](2014-01-01 02:26:34,349) - Proceeded member count=790993
+[INFO](2014-01-01 02:26:36,510) - Proceeded member count=791993
+[INFO](2014-01-01 02:26:39,030) - Proceeded member count=792993
+[INFO](2014-01-01 02:26:41,566) - Proceeded member count=793993
+[INFO](2014-01-01 02:26:44,357) - Proceeded member count=794993
+[INFO](2014-01-01 02:26:46,739) - Proceeded member count=795993
+[INFO](2014-01-01 02:26:49,817) - Proceeded member count=796993
+[INFO](2014-01-01 02:26:52,451) - Proceeded member count=797993
+[INFO](2014-01-01 02:26:55,211) - Proceeded member count=798993
+[INFO](2014-01-01 02:26:57,868) - Proceeded member count=799993
+[INFO](2014-01-01 02:27:00,917) - Proceeded member count=800993
+[INFO](2014-01-01 02:27:05,333) - Proceeded member count=801993
+[INFO](2014-01-01 02:27:09,119) - Proceeded member count=802993
+[INFO](2014-01-01 02:27:11,644) - Proceeded member count=803993
+[INFO](2014-01-01 02:27:14,782) - Proceeded member count=804993
+[INFO](2014-01-01 02:27:17,625) - Proceeded member count=805993
+[INFO](2014-01-01 02:27:21,284) - Proceeded member count=806993
+[INFO](2014-01-01 02:27:25,422) - Proceeded member count=807993
+[INFO](2014-01-01 02:27:29,639) - Proceeded member count=808993
+[INFO](2014-01-01 02:27:35,056) - Proceeded member count=809993
+[INFO](2014-01-01 02:27:38,494) - Proceeded member count=810993
+[INFO](2014-01-01 02:27:42,952) - Proceeded member count=811993
+[INFO](2014-01-01 02:27:46,597) - Proceeded member count=812993
+[INFO](2014-01-01 02:27:48,947) - Proceeded member count=813993
+[INFO](2014-01-01 02:27:51,888) - Proceeded member count=814993
+[INFO](2014-01-01 02:27:54,714) - Proceeded member count=815993
+[INFO](2014-01-01 02:27:57,756) - Proceeded member count=816993
+[INFO](2014-01-01 02:28:00,478) - Proceeded member count=817993
+[INFO](2014-01-01 02:28:02,944) - Proceeded member count=818993
+[INFO](2014-01-01 02:28:05,359) - Proceeded member count=819993
+[INFO](2014-01-01 02:28:08,392) - Proceeded member count=820993
+[INFO](2014-01-01 02:28:11,047) - Proceeded member count=821993
+[INFO](2014-01-01 02:28:13,148) - Proceeded member count=822993
+[INFO](2014-01-01 02:28:16,307) - Proceeded member count=823993
+[INFO](2014-01-01 02:28:19,213) - Proceeded member count=824993
+[INFO](2014-01-01 02:28:21,920) - Proceeded member count=825993
+[INFO](2014-01-01 02:28:24,909) - Proceeded member count=826993
+[INFO](2014-01-01 02:28:27,194) - Proceeded member count=827993
+[INFO](2014-01-01 02:28:29,808) - Proceeded member count=828993
+[INFO](2014-01-01 02:28:31,738) - Proceeded member count=829993
+[INFO](2014-01-01 02:28:34,274) - Proceeded member count=830993
+[INFO](2014-01-01 02:28:37,501) - Proceeded member count=831993
+[INFO](2014-01-01 02:28:39,920) - Proceeded member count=832993
+[INFO](2014-01-01 02:28:42,592) - Proceeded member count=833993
+[INFO](2014-01-01 02:28:45,016) - Proceeded member count=834993
+[INFO](2014-01-01 02:28:46,951) - Proceeded member count=835993
+[INFO](2014-01-01 02:28:49,640) - Proceeded member count=836993
+[INFO](2014-01-01 02:28:51,668) - Proceeded member count=837993
+[INFO](2014-01-01 02:28:53,671) - Proceeded member count=838993
+[INFO](2014-01-01 02:28:55,808) - Proceeded member count=839993
+[INFO](2014-01-01 02:28:58,114) - Proceeded member count=840993
+[INFO](2014-01-01 02:29:00,512) - Proceeded member count=841993
+[INFO](2014-01-01 02:29:02,839) - Proceeded member count=842993
+[INFO](2014-01-01 02:29:05,067) - Proceeded member count=843993
+[INFO](2014-01-01 02:29:06,939) - Proceeded member count=844993
+[INFO](2014-01-01 02:29:09,066) - Proceeded member count=845993
+[INFO](2014-01-01 02:29:10,938) - Proceeded member count=846993
+[INFO](2014-01-01 02:29:13,571) - Proceeded member count=847993
+[INFO](2014-01-01 02:29:15,833) - Proceeded member count=848993
+[INFO](2014-01-01 02:29:17,482) - Proceeded member count=849993
+[INFO](2014-01-01 02:29:19,926) - Proceeded member count=850993
+[INFO](2014-01-01 02:29:24,041) - Proceeded member count=851993
+[INFO](2014-01-01 02:29:27,446) - Proceeded member count=852993
+[INFO](2014-01-01 02:29:30,975) - Proceeded member count=853993
+[INFO](2014-01-01 02:29:35,048) - Proceeded member count=854993
+[INFO](2014-01-01 02:29:38,736) - Proceeded member count=855993
+[INFO](2014-01-01 02:29:41,551) - Proceeded member count=856993
+[INFO](2014-01-01 02:29:44,775) - Proceeded member count=857993
+[INFO](2014-01-01 02:29:46,986) - Proceeded member count=858993
+[INFO](2014-01-01 02:29:49,170) - Proceeded member count=859993
+[INFO](2014-01-01 02:29:51,948) - Proceeded member count=860993
+[INFO](2014-01-01 02:29:55,261) - Proceeded member count=861993
+[INFO](2014-01-01 02:29:57,759) - Proceeded member count=862993
+[INFO](2014-01-01 02:30:00,524) - Proceeded member count=863993
+[INFO](2014-01-01 02:30:04,266) - Proceeded member count=864993
+[INFO](2014-01-01 02:30:07,051) - Proceeded member count=865993
+[INFO](2014-01-01 02:30:10,252) - Proceeded member count=866993
+[INFO](2014-01-01 02:30:12,796) - Proceeded member count=867993
+[INFO](2014-01-01 02:30:15,252) - Proceeded member count=868993
+[INFO](2014-01-01 02:30:17,633) - Proceeded member count=869993
+[INFO](2014-01-01 02:30:20,075) - Proceeded member count=870993
+[INFO](2014-01-01 02:30:22,630) - Proceeded member count=871993
+[INFO](2014-01-01 02:30:24,467) - Proceeded member count=872993
+[INFO](2014-01-01 02:30:27,235) - Proceeded member count=873993
+[INFO](2014-01-01 02:30:29,450) - Proceeded member count=874993
+[INFO](2014-01-01 02:30:31,264) - Proceeded member count=875993
+[INFO](2014-01-01 02:30:33,286) - Proceeded member count=876993
+[INFO](2014-01-01 02:30:35,097) - Proceeded member count=877993
+[INFO](2014-01-01 02:30:37,188) - Proceeded member count=878993
+[INFO](2014-01-01 02:30:39,618) - Proceeded member count=879993
+[INFO](2014-01-01 02:30:42,093) - Proceeded member count=880993
+[INFO](2014-01-01 02:30:43,817) - Proceeded member count=881993
+[INFO](2014-01-01 02:30:45,703) - Proceeded member count=882993
+[INFO](2014-01-01 02:30:48,357) - Proceeded member count=883993
+[INFO](2014-01-01 02:30:50,468) - Proceeded member count=884993
+[INFO](2014-01-01 02:30:52,336) - Proceeded member count=885993
+[INFO](2014-01-01 02:30:54,593) - Proceeded member count=886993
+[INFO](2014-01-01 02:30:56,679) - Proceeded member count=887993
+[INFO](2014-01-01 02:30:58,741) - Proceeded member count=888993
+[INFO](2014-01-01 02:31:00,654) - Proceeded member count=889993
+[INFO](2014-01-01 02:31:02,677) - Proceeded member count=890993
+[INFO](2014-01-01 02:31:04,559) - Proceeded member count=891993
+[INFO](2014-01-01 02:31:07,032) - Proceeded member count=892993
+[INFO](2014-01-01 02:31:09,351) - Proceeded member count=893993
+[INFO](2014-01-01 02:31:12,210) - Proceeded member count=894993
+[INFO](2014-01-01 02:31:13,934) - Proceeded member count=895993
+[INFO](2014-01-01 02:31:17,954) - Proceeded member count=896993
+[INFO](2014-01-01 02:31:21,297) - Proceeded member count=897993
+[INFO](2014-01-01 02:31:24,088) - Proceeded member count=898993
+[INFO](2014-01-01 02:31:27,522) - Proceeded member count=899993
+[INFO](2014-01-01 02:31:30,371) - Proceeded member count=900993
+[INFO](2014-01-01 02:31:33,356) - Proceeded member count=901993
+[INFO](2014-01-01 02:31:35,891) - Proceeded member count=902993
+[INFO](2014-01-01 02:31:38,120) - Proceeded member count=903993
+[INFO](2014-01-01 02:31:41,117) - Proceeded member count=904993
+[INFO](2014-01-01 02:31:43,268) - Proceeded member count=905993
+[INFO](2014-01-01 02:31:45,768) - Proceeded member count=906993
+[INFO](2014-01-01 02:31:47,723) - Proceeded member count=907993
+[INFO](2014-01-01 02:31:49,765) - Proceeded member count=908993
+[INFO](2014-01-01 02:31:51,410) - Proceeded member count=909993
+[INFO](2014-01-01 02:31:53,875) - Proceeded member count=910993
+[INFO](2014-01-01 02:31:55,767) - Proceeded member count=911993
+[INFO](2014-01-01 02:31:57,389) - Proceeded member count=912993
+[INFO](2014-01-01 02:31:59,473) - Proceeded member count=913993
+[INFO](2014-01-01 02:32:01,593) - Proceeded member count=914993
+[INFO](2014-01-01 02:32:03,716) - Proceeded member count=915993
+[INFO](2014-01-01 02:32:06,007) - Proceeded member count=916993
+[INFO](2014-01-01 02:32:08,034) - Proceeded member count=917993
+[INFO](2014-01-01 02:32:09,949) - Proceeded member count=918993
+[INFO](2014-01-01 02:32:11,766) - Proceeded member count=919993
+[INFO](2014-01-01 02:32:15,078) - Proceeded member count=920993
+[INFO](2014-01-01 02:32:16,904) - Proceeded member count=921993
+[INFO](2014-01-01 02:32:19,162) - Proceeded member count=922993
+[INFO](2014-01-01 02:32:21,101) - Proceeded member count=923993
+[INFO](2014-01-01 02:32:23,327) - Proceeded member count=924993
+[INFO](2014-01-01 02:32:25,014) - Proceeded member count=925993
+[INFO](2014-01-01 02:32:26,986) - Proceeded member count=926993
+[INFO](2014-01-01 02:32:28,779) - Proceeded member count=927993
+[INFO](2014-01-01 02:32:30,032) - Proceeded member count=928993
+[INFO](2014-01-01 02:32:31,649) - Proceeded member count=929993
+[INFO](2014-01-01 02:32:33,479) - Proceeded member count=930993
+[INFO](2014-01-01 02:32:35,791) - Proceeded member count=931993
+[INFO](2014-01-01 02:32:37,705) - Proceeded member count=932993
+[INFO](2014-01-01 02:32:39,388) - Proceeded member count=933993
+[INFO](2014-01-01 02:32:40,993) - Proceeded member count=934993
+[INFO](2014-01-01 02:32:42,824) - Proceeded member count=935993
+[INFO](2014-01-01 02:32:44,199) - Proceeded member count=936993
+[INFO](2014-01-01 02:32:45,795) - Proceeded member count=937993
+[INFO](2014-01-01 02:32:47,193) - Proceeded member count=938993
+[INFO](2014-01-01 02:32:48,470) - Proceeded member count=939993
+[INFO](2014-01-01 02:32:50,752) - Proceeded member count=940993
+[INFO](2014-01-01 02:32:52,557) - Proceeded member count=941993
+[INFO](2014-01-01 02:32:54,112) - Proceeded member count=942993
+[INFO](2014-01-01 02:33:08,245) - Proceeded member count=943993
+[INFO](2014-01-01 02:33:20,798) - Proceeded member count=944993
+[INFO](2014-01-01 02:33:32,779) - Proceeded member count=945993
+[INFO](2014-01-01 02:33:42,542) - Proceeded member count=946993
+[INFO](2014-01-01 02:33:50,947) - Proceeded member count=947993
+[INFO](2014-01-01 02:33:59,721) - Proceeded member count=948993
+[INFO](2014-01-01 02:34:10,904) - Proceeded member count=949993
+[INFO](2014-01-01 02:34:17,655) - Proceeded member count=950993
+[INFO](2014-01-01 02:34:24,522) - Proceeded member count=951993
+[INFO](2014-01-01 02:34:30,137) - Proceeded member count=952993
+[INFO](2014-01-01 02:34:35,766) - Proceeded member count=953993
+[INFO](2014-01-01 02:34:41,228) - Proceeded member count=954993
+[INFO](2014-01-01 02:34:44,630) - Proceeded member count=955993
+[INFO](2014-01-01 02:34:47,082) - Proceeded member count=956993
+[INFO](2014-01-01 02:34:49,925) - Proceeded member count=957993
+[INFO](2014-01-01 02:34:52,988) - Proceeded member count=958993
+[INFO](2014-01-01 02:34:55,493) - Proceeded member count=959993
+[INFO](2014-01-01 02:34:58,256) - Proceeded member count=960993
+[INFO](2014-01-01 02:35:01,407) - Proceeded member count=961993
+[INFO](2014-01-01 02:35:03,873) - Proceeded member count=962993
+[INFO](2014-01-01 02:35:06,289) - Proceeded member count=963993
+[INFO](2014-01-01 02:35:08,409) - Proceeded member count=964993
+[INFO](2014-01-01 02:35:10,634) - Proceeded member count=965993
+[INFO](2014-01-01 02:35:12,557) - Proceeded member count=966993
+[INFO](2014-01-01 02:35:14,711) - Proceeded member count=967993
+[INFO](2014-01-01 02:35:16,732) - Proceeded member count=968993
+[INFO](2014-01-01 02:35:19,068) - Proceeded member count=969993
+[INFO](2014-01-01 02:35:21,056) - Proceeded member count=970993
+[INFO](2014-01-01 02:35:22,909) - Proceeded member count=971993
+[INFO](2014-01-01 02:35:25,674) - Proceeded member count=972993
+[INFO](2014-01-01 02:35:27,383) - Proceeded member count=973993
+[INFO](2014-01-01 02:35:29,122) - Proceeded member count=974993
+[INFO](2014-01-01 02:35:31,437) - Proceeded member count=975993
+[INFO](2014-01-01 02:35:33,393) - Proceeded member count=976993
+[INFO](2014-01-01 02:35:34,743) - Proceeded member count=977993
+[INFO](2014-01-01 02:35:36,496) - Proceeded member count=978993
+[INFO](2014-01-01 02:35:37,637) - Proceeded member count=979993
+[INFO](2014-01-01 02:35:38,711) - Proceeded member count=980993
+[INFO](2014-01-01 02:35:40,534) - Proceeded member count=981993
+[INFO](2014-01-01 02:35:41,991) - Proceeded member count=982993
+[INFO](2014-01-01 02:35:43,379) - Proceeded member count=983993
+[INFO](2014-01-01 02:35:44,807) - Proceeded member count=984993
+[INFO](2014-01-01 02:35:46,143) - Proceeded member count=985993
+[INFO](2014-01-01 02:35:48,016) - Proceeded member count=986993
+[INFO](2014-01-01 02:35:50,302) - Proceeded member count=987993
+[INFO](2014-01-01 02:35:51,654) - Proceeded member count=988993
+[INFO](2014-01-01 02:35:53,012) - Proceeded member count=989993
+[INFO](2014-01-01 02:35:56,537) - Proceeded member count=990993
+[INFO](2014-01-01 02:36:01,905) - Proceeded member count=991993
+[INFO](2014-01-01 02:36:06,242) - Proceeded member count=992993
+[INFO](2014-01-01 02:36:09,708) - Proceeded member count=993993
+[INFO](2014-01-01 02:36:11,963) - Proceeded member count=994993
+[INFO](2014-01-01 02:36:14,707) - Proceeded member count=995993
+[INFO](2014-01-01 02:36:18,035) - Proceeded member count=996993
+[INFO](2014-01-01 02:36:21,278) - Proceeded member count=997993
+[INFO](2014-01-01 02:36:23,568) - Proceeded member count=998993
+[INFO](2014-01-01 02:36:25,371) - Proceeded member count=999993
+[INFO](2014-01-01 02:36:26,827) - Proceeded member count=1000993
+[INFO](2014-01-01 02:36:29,492) - Proceeded member count=1001993
+[INFO](2014-01-01 02:36:31,123) - Proceeded member count=1002993
+[INFO](2014-01-01 02:36:32,875) - Proceeded member count=1003993
+[INFO](2014-01-01 02:36:34,497) - Proceeded member count=1004993
+[INFO](2014-01-01 02:36:36,189) - Proceeded member count=1005993
+[INFO](2014-01-01 02:36:38,122) - Proceeded member count=1006993
+[INFO](2014-01-01 02:36:39,717) - Proceeded member count=1007993
+[INFO](2014-01-01 02:36:41,437) - Proceeded member count=1008993
+[INFO](2014-01-01 02:36:43,080) - Proceeded member count=1009993
+[INFO](2014-01-01 02:36:44,406) - Proceeded member count=1010993
+[INFO](2014-01-01 02:36:46,421) - Proceeded member count=1011993
+[INFO](2014-01-01 02:36:48,856) - Proceeded member count=1012993
+[INFO](2014-01-01 02:36:50,346) - Proceeded member count=1013993
+[INFO](2014-01-01 02:36:52,251) - Proceeded member count=1014993
+[INFO](2014-01-01 02:36:53,565) - Proceeded member count=1015993
+[INFO](2014-01-01 02:36:55,063) - Proceeded member count=1016993
+[INFO](2014-01-01 02:36:56,838) - Proceeded member count=1017993
+[INFO](2014-01-01 02:36:58,405) - Proceeded member count=1018993
+[INFO](2014-01-01 02:37:00,234) - Proceeded member count=1019993
+[INFO](2014-01-01 02:37:01,632) - Proceeded member count=1020993
+[INFO](2014-01-01 02:37:02,700) - Proceeded member count=1021993
+[INFO](2014-01-01 02:37:03,984) - Proceeded member count=1022993
+[INFO](2014-01-01 02:37:05,781) - Proceeded member count=1023993
+[INFO](2014-01-01 02:37:07,472) - Proceeded member count=1024993
+[INFO](2014-01-01 02:37:09,408) - Proceeded member count=1025993
+[INFO](2014-01-01 02:37:11,260) - Proceeded member count=1026993
+[INFO](2014-01-01 02:37:12,493) - Proceeded member count=1027993
+[INFO](2014-01-01 02:37:14,304) - Proceeded member count=1028993
+[INFO](2014-01-01 02:37:16,028) - Proceeded member count=1029993
+[INFO](2014-01-01 02:37:17,481) - Proceeded member count=1030993
+[INFO](2014-01-01 02:37:19,418) - Proceeded member count=1031993
+[INFO](2014-01-01 02:37:20,940) - Proceeded member count=1032993
+[INFO](2014-01-01 02:37:22,354) - Proceeded member count=1033993
+[INFO](2014-01-01 02:37:23,772) - Proceeded member count=1034993
+[INFO](2014-01-01 02:37:25,406) - Proceeded member count=1035993
+[INFO](2014-01-01 02:37:27,101) - Proceeded member count=1036993
+[INFO](2014-01-01 02:37:28,870) - Proceeded member count=1037993
+[INFO](2014-01-01 02:37:33,808) - Proceeded member count=1038993
+[INFO](2014-01-01 02:37:38,525) - Proceeded member count=1039993
+[INFO](2014-01-01 02:37:43,447) - Proceeded member count=1040993
+[INFO](2014-01-01 02:37:47,470) - Proceeded member count=1041993
+[INFO](2014-01-01 02:37:51,385) - Proceeded member count=1042993
+[INFO](2014-01-01 02:37:53,866) - Proceeded member count=1043993
+[INFO](2014-01-01 02:37:56,037) - Proceeded member count=1044993
+[INFO](2014-01-01 02:37:57,729) - Proceeded member count=1045993
+[INFO](2014-01-01 02:37:59,367) - Proceeded member count=1046993
+[INFO](2014-01-01 02:38:01,498) - Proceeded member count=1047993
+[INFO](2014-01-01 02:38:03,970) - Proceeded member count=1048993
+[INFO](2014-01-01 02:38:06,752) - Proceeded member count=1049993
+[INFO](2014-01-01 02:38:08,507) - Proceeded member count=1050993
+[INFO](2014-01-01 02:38:10,492) - Proceeded member count=1051993
+[INFO](2014-01-01 02:38:13,623) - Proceeded member count=1052993
+[INFO](2014-01-01 02:38:15,895) - Proceeded member count=1053993
+[INFO](2014-01-01 02:38:18,436) - Proceeded member count=1054993
+[INFO](2014-01-01 02:38:21,720) - Proceeded member count=1055993
+[INFO](2014-01-01 02:38:23,990) - Proceeded member count=1056993
+[INFO](2014-01-01 02:38:26,419) - Proceeded member count=1057993
+[INFO](2014-01-01 02:38:28,224) - Proceeded member count=1058993
+[INFO](2014-01-01 02:38:30,322) - Proceeded member count=1059993
+[INFO](2014-01-01 02:38:32,884) - Proceeded member count=1060993
+[INFO](2014-01-01 02:38:34,725) - Proceeded member count=1061993
+[INFO](2014-01-01 02:38:38,447) - Proceeded member count=1062993
+[INFO](2014-01-01 02:38:41,604) - Proceeded member count=1063993
+[INFO](2014-01-01 02:38:44,983) - Proceeded member count=1064993
+[INFO](2014-01-01 02:38:47,498) - Proceeded member count=1065993
+[INFO](2014-01-01 02:38:49,697) - Proceeded member count=1066993
+[INFO](2014-01-01 02:38:51,688) - Proceeded member count=1067993
+[INFO](2014-01-01 02:38:53,861) - Proceeded member count=1068993
+[INFO](2014-01-01 02:38:56,299) - Proceeded member count=1069993
+[INFO](2014-01-01 02:38:57,318) - Proceeded member count=1070993
+[INFO](2014-01-01 02:38:59,031) - Proceeded member count=1071993
+[INFO](2014-01-01 02:39:00,804) - Proceeded member count=1072993
+[INFO](2014-01-01 02:39:02,674) - Proceeded member count=1073993
+[INFO](2014-01-01 02:39:04,278) - Proceeded member count=1074993
+[INFO](2014-01-01 02:39:05,625) - Proceeded member count=1075993
+[INFO](2014-01-01 02:39:06,873) - Proceeded member count=1076993
+[INFO](2014-01-01 02:39:08,429) - Proceeded member count=1077993
+[INFO](2014-01-01 02:39:10,638) - Proceeded member count=1078993
+[INFO](2014-01-01 02:39:12,161) - Proceeded member count=1079993
+[INFO](2014-01-01 02:39:13,573) - Proceeded member count=1080993
+[INFO](2014-01-01 02:39:15,530) - Proceeded member count=1081993
+[INFO](2014-01-01 02:39:16,895) - Proceeded member count=1082993
+[INFO](2014-01-01 02:39:19,093) - Proceeded member count=1083993
+[INFO](2014-01-01 02:39:20,323) - Proceeded member count=1084993
+[INFO](2014-01-01 02:39:24,516) - Proceeded member count=1085993
+[INFO](2014-01-01 02:39:29,212) - Proceeded member count=1086993
+[INFO](2014-01-01 02:39:33,113) - Proceeded member count=1087993
+[INFO](2014-01-01 02:39:36,720) - Proceeded member count=1088993
+[INFO](2014-01-01 02:39:40,642) - Proceeded member count=1089993
+[INFO](2014-01-01 02:39:44,323) - Proceeded member count=1090993
+[INFO](2014-01-01 02:39:46,841) - Proceeded member count=1091993
+[INFO](2014-01-01 02:39:50,044) - Proceeded member count=1092993
+[INFO](2014-01-01 02:39:53,606) - Proceeded member count=1093993
+[INFO](2014-01-01 02:39:56,817) - Proceeded member count=1094993
+[INFO](2014-01-01 02:39:59,218) - Proceeded member count=1095993
+[INFO](2014-01-01 02:40:02,149) - Proceeded member count=1096993
+[INFO](2014-01-01 02:40:05,235) - Proceeded member count=1097993
+[INFO](2014-01-01 02:40:07,847) - Proceeded member count=1098993
+[INFO](2014-01-01 02:40:10,499) - Proceeded member count=1099993
+[INFO](2014-01-01 02:40:13,028) - Proceeded member count=1100993
+[INFO](2014-01-01 02:40:15,762) - Proceeded member count=1101993
+[INFO](2014-01-01 02:40:18,325) - Proceeded member count=1102993
+[INFO](2014-01-01 02:40:20,687) - Proceeded member count=1103993
+[INFO](2014-01-01 02:40:23,199) - Proceeded member count=1104993
+[INFO](2014-01-01 02:40:25,076) - Proceeded member count=1105993
+[INFO](2014-01-01 02:40:26,936) - Proceeded member count=1106993
+[INFO](2014-01-01 02:40:29,350) - Proceeded member count=1107993
+[INFO](2014-01-01 02:40:31,731) - Proceeded member count=1108993
+[INFO](2014-01-01 02:40:33,581) - Proceeded member count=1109993
+[INFO](2014-01-01 02:40:35,230) - Proceeded member count=1110993
+[INFO](2014-01-01 02:40:37,316) - Proceeded member count=1111993
+[INFO](2014-01-01 02:40:39,222) - Proceeded member count=1112993
+[INFO](2014-01-01 02:40:40,732) - Proceeded member count=1113993
+[INFO](2014-01-01 02:40:42,799) - Proceeded member count=1114993
+[INFO](2014-01-01 02:40:44,971) - Proceeded member count=1115993
+[INFO](2014-01-01 02:40:46,752) - Proceeded member count=1116993
+[INFO](2014-01-01 02:40:49,195) - Proceeded member count=1117993
+[INFO](2014-01-01 02:40:51,011) - Proceeded member count=1118993
+[INFO](2014-01-01 02:40:53,064) - Proceeded member count=1119993
+[INFO](2014-01-01 02:40:55,693) - Proceeded member count=1120993
+[INFO](2014-01-01 02:40:57,913) - Proceeded member count=1121993
+[INFO](2014-01-01 02:40:59,362) - Proceeded member count=1122993
+[INFO](2014-01-01 02:41:01,253) - Proceeded member count=1123993
+[INFO](2014-01-01 02:41:02,640) - Proceeded member count=1124993
+[INFO](2014-01-01 02:41:04,166) - Proceeded member count=1125993
+[INFO](2014-01-01 02:41:06,256) - Proceeded member count=1126993
+[INFO](2014-01-01 02:41:08,245) - Proceeded member count=1127993
+[INFO](2014-01-01 02:41:10,157) - Proceeded member count=1128993
+[INFO](2014-01-01 02:41:11,897) - Proceeded member count=1129993
+[INFO](2014-01-01 02:41:14,563) - Proceeded member count=1130993
+[INFO](2014-01-01 02:41:16,461) - Proceeded member count=1131993
+[INFO](2014-01-01 02:41:25,385) - Proceeded member count=1132993
+[INFO](2014-01-01 02:41:43,772) - Proceeded member count=1133993
+[INFO](2014-01-01 02:41:59,663) - Proceeded member count=1134993
+[INFO](2014-01-01 02:42:15,183) - Proceeded member count=1135993
+[INFO](2014-01-01 02:42:30,308) - Proceeded member count=1136993
+[INFO](2014-01-01 02:42:41,520) - Proceeded member count=1137993
+[INFO](2014-01-01 02:42:53,180) - Proceeded member count=1138993
+[INFO](2014-01-01 02:43:03,763) - Proceeded member count=1139993
+[INFO](2014-01-01 02:43:12,569) - Proceeded member count=1140993
+[INFO](2014-01-01 02:43:21,478) - Proceeded member count=1141993
+[INFO](2014-01-01 02:43:27,911) - Proceeded member count=1142993
+[INFO](2014-01-01 02:43:35,379) - Proceeded member count=1143993
+[INFO](2014-01-01 02:43:39,558) - Proceeded member count=1144993
+[INFO](2014-01-01 02:43:43,781) - Proceeded member count=1145993
+[INFO](2014-01-01 02:43:47,448) - Proceeded member count=1146993
+[INFO](2014-01-01 02:43:51,456) - Proceeded member count=1147993
+[INFO](2014-01-01 02:43:54,702) - Proceeded member count=1148993
+[INFO](2014-01-01 02:43:57,907) - Proceeded member count=1149993
+[INFO](2014-01-01 02:44:01,187) - Proceeded member count=1150993
+[INFO](2014-01-01 02:44:04,289) - Proceeded member count=1151993
+[INFO](2014-01-01 02:44:06,888) - Proceeded member count=1152993
+[INFO](2014-01-01 02:44:09,181) - Proceeded member count=1153993
+[INFO](2014-01-01 02:44:11,192) - Proceeded member count=1154993
+[INFO](2014-01-01 02:44:14,178) - Proceeded member count=1155993
+[INFO](2014-01-01 02:44:16,562) - Proceeded member count=1156993
+[INFO](2014-01-01 02:44:18,868) - Proceeded member count=1157993
+[INFO](2014-01-01 02:44:21,386) - Proceeded member count=1158993
+[INFO](2014-01-01 02:44:23,543) - Proceeded member count=1159993
+[INFO](2014-01-01 02:44:25,542) - Proceeded member count=1160993
+[INFO](2014-01-01 02:44:29,146) - Proceeded member count=1161993
+[INFO](2014-01-01 02:44:31,372) - Proceeded member count=1162993
+[INFO](2014-01-01 02:44:33,154) - Proceeded member count=1163993
+[INFO](2014-01-01 02:44:35,141) - Proceeded member count=1164993
+[INFO](2014-01-01 02:44:37,002) - Proceeded member count=1165993
+[INFO](2014-01-01 02:44:39,762) - Proceeded member count=1166993
+[INFO](2014-01-01 02:44:41,890) - Proceeded member count=1167993
+[INFO](2014-01-01 02:44:43,411) - Proceeded member count=1168993
+[INFO](2014-01-01 02:44:44,681) - Proceeded member count=1169993
+[INFO](2014-01-01 02:44:45,896) - Proceeded member count=1170993
+[INFO](2014-01-01 02:44:47,486) - Proceeded member count=1171993
+[INFO](2014-01-01 02:44:49,034) - Proceeded member count=1172993
+[INFO](2014-01-01 02:44:50,429) - Proceeded member count=1173993
+[INFO](2014-01-01 02:44:51,791) - Proceeded member count=1174993
+[INFO](2014-01-01 02:44:53,083) - Proceeded member count=1175993
+[INFO](2014-01-01 02:44:54,593) - Proceeded member count=1176993
+[INFO](2014-01-01 02:44:56,094) - Proceeded member count=1177993
+[INFO](2014-01-01 02:44:57,715) - Proceeded member count=1178993
+[INFO](2014-01-01 02:44:59,298) - Proceeded member count=1179993
+[INFO](2014-01-01 02:45:02,572) - Proceeded member count=1180993
+[INFO](2014-01-01 02:45:05,002) - Proceeded member count=1181993
+[INFO](2014-01-01 02:45:07,319) - Proceeded member count=1182993
+[INFO](2014-01-01 02:45:09,553) - Proceeded member count=1183993
+[INFO](2014-01-01 02:45:12,792) - Proceeded member count=1184993
+[INFO](2014-01-01 02:45:15,276) - Proceeded member count=1185993
+[INFO](2014-01-01 02:45:17,548) - Proceeded member count=1186993
+[INFO](2014-01-01 02:45:19,977) - Proceeded member count=1187993
+[INFO](2014-01-01 02:45:22,130) - Proceeded member count=1188993
+[INFO](2014-01-01 02:45:24,042) - Proceeded member count=1189993
+[INFO](2014-01-01 02:45:26,576) - Proceeded member count=1190993
+[INFO](2014-01-01 02:45:28,197) - Proceeded member count=1191993
+[INFO](2014-01-01 02:45:30,036) - Proceeded member count=1192993
+[INFO](2014-01-01 02:45:31,780) - Proceeded member count=1193993
+[INFO](2014-01-01 02:45:33,558) - Proceeded member count=1194993
+[INFO](2014-01-01 02:45:34,810) - Proceeded member count=1195993
+[INFO](2014-01-01 02:45:36,278) - Proceeded member count=1196993
+[INFO](2014-01-01 02:45:37,810) - Proceeded member count=1197993
+[INFO](2014-01-01 02:45:39,282) - Proceeded member count=1198993
+[INFO](2014-01-01 02:45:41,101) - Proceeded member count=1199993
+[INFO](2014-01-01 02:45:42,327) - Proceeded member count=1200993
+[INFO](2014-01-01 02:45:44,030) - Proceeded member count=1201993
+[INFO](2014-01-01 02:45:45,611) - Proceeded member count=1202993
+[INFO](2014-01-01 02:45:46,871) - Proceeded member count=1203993
+[INFO](2014-01-01 02:45:48,438) - Proceeded member count=1204993
+[INFO](2014-01-01 02:45:50,068) - Proceeded member count=1205993
+[INFO](2014-01-01 02:45:51,394) - Proceeded member count=1206993
+[INFO](2014-01-01 02:45:52,725) - Proceeded member count=1207993
+[INFO](2014-01-01 02:45:54,105) - Proceeded member count=1208993
+[INFO](2014-01-01 02:45:55,506) - Proceeded member count=1209993
+[INFO](2014-01-01 02:45:56,675) - Proceeded member count=1210993
+[INFO](2014-01-01 02:45:58,262) - Proceeded member count=1211993
+[INFO](2014-01-01 02:45:59,746) - Proceeded member count=1212993
+[INFO](2014-01-01 02:46:01,284) - Proceeded member count=1213993
+[INFO](2014-01-01 02:46:03,174) - Proceeded member count=1214993
+[INFO](2014-01-01 02:46:04,820) - Proceeded member count=1215993
+[INFO](2014-01-01 02:46:06,215) - Proceeded member count=1216993
+[INFO](2014-01-01 02:46:07,785) - Proceeded member count=1217993
+[INFO](2014-01-01 02:46:09,131) - Proceeded member count=1218993
+[INFO](2014-01-01 02:46:10,422) - Proceeded member count=1219993
+[INFO](2014-01-01 02:46:11,741) - Proceeded member count=1220993
+[INFO](2014-01-01 02:46:13,220) - Proceeded member count=1221993
+[INFO](2014-01-01 02:46:15,276) - Proceeded member count=1222993
+[INFO](2014-01-01 02:46:16,824) - Proceeded member count=1223993
+[INFO](2014-01-01 02:46:18,492) - Proceeded member count=1224993
+[INFO](2014-01-01 02:46:20,173) - Proceeded member count=1225993
+[INFO](2014-01-01 02:46:22,140) - Proceeded member count=1226993
+[INFO](2014-01-01 02:46:24,606) - Proceeded member count=1227993
+[INFO](2014-01-01 02:46:26,714) - Proceeded member count=1228993
+[INFO](2014-01-01 02:46:28,456) - Proceeded member count=1229993
+[INFO](2014-01-01 02:46:31,548) - Proceeded member count=1230993
+[INFO](2014-01-01 02:46:34,501) - Proceeded member count=1231993
+[INFO](2014-01-01 02:46:36,899) - Proceeded member count=1232993
+[INFO](2014-01-01 02:46:41,591) - Proceeded member count=1233993
+[INFO](2014-01-01 02:46:43,954) - Proceeded member count=1234993
+[INFO](2014-01-01 02:46:46,480) - Proceeded member count=1235993
+[INFO](2014-01-01 02:46:48,762) - Proceeded member count=1236993
+[INFO](2014-01-01 02:46:52,045) - Proceeded member count=1237993
+[INFO](2014-01-01 02:46:54,614) - Proceeded member count=1238993
+[INFO](2014-01-01 02:46:56,801) - Proceeded member count=1239993
+[INFO](2014-01-01 02:46:58,467) - Proceeded member count=1240993
+[INFO](2014-01-01 02:47:00,903) - Proceeded member count=1241993
+[INFO](2014-01-01 02:47:02,559) - Proceeded member count=1242993
+[INFO](2014-01-01 02:47:03,892) - Proceeded member count=1243993
+[INFO](2014-01-01 02:47:05,417) - Proceeded member count=1244993
+[INFO](2014-01-01 02:47:07,310) - Proceeded member count=1245993
+[INFO](2014-01-01 02:47:09,337) - Proceeded member count=1246993
+[INFO](2014-01-01 02:47:10,980) - Proceeded member count=1247993
+[ERROR](2014-01-01 02:47:11,362) - Error exchange point:[memberId=1875234, memberPointId=4722152, mobile=18975870719, historyId=11529150, pointBalance=0, toExpirePoint=3865, usedPoint=0]
+[INFO](2014-01-01 02:47:12,193) - Proceeded member count=1248992
+[INFO](2014-01-01 02:47:13,638) - Proceeded member count=1249992
+[INFO](2014-01-01 02:47:15,185) - Proceeded member count=1250992
+[INFO](2014-01-01 02:47:16,707) - Proceeded member count=1251992
+[INFO](2014-01-01 02:47:17,977) - Proceeded member count=1252992
+[INFO](2014-01-01 02:47:20,102) - Proceeded member count=1253992
+[INFO](2014-01-01 02:47:21,633) - Proceeded member count=1254992
+[INFO](2014-01-01 02:47:23,037) - Proceeded member count=1255992
+[INFO](2014-01-01 02:47:24,121) - Proceeded member count=1256992
+[INFO](2014-01-01 02:47:25,391) - Proceeded member count=1257992
+[INFO](2014-01-01 02:47:26,547) - Proceeded member count=1258992
+[INFO](2014-01-01 02:47:27,840) - Proceeded member count=1259992
+[INFO](2014-01-01 02:47:29,545) - Proceeded member count=1260992
+[INFO](2014-01-01 02:47:30,879) - Proceeded member count=1261992
+[INFO](2014-01-01 02:47:32,526) - Proceeded member count=1262992
+[INFO](2014-01-01 02:47:33,844) - Proceeded member count=1263992
+[INFO](2014-01-01 02:47:35,005) - Proceeded member count=1264992
+[INFO](2014-01-01 02:47:36,532) - Proceeded member count=1265992
+[INFO](2014-01-01 02:47:37,887) - Proceeded member count=1266992
+[INFO](2014-01-01 02:47:39,193) - Proceeded member count=1267992
+[INFO](2014-01-01 02:47:40,666) - Proceeded member count=1268992
+[INFO](2014-01-01 02:47:42,254) - Proceeded member count=1269992
+[INFO](2014-01-01 02:47:43,694) - Proceeded member count=1270992
+[INFO](2014-01-01 02:47:44,765) - Proceeded member count=1271992
+[INFO](2014-01-01 02:47:46,114) - Proceeded member count=1272992
+[INFO](2014-01-01 02:47:47,474) - Proceeded member count=1273992
+[INFO](2014-01-01 02:47:48,736) - Proceeded member count=1274992
+[INFO](2014-01-01 02:47:51,603) - Proceeded member count=1275992
+[INFO](2014-01-01 02:47:54,533) - Proceeded member count=1276992
+[INFO](2014-01-01 02:47:56,732) - Proceeded member count=1277992
+[INFO](2014-01-01 02:48:00,395) - Proceeded member count=1278992
+[INFO](2014-01-01 02:48:03,405) - Proceeded member count=1279992
+[INFO](2014-01-01 02:48:07,112) - Proceeded member count=1280992
+[INFO](2014-01-01 02:48:11,412) - Proceeded member count=1281992
+[INFO](2014-01-01 02:48:13,855) - Proceeded member count=1282992
+[INFO](2014-01-01 02:48:16,444) - Proceeded member count=1283992
+[INFO](2014-01-01 02:48:18,341) - Proceeded member count=1284992
+[INFO](2014-01-01 02:48:20,715) - Proceeded member count=1285992
+[INFO](2014-01-01 02:48:23,053) - Proceeded member count=1286992
+[INFO](2014-01-01 02:48:25,262) - Proceeded member count=1287992
+[INFO](2014-01-01 02:48:27,390) - Proceeded member count=1288992
+[INFO](2014-01-01 02:48:29,585) - Proceeded member count=1289992
+[INFO](2014-01-01 02:48:31,618) - Proceeded member count=1290992
+[INFO](2014-01-01 02:48:33,303) - Proceeded member count=1291992
+[INFO](2014-01-01 02:48:35,364) - Proceeded member count=1292992
+[INFO](2014-01-01 02:48:36,857) - Proceeded member count=1293992
+[INFO](2014-01-01 02:48:39,126) - Proceeded member count=1294992
+[INFO](2014-01-01 02:48:42,227) - Proceeded member count=1295992
+[INFO](2014-01-01 02:48:44,372) - Proceeded member count=1296992
+[INFO](2014-01-01 02:48:46,661) - Proceeded member count=1297992
+[INFO](2014-01-01 02:48:48,200) - Proceeded member count=1298992
+[INFO](2014-01-01 02:48:50,448) - Proceeded member count=1299992
+[INFO](2014-01-01 02:48:51,870) - Proceeded member count=1300992
+[INFO](2014-01-01 02:48:53,942) - Proceeded member count=1301992
+[INFO](2014-01-01 02:48:56,263) - Proceeded member count=1302992
+[INFO](2014-01-01 02:48:58,403) - Proceeded member count=1303992
+[INFO](2014-01-01 02:49:00,096) - Proceeded member count=1304992
+[INFO](2014-01-01 02:49:02,722) - Proceeded member count=1305992
+[INFO](2014-01-01 02:49:04,868) - Proceeded member count=1306992
+[INFO](2014-01-01 02:49:06,640) - Proceeded member count=1307992
+[INFO](2014-01-01 02:49:08,206) - Proceeded member count=1308992
+[INFO](2014-01-01 02:49:10,063) - Proceeded member count=1309992
+[INFO](2014-01-01 02:49:11,604) - Proceeded member count=1310992
+[INFO](2014-01-01 02:49:13,530) - Proceeded member count=1311992
+[INFO](2014-01-01 02:49:15,157) - Proceeded member count=1312992
+[INFO](2014-01-01 02:49:16,374) - Proceeded member count=1313992
+[INFO](2014-01-01 02:49:17,290) - Proceeded member count=1314992
+[INFO](2014-01-01 02:49:18,638) - Proceeded member count=1315992
+[INFO](2014-01-01 02:49:20,131) - Proceeded member count=1316992
+[INFO](2014-01-01 02:49:21,536) - Proceeded member count=1317992
+[INFO](2014-01-01 02:49:23,009) - Proceeded member count=1318992
+[INFO](2014-01-01 02:49:24,638) - Proceeded member count=1319992
+[INFO](2014-01-01 02:49:25,959) - Proceeded member count=1320992
+[INFO](2014-01-01 02:49:29,395) - Proceeded member count=1321992
+[INFO](2014-01-01 02:49:41,187) - Proceeded member count=1322992
+[INFO](2014-01-01 02:50:00,242) - Proceeded member count=1323992
+[INFO](2014-01-01 02:50:17,178) - Proceeded member count=1324992
+[INFO](2014-01-01 02:50:32,194) - Proceeded member count=1325992
+[INFO](2014-01-01 02:50:45,043) - Proceeded member count=1326992
+[INFO](2014-01-01 02:50:55,816) - Proceeded member count=1327992
+[INFO](2014-01-01 02:51:03,654) - Proceeded member count=1328992
+[INFO](2014-01-01 02:51:13,597) - Proceeded member count=1329992
+[INFO](2014-01-01 02:51:21,187) - Proceeded member count=1330992
+[INFO](2014-01-01 02:51:27,103) - Proceeded member count=1331992
+[INFO](2014-01-01 02:51:33,905) - Proceeded member count=1332992
+[INFO](2014-01-01 02:51:39,403) - Proceeded member count=1333992
+[INFO](2014-01-01 02:51:43,987) - Proceeded member count=1334992
+[INFO](2014-01-01 02:51:48,625) - Proceeded member count=1335992
+[INFO](2014-01-01 02:51:52,970) - Proceeded member count=1336992
+[INFO](2014-01-01 02:51:56,557) - Proceeded member count=1337992
+[INFO](2014-01-01 02:52:00,688) - Proceeded member count=1338992
+[INFO](2014-01-01 02:52:03,977) - Proceeded member count=1339992
+[INFO](2014-01-01 02:52:07,699) - Proceeded member count=1340992
+[INFO](2014-01-01 02:52:10,654) - Proceeded member count=1341992
+[INFO](2014-01-01 02:52:13,715) - Proceeded member count=1342992
+[INFO](2014-01-01 02:52:16,634) - Proceeded member count=1343992
+[INFO](2014-01-01 02:52:19,336) - Proceeded member count=1344992
+[INFO](2014-01-01 02:52:21,975) - Proceeded member count=1345992
+[INFO](2014-01-01 02:52:23,141) - Proceeded member count=1346992
+[INFO](2014-01-01 02:52:25,112) - Proceeded member count=1347992
+[INFO](2014-01-01 02:52:26,304) - Proceeded member count=1348992
+[INFO](2014-01-01 02:52:27,770) - Proceeded member count=1349992
+[INFO](2014-01-01 02:52:29,258) - Proceeded member count=1350992
+[INFO](2014-01-01 02:52:30,605) - Proceeded member count=1351992
+[INFO](2014-01-01 02:52:31,895) - Proceeded member count=1352992
+[INFO](2014-01-01 02:52:33,145) - Proceeded member count=1353992
+[INFO](2014-01-01 02:52:34,301) - Proceeded member count=1354992
+[INFO](2014-01-01 02:52:35,637) - Proceeded member count=1355992
+[INFO](2014-01-01 02:52:36,902) - Proceeded member count=1356992
+[INFO](2014-01-01 02:52:37,975) - Proceeded member count=1357992
+[INFO](2014-01-01 02:52:39,350) - Proceeded member count=1358992
+[INFO](2014-01-01 02:52:40,599) - Proceeded member count=1359992
+[INFO](2014-01-01 02:52:42,141) - Proceeded member count=1360992
+[INFO](2014-01-01 02:52:43,767) - Proceeded member count=1361992
+[INFO](2014-01-01 02:52:45,005) - Proceeded member count=1362992
+[INFO](2014-01-01 02:52:46,686) - Proceeded member count=1363992
+[INFO](2014-01-01 02:52:47,985) - Proceeded member count=1364992
+[INFO](2014-01-01 02:52:49,037) - Proceeded member count=1365992
+[INFO](2014-01-01 02:52:50,278) - Proceeded member count=1366992
+[INFO](2014-01-01 02:52:51,422) - Proceeded member count=1367992
+[INFO](2014-01-01 02:52:52,448) - Proceeded member count=1368992
+[INFO](2014-01-01 02:52:53,724) - Proceeded member count=1369992
+[INFO](2014-01-01 02:53:01,581) - Proceeded member count=1370992
+[INFO](2014-01-01 02:53:05,776) - Proceeded member count=1371992
+[INFO](2014-01-01 02:53:11,563) - Proceeded member count=1372992
+[INFO](2014-01-01 02:53:17,238) - Proceeded member count=1373992
+[INFO](2014-01-01 02:53:22,458) - Proceeded member count=1374992
+[INFO](2014-01-01 02:53:26,167) - Proceeded member count=1375992
+[INFO](2014-01-01 02:53:29,274) - Proceeded member count=1376992
+[INFO](2014-01-01 02:53:33,658) - Proceeded member count=1377992
+[INFO](2014-01-01 02:53:36,280) - Proceeded member count=1378992
+[INFO](2014-01-01 02:53:39,183) - Proceeded member count=1379992
+[INFO](2014-01-01 02:53:43,215) - Proceeded member count=1380992
+[INFO](2014-01-01 02:53:47,090) - Proceeded member count=1381992
+[INFO](2014-01-01 02:53:48,974) - Proceeded member count=1382992
+[INFO](2014-01-01 02:53:50,717) - Proceeded member count=1383992
+[INFO](2014-01-01 02:53:52,313) - Proceeded member count=1384992
+[INFO](2014-01-01 02:53:53,987) - Proceeded member count=1385992
+[INFO](2014-01-01 02:53:55,633) - Proceeded member count=1386992
+[INFO](2014-01-01 02:53:58,560) - Proceeded member count=1387992
+[INFO](2014-01-01 02:54:00,991) - Proceeded member count=1388992
+[INFO](2014-01-01 02:54:03,593) - Proceeded member count=1389992
+[INFO](2014-01-01 02:54:06,034) - Proceeded member count=1390992
+[INFO](2014-01-01 02:54:07,264) - Proceeded member count=1391992
+[INFO](2014-01-01 02:54:09,338) - Proceeded member count=1392992
+[INFO](2014-01-01 02:54:11,822) - Proceeded member count=1393992
+[INFO](2014-01-01 02:54:13,656) - Proceeded member count=1394992
+[INFO](2014-01-01 02:54:15,384) - Proceeded member count=1395992
+[INFO](2014-01-01 02:54:16,990) - Proceeded member count=1396992
+[INFO](2014-01-01 02:54:18,713) - Proceeded member count=1397992
+[INFO](2014-01-01 02:54:20,736) - Proceeded member count=1398992
+[INFO](2014-01-01 02:54:22,972) - Proceeded member count=1399992
+[INFO](2014-01-01 02:54:24,453) - Proceeded member count=1400992
+[INFO](2014-01-01 02:54:25,821) - Proceeded member count=1401992
+[INFO](2014-01-01 02:54:27,315) - Proceeded member count=1402992
+[INFO](2014-01-01 02:54:28,964) - Proceeded member count=1403992
+[INFO](2014-01-01 02:54:30,687) - Proceeded member count=1404992
+[INFO](2014-01-01 02:54:32,134) - Proceeded member count=1405992
+[INFO](2014-01-01 02:54:33,193) - Proceeded member count=1406992
+[INFO](2014-01-01 02:54:34,819) - Proceeded member count=1407992
+[INFO](2014-01-01 02:54:36,199) - Proceeded member count=1408992
+[INFO](2014-01-01 02:54:37,733) - Proceeded member count=1409992
+[INFO](2014-01-01 02:54:38,964) - Proceeded member count=1410992
+[INFO](2014-01-01 02:54:39,982) - Proceeded member count=1411992
+[INFO](2014-01-01 02:54:41,452) - Proceeded member count=1412992
+[INFO](2014-01-01 02:54:42,669) - Proceeded member count=1413992
+[INFO](2014-01-01 02:54:44,362) - Proceeded member count=1414992
+[ERROR](2014-01-01 02:54:44,861) - Error exchange point:[memberId=2145745, memberPointId=868243, mobile=15980113189, historyId=11786185, pointBalance=845, toExpirePoint=1840, usedPoint=0]
+[INFO](2014-01-01 02:54:45,795) - Proceeded member count=1415991
+[INFO](2014-01-01 02:54:47,290) - Proceeded member count=1416991
+[INFO](2014-01-01 02:54:50,326) - Proceeded member count=1417991
+[INFO](2014-01-01 02:54:54,382) - Proceeded member count=1418991
+[INFO](2014-01-01 02:54:56,702) - Proceeded member count=1419991
+[INFO](2014-01-01 02:54:59,475) - Proceeded member count=1420991
+[INFO](2014-01-01 02:55:02,270) - Proceeded member count=1421991
+[INFO](2014-01-01 02:55:05,039) - Proceeded member count=1422991
+[INFO](2014-01-01 02:55:06,718) - Proceeded member count=1423991
+[INFO](2014-01-01 02:55:08,844) - Proceeded member count=1424991
+[INFO](2014-01-01 02:55:11,146) - Proceeded member count=1425991
+[INFO](2014-01-01 02:55:13,226) - Proceeded member count=1426991
+[INFO](2014-01-01 02:55:15,607) - Proceeded member count=1427991
+[INFO](2014-01-01 02:55:17,840) - Proceeded member count=1428991
+[INFO](2014-01-01 02:55:20,520) - Proceeded member count=1429991
+[INFO](2014-01-01 02:55:23,255) - Proceeded member count=1430991
+[INFO](2014-01-01 02:55:26,568) - Proceeded member count=1431991
+[INFO](2014-01-01 02:55:28,895) - Proceeded member count=1432991
+[INFO](2014-01-01 02:55:34,317) - Proceeded member count=1433991
+[INFO](2014-01-01 02:55:36,795) - Proceeded member count=1434991
+[INFO](2014-01-01 02:55:38,814) - Proceeded member count=1435991
+[INFO](2014-01-01 02:55:40,719) - Proceeded member count=1436991
+[INFO](2014-01-01 02:55:42,902) - Proceeded member count=1437991
+[INFO](2014-01-01 02:55:44,777) - Proceeded member count=1438991
+[INFO](2014-01-01 02:55:47,499) - Proceeded member count=1439991
+[INFO](2014-01-01 02:55:49,398) - Proceeded member count=1440991
+[INFO](2014-01-01 02:55:51,068) - Proceeded member count=1441991
+[INFO](2014-01-01 02:55:52,539) - Proceeded member count=1442991
+[INFO](2014-01-01 02:55:54,176) - Proceeded member count=1443991
+[INFO](2014-01-01 02:55:56,003) - Proceeded member count=1444991
+[INFO](2014-01-01 02:55:57,642) - Proceeded member count=1445991
+[INFO](2014-01-01 02:55:59,682) - Proceeded member count=1446991
+[INFO](2014-01-01 02:56:01,735) - Proceeded member count=1447991
+[INFO](2014-01-01 02:56:03,320) - Proceeded member count=1448991
+[INFO](2014-01-01 02:56:04,968) - Proceeded member count=1449991
+[INFO](2014-01-01 02:56:06,294) - Proceeded member count=1450991
+[INFO](2014-01-01 02:56:07,873) - Proceeded member count=1451991
+[INFO](2014-01-01 02:56:09,753) - Proceeded member count=1452991
+[INFO](2014-01-01 02:56:10,722) - Proceeded member count=1453991
+[INFO](2014-01-01 02:56:12,401) - Proceeded member count=1454991
+[INFO](2014-01-01 02:56:14,081) - Proceeded member count=1455991
+[INFO](2014-01-01 02:56:15,150) - Proceeded member count=1456991
+[INFO](2014-01-01 02:56:16,644) - Proceeded member count=1457991
+[INFO](2014-01-01 02:56:18,283) - Proceeded member count=1458991
+[INFO](2014-01-01 02:56:20,396) - Proceeded member count=1459991
+[INFO](2014-01-01 02:56:22,862) - Proceeded member count=1460991
+[INFO](2014-01-01 02:56:24,440) - Proceeded member count=1461991
+[INFO](2014-01-01 02:56:26,106) - Proceeded member count=1462991
+[INFO](2014-01-01 02:56:28,172) - Proceeded member count=1463991
+[INFO](2014-01-01 02:56:30,014) - Proceeded member count=1464991
+[INFO](2014-01-01 02:56:34,187) - Proceeded member count=1465991
+[INFO](2014-01-01 02:56:39,067) - Proceeded member count=1466991
+[INFO](2014-01-01 02:56:41,876) - Proceeded member count=1467991
+[INFO](2014-01-01 02:56:44,836) - Proceeded member count=1468991
+[INFO](2014-01-01 02:56:46,861) - Proceeded member count=1469991
+[INFO](2014-01-01 02:56:49,492) - Proceeded member count=1470991
+[INFO](2014-01-01 02:56:52,066) - Proceeded member count=1471991
+[INFO](2014-01-01 02:56:54,385) - Proceeded member count=1472991
+[INFO](2014-01-01 02:56:56,142) - Proceeded member count=1473991
+[INFO](2014-01-01 02:56:57,920) - Proceeded member count=1474991
+[INFO](2014-01-01 02:56:59,313) - Proceeded member count=1475991
+[INFO](2014-01-01 02:57:00,884) - Proceeded member count=1476991
+[INFO](2014-01-01 02:57:02,223) - Proceeded member count=1477991
+[INFO](2014-01-01 02:57:03,550) - Proceeded member count=1478991
+[INFO](2014-01-01 02:57:04,758) - Proceeded member count=1479991
+[INFO](2014-01-01 02:57:06,180) - Proceeded member count=1480991
+[INFO](2014-01-01 02:57:07,276) - Proceeded member count=1481991
+[INFO](2014-01-01 02:57:08,538) - Proceeded member count=1482991
+[INFO](2014-01-01 02:57:09,729) - Proceeded member count=1483991
+[INFO](2014-01-01 02:57:11,006) - Proceeded member count=1484991
+[INFO](2014-01-01 02:57:12,362) - Proceeded member count=1485991
+[INFO](2014-01-01 02:57:13,411) - Proceeded member count=1486991
+[INFO](2014-01-01 02:57:14,424) - Proceeded member count=1487991
+[INFO](2014-01-01 02:57:15,522) - Proceeded member count=1488991
+[INFO](2014-01-01 02:57:16,908) - Proceeded member count=1489991
+[INFO](2014-01-01 02:57:18,053) - Proceeded member count=1490991
+[INFO](2014-01-01 02:57:19,107) - Proceeded member count=1491991
+[INFO](2014-01-01 02:57:20,386) - Proceeded member count=1492991
+[INFO](2014-01-01 02:57:21,411) - Proceeded member count=1493991
+[INFO](2014-01-01 02:57:22,770) - Proceeded member count=1494991
+[INFO](2014-01-01 02:57:23,891) - Proceeded member count=1495991
+[INFO](2014-01-01 02:57:24,983) - Proceeded member count=1496991
+[INFO](2014-01-01 02:57:25,952) - Proceeded member count=1497991
+[INFO](2014-01-01 02:57:27,020) - Proceeded member count=1498991
+[INFO](2014-01-01 02:57:28,475) - Proceeded member count=1499991
+[INFO](2014-01-01 02:57:29,460) - Proceeded member count=1500991
+[INFO](2014-01-01 02:57:30,605) - Proceeded member count=1501991
+[INFO](2014-01-01 02:57:31,567) - Proceeded member count=1502991
+[INFO](2014-01-01 02:57:32,782) - Proceeded member count=1503991
+[INFO](2014-01-01 02:57:33,875) - Proceeded member count=1504991
+[INFO](2014-01-01 02:57:35,080) - Proceeded member count=1505991
+[INFO](2014-01-01 02:57:36,115) - Proceeded member count=1506991
+[INFO](2014-01-01 02:57:37,312) - Proceeded member count=1507991
+[INFO](2014-01-01 02:57:38,565) - Proceeded member count=1508991
+[INFO](2014-01-01 02:57:39,632) - Proceeded member count=1509991
+[INFO](2014-01-01 02:57:40,681) - Proceeded member count=1510991
+[INFO](2014-01-01 02:57:41,904) - Proceeded member count=1511991
+[INFO](2014-01-01 02:57:48,463) - Proceeded member count=1512991
+[INFO](2014-01-01 02:57:55,832) - Proceeded member count=1513991
+[INFO](2014-01-01 02:58:02,427) - Proceeded member count=1514991
+[INFO](2014-01-01 02:58:08,217) - Proceeded member count=1515991
+[INFO](2014-01-01 02:58:13,891) - Proceeded member count=1516991
+[INFO](2014-01-01 02:58:19,079) - Proceeded member count=1517991
+[INFO](2014-01-01 02:58:25,499) - Proceeded member count=1518991
+[INFO](2014-01-01 02:58:31,997) - Proceeded member count=1519991
+[INFO](2014-01-01 02:58:37,003) - Proceeded member count=1520991
+[INFO](2014-01-01 02:58:41,605) - Proceeded member count=1521991
+[INFO](2014-01-01 02:58:47,427) - Proceeded member count=1522991
+[INFO](2014-01-01 02:58:50,984) - Proceeded member count=1523991
+[INFO](2014-01-01 02:58:53,224) - Proceeded member count=1524991
+[INFO](2014-01-01 02:58:55,604) - Proceeded member count=1525991
+[INFO](2014-01-01 02:58:57,875) - Proceeded member count=1526991
+[INFO](2014-01-01 02:58:59,697) - Proceeded member count=1527991
+[INFO](2014-01-01 02:59:01,883) - Proceeded member count=1528991
+[INFO](2014-01-01 02:59:03,457) - Proceeded member count=1529991
+[INFO](2014-01-01 02:59:05,127) - Proceeded member count=1530991
+[INFO](2014-01-01 02:59:06,564) - Proceeded member count=1531991
+[INFO](2014-01-01 02:59:07,847) - Proceeded member count=1532991
+[INFO](2014-01-01 02:59:09,357) - Proceeded member count=1533991
+[INFO](2014-01-01 02:59:11,564) - Proceeded member count=1534991
+[INFO](2014-01-01 02:59:12,834) - Proceeded member count=1535991
+[INFO](2014-01-01 02:59:14,000) - Proceeded member count=1536991
+[INFO](2014-01-01 02:59:15,518) - Proceeded member count=1537991
+[INFO](2014-01-01 02:59:16,621) - Proceeded member count=1538991
+[INFO](2014-01-01 02:59:17,633) - Proceeded member count=1539991
+[INFO](2014-01-01 02:59:18,695) - Proceeded member count=1540991
+[INFO](2014-01-01 02:59:19,806) - Proceeded member count=1541991
+[INFO](2014-01-01 02:59:21,113) - Proceeded member count=1542991
+[INFO](2014-01-01 02:59:22,173) - Proceeded member count=1543991
+[INFO](2014-01-01 02:59:23,113) - Proceeded member count=1544991
+[INFO](2014-01-01 02:59:24,092) - Proceeded member count=1545991
+[INFO](2014-01-01 02:59:24,968) - Proceeded member count=1546991
+[INFO](2014-01-01 02:59:26,084) - Proceeded member count=1547991
+[INFO](2014-01-01 02:59:26,853) - Proceeded member count=1548991
+[INFO](2014-01-01 02:59:27,928) - Proceeded member count=1549991
+[INFO](2014-01-01 02:59:28,757) - Proceeded member count=1550991
+[INFO](2014-01-01 02:59:29,892) - Proceeded member count=1551991
+[INFO](2014-01-01 02:59:31,065) - Proceeded member count=1552991
+[INFO](2014-01-01 02:59:32,035) - Proceeded member count=1553991
+[INFO](2014-01-01 02:59:32,987) - Proceeded member count=1554991
+[INFO](2014-01-01 02:59:33,989) - Proceeded member count=1555991
+[INFO](2014-01-01 02:59:35,216) - Proceeded member count=1556991
+[INFO](2014-01-01 02:59:36,843) - Proceeded member count=1557991
+[INFO](2014-01-01 02:59:38,302) - Proceeded member count=1558991
+[INFO](2014-01-01 02:59:41,015) - Proceeded member count=1559991
+[INFO](2014-01-01 02:59:44,295) - Proceeded member count=1560991
+[INFO](2014-01-01 02:59:46,324) - Proceeded member count=1561991
+[INFO](2014-01-01 02:59:49,016) - Proceeded member count=1562991
+[INFO](2014-01-01 02:59:52,651) - Proceeded member count=1563991
+[INFO](2014-01-01 02:59:55,414) - Proceeded member count=1564991
+[INFO](2014-01-01 02:59:58,066) - Proceeded member count=1565991
+[INFO](2014-01-01 03:00:01,394) - Proceeded member count=1566991
+[INFO](2014-01-01 03:00:04,360) - Proceeded member count=1567991
+[INFO](2014-01-01 03:00:07,587) - Proceeded member count=1568991
+[INFO](2014-01-01 03:00:09,110) - Proceeded member count=1569991
+[INFO](2014-01-01 03:00:11,464) - Proceeded member count=1570991
+[INFO](2014-01-01 03:00:14,482) - Proceeded member count=1571991
+[INFO](2014-01-01 03:00:15,736) - Proceeded member count=1572991
+[INFO](2014-01-01 03:00:17,019) - Proceeded member count=1573991
+[INFO](2014-01-01 03:00:18,700) - Proceeded member count=1574991
+[INFO](2014-01-01 03:00:20,263) - Proceeded member count=1575991
+[INFO](2014-01-01 03:00:22,186) - Proceeded member count=1576991
+[INFO](2014-01-01 03:00:23,844) - Proceeded member count=1577991
+[INFO](2014-01-01 03:00:25,252) - Proceeded member count=1578991
+[INFO](2014-01-01 03:00:27,299) - Proceeded member count=1579991
+[INFO](2014-01-01 03:00:28,392) - Proceeded member count=1580991
+[INFO](2014-01-01 03:00:29,808) - Proceeded member count=1581991
+[INFO](2014-01-01 03:00:31,093) - Proceeded member count=1582991
+[INFO](2014-01-01 03:00:32,300) - Proceeded member count=1583991
+[INFO](2014-01-01 03:00:33,415) - Proceeded member count=1584991
+[INFO](2014-01-01 03:00:34,287) - Proceeded member count=1585991
+[INFO](2014-01-01 03:00:36,117) - Proceeded member count=1586991
+[INFO](2014-01-01 03:00:37,187) - Proceeded member count=1587991
+[INFO](2014-01-01 03:00:38,407) - Proceeded member count=1588991
+[INFO](2014-01-01 03:00:39,728) - Proceeded member count=1589991
+[INFO](2014-01-01 03:00:40,873) - Proceeded member count=1590991
+[INFO](2014-01-01 03:00:42,223) - Proceeded member count=1591991
+[INFO](2014-01-01 03:00:43,376) - Proceeded member count=1592991
+[INFO](2014-01-01 03:00:44,596) - Proceeded member count=1593991
+[INFO](2014-01-01 03:00:45,555) - Proceeded member count=1594991
+[INFO](2014-01-01 03:00:46,747) - Proceeded member count=1595991
+[INFO](2014-01-01 03:00:47,621) - Proceeded member count=1596991
+[INFO](2014-01-01 03:00:48,918) - Proceeded member count=1597991
+[INFO](2014-01-01 03:00:50,214) - Proceeded member count=1598991
+[INFO](2014-01-01 03:00:51,209) - Proceeded member count=1599991
+[INFO](2014-01-01 03:00:52,434) - Proceeded member count=1600991
+[INFO](2014-01-01 03:00:53,628) - Proceeded member count=1601991
+[INFO](2014-01-01 03:00:54,943) - Proceeded member count=1602991
+[INFO](2014-01-01 03:00:56,228) - Proceeded member count=1603991
+[INFO](2014-01-01 03:00:57,147) - Proceeded member count=1604991
+[INFO](2014-01-01 03:00:58,568) - Proceeded member count=1605991
+[INFO](2014-01-01 03:00:59,670) - Proceeded member count=1606991
+[INFO](2014-01-01 03:01:04,987) - Proceeded member count=1607991
+[INFO](2014-01-01 03:01:11,438) - Proceeded member count=1608991
+[INFO](2014-01-01 03:01:15,297) - Proceeded member count=1609991
+[INFO](2014-01-01 03:01:17,791) - Proceeded member count=1610991
+[INFO](2014-01-01 03:01:21,412) - Proceeded member count=1611991
+[INFO](2014-01-01 03:01:25,538) - Proceeded member count=1612991
+[INFO](2014-01-01 03:01:29,189) - Proceeded member count=1613991
+[INFO](2014-01-01 03:01:32,866) - Proceeded member count=1614991
+[INFO](2014-01-01 03:01:37,176) - Proceeded member count=1615991
+[INFO](2014-01-01 03:01:40,746) - Proceeded member count=1616991
+[INFO](2014-01-01 03:01:44,322) - Proceeded member count=1617991
+[INFO](2014-01-01 03:01:48,021) - Proceeded member count=1618991
+[INFO](2014-01-01 03:01:50,753) - Proceeded member count=1619991
+[INFO](2014-01-01 03:01:52,840) - Proceeded member count=1620991
+[INFO](2014-01-01 03:01:54,851) - Proceeded member count=1621991
+[INFO](2014-01-01 03:01:56,458) - Proceeded member count=1622991
+[INFO](2014-01-01 03:01:58,577) - Proceeded member count=1623991
+[INFO](2014-01-01 03:02:00,096) - Proceeded member count=1624991
+[INFO](2014-01-01 03:02:01,533) - Proceeded member count=1625991
+[INFO](2014-01-01 03:02:02,868) - Proceeded member count=1626991
+[INFO](2014-01-01 03:02:04,998) - Proceeded member count=1627991
+[INFO](2014-01-01 03:02:06,555) - Proceeded member count=1628991
+[INFO](2014-01-01 03:02:08,310) - Proceeded member count=1629991
+[INFO](2014-01-01 03:02:09,987) - Proceeded member count=1630991
+[INFO](2014-01-01 03:02:11,433) - Proceeded member count=1631991
+[INFO](2014-01-01 03:02:12,676) - Proceeded member count=1632991
+[INFO](2014-01-01 03:02:14,630) - Proceeded member count=1633991
+[ERROR](2014-01-01 03:02:14,895) - Error exchange point:[memberId=2276740, memberPointId=5206444, mobile=15959044053, historyId=11977705, pointBalance=0, toExpirePoint=1010, usedPoint=0]
+[INFO](2014-01-01 03:02:15,599) - Proceeded member count=1634990
+[INFO](2014-01-01 03:02:17,812) - Proceeded member count=1635990
+[INFO](2014-01-01 03:02:19,848) - Proceeded member count=1636990
+[INFO](2014-01-01 03:02:23,781) - Proceeded member count=1637990
+[INFO](2014-01-01 03:02:26,043) - Proceeded member count=1638990
+[INFO](2014-01-01 03:02:27,553) - Proceeded member count=1639990
+[INFO](2014-01-01 03:02:29,368) - Proceeded member count=1640990
+[INFO](2014-01-01 03:02:30,659) - Proceeded member count=1641990
+[INFO](2014-01-01 03:02:31,581) - Proceeded member count=1642990
+[INFO](2014-01-01 03:02:32,480) - Proceeded member count=1643990
+[INFO](2014-01-01 03:02:33,462) - Proceeded member count=1644990
+[INFO](2014-01-01 03:02:34,467) - Proceeded member count=1645990
+[INFO](2014-01-01 03:02:35,704) - Proceeded member count=1646990
+[INFO](2014-01-01 03:02:36,842) - Proceeded member count=1647990
+[INFO](2014-01-01 03:02:37,762) - Proceeded member count=1648990
+[INFO](2014-01-01 03:02:38,751) - Proceeded member count=1649990
+[INFO](2014-01-01 03:02:39,730) - Proceeded member count=1650990
+[INFO](2014-01-01 03:02:40,868) - Proceeded member count=1651990
+[INFO](2014-01-01 03:02:42,321) - Proceeded member count=1652990
+[INFO](2014-01-01 03:02:43,711) - Proceeded member count=1653990
+[INFO](2014-01-01 03:02:47,729) - Proceeded member count=1654990
+[INFO](2014-01-01 03:02:50,853) - Proceeded member count=1655990
+[INFO](2014-01-01 03:02:53,127) - Proceeded member count=1656990
+[INFO](2014-01-01 03:02:56,987) - Proceeded member count=1657990
+[INFO](2014-01-01 03:02:59,736) - Proceeded member count=1658990
+[INFO](2014-01-01 03:03:02,689) - Proceeded member count=1659990
+[INFO](2014-01-01 03:03:06,935) - Proceeded member count=1660990
+[INFO](2014-01-01 03:03:09,519) - Proceeded member count=1661990
+[INFO](2014-01-01 03:03:12,755) - Proceeded member count=1662990
+[INFO](2014-01-01 03:03:16,278) - Proceeded member count=1663990
+[INFO](2014-01-01 03:03:18,312) - Proceeded member count=1664990
+[INFO](2014-01-01 03:03:20,637) - Proceeded member count=1665990
+[INFO](2014-01-01 03:03:22,780) - Proceeded member count=1666990
+[INFO](2014-01-01 03:03:25,396) - Proceeded member count=1667990
+[INFO](2014-01-01 03:03:27,488) - Proceeded member count=1668990
+[INFO](2014-01-01 03:03:29,653) - Proceeded member count=1669990
+[INFO](2014-01-01 03:03:31,678) - Proceeded member count=1670990
+[INFO](2014-01-01 03:03:33,424) - Proceeded member count=1671990
+[INFO](2014-01-01 03:03:35,341) - Proceeded member count=1672990
+[INFO](2014-01-01 03:03:37,012) - Proceeded member count=1673990
+[INFO](2014-01-01 03:03:39,376) - Proceeded member count=1674990
+[INFO](2014-01-01 03:03:41,064) - Proceeded member count=1675990
+[INFO](2014-01-01 03:03:42,796) - Proceeded member count=1676990
+[INFO](2014-01-01 03:03:44,972) - Proceeded member count=1677990
+[INFO](2014-01-01 03:03:46,636) - Proceeded member count=1678990
+[INFO](2014-01-01 03:03:48,108) - Proceeded member count=1679990
+[INFO](2014-01-01 03:03:49,743) - Proceeded member count=1680990
+[INFO](2014-01-01 03:03:51,199) - Proceeded member count=1681990
+[INFO](2014-01-01 03:03:52,666) - Proceeded member count=1682990
+[INFO](2014-01-01 03:03:54,226) - Proceeded member count=1683990
+[INFO](2014-01-01 03:03:55,769) - Proceeded member count=1684990
+[INFO](2014-01-01 03:03:57,075) - Proceeded member count=1685990
+[INFO](2014-01-01 03:03:58,635) - Proceeded member count=1686990
+[INFO](2014-01-01 03:04:00,701) - Proceeded member count=1687990
+[INFO](2014-01-01 03:04:02,672) - Proceeded member count=1688990
+[INFO](2014-01-01 03:04:04,145) - Proceeded member count=1689990
+[INFO](2014-01-01 03:04:05,732) - Proceeded member count=1690990
+[INFO](2014-01-01 03:04:07,212) - Proceeded member count=1691990
+[INFO](2014-01-01 03:04:08,533) - Proceeded member count=1692990
+[INFO](2014-01-01 03:04:09,886) - Proceeded member count=1693990
+[INFO](2014-01-01 03:04:11,188) - Proceeded member count=1694990
+[INFO](2014-01-01 03:04:12,699) - Proceeded member count=1695990
+[INFO](2014-01-01 03:04:14,853) - Proceeded member count=1696990
+[INFO](2014-01-01 03:04:16,690) - Proceeded member count=1697990
+[INFO](2014-01-01 03:04:17,784) - Proceeded member count=1698990
+[INFO](2014-01-01 03:04:18,749) - Proceeded member count=1699990
+[INFO](2014-01-01 03:04:19,800) - Proceeded member count=1700990
+[INFO](2014-01-01 03:04:22,527) - Proceeded member count=1701990
+[INFO](2014-01-01 03:04:37,592) - Proceeded member count=1702990
+[INFO](2014-01-01 03:04:49,271) - Proceeded member count=1703990
+[INFO](2014-01-01 03:04:59,139) - Proceeded member count=1704990
+[INFO](2014-01-01 03:05:06,753) - Proceeded member count=1705990
+[INFO](2014-01-01 03:05:15,774) - Proceeded member count=1706990
+[INFO](2014-01-01 03:05:23,639) - Proceeded member count=1707990
+[INFO](2014-01-01 03:05:33,302) - Proceeded member count=1708990
+[INFO](2014-01-01 03:05:39,091) - Proceeded member count=1709990
+[INFO](2014-01-01 03:05:44,893) - Proceeded member count=1710990
+[INFO](2014-01-01 03:05:50,648) - Proceeded member count=1711990
+[INFO](2014-01-01 03:05:54,121) - Proceeded member count=1712990
+[INFO](2014-01-01 03:05:56,934) - Proceeded member count=1713990
+[INFO](2014-01-01 03:05:58,115) - Proceeded member count=1714990
+[INFO](2014-01-01 03:05:59,626) - Proceeded member count=1715990
+[INFO](2014-01-01 03:06:00,486) - Proceeded member count=1716990
+[INFO](2014-01-01 03:06:01,716) - Proceeded member count=1717990
+[INFO](2014-01-01 03:06:02,475) - Proceeded member count=1718990
+[INFO](2014-01-01 03:06:03,435) - Proceeded member count=1719990
+[INFO](2014-01-01 03:06:04,489) - Proceeded member count=1720990
+[INFO](2014-01-01 03:06:05,478) - Proceeded member count=1721990
+[INFO](2014-01-01 03:06:06,356) - Proceeded member count=1722990
+[INFO](2014-01-01 03:06:07,370) - Proceeded member count=1723990
+[INFO](2014-01-01 03:06:08,680) - Proceeded member count=1724990
+[INFO](2014-01-01 03:06:09,628) - Proceeded member count=1725990
+[INFO](2014-01-01 03:06:10,975) - Proceeded member count=1726990
+[INFO](2014-01-01 03:06:12,087) - Proceeded member count=1727990
+[INFO](2014-01-01 03:06:13,409) - Proceeded member count=1728990
+[INFO](2014-01-01 03:06:14,667) - Proceeded member count=1729990
+[INFO](2014-01-01 03:06:16,635) - Proceeded member count=1730990
+[INFO](2014-01-01 03:06:17,830) - Proceeded member count=1731990
+[INFO](2014-01-01 03:06:18,933) - Proceeded member count=1732990
+[INFO](2014-01-01 03:06:20,006) - Proceeded member count=1733990
+[INFO](2014-01-01 03:06:21,126) - Proceeded member count=1734990
+[INFO](2014-01-01 03:06:22,370) - Proceeded member count=1735990
+[INFO](2014-01-01 03:06:23,659) - Proceeded member count=1736990
+[INFO](2014-01-01 03:06:24,936) - Proceeded member count=1737990
+[INFO](2014-01-01 03:06:26,632) - Proceeded member count=1738990
+[INFO](2014-01-01 03:06:27,684) - Proceeded member count=1739990
+[INFO](2014-01-01 03:06:28,809) - Proceeded member count=1740990
+[INFO](2014-01-01 03:06:29,841) - Proceeded member count=1741990
+[INFO](2014-01-01 03:06:31,016) - Proceeded member count=1742990
+[INFO](2014-01-01 03:06:31,757) - Proceeded member count=1743990
+[INFO](2014-01-01 03:06:32,684) - Proceeded member count=1744990
+[INFO](2014-01-01 03:06:33,783) - Proceeded member count=1745990
+[INFO](2014-01-01 03:06:34,889) - Proceeded member count=1746990
+[INFO](2014-01-01 03:06:35,898) - Proceeded member count=1747990
+[INFO](2014-01-01 03:06:37,050) - Proceeded member count=1748990
+[INFO](2014-01-01 03:06:42,260) - Proceeded member count=1749990
+[INFO](2014-01-01 03:06:47,209) - Proceeded member count=1750990
+[INFO](2014-01-01 03:06:51,861) - Proceeded member count=1751990
+[INFO](2014-01-01 03:06:55,155) - Proceeded member count=1752990
+[INFO](2014-01-01 03:06:58,180) - Proceeded member count=1753990
+[INFO](2014-01-01 03:07:00,983) - Proceeded member count=1754990
+[INFO](2014-01-01 03:07:03,885) - Proceeded member count=1755990
+[INFO](2014-01-01 03:07:06,395) - Proceeded member count=1756990
+[INFO](2014-01-01 03:07:08,762) - Proceeded member count=1757990
+[INFO](2014-01-01 03:07:12,736) - Proceeded member count=1758990
+[INFO](2014-01-01 03:07:14,926) - Proceeded member count=1759990
+[INFO](2014-01-01 03:07:16,906) - Proceeded member count=1760990
+[INFO](2014-01-01 03:07:18,707) - Proceeded member count=1761990
+[INFO](2014-01-01 03:07:20,567) - Proceeded member count=1762990
+[INFO](2014-01-01 03:07:22,986) - Proceeded member count=1763990
+[INFO](2014-01-01 03:07:24,581) - Proceeded member count=1764990
+[INFO](2014-01-01 03:07:26,085) - Proceeded member count=1765990
+[INFO](2014-01-01 03:07:27,678) - Proceeded member count=1766990
+[INFO](2014-01-01 03:07:28,594) - Proceeded member count=1767990
+[INFO](2014-01-01 03:07:30,011) - Proceeded member count=1768990
+[INFO](2014-01-01 03:07:31,281) - Proceeded member count=1769990
+[INFO](2014-01-01 03:07:32,352) - Proceeded member count=1770990
+[INFO](2014-01-01 03:07:33,610) - Proceeded member count=1771990
+[INFO](2014-01-01 03:07:34,988) - Proceeded member count=1772990
+[INFO](2014-01-01 03:07:36,134) - Proceeded member count=1773990
+[INFO](2014-01-01 03:07:37,337) - Proceeded member count=1774990
+[INFO](2014-01-01 03:07:38,642) - Proceeded member count=1775990
+[INFO](2014-01-01 03:07:40,089) - Proceeded member count=1776990
+[INFO](2014-01-01 03:07:41,119) - Proceeded member count=1777990
+[INFO](2014-01-01 03:07:42,131) - Proceeded member count=1778990
+[INFO](2014-01-01 03:07:43,205) - Proceeded member count=1779990
+[INFO](2014-01-01 03:07:44,391) - Proceeded member count=1780990
+[INFO](2014-01-01 03:07:45,562) - Proceeded member count=1781990
+[INFO](2014-01-01 03:07:46,389) - Proceeded member count=1782990
+[INFO](2014-01-01 03:07:47,755) - Proceeded member count=1783990
+[INFO](2014-01-01 03:07:48,866) - Proceeded member count=1784990
+[INFO](2014-01-01 03:07:50,178) - Proceeded member count=1785990
+[INFO](2014-01-01 03:07:51,565) - Proceeded member count=1786990
+[INFO](2014-01-01 03:07:52,766) - Proceeded member count=1787990
+[INFO](2014-01-01 03:07:53,634) - Proceeded member count=1788990
+[INFO](2014-01-01 03:07:54,738) - Proceeded member count=1789990
+[INFO](2014-01-01 03:07:55,775) - Proceeded member count=1790990
+[INFO](2014-01-01 03:07:56,736) - Proceeded member count=1791990
+[INFO](2014-01-01 03:07:57,595) - Proceeded member count=1792990
+[INFO](2014-01-01 03:07:58,649) - Proceeded member count=1793990
+[INFO](2014-01-01 03:07:59,867) - Proceeded member count=1794990
+[INFO](2014-01-01 03:08:00,761) - Proceeded member count=1795990
+[INFO](2014-01-01 03:08:03,577) - Proceeded member count=1796990
+[INFO](2014-01-01 03:08:05,838) - Proceeded member count=1797990
+[INFO](2014-01-01 03:08:07,622) - Proceeded member count=1798990
+[INFO](2014-01-01 03:08:10,067) - Proceeded member count=1799990
+[INFO](2014-01-01 03:08:12,383) - Proceeded member count=1800990
+[INFO](2014-01-01 03:08:15,260) - Proceeded member count=1801990
+[INFO](2014-01-01 03:08:18,363) - Proceeded member count=1802990
+[INFO](2014-01-01 03:08:20,529) - Proceeded member count=1803990
+[INFO](2014-01-01 03:08:23,346) - Proceeded member count=1804990
+[INFO](2014-01-01 03:08:25,768) - Proceeded member count=1805990
+[INFO](2014-01-01 03:08:27,480) - Proceeded member count=1806990
+[INFO](2014-01-01 03:08:28,770) - Proceeded member count=1807990
+[INFO](2014-01-01 03:08:29,981) - Proceeded member count=1808990
+[INFO](2014-01-01 03:08:31,068) - Proceeded member count=1809990
+[INFO](2014-01-01 03:08:32,072) - Proceeded member count=1810990
+[INFO](2014-01-01 03:08:33,466) - Proceeded member count=1811990
+[INFO](2014-01-01 03:08:34,932) - Proceeded member count=1812990
+[INFO](2014-01-01 03:08:36,224) - Proceeded member count=1813990
+[INFO](2014-01-01 03:08:37,283) - Proceeded member count=1814990
+[INFO](2014-01-01 03:08:38,121) - Proceeded member count=1815990
+[INFO](2014-01-01 03:08:39,227) - Proceeded member count=1816990
+[INFO](2014-01-01 03:08:40,495) - Proceeded member count=1817990
+[INFO](2014-01-01 03:08:41,701) - Proceeded member count=1818990
+[INFO](2014-01-01 03:08:42,959) - Proceeded member count=1819990
+[INFO](2014-01-01 03:08:43,911) - Proceeded member count=1820990
+[INFO](2014-01-01 03:08:44,640) - Proceeded member count=1821990
+[INFO](2014-01-01 03:08:45,554) - Proceeded member count=1822990
+[INFO](2014-01-01 03:08:46,283) - Proceeded member count=1823990
+[INFO](2014-01-01 03:08:47,392) - Proceeded member count=1824990
+[INFO](2014-01-01 03:08:48,365) - Proceeded member count=1825990
+[INFO](2014-01-01 03:08:49,169) - Proceeded member count=1826990
+[INFO](2014-01-01 03:08:50,499) - Proceeded member count=1827990
+[INFO](2014-01-01 03:08:51,719) - Proceeded member count=1828990
+[INFO](2014-01-01 03:08:53,303) - Proceeded member count=1829990
+[INFO](2014-01-01 03:08:54,495) - Proceeded member count=1830990
+[INFO](2014-01-01 03:08:55,611) - Proceeded member count=1831990
+[INFO](2014-01-01 03:08:57,089) - Proceeded member count=1832990
+[INFO](2014-01-01 03:08:58,338) - Proceeded member count=1833990
+[INFO](2014-01-01 03:08:59,773) - Proceeded member count=1834990
+[INFO](2014-01-01 03:09:00,756) - Proceeded member count=1835990
+[INFO](2014-01-01 03:09:01,654) - Proceeded member count=1836990
+[INFO](2014-01-01 03:09:02,560) - Proceeded member count=1837990
+[INFO](2014-01-01 03:09:03,947) - Proceeded member count=1838990
+[INFO](2014-01-01 03:09:04,859) - Proceeded member count=1839990
+[INFO](2014-01-01 03:09:06,468) - Proceeded member count=1840990
+[INFO](2014-01-01 03:09:07,410) - Proceeded member count=1841990
+[INFO](2014-01-01 03:09:11,072) - Proceeded member count=1842990
+[INFO](2014-01-01 03:09:14,328) - Proceeded member count=1843990
+[INFO](2014-01-01 03:09:18,773) - Proceeded member count=1844990
+[INFO](2014-01-01 03:09:22,112) - Proceeded member count=1845990
+[INFO](2014-01-01 03:09:25,215) - Proceeded member count=1846990
+[INFO](2014-01-01 03:09:28,322) - Proceeded member count=1847990
+[INFO](2014-01-01 03:09:30,607) - Proceeded member count=1848990
+[INFO](2014-01-01 03:09:32,156) - Proceeded member count=1849990
+[INFO](2014-01-01 03:09:34,192) - Proceeded member count=1850990
+[INFO](2014-01-01 03:09:35,745) - Proceeded member count=1851990
+[INFO](2014-01-01 03:09:37,723) - Proceeded member count=1852990
+[INFO](2014-01-01 03:09:40,386) - Proceeded member count=1853990
+[INFO](2014-01-01 03:09:42,527) - Proceeded member count=1854990
+[INFO](2014-01-01 03:09:44,021) - Proceeded member count=1855990
+[INFO](2014-01-01 03:09:46,033) - Proceeded member count=1856990
+[INFO](2014-01-01 03:09:48,398) - Proceeded member count=1857990
+[INFO](2014-01-01 03:09:50,661) - Proceeded member count=1858990
+[INFO](2014-01-01 03:09:52,307) - Proceeded member count=1859990
+[INFO](2014-01-01 03:09:54,488) - Proceeded member count=1860990
+[INFO](2014-01-01 03:09:55,883) - Proceeded member count=1861990
+[INFO](2014-01-01 03:09:57,730) - Proceeded member count=1862990
+[INFO](2014-01-01 03:09:59,500) - Proceeded member count=1863990
+[INFO](2014-01-01 03:10:01,462) - Proceeded member count=1864990
+[INFO](2014-01-01 03:10:02,757) - Proceeded member count=1865990
+[INFO](2014-01-01 03:10:04,538) - Proceeded member count=1866990
+[INFO](2014-01-01 03:10:05,974) - Proceeded member count=1867990
+[INFO](2014-01-01 03:10:07,245) - Proceeded member count=1868990
+[INFO](2014-01-01 03:10:08,255) - Proceeded member count=1869990
+[INFO](2014-01-01 03:10:09,648) - Proceeded member count=1870990
+[INFO](2014-01-01 03:10:10,708) - Proceeded member count=1871990
+[INFO](2014-01-01 03:10:12,001) - Proceeded member count=1872990
+[INFO](2014-01-01 03:10:12,971) - Proceeded member count=1873990
+[INFO](2014-01-01 03:10:14,352) - Proceeded member count=1874990
+[INFO](2014-01-01 03:10:15,250) - Proceeded member count=1875990
+[INFO](2014-01-01 03:10:16,535) - Proceeded member count=1876990
+[INFO](2014-01-01 03:10:17,575) - Proceeded member count=1877990
+[INFO](2014-01-01 03:10:18,798) - Proceeded member count=1878990
+[INFO](2014-01-01 03:10:20,314) - Proceeded member count=1879990
+[INFO](2014-01-01 03:10:21,936) - Proceeded member count=1880990
+[INFO](2014-01-01 03:10:23,078) - Proceeded member count=1881990
+[INFO](2014-01-01 03:10:24,353) - Proceeded member count=1882990
+[INFO](2014-01-01 03:10:25,879) - Proceeded member count=1883990
+[INFO](2014-01-01 03:10:26,981) - Proceeded member count=1884990
+[INFO](2014-01-01 03:10:28,382) - Proceeded member count=1885990
+[INFO](2014-01-01 03:10:29,583) - Proceeded member count=1886990
+[INFO](2014-01-01 03:10:30,769) - Proceeded member count=1887990
+[INFO](2014-01-01 03:10:31,724) - Proceeded member count=1888990
+[INFO](2014-01-01 03:10:36,137) - Proceeded member count=1889990
+[INFO](2014-01-01 03:10:40,202) - Proceeded member count=1890990
+[INFO](2014-01-01 03:10:45,239) - Proceeded member count=1891990
+[INFO](2014-01-01 03:10:50,437) - Proceeded member count=1892990
+[INFO](2014-01-01 03:10:55,098) - Proceeded member count=1893990
+[INFO](2014-01-01 03:10:58,825) - Proceeded member count=1894990
+[INFO](2014-01-01 03:11:03,368) - Proceeded member count=1895990
+[INFO](2014-01-01 03:11:07,006) - Proceeded member count=1896990
+[INFO](2014-01-01 03:11:10,164) - Proceeded member count=1897990
+[INFO](2014-01-01 03:11:12,873) - Proceeded member count=1898990
+[INFO](2014-01-01 03:11:14,894) - Proceeded member count=1899990
+[INFO](2014-01-01 03:11:17,002) - Proceeded member count=1900990
+[INFO](2014-01-01 03:11:18,560) - Proceeded member count=1901990
+[INFO](2014-01-01 03:11:19,924) - Proceeded member count=1902990
+[INFO](2014-01-01 03:11:21,700) - Proceeded member count=1903990
+[INFO](2014-01-01 03:11:23,272) - Proceeded member count=1904990
+[INFO](2014-01-01 03:11:24,715) - Proceeded member count=1905990
+[INFO](2014-01-01 03:11:25,714) - Proceeded member count=1906990
+[INFO](2014-01-01 03:11:27,496) - Proceeded member count=1907990
+[INFO](2014-01-01 03:11:28,719) - Proceeded member count=1908990
+[INFO](2014-01-01 03:11:30,198) - Proceeded member count=1909990
+[INFO](2014-01-01 03:11:31,863) - Proceeded member count=1910990
+[INFO](2014-01-01 03:11:35,642) - Proceeded member count=1911990
+[INFO](2014-01-01 03:11:37,075) - Proceeded member count=1912990
+[INFO](2014-01-01 03:11:38,224) - Proceeded member count=1913990
+[INFO](2014-01-01 03:11:39,850) - Proceeded member count=1914990
+[INFO](2014-01-01 03:11:41,009) - Proceeded member count=1915990
+[INFO](2014-01-01 03:11:42,181) - Proceeded member count=1916990
+[INFO](2014-01-01 03:11:43,640) - Proceeded member count=1917990
+[INFO](2014-01-01 03:11:44,880) - Proceeded member count=1918990
+[INFO](2014-01-01 03:11:46,180) - Proceeded member count=1919990
+[INFO](2014-01-01 03:11:47,480) - Proceeded member count=1920990
+[INFO](2014-01-01 03:11:48,857) - Proceeded member count=1921990
+[INFO](2014-01-01 03:11:50,014) - Proceeded member count=1922990
+[INFO](2014-01-01 03:11:50,984) - Proceeded member count=1923990
+[INFO](2014-01-01 03:11:52,093) - Proceeded member count=1924990
+[INFO](2014-01-01 03:11:53,635) - Proceeded member count=1925990
+[INFO](2014-01-01 03:11:54,782) - Proceeded member count=1926990
+[INFO](2014-01-01 03:11:56,519) - Proceeded member count=1927990
+[INFO](2014-01-01 03:11:57,766) - Proceeded member count=1928990
+[INFO](2014-01-01 03:11:59,515) - Proceeded member count=1929990
+[INFO](2014-01-01 03:12:02,673) - Proceeded member count=1930990
+[INFO](2014-01-01 03:12:03,748) - Proceeded member count=1931990
+[INFO](2014-01-01 03:12:05,084) - Proceeded member count=1932990
+[INFO](2014-01-01 03:12:06,243) - Proceeded member count=1933990
+[INFO](2014-01-01 03:12:07,428) - Proceeded member count=1934990
+[INFO](2014-01-01 03:12:08,888) - Proceeded member count=1935990
+[INFO](2014-01-01 03:12:19,857) - Proceeded member count=1936990
+[INFO](2014-01-01 03:12:28,774) - Proceeded member count=1937990
+[INFO](2014-01-01 03:12:38,696) - Proceeded member count=1938990
+[INFO](2014-01-01 03:12:48,092) - Proceeded member count=1939990
+[INFO](2014-01-01 03:12:55,513) - Proceeded member count=1940990
+[INFO](2014-01-01 03:13:01,748) - Proceeded member count=1941990
+[INFO](2014-01-01 03:13:07,274) - Proceeded member count=1942990
+[INFO](2014-01-01 03:13:13,040) - Proceeded member count=1943990
+[INFO](2014-01-01 03:13:17,832) - Proceeded member count=1944990
+[INFO](2014-01-01 03:13:23,751) - Proceeded member count=1945990
+[INFO](2014-01-01 03:13:29,420) - Proceeded member count=1946990
+[INFO](2014-01-01 03:13:33,521) - Proceeded member count=1947990
+[INFO](2014-01-01 03:13:35,810) - Proceeded member count=1948990
+[INFO](2014-01-01 03:13:38,181) - Proceeded member count=1949990
+[INFO](2014-01-01 03:13:41,082) - Proceeded member count=1950990
+[INFO](2014-01-01 03:13:43,673) - Proceeded member count=1951990
+[INFO](2014-01-01 03:13:46,052) - Proceeded member count=1952990
+[INFO](2014-01-01 03:13:48,394) - Proceeded member count=1953990
+[INFO](2014-01-01 03:13:50,955) - Proceeded member count=1954990
+[INFO](2014-01-01 03:13:52,811) - Proceeded member count=1955990
+[INFO](2014-01-01 03:13:54,492) - Proceeded member count=1956990
+[INFO](2014-01-01 03:13:56,694) - Proceeded member count=1957990
+[INFO](2014-01-01 03:13:58,211) - Proceeded member count=1958990
+[INFO](2014-01-01 03:13:59,624) - Proceeded member count=1959990
+[INFO](2014-01-01 03:14:02,002) - Proceeded member count=1960990
+[INFO](2014-01-01 03:14:03,597) - Proceeded member count=1961990
+[INFO](2014-01-01 03:14:04,796) - Proceeded member count=1962990
+[INFO](2014-01-01 03:14:06,177) - Proceeded member count=1963990
+[INFO](2014-01-01 03:14:07,396) - Proceeded member count=1964990
+[INFO](2014-01-01 03:14:08,649) - Proceeded member count=1965990
+[INFO](2014-01-01 03:14:10,036) - Proceeded member count=1966990
+[INFO](2014-01-01 03:14:11,564) - Proceeded member count=1967990
+[INFO](2014-01-01 03:14:12,897) - Proceeded member count=1968990
+[INFO](2014-01-01 03:14:14,375) - Proceeded member count=1969990
+[INFO](2014-01-01 03:14:15,457) - Proceeded member count=1970990
+[INFO](2014-01-01 03:14:16,653) - Proceeded member count=1971990
+[INFO](2014-01-01 03:14:18,064) - Proceeded member count=1972990
+[INFO](2014-01-01 03:14:19,162) - Proceeded member count=1973990
+[INFO](2014-01-01 03:14:20,138) - Proceeded member count=1974990
+[INFO](2014-01-01 03:14:21,089) - Proceeded member count=1975990
+[INFO](2014-01-01 03:14:22,320) - Proceeded member count=1976990
+[INFO](2014-01-01 03:14:23,344) - Proceeded member count=1977990
+[INFO](2014-01-01 03:14:24,421) - Proceeded member count=1978990
+[INFO](2014-01-01 03:14:26,227) - Proceeded member count=1979990
+[INFO](2014-01-01 03:14:27,393) - Proceeded member count=1980990
+[INFO](2014-01-01 03:14:28,528) - Proceeded member count=1981990
+[INFO](2014-01-01 03:14:29,687) - Proceeded member count=1982990
+[INFO](2014-01-01 03:14:32,989) - Proceeded member count=1983990
+[INFO](2014-01-01 03:14:36,512) - Proceeded member count=1984990
+[INFO](2014-01-01 03:14:40,207) - Proceeded member count=1985990
+[INFO](2014-01-01 03:14:42,482) - Proceeded member count=1986990
+[INFO](2014-01-01 03:14:45,147) - Proceeded member count=1987990
+[INFO](2014-01-01 03:14:47,102) - Proceeded member count=1988990
+[INFO](2014-01-01 03:14:49,517) - Proceeded member count=1989990
+[INFO](2014-01-01 03:14:50,955) - Proceeded member count=1990990
+[INFO](2014-01-01 03:14:52,615) - Proceeded member count=1991990
+[INFO](2014-01-01 03:14:54,491) - Proceeded member count=1992990
+[INFO](2014-01-01 03:14:56,275) - Proceeded member count=1993990
+[INFO](2014-01-01 03:14:57,834) - Proceeded member count=1994990
+[INFO](2014-01-01 03:14:59,524) - Proceeded member count=1995990
+[INFO](2014-01-01 03:15:00,771) - Proceeded member count=1996990
+[INFO](2014-01-01 03:15:01,888) - Proceeded member count=1997990
+[INFO](2014-01-01 03:15:03,159) - Proceeded member count=1998990
+[INFO](2014-01-01 03:15:04,548) - Proceeded member count=1999990
+[INFO](2014-01-01 03:15:05,605) - Proceeded member count=2000990
+[INFO](2014-01-01 03:15:06,717) - Proceeded member count=2001990
+[INFO](2014-01-01 03:15:08,302) - Proceeded member count=2002990
+[INFO](2014-01-01 03:15:09,584) - Proceeded member count=2003990
+[INFO](2014-01-01 03:15:10,798) - Proceeded member count=2004990
+[INFO](2014-01-01 03:15:12,287) - Proceeded member count=2005990
+[INFO](2014-01-01 03:15:13,423) - Proceeded member count=2006990
+[INFO](2014-01-01 03:15:14,289) - Proceeded member count=2007990
+[INFO](2014-01-01 03:15:15,620) - Proceeded member count=2008990
+[INFO](2014-01-01 03:15:17,184) - Proceeded member count=2009990
+[INFO](2014-01-01 03:15:18,399) - Proceeded member count=2010990
+[INFO](2014-01-01 03:15:19,654) - Proceeded member count=2011990
+[INFO](2014-01-01 03:15:20,799) - Proceeded member count=2012990
+[INFO](2014-01-01 03:15:22,135) - Proceeded member count=2013990
+[INFO](2014-01-01 03:15:22,993) - Proceeded member count=2014990
+[INFO](2014-01-01 03:15:24,035) - Proceeded member count=2015990
+[INFO](2014-01-01 03:15:25,039) - Proceeded member count=2016990
+[INFO](2014-01-01 03:15:26,178) - Proceeded member count=2017990
+[INFO](2014-01-01 03:15:27,407) - Proceeded member count=2018990
+[INFO](2014-01-01 03:15:28,363) - Proceeded member count=2019990
+[INFO](2014-01-01 03:15:29,437) - Proceeded member count=2020990
+[INFO](2014-01-01 03:15:30,485) - Proceeded member count=2021990
+[INFO](2014-01-01 03:15:31,295) - Proceeded member count=2022990
+[INFO](2014-01-01 03:15:32,408) - Proceeded member count=2023990
+[INFO](2014-01-01 03:15:33,605) - Proceeded member count=2024990
+[INFO](2014-01-01 03:15:34,983) - Proceeded member count=2025990
+[ERROR](2014-01-01 03:15:35,353) - Error exchange point:[memberId=2809131, memberPointId=3118599, mobile=15080452212, historyId=12406592, pointBalance=70, toExpirePoint=160, usedPoint=0]
+[INFO](2014-01-01 03:15:35,891) - Proceeded member count=2026989
+[INFO](2014-01-01 03:15:36,723) - Proceeded member count=2027989
+[INFO](2014-01-01 03:15:38,010) - Proceeded member count=2028989
+[INFO](2014-01-01 03:15:40,489) - Proceeded member count=2029989
+[INFO](2014-01-01 03:15:42,712) - Proceeded member count=2030989
+[INFO](2014-01-01 03:15:44,846) - Proceeded member count=2031989
+[INFO](2014-01-01 03:15:47,545) - Proceeded member count=2032989
+[INFO](2014-01-01 03:15:49,430) - Proceeded member count=2033989
+[INFO](2014-01-01 03:15:51,215) - Proceeded member count=2034989
+[INFO](2014-01-01 03:15:53,715) - Proceeded member count=2035989
+[INFO](2014-01-01 03:15:55,560) - Proceeded member count=2036989
+[INFO](2014-01-01 03:15:57,588) - Proceeded member count=2037989
+[INFO](2014-01-01 03:15:58,811) - Proceeded member count=2038989
+[INFO](2014-01-01 03:16:00,438) - Proceeded member count=2039989
+[INFO](2014-01-01 03:16:01,368) - Proceeded member count=2040989
+[INFO](2014-01-01 03:16:02,612) - Proceeded member count=2041989
+[INFO](2014-01-01 03:16:03,950) - Proceeded member count=2042989
+[INFO](2014-01-01 03:16:05,413) - Proceeded member count=2043989
+[INFO](2014-01-01 03:16:07,206) - Proceeded member count=2044989
+[INFO](2014-01-01 03:16:08,330) - Proceeded member count=2045989
+[INFO](2014-01-01 03:16:09,288) - Proceeded member count=2046989
+[INFO](2014-01-01 03:16:10,041) - Proceeded member count=2047989
+[INFO](2014-01-01 03:16:11,063) - Proceeded member count=2048989
+[INFO](2014-01-01 03:16:12,012) - Proceeded member count=2049989
+[INFO](2014-01-01 03:16:13,155) - Proceeded member count=2050989
+[INFO](2014-01-01 03:16:14,266) - Proceeded member count=2051989
+[INFO](2014-01-01 03:16:15,910) - Proceeded member count=2052989
+[INFO](2014-01-01 03:16:17,038) - Proceeded member count=2053989
+[INFO](2014-01-01 03:16:18,252) - Proceeded member count=2054989
+[INFO](2014-01-01 03:16:19,466) - Proceeded member count=2055989
+[INFO](2014-01-01 03:16:20,625) - Proceeded member count=2056989
+[INFO](2014-01-01 03:16:21,494) - Proceeded member count=2057989
+[INFO](2014-01-01 03:16:22,499) - Proceeded member count=2058989
+[INFO](2014-01-01 03:16:23,486) - Proceeded member count=2059989
+[INFO](2014-01-01 03:16:24,342) - Proceeded member count=2060989
+[INFO](2014-01-01 03:16:25,503) - Proceeded member count=2061989
+[INFO](2014-01-01 03:16:26,554) - Proceeded member count=2062989
+[INFO](2014-01-01 03:16:27,630) - Proceeded member count=2063989
+[INFO](2014-01-01 03:16:28,527) - Proceeded member count=2064989
+[INFO](2014-01-01 03:16:29,502) - Proceeded member count=2065989
+[INFO](2014-01-01 03:16:30,539) - Proceeded member count=2066989
+[INFO](2014-01-01 03:16:31,718) - Proceeded member count=2067989
+[INFO](2014-01-01 03:16:32,651) - Proceeded member count=2068989
+[INFO](2014-01-01 03:16:33,774) - Proceeded member count=2069989
+[INFO](2014-01-01 03:16:34,890) - Proceeded member count=2070989
+[INFO](2014-01-01 03:16:36,398) - Proceeded member count=2071989
+[INFO](2014-01-01 03:16:37,443) - Proceeded member count=2072989
+[INFO](2014-01-01 03:16:38,398) - Proceeded member count=2073989
+[INFO](2014-01-01 03:16:40,442) - Proceeded member count=2074989
+[INFO](2014-01-01 03:16:43,053) - Proceeded member count=2075989
+[INFO](2014-01-01 03:16:44,735) - Proceeded member count=2076989
+[INFO](2014-01-01 03:16:46,447) - Proceeded member count=2077989
+[INFO](2014-01-01 03:16:48,814) - Proceeded member count=2078989
+[INFO](2014-01-01 03:16:51,184) - Proceeded member count=2079989
+[INFO](2014-01-01 03:16:53,084) - Proceeded member count=2080989
+[INFO](2014-01-01 03:16:54,543) - Proceeded member count=2081989
+[INFO](2014-01-01 03:16:56,158) - Proceeded member count=2082989
+[INFO](2014-01-01 03:16:57,505) - Proceeded member count=2083989
+[INFO](2014-01-01 03:16:58,881) - Proceeded member count=2084989
+[INFO](2014-01-01 03:16:59,879) - Proceeded member count=2085989
+[INFO](2014-01-01 03:17:00,923) - Proceeded member count=2086989
+[INFO](2014-01-01 03:17:02,189) - Proceeded member count=2087989
+[INFO](2014-01-01 03:17:03,520) - Proceeded member count=2088989
+[INFO](2014-01-01 03:17:04,412) - Proceeded member count=2089989
+[INFO](2014-01-01 03:17:05,490) - Proceeded member count=2090989
+[INFO](2014-01-01 03:17:06,918) - Proceeded member count=2091989
+[INFO](2014-01-01 03:17:08,080) - Proceeded member count=2092989
+[INFO](2014-01-01 03:17:09,420) - Proceeded member count=2093989
+[INFO](2014-01-01 03:17:10,389) - Proceeded member count=2094989
+[INFO](2014-01-01 03:17:11,220) - Proceeded member count=2095989
+[INFO](2014-01-01 03:17:12,468) - Proceeded member count=2096989
+[INFO](2014-01-01 03:17:13,233) - Proceeded member count=2097989
+[INFO](2014-01-01 03:17:14,077) - Proceeded member count=2098989
+[INFO](2014-01-01 03:17:14,993) - Proceeded member count=2099989
+[INFO](2014-01-01 03:17:15,827) - Proceeded member count=2100989
+[INFO](2014-01-01 03:17:16,600) - Proceeded member count=2101989
+[INFO](2014-01-01 03:17:17,827) - Proceeded member count=2102989
+[INFO](2014-01-01 03:17:18,943) - Proceeded member count=2103989
+[INFO](2014-01-01 03:17:20,157) - Proceeded member count=2104989
+[INFO](2014-01-01 03:17:20,988) - Proceeded member count=2105989
+[INFO](2014-01-01 03:17:21,912) - Proceeded member count=2106989
+[INFO](2014-01-01 03:17:22,810) - Proceeded member count=2107989
+[INFO](2014-01-01 03:17:23,759) - Proceeded member count=2108989
+[INFO](2014-01-01 03:17:24,615) - Proceeded member count=2109989
+[INFO](2014-01-01 03:17:25,659) - Proceeded member count=2110989
+[INFO](2014-01-01 03:17:26,704) - Proceeded member count=2111989
+[INFO](2014-01-01 03:17:27,631) - Proceeded member count=2112989
+[INFO](2014-01-01 03:17:28,444) - Proceeded member count=2113989
+[INFO](2014-01-01 03:17:29,292) - Proceeded member count=2114989
+[INFO](2014-01-01 03:17:30,363) - Proceeded member count=2115989
+[INFO](2014-01-01 03:17:31,404) - Proceeded member count=2116989
+[INFO](2014-01-01 03:17:39,726) - Proceeded member count=2117989
+[INFO](2014-01-01 03:17:46,281) - Proceeded member count=2118989
+[INFO](2014-01-01 03:17:52,248) - Proceeded member count=2119989
+[INFO](2014-01-01 03:17:56,973) - Proceeded member count=2120989
+[INFO](2014-01-01 03:18:02,298) - Proceeded member count=2121989
+[INFO](2014-01-01 03:18:05,374) - Proceeded member count=2122989
+[INFO](2014-01-01 03:18:07,998) - Proceeded member count=2123989
+[INFO](2014-01-01 03:18:09,829) - Proceeded member count=2124989
+[INFO](2014-01-01 03:18:11,595) - Proceeded member count=2125989
+[INFO](2014-01-01 03:18:13,209) - Proceeded member count=2126989
+[INFO](2014-01-01 03:18:14,976) - Proceeded member count=2127989
+[INFO](2014-01-01 03:18:16,545) - Proceeded member count=2128989
+[INFO](2014-01-01 03:18:18,622) - Proceeded member count=2129989
+[INFO](2014-01-01 03:18:20,158) - Proceeded member count=2130989
+[INFO](2014-01-01 03:18:21,599) - Proceeded member count=2131989
+[INFO](2014-01-01 03:18:23,355) - Proceeded member count=2132989
+[INFO](2014-01-01 03:18:24,871) - Proceeded member count=2133989
+[INFO](2014-01-01 03:18:25,878) - Proceeded member count=2134989
+[INFO](2014-01-01 03:18:26,893) - Proceeded member count=2135989
+[INFO](2014-01-01 03:18:27,826) - Proceeded member count=2136989
+[INFO](2014-01-01 03:18:28,696) - Proceeded member count=2137989
+[INFO](2014-01-01 03:18:29,816) - Proceeded member count=2138989
+[INFO](2014-01-01 03:18:30,499) - Proceeded member count=2139989
+[INFO](2014-01-01 03:18:31,304) - Proceeded member count=2140989
+[INFO](2014-01-01 03:18:32,230) - Proceeded member count=2141989
+[INFO](2014-01-01 03:18:33,144) - Proceeded member count=2142989
+[INFO](2014-01-01 03:18:34,242) - Proceeded member count=2143989
+[INFO](2014-01-01 03:18:35,432) - Proceeded member count=2144989
+[INFO](2014-01-01 03:18:36,900) - Proceeded member count=2145989
+[INFO](2014-01-01 03:18:38,464) - Proceeded member count=2146989
+[INFO](2014-01-01 03:18:40,382) - Proceeded member count=2147989
+[INFO](2014-01-01 03:18:42,568) - Proceeded member count=2148989
+[INFO](2014-01-01 03:18:43,660) - Proceeded member count=2149989
+[INFO](2014-01-01 03:18:45,171) - Proceeded member count=2150989
+[INFO](2014-01-01 03:18:46,369) - Proceeded member count=2151989
+[INFO](2014-01-01 03:18:48,128) - Proceeded member count=2152989
+[INFO](2014-01-01 03:18:49,337) - Proceeded member count=2153989
+[INFO](2014-01-01 03:18:50,730) - Proceeded member count=2154989
+[INFO](2014-01-01 03:18:51,540) - Proceeded member count=2155989
+[INFO](2014-01-01 03:18:53,203) - Proceeded member count=2156989
+[INFO](2014-01-01 03:18:54,154) - Proceeded member count=2157989
+[INFO](2014-01-01 03:18:55,339) - Proceeded member count=2158989
+[INFO](2014-01-01 03:18:56,272) - Proceeded member count=2159989
+[INFO](2014-01-01 03:18:57,161) - Proceeded member count=2160989
+[INFO](2014-01-01 03:18:58,357) - Proceeded member count=2161989
+[INFO](2014-01-01 03:18:59,369) - Proceeded member count=2162989
+[INFO](2014-01-01 03:19:00,402) - Proceeded member count=2163989
+[INFO](2014-01-01 03:19:01,758) - Proceeded member count=2164989
+[INFO](2014-01-01 03:19:02,888) - Proceeded member count=2165989
+[INFO](2014-01-01 03:19:04,287) - Proceeded member count=2166989
+[INFO](2014-01-01 03:19:05,990) - Proceeded member count=2167989
+[INFO](2014-01-01 03:19:08,313) - Proceeded member count=2168989
+[INFO](2014-01-01 03:19:10,295) - Proceeded member count=2169989
+[INFO](2014-01-01 03:19:11,300) - Proceeded member count=2170989
+[INFO](2014-01-01 03:19:12,396) - Proceeded member count=2171989
+[INFO](2014-01-01 03:19:13,467) - Proceeded member count=2172989
+[INFO](2014-01-01 03:19:15,004) - Proceeded member count=2173989
+[INFO](2014-01-01 03:19:16,017) - Proceeded member count=2174989
+[INFO](2014-01-01 03:19:17,054) - Proceeded member count=2175989
+[INFO](2014-01-01 03:19:18,707) - Proceeded member count=2176989
+[INFO](2014-01-01 03:19:19,972) - Proceeded member count=2177989
+[INFO](2014-01-01 03:19:20,915) - Proceeded member count=2178989
+[INFO](2014-01-01 03:19:21,791) - Proceeded member count=2179989
+[INFO](2014-01-01 03:19:22,870) - Proceeded member count=2180989
+[INFO](2014-01-01 03:19:24,498) - Proceeded member count=2181989
+[INFO](2014-01-01 03:19:26,899) - Proceeded member count=2182989
+[INFO](2014-01-01 03:19:28,372) - Proceeded member count=2183989
+[INFO](2014-01-01 03:19:30,207) - Proceeded member count=2184989
+[INFO](2014-01-01 03:19:31,914) - Proceeded member count=2185989
+[INFO](2014-01-01 03:19:33,264) - Proceeded member count=2186989
+[INFO](2014-01-01 03:19:34,448) - Proceeded member count=2187989
+[INFO](2014-01-01 03:19:35,617) - Proceeded member count=2188989
+[INFO](2014-01-01 03:19:36,569) - Proceeded member count=2189989
+[INFO](2014-01-01 03:19:37,661) - Proceeded member count=2190989
+[INFO](2014-01-01 03:19:38,578) - Proceeded member count=2191989
+[INFO](2014-01-01 03:19:39,521) - Proceeded member count=2192989
+[INFO](2014-01-01 03:19:42,370) - Proceeded member count=2193989
+[INFO](2014-01-01 03:19:44,921) - Proceeded member count=2194989
+[INFO](2014-01-01 03:19:46,270) - Proceeded member count=2195989
+[INFO](2014-01-01 03:19:48,005) - Proceeded member count=2196989
+[INFO](2014-01-01 03:19:49,052) - Proceeded member count=2197989
+[INFO](2014-01-01 03:19:53,218) - Proceeded member count=2198989
+[INFO](2014-01-01 03:19:56,671) - Proceeded member count=2199989
+[INFO](2014-01-01 03:21:05,378) - Proceeded member count=2200989
+[INFO](2014-01-01 03:21:40,826) - Proceeded member count=2201989
+[INFO](2014-01-01 03:21:58,618) - Proceeded member count=2202989
+[INFO](2014-01-01 03:22:12,130) - Proceeded member count=2203989
+[INFO](2014-01-01 03:22:22,617) - Proceeded member count=2204989
+[ERROR](2014-01-01 03:22:30,249) - Error exchange point:[memberId=5726109, memberPointId=2828801, mobile=13802702418, historyId=12554735, pointBalance=73, toExpirePoint=473, usedPoint=0]
+[INFO](2014-01-01 03:22:34,979) - Proceeded member count=2205988
+[INFO](2014-01-01 03:22:43,249) - Proceeded member count=2206988
+[INFO](2014-01-01 03:22:51,312) - Proceeded member count=2207988
+[INFO](2014-01-01 03:22:58,122) - Proceeded member count=2208988
+[INFO](2014-01-01 03:23:07,226) - Proceeded member count=2209988
+[INFO](2014-01-01 03:23:14,271) - Proceeded member count=2210988
+[INFO](2014-01-01 03:23:19,184) - Proceeded member count=2211988
+[ERROR](2014-01-01 03:23:19,384) - Error exchange point:[memberId=5715865, memberPointId=2952341, mobile=13703341698, historyId=12564321, pointBalance=427, toExpirePoint=545, usedPoint=0]
+[INFO](2014-01-01 03:23:23,326) - Proceeded member count=2212987
+[INFO](2014-01-01 03:23:29,949) - Proceeded member count=2213987
+[INFO](2014-01-01 03:23:38,217) - Proceeded member count=2214987
+[INFO](2014-01-01 03:23:45,525) - Proceeded member count=2215987
+[INFO](2014-01-01 03:23:51,119) - Proceeded member count=2216987
+[INFO](2014-01-01 03:23:55,984) - Proceeded member count=2217987
+[ERROR](2014-01-01 03:23:57,717) - Error exchange point:[memberId=5785270, memberPointId=3497052, mobile=13933305854, historyId=12510333, pointBalance=541, toExpirePoint=1432, usedPoint=-400]
+[INFO](2014-01-01 03:23:59,227) - Proceeded member count=2218986
+[INFO](2014-01-01 03:24:05,423) - Proceeded member count=2219986
+[ERROR](2014-01-01 03:24:08,536) - Error exchange point:[memberId=5777667, memberPointId=2843795, mobile=13513061111, historyId=12549315, pointBalance=852, toExpirePoint=3314, usedPoint=0]
+[INFO](2014-01-01 03:24:11,104) - Proceeded member count=2220985
+[INFO](2014-01-01 03:24:15,285) - Proceeded member count=2221985
+[INFO](2014-01-01 03:24:18,665) - Proceeded member count=2222985
+[ERROR](2014-01-01 03:24:20,092) - Error exchange point:[memberId=5769802, memberPointId=2112632, mobile=13582652613, historyId=12510448, pointBalance=1001, toExpirePoint=1375, usedPoint=0]
+[INFO](2014-01-01 03:24:21,827) - Proceeded member count=2223984
+[INFO](2014-01-01 03:24:24,726) - Proceeded member count=2224984
+[INFO](2014-01-01 03:24:29,149) - Proceeded member count=2225984
+[ERROR](2014-01-01 03:24:30,272) - Error exchange point:[memberId=5730354, memberPointId=5081121, mobile=15076575644, historyId=12557021, pointBalance=327, toExpirePoint=522, usedPoint=0]
+[INFO](2014-01-01 03:24:33,922) - Proceeded member count=2226983
+[INFO](2014-01-01 03:24:37,352) - Proceeded member count=2227983
+[INFO](2014-01-01 03:24:40,911) - Proceeded member count=2228983
+[INFO](2014-01-01 03:24:43,655) - Proceeded member count=2229983
+[ERROR](2014-01-01 03:24:44,652) - Error exchange point:[memberId=5783347, memberPointId=6246455, mobile=15930528279, historyId=12490684, pointBalance=465, toExpirePoint=4405, usedPoint=0]
+[INFO](2014-01-01 03:24:45,836) - Proceeded member count=2230982
+[INFO](2014-01-01 03:24:49,725) - Proceeded member count=2231982
+[INFO](2014-01-01 03:24:54,548) - Proceeded member count=2232982
+[ERROR](2014-01-01 03:24:55,907) - Error exchange point:[memberId=5777724, memberPointId=2888060, mobile=18631531688, historyId=12479856, pointBalance=643, toExpirePoint=2383, usedPoint=-400]
+[INFO](2014-01-01 03:24:57,846) - Proceeded member count=2233981
+[ERROR](2014-01-01 03:24:58,916) - Error exchange point:[memberId=5776138, memberPointId=3765444, mobile=13733333441, historyId=12501911, pointBalance=1047, toExpirePoint=3053, usedPoint=0]
+[INFO](2014-01-01 03:25:01,128) - Proceeded member count=2234980
+[INFO](2014-01-01 03:25:04,288) - Proceeded member count=2235980
+[ERROR](2014-01-01 03:25:07,765) - Error exchange point:[memberId=5835324, memberPointId=5056904, mobile=13132255789, historyId=12529481, pointBalance=732, toExpirePoint=3451, usedPoint=-2400]
+[INFO](2014-01-01 03:25:10,028) - Proceeded member count=2236979
+[INFO](2014-01-01 03:25:14,784) - Proceeded member count=2237979
+[INFO](2014-01-01 03:25:18,174) - Proceeded member count=2238979
+[INFO](2014-01-01 03:25:21,399) - Proceeded member count=2239979
+[INFO](2014-01-01 03:25:26,597) - Proceeded member count=2240979
+[INFO](2014-01-01 03:25:31,104) - Proceeded member count=2241979
+[INFO](2014-01-01 03:25:34,711) - Proceeded member count=2242979
+[INFO](2014-01-01 03:25:39,121) - Proceeded member count=2243979
+[INFO](2014-01-01 03:25:42,874) - Proceeded member count=2244979
+[INFO](2014-01-01 03:25:47,201) - Proceeded member count=2245979
+[INFO](2014-01-01 03:25:51,243) - Proceeded member count=2246979
+[INFO](2014-01-01 03:27:25,557) - Proceeded member count=2247928
+[INFO](2014-01-01 03:27:25,559) - Job member-jobs.PointExpire2013Job fired (by trigger DEFAULT.MT_26fevulwthiq4) execution complete at  03:27:25 01/01/2014 and reports: null
+[ERROR](2014-01-01 07:31:47,551) - Error in the jobHistory Logging!
+org.springframework.transaction.TransactionSystemException: Could not commit JDBC transaction; nested exception is java.sql.SQLRecoverableException: IO Error: Connection timed out
+	at org.springframework.jdbc.datasource.DataSourceTransactionManager.doCommit(DataSourceTransactionManager.java:270)
+	at org.springframework.transaction.support.AbstractPlatformTransactionManager.processCommit(AbstractPlatformTransactionManager.java:754)
+	at org.springframework.transaction.support.AbstractPlatformTransactionManager.commit(AbstractPlatformTransactionManager.java:723)
+	at com.google.code.pathlet.jdbc.TransactionInterceptor.aroundWritable(TransactionInterceptor.java:63)
+	at sun.reflect.GeneratedMethodAccessor27.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at com.google.code.pathlet.config.def.AdviceConfigHandler$AdviceExecutor.execute(AdviceConfigHandler.java:127)
+	at com.google.code.pathlet.core.impl.AopInstanceEvent$CGlibMethodInterceptor.intercept(AopInstanceEvent.java:264)
+	at com.google.code.pathlet.quartz.admin.service.impl.JobHistoryServiceImpl$$EnhancerByCGLIB$$b07d9019.insertFlushJobHistory(<generated>)
+	at com.google.code.pathlet.quartz.PathletQuartzInitializer$2.run(PathletQuartzInitializer.java:206)
+Caused by: java.sql.SQLRecoverableException: IO Error: Connection timed out
+	at oracle.jdbc.driver.T4CConnection.doCommit(T4CConnection.java:665)
+	at oracle.jdbc.driver.PhysicalConnection.commit(PhysicalConnection.java:3901)
+	at oracle.jdbc.driver.PhysicalConnection.commit(PhysicalConnection.java:3907)
+	at org.apache.tomcat.dbcp.dbcp.DelegatingConnection.commit(DelegatingConnection.java:334)
+	at org.apache.tomcat.dbcp.dbcp.PoolingDataSource$PoolGuardConnectionWrapper.commit(PoolingDataSource.java:211)
+	at org.springframework.jdbc.datasource.DataSourceTransactionManager.doCommit(DataSourceTransactionManager.java:267)
+	... 10 more
+Caused by: java.net.SocketException: Connection timed out
+	at java.net.SocketInputStream.socketRead0(Native Method)
+	at java.net.SocketInputStream.read(SocketInputStream.java:129)
+	at oracle.net.ns.Packet.receive(Packet.java:300)
+	at oracle.net.ns.DataPacket.receive(DataPacket.java:106)
+	at oracle.net.ns.NetInputStream.getNextPacket(NetInputStream.java:315)
+	at oracle.net.ns.NetInputStream.read(NetInputStream.java:260)
+	at oracle.net.ns.NetInputStream.read(NetInputStream.java:185)
+	at oracle.net.ns.NetInputStream.read(NetInputStream.java:102)
+	at oracle.jdbc.driver.T4CSocketInputStreamWrapper.readNextPacket(T4CSocketInputStreamWrapper.java:124)
+	at oracle.jdbc.driver.T4CSocketInputStreamWrapper.read(T4CSocketInputStreamWrapper.java:80)
+	at oracle.jdbc.driver.T4CMAREngine.unmarshalUB1(T4CMAREngine.java:1137)
+	at oracle.jdbc.driver.T4CTTIfun.receive(T4CTTIfun.java:290)
+	at oracle.jdbc.driver.T4CTTIfun.doRPC(T4CTTIfun.java:192)
+	at oracle.jdbc.driver.T4C7Ocommoncall.doOCOMMIT(T4C7Ocommoncall.java:75)
+	at oracle.jdbc.driver.T4CConnection.doCommit(T4CConnection.java:610)
+	... 15 more
