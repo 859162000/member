@@ -10,9 +10,7 @@ import static com.wanda.ccs.sqlasm.expression.ExpressionClauseBuilder.newValue;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,6 +20,7 @@ import javax.sql.DataSource;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.ColumnMapRowMapper;
 import org.springframework.jdbc.core.ResultSetExtractor;
+import org.springframework.jdbc.core.RowCallbackHandler;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -45,7 +44,9 @@ import com.wanda.ccs.sqlasm.expression.SingleExpCriterion;
 
 @Transactional(rollbackFor={java.lang.Exception.class})
 public class CampaignServiceImpl implements CampaignService {
-
+	
+	public final static int MEMBER_NUMBER = 50000;
+	
 	private ExtJdbcTemplate jdbcTemplate = null;
 	
 	@InstanceIn(path="/dataSource")  
@@ -192,10 +193,10 @@ public class CampaignServiceImpl implements CampaignService {
 		String sql = "update T_CAMPAIGN_BASE t"+
 		" set t.name=?,t.cinema_range=?,t.description=?,t.start_date=to_date(?,'yyyy-MM-dd'),"+
 		" t.end_date=to_date(?,'yyyy-MM-dd'),t.update_date=?,t.update_by=?,t.version=t.version+1,"+
-		" t.segment_id=?,t.criteria_scheme=?,t.cinema_scheme=?"+
+		" t.segment_id=?,t.criteria_scheme=?"+
 		" where t.campaign_id=?";
 		
-		getJdbcTemplate().update(sql, new Object[] {vo.getName(),vo.getCinemaRange(),vo.getDescription(),vo.getStartDate(),vo.getEndDate(),vo.getUpdateDate(),vo.getUpdateBy(),vo.getSegmentId(),vo.getCriteriaScheme(),vo.getCinemaScheme(),vo.getCampaignId()});
+		getJdbcTemplate().update(sql, new Object[] {vo.getName(),vo.getCinemaRange(),vo.getDescription(),vo.getStartDate(),vo.getEndDate(),vo.getUpdateDate(),vo.getUpdateBy(),vo.getSegmentId(),vo.getCriteriaScheme(),vo.getCampaignId()});
 	}
 	
 	@Override
@@ -207,11 +208,111 @@ public class CampaignServiceImpl implements CampaignService {
 		getJdbcTemplate().update(sql, new Object[] {vo.getEndDate(), vo.getUpdateDate(), vo.getUpdateBy(), vo.getCampaignId()});
 	}
 	
-	public void updateStatus(int campaignId, String status) throws Exception {
+	private String[] parseSql(int count, int threadNum) {
+		List<String> sql = new ArrayList<String>();
+		
+		int per = count / threadNum;
+		System.out.println("平均：" + per);
+		
+		String s = null;
+		for(int i=0; i<threadNum; i++) {
+			int start,end;
+			if(i == threadNum-1) { //最后一条分页sql
+				start = i * per;
+				end = count+1;
+			} else { //分页sql
+				start = i * per;
+				end = (i+1) * per;
+			}
+			s = "SELECT * FROM (SELECT T.MEMBER_ID,{1} as CAMPAIGN_ID,T.IS_CONTROL,ROWNUM RN FROM T_SEGM_MEMBER T WHERE ROWNUM<" + end + " and T.segment_id=?) WHERE RN>=" + start;
+			sql.add(s);
+			s = null;
+		}
+		
+		return sql.toArray(new String[] {});
+	}
+	
+	private void syncMember(int campaignId) {
+		String updateStatus = "update T_CAMPAIGN_BASE t set t.cal_count=?,t.cal_count_time=?,t.control_count=?,t.segment_version=? where t.campaign_id=?";
+		String getSegment = "select t.campaign_id,t.start_date,s.segment_id,s.cal_count,s.cal_count_time,s.control_count,s.version as segment_version from T_CAMPAIGN_BASE t, T_SEGMENT s where t.segment_id=s.segment_id and t.campaign_id=?";
+		String selectMember = "select s.member_id,{1} as CAMPAIGN_ID,IS_CONTROL from T_SEGM_MEMBER s where s.segment_id=?";
+		final String insertMember = "insert into T_CAMPAIGN_SEGMENT(MEMBER_ID,CAMPAIGN_ID,IS_CONTROL) values(?,?,?)";
+		String delMember = "delete from T_CAMPAIGN_SEGMENT t where t.CAMPAIGN_ID=?";
+		
+		try {
+			System.out.println("删除客群...");
+			getJdbcTemplate().update(delMember, new Object[] {campaignId});
+			
+			CampaignCriteriaVo vo = getJdbcTemplate().queryForObject(getSegment, new Object[] {campaignId}, new EntityRowMapper<CampaignCriteriaVo>(CampaignCriteriaVo.class));
+			if(vo != null && vo.getSegmentId() != null) {
+				/*int count = getJdbcTemplate().queryForInt("select count(T.MEMBER_ID) from T_SEGM_MEMBER T where T.segment_id=?", new Object[] { vo.getSegmentId() });
+				
+				if(count > MEMBER_NUMBER) {
+					System.out.println("分析sql...");
+					String[] sql = parseSql(count, 4);
+					List<TaskInfo> task = new ArrayList<TaskInfo>();
+					// 读信息
+					System.out.println("创建读线程...");
+					for(int i=0,len=sql.length;i<len;i++) {
+						String s = sql[i].replace("{1}", campaignId+"");
+						System.out.println(s);
+						task.add(new TaskInfo(i, SyncType.READ, getJdbcTemplate(), s, new Object[] {vo.getSegmentId()}));
+					}
+					// 写信息
+					System.out.println("创建写线程...");
+					task.add(new TaskInfo(sql.length, SyncType.WRITE, getJdbcTemplate(), insertMember, null));
+					SyncTaskPool syncTaskPool = new SyncTaskPool(task);
+					
+					System.out.println("开始执行...");
+					ExecStatus status = syncTaskPool.start();
+					System.out.println("同步客群执行结果 " + status);
+					if(status == ExecStatus.FAIL) {
+						throw new Exception("客群同步执行失败");
+					}
+				} else {*/
+					// 客群落地
+					getJdbcTemplate().query(selectMember.replace("{1}", campaignId+""), new Object[] {vo.getSegmentId()}, new RowCallbackHandler() {
+						@Override
+						public void processRow(ResultSet rs) throws SQLException {
+							final List<Object[]> params = new ArrayList<Object[]>();
+							int size = 0;
+							do {
+								params.add(new Object[] {rs.getInt("MEMBER_ID"), rs.getInt("CAMPAIGN_ID"), rs.getString("IS_CONTROL")});
+								size++;
+								if(size > 4000) {
+									getJdbcTemplate().batchUpdate(insertMember, params);
+									params.clear();
+									size = 0;
+								}
+							} while(rs.next());
+							
+							if(size > 0) {
+								getJdbcTemplate().batchUpdate(insertMember, params);
+								params.clear();
+							}
+						}
+					});
+					
+					System.out.println("同步客群完成");
+				//}
+				
+				// 更新状态
+				int i = getJdbcTemplate().update(updateStatus, new Object[] {vo.getCalCount(),vo.getCalCountTime(),vo.getControlCount(),vo.getSegmentVersion(),campaignId});
+				if(i < 1) {
+					throw new Exception("同步客群会员失败");
+				}
+			} else {
+				throw new Exception("没有找到指定客群");
+			}
+		} catch (Exception e) {
+			getJdbcTemplate().update("update T_CAMPAIGN_BASE t set t.status=?,t.cal_count=?,t.cal_count_time=?,t.control_count=?,t.segment_version=? where t.campaign_id=?", new Object[] {CampaignCriteriaVo.STATUS_PREPARE, null, null, null, null,  campaignId});
+			e.printStackTrace();
+		}
+	}
+	
+	public void updateStatus(final int campaignId, String status) throws Exception {
 		String updateStatus = "update T_CAMPAIGN_BASE t set t.status=?,t.cal_count=?,t.cal_count_time=?,t.control_count=?,t.segment_version=? where t.campaign_id=?";
 		String getSegment = "select t.campaign_id,t.start_date,s.segment_id,s.cal_count,s.cal_count_time,s.control_count,s.version as segment_version from T_CAMPAIGN_BASE t, T_SEGMENT s where t.segment_id=s.segment_id and t.campaign_id=?";
-		String saveMember = "insert into T_CAMPAIGN_SEGMENT(MEMBER_ID,CAMPAIGN_ID,IS_CONTROL) select s.member_id,{1},IS_CONTROL from T_SEGM_MEMBER s where s.segment_id=?";
-		String delMember = "delete from T_CAMPAIGN_SEGMENT t where t.CAMPAIGN_ID=?";
 		
 		if(CampaignCriteriaVo.STATUS_PREPARE.equals(status)) { //更新为草稿状态
 			// 更新状态
@@ -219,26 +320,27 @@ public class CampaignServiceImpl implements CampaignService {
 			if(i != 1) {
 				throw new Exception("活动状态更新失败");
 			}
-			// 删除落地客群
-			getJdbcTemplate().update(delMember, new Object[] {campaignId});
-		} else if(CampaignCriteriaVo.STATUS_COMMIT.equals(status)){ //更新为提交状态并且客群落地
+		} else if(CampaignCriteriaVo.STATUS_COMMIT.equals(status)) { //更新为提交状态并且客群落地
 			CampaignCriteriaVo vo = getJdbcTemplate().queryForObject(getSegment, new Object[] {campaignId}, new EntityRowMapper<CampaignCriteriaVo>(CampaignCriteriaVo.class));
-			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-			
-			if(format.parse(vo.getStartDate()).before(format.parse(format.format(new Date())))) {
-				throw new Exception("活动开始时间不能小于当前时间！");
-			}
 			
 			if(vo != null && vo.getSegmentId() != null) {
-				// 客群落地
-				int i = getJdbcTemplate().update(saveMember.replace("{1}", campaignId+""), new Object[] {vo.getSegmentId()});
-				if(i < 1) {
-					throw new Exception("客群落地数量为0");
-				}
 				// 更新状态
-				i = getJdbcTemplate().update(updateStatus, new Object[] {status,vo.getCalCount(),vo.getCalCountTime(),vo.getControlCount(),vo.getSegmentVersion(), campaignId});
+				int i = getJdbcTemplate().update(updateStatus, new Object[] {status, null, null, null, null, campaignId});
 				if(i < 1) {
 					throw new Exception("活动状态更新失败");
+				} else {
+					new Thread(new Runnable() {
+						@Override
+						public void run() {
+							try {
+								Thread.sleep(2000);
+								
+								syncMember(campaignId);
+							} catch (InterruptedException e) {
+								e.printStackTrace();
+							}
+						}
+					}).start();
 				}
 			}
 		} else { //直接更新
