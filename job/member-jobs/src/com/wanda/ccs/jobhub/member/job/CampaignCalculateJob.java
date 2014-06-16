@@ -256,7 +256,10 @@ public class CampaignCalculateJob implements Job {
 				} else if(CampaignVo.STATUS_COMPLETE.equals(vo.getCampaignStatus())) { // 可能是需要重新统计的情况
 					//campaignCalculateService.sycnMemberSegment(vo.getCampaignId());
 				}
+				
+				// 存在统计记录
 				if(campaignCalculateService.existCalDetailTotal(vo.getCampaignId()) == false) {
+					campaignCalculateService.deleteMemberSegment(vo.getCampaignId());
 					campaignCalculateService.sycnMemberSegment(vo.getCampaignId());
 				}
 				

@@ -9,7 +9,7 @@ import com.wanda.ccs.jobhub.member.vo.CampaignVo;
 public interface CampaignCalculateService {
 	
 	// 同步会员落地
-	public void sycnMemberSegment(Long campaignId);
+	public void sycnMemberSegment(Long campaignId)  throws Exception;
 	
 	// 清除客群同步数据
 	public void deleteMemberSegment(Long campaignId);

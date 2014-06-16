@@ -296,7 +296,7 @@ public class CampaignCalculateServiceImpl implements CampaignCalculateService {
 		campaignDao.updateCalStatus(campaignId, ymd, status);
 	}
 	
-	public void sycnMemberSegment(Long campaignId) {
+	public void sycnMemberSegment(Long campaignId) throws Exception {
 		campaignDao.sycnMemberSegment(campaignId);
 	}
 	

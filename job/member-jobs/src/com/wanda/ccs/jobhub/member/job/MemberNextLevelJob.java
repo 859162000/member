@@ -36,13 +36,15 @@ public class MemberNextLevelJob implements Job {
 			
 			System.out.println("=================="+yyyy+"===================");
 			// 是否存在历史计算数据
+			System.out.println("delete...");
 			//if(memberNextLevelService.existTempDate()) {
 			memberNextLevelService.clearMemberNextLevel();
 			//}
-			
+			System.out.println("calculate...");
 			// 计算会员下一等级所需条件
 			memberNextLevelService.calculateMemberNextLevel(yyyy);
 			
+			System.out.println("update...");
 			// 更新会员计算结果到T_MEMBER_LEVEL表中
 			memberNextLevelService.updateMemberNextLevel();
 			

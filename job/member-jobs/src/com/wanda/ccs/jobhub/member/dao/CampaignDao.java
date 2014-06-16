@@ -27,6 +27,8 @@ import com.wanda.ccs.jobhub.member.vo.CampaignVo;
  */
 public class CampaignDao {
 	
+	public final static int MEMBER_NUMBER = 50000;
+	
 	@InstanceIn(path = "/dataSource")
 	private DataSource dataSource;
 	
@@ -50,6 +52,82 @@ public class CampaignDao {
 		return this.extJdbcTemplateOds;
 	}
 	
+	private String[] parseSql(int count, int threadNum) {
+		List<String> sql = new ArrayList<String>();
+		//int threadNum = 4;
+		
+		int per = count / threadNum;
+		System.out.println("平均：" + per);
+		
+		String s = null;
+		for(int i=0; i<threadNum; i++) {
+			int start, end;
+			if(i == threadNum-1) { //最后一条分页sql
+				start = i * per;
+				end = count+1;
+			} else { //分页sql
+				start = i * per;
+				end = (i+1) * per;
+			}
+			s = "SELECT * FROM (SELECT T.MEMBER_ID,T.CAMPAIGN_ID,T.IS_CONTROL,ROWNUM RN FROM T_CAMPAIGN_SEGMENT T WHERE ROWNUM<" + end + " and T.CAMPAIGN_ID=?) WHERE RN>=" + start;
+			sql.add(s);
+			s = null;
+		}
+		
+		return sql.toArray(new String[] {});
+	}
+	
+	/*public void sycnMemberSegment(Long campaignId) throws Exception {
+		final String insert = "insert into "+MBRODS+".T_CAMPAIGN_SEGMENT(MEMBER_ID,CAMPAIGN_ID,IS_CONTROL) values(?,?,?)";
+		
+		int count = getJdbcTemplate().queryForInt("select count(T.MEMBER_ID) from T_CAMPAIGN_SEGMENT T where T.CAMPAIGN_ID=?", new Object[] { campaignId });
+		if(count > MEMBER_NUMBER) {
+			System.out.println("分析sql...");
+			String[] sql = parseSql(count, 4);
+			List<TaskInfo> task = new ArrayList<TaskInfo>();
+			// 读信息
+			System.out.println("创建读线程...");
+			for(int i=0,len=sql.length;i<len;i++) {
+				System.out.println(sql[i]);
+				task.add(new TaskInfo(i, SyncType.READ, getJdbcTemplate(), sql[i], new Object[] {campaignId}));
+			}
+			// 写信息
+			System.out.println("创建写线程...");
+			task.add(new TaskInfo(sql.length, SyncType.WRITE, getJdbcTemplateOds(), insert, null));
+			SyncTaskPool syncTaskPool = new SyncTaskPool(task);
+			
+			System.out.println("开始执行...");
+			ExecStatus status = syncTaskPool.start();
+			System.out.println("同步客群执行结果 " + status);
+			if(status == ExecStatus.FAIL) {
+				throw new Exception("客群同步执行失败");
+			}
+		} else {
+			getJdbcTemplate().query("select t.MEMBER_ID,t.CAMPAIGN_ID,t.IS_CONTROL from T_CAMPAIGN_SEGMENT t where t.CAMPAIGN_ID=?", new Object[] { campaignId }, new RowCallbackHandler() {
+				@Override
+				public void processRow(ResultSet rs) throws SQLException {
+					List<Object[]> param = new ArrayList<Object[]>();
+					int size = 0;
+					
+					do {
+						param.add(new Object[] {rs.getInt("MEMBER_ID"), rs.getInt("CAMPAIGN_ID"), rs.getString("IS_CONTROL")});
+						size++;
+						if(size > 4000) {
+							getJdbcTemplateOds().batchUpdate(insert, param);
+							param.clear();
+							size=0;
+						}
+					} while(rs.next());
+					
+					if(size > 0) {
+						getJdbcTemplateOds().batchUpdate(insert, param);
+						param.clear();
+					}
+				}
+			});
+		//}
+	}*/
+	
 	/**
 	 * 将落地客群从52同步到53
 	 * 
@@ -58,20 +136,23 @@ public class CampaignDao {
 	public void sycnMemberSegment(Long campaignId) {
 		final String sql = "insert into "+MBRODS+".T_CAMPAIGN_SEGMENT(MEMBER_ID,CAMPAIGN_ID,IS_CONTROL) values(?,?,?)";
 		
-		getJdbcTemplate().query("select t.MEMBER_ID,t.CAMPAIGN_ID,t.IS_CONTROL from T_CAMPAIGN_SEGMENT t where t.CAMPAIGN_ID=?", new Object[] {campaignId}, new RowCallbackHandler() {
+		getJdbcTemplate().query("select distinct t.MEMBER_ID,t.CAMPAIGN_ID,t.IS_CONTROL from T_CAMPAIGN_SEGMENT t where t.CAMPAIGN_ID=?", new Object[] {campaignId}, new RowCallbackHandler() {
 			
 			@Override
 			public void processRow(ResultSet rs) throws SQLException {
 				List<Object[]> args = new ArrayList<Object[]>();
+				int size = 0;
 				do {
 					args.add(new Object[] {rs.getInt("MEMBER_ID"), rs.getInt("CAMPAIGN_ID"), rs.getString("IS_CONTROL")});
-					if(args.size() > 2000) {
+					size++;
+					if(size > 4000) {
 						getJdbcTemplateOds().batchUpdate(sql, args);
 						args.clear();
+						size=0;
 					}
 				} while(rs.next());
 				
-				if(args.size() > 0) {
+				if(size > 0) {
 					getJdbcTemplateOds().batchUpdate(sql, args);
 					args.clear();
 				}
@@ -439,15 +520,18 @@ public class CampaignDao {
 			@Override
 			public void processRow(ResultSet rs) throws SQLException {
 				List<Object[]> args = new ArrayList<Object[]>();
+				int size = 0;
 				do {
 					args.add(new Object[] { campaignId, ymd, rs.getInt("MEMBER_KEY"), rs.getString("IS_CONTROL"), calType });
-					if(args.size() > 2000) {
+					size++;
+					if(size > 8000) {
 						getJdbcTemplate().batchUpdate(insertSql, args);
 						args.clear();
+						size = 0;
 					}
 				} while(rs.next());
 				
-				if(args.size() > 0) {
+				if(size > 0) {
 					getJdbcTemplate().batchUpdate(insertSql, args);
 					args.clear();
 				}
