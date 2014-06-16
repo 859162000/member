@@ -35,7 +35,7 @@
 		sum(bk_admissions)-sum(re_admissions) film_amount,
 		count(bk_ticket_number)-count(re_ticket_number) film_tkt_qty
 		from ccs_nrpt2.T_F_CON_MEMBER_TICKET
-		where show_date_key between to_date(?,'yyyymmdd') and to_date(?,'yyyymmdd')
+		where show_date_key > to_date(?,'yyyy-mm-dd') and show_date_key < to_date(?,'yyyy-mm-dd')
 		group by member_key,film_key,show_date_key,show_hour_key
 		having count(bk_ticket_number)-count(re_ticket_number)>0
 	]]></entry>
@@ -78,7 +78,7 @@
 			from ACX_Behavior_Film_Tkt tkt
 			join ACX_Behavior_Film_Property f on tkt.film_key = f.film_key 
 			join ccs_nrpt2.t_d_con_member mem on tkt.member_key = mem.member_key 
-			    and recruit_time<to_date(?,'yyyymmdd') --会员期必须大于一个月
+			    and recruit_time < to_date(?,'yyyy-mm-dd') --会员期必须大于一个月
 			left join ACX_HuangNiu hn on tkt.member_key = hn.member_key
 			where hn.member_key is null
 			group by tkt.member_key
@@ -87,7 +87,7 @@
 			select member_key,sum(bk_sale_amount)-sum(re_sale_amount) sale_amount,
 			count(distinct bk_cs_order_code)-count(distinct re_cs_order_code) sale
 			from ccs_nrpt2.T_F_CON_MEMBER_SALE
-			where book_biz_date_key between to_date(?,'yyyymmdd') and to_date(?,'yyyymmdd')
+			where book_biz_date_key > to_date(?,'yyyy-mm-dd') and book_biz_date_key < to_date(?,'yyyy-mm-dd')
 			group by member_key
 		) mem_cs on mem_f.member_key = mem_cs.member_key
 	]]></entry>
@@ -333,7 +333,7 @@
 			from ACX_Behavior_Distance dis
 			join (
 				select member_key,min(distance) min_distance from ACX_Behavior_Distance group by member_key
-			) min_dis on dis.member_key = min_dis.member_key
+			) min_dis on dis.member_key = min_dis.member_key and distance = min_distance
 			group by dis.member_key
 		) final
 	]]></entry>
