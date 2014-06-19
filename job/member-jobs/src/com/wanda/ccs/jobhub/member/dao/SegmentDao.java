@@ -726,7 +726,16 @@ public class SegmentDao {
 		if(segmentCriteriaResult.getOrderBySql() != null){
 			segmentSql.append(" , ").append(oderByName);
 		}
-		segmentSql.append(segmentCriteriaResult.getComposedText());
+		//segmentSql.append(segmentCriteriaResult.getComposedText());
+		
+		// group by拼装
+		String sql = segmentCriteriaResult.getComposedText();
+		segmentSql.append(sql);
+		if(segmentCriteriaResult.getOrderBySql() != null) {
+			if(sql.contains("group by")) { // 如果包含group by
+				segmentSql.append(" , ").append(oderByName);
+			}
+		}
 		
 		//拼装order by条件
 		if(segmentCriteriaResult.getOrderBySql() != null) {
