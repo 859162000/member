@@ -363,6 +363,21 @@ public class CampaignCalculateServiceImpl implements CampaignCalculateService {
 		sb.append(PREFIX).append(sql).append(SUFFIX);
 		
 		System.out.println();*/
+		
+		
+		String criteriaScheme = "[{\"inputId\":\"transFilm\",\"groupId\":\"tsale\",\"label\":\"\u89c2\u5f71\u5f71\u7247\",\"groupLabel\":\"\u7968\u623f\u4ea4\u6613\",\"operator\":\"in\",\"value\":{\"selTarget\":true,\"criteria\":[{\"inputId\":\"filmName\",\"label\":\"\u5f71\u7247\u540d\u79f0\",\"operator\":\"like\",\"value\":\"\u54e5\u65af\u62c9\",\"valueLabel\":\"\u54e5\u65af\u62c9\"},{\"inputId\":\"showSet\",\"label\":\"\u653e\u6620\u5236\u5f0f\",\"operator\":\"in\",\"value\":[],\"valueLabel\":\"\"},{\"inputId\":\"filmTypes\",\"label\":\"\u5f71\u7247\u7c7b\u578b\",\"operator\":\"in\",\"value\":[],\"valueLabel\":\"\"},{\"inputId\":\"filmCate\",\"label\":\"\u7c7b\u522b\",\"operator\":\"in\",\"value\":[],\"valueLabel\":\"\"},{\"inputId\":\"country\",\"label\":\"\u56fd\u5bb6\",\"operator\":\"in\",\"value\":[],\"valueLabel\":\"\"},{\"inputId\":\"director\",\"label\":\"\u5bfc\u6f14\",\"operator\":\"like\",\"value\":\"\",\"valueLabel\":\"\"},{\"inputId\":\"mainActors\",\"label\":\"\u6f14\u5458\",\"operator\":\"like\",\"value\":\"\",\"valueLabel\":\"\"}],\"selections\":{\"value\":[\"051200492014\",\"051400492014\"],\"valueLabel\":[\"\u54e5\u65af\u62c9\uff08\u6570\u5b573D\uff09\",\"\u54e5\u65af\u62c9\uff08\u6570\u5b57IMAX3D\uff09\"]}}}]";
+		String cinemaScheme = "{\"compositeCinema\":{\"selTarget\":true,\"criteria\":[{\"inputId\":\"innerName\",\"label\":\"\u5f71\u57ce\u5185\u90e8\u540d\u79f0\",\"operator\":\"eq\",\"value\":\"\",\"valueLabel\":\"\"},{\"inputId\":\"area\",\"label\":\"\u533a\u57df\",\"operator\":\"in\",\"value\":[],\"valueLabel\":\"\"},{\"inputId\":\"cityLevel\",\"label\":\"\u57ce\u5e02\u7ea7\u522b\",\"operator\":\"in\",\"value\":[],\"valueLabel\":\"\"},{\"inputId\":\"cityName\",\"label\":\"\u57ce\u5e02\u540d\u79f0\",\"operator\":\"eq\",\"value\":\"\",\"valueLabel\":\"\"}],\"selections\":{\"value\":[\"848\",\"317\",\"354\",\"811\",\"304\",\"333\",\"311\",\"849\",\"370\",\"890\",\"804\",\"815\",\"337\",\"353\",\"867\",\"314\",\"309\",\"325\",\"380\",\"312\",\"825\",\"885\",\"850\",\"306\",\"305\",\"348\",\"834\",\"318\",\"307\",\"831\",\"898\",\"842\",\"320\",\"851\",\"383\",\"338\",\"839\",\"852\",\"853\",\"840\",\"806\",\"854\",\"888\",\"335\",\"883\",\"882\",\"384\",\"365\",\"861\",\"363\",\"855\",\"876\",\"856\",\"862\",\"332\",\"302\",\"301\",\"329\",\"896\",\"897\",\"870\",\"366\",\"810\",\"863\",\"313\",\"355\",\"310\",\"889\",\"368\",\"847\",\"875\",\"809\",\"357\",\"877\",\"906\",\"821\",\"881\",\"900\",\"828\",\"316\",\"812\",\"902\",\"903\",\"868\",\"887\",\"886\",\"894\",\"369\",\"381\",\"905\",\"347\",\"901\",\"899\",\"817\",\"816\",\"322\",\"864\",\"819\",\"345\",\"865\",\"331\",\"893\",\"908\",\"909\",\"362\",\"327\",\"813\",\"833\",\"343\",\"328\",\"823\",\"367\",\"808\",\"371\",\"878\",\"336\",\"340\",\"356\",\"827\",\"866\",\"820\",\"342\",\"351\",\"378\",\"832\",\"803\",\"339\",\"801\",\"838\",\"802\",\"359\",\"319\",\"350\",\"872\",\"895\",\"352\",\"892\",\"349\",\"835\",\"846\",\"891\",\"373\",\"879\",\"871\",\"372\",\"321\",\"880\",\"375\",\"361\",\"324\",\"858\",\"315\",\"346\",\"341\",\"376\",\"845\",\"358\",\"907\",\"873\",\"904\",\"360\",\"843\",\"859\",\"326\",\"377\",\"884\",\"857\",\"826\",\"374\",\"824\",\"379\",\"030\",\"869\",\"874\"],\"valueLabel\":[\"\"]}}}";
+		cinemaScheme = cinemaScheme.replace("compositeCinema", TICKET_FLAG);
+		criteriaScheme = criteriaScheme.substring(0,1)+cinemaScheme+','+criteriaScheme.substring(1,criteriaScheme.length());
+		List<ExpressionCriterion> criteria = JsonCriteriaHelper.parse(criteriaScheme);
+		CriteriaResult criteriaResult = CampaignCriteriaDef.TICKET_CRITERIA_PARSER.parse(criteria);
+		String sql = criteriaResult.getComposedText();
+		sql = sql.replace("#ymd", "2013-08-25");
+		sql = sql.replace("#cid", "66");
+		StringBuilder sb = new StringBuilder();
+		sb.append(PREFIX).append(sql).append(SUFFIX);
+		System.out.println(sb.toString());
+		System.out.println();
 	}
 	
 	@Transactional(propagation=Propagation.NOT_SUPPORTED, readOnly=true)

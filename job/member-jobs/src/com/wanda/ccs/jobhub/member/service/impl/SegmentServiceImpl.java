@@ -283,7 +283,7 @@ public class SegmentServiceImpl implements SegmentService {
 	
 	private void parseSql(StringBuilder countAlartSql, CombineSegmentSubVo newVo) {
 		if("UNION".equals(newVo.getSetRelation())) { //合集
-			countAlartSql.append(" union all select member_id from T_SEGM_MEMBER t where t.segment_id=").append(newVo.getSubSegmentId());
+			countAlartSql.append(" union select member_id from T_SEGM_MEMBER t where t.segment_id=").append(newVo.getSubSegmentId());
 		} else if("INTERSECT".equals(newVo.getSetRelation())) {	//交集
 			countAlartSql.append(" intersect select member_id from T_SEGM_MEMBER t where t.segment_id=").append(newVo.getSubSegmentId());
 		} else if("MINUS".equals(newVo.getSetRelation())) { //差集
