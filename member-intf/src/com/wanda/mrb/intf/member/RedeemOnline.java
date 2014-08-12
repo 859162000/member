@@ -77,6 +77,9 @@ public class RedeemOnline  extends ServiceBase{
 		if(myBalance<Double.valueOf(balance)){
 			throwsBizException("M070001", "积分不足！");
 		}
+		if(Double.valueOf(balance)<0){
+			throwsBizException("M070001", "兑换积分不能为负值");
+		}
 		rsq.free();
 
 		//查询订单是否扣款成功
@@ -94,19 +97,6 @@ public class RedeemOnline  extends ServiceBase{
 //			expireDate = rs.getString("expiretime");
 //		}
 //		rsq.free();
-		
-		
-		/*
-		"insert into T_POINT_HISTORY(POINT_TYPE,
-		EXCHANGE_POINT_EXPIRE_TIME,
-		POINT_HISTORY_ID,
-		VERSION,
-		MEMBER_ID,SET_TIME,POINT_SYS," +
-		"ORG_POINT_BALANCE,LEVEL_POINT,ACTIVITY_POINT,IS_SYNC_BALANCE,POINT_BALANCE,ISDELETE,EXCHANGE_POINT,PRODUCT_NAME,ORDER_ID,CREATE_DATE," +
-		"POINT_TRANS_TYPE,IS_SUCCEED,CREATE_BY,CINEMA_INNER_CODE,POINT_TRANS_CODE)" +
-		"values(?," +
-		"SysDate,S_T_POINT_HISTORY.NEXTVAL,?,?,SysDate,?,?,?,?,?,?,?,?,?,?,SysDate,?,?,?,?,?)";
-		*/
 		
 		//创建记录  17
 		SqlHelp.operate(conn, SQLConstDef.INSERT_POINT_HISTORY,

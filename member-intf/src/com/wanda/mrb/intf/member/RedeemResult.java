@@ -86,55 +86,6 @@ public class RedeemResult extends ServiceBase {
 		}
 		SqlHelp.operate(conn, SQLConstDef.UPDATE_POINT_HISTORY, "0",
 				String.valueOf(phid));
-		
-		/*
-		"insert into T_POINT_HISTORY(" +
-		"POINT_TYPE," +
-		"EXCHANGE_POINT_EXPIRE_TIME," +
-		"POINT_HISTORY_ID," +
-		"VERSION," +
-		"MEMBER_ID," +
-		"SET_TIME," +
-		"POINT_SYS," +
-		"ORG_POINT_BALANCE," +
-		"LEVEL_POINT," +
-		"ACTIVITY_POINT," +
-		"IS_SYNC_BALANCE," +
-		"POINT_BALANCE," +
-		"ISDELETE," +
-		"EXCHANGE_POINT," +
-		"PRODUCT_NAME," +
-		"ORDER_ID," +
-		"CREATE_DATE," +
-		"POINT_TRANS_TYPE," +
-		"IS_SUCCEED," +
-		"CREATE_BY," +
-		"CINEMA_INNER_CODE," +
-		"POINT_TRANS_CODE)" +
-		
-		"values(1POINT_TYPE, " +
-		"SysDate, 
-		S_T_POINT_HISTORY.NEXTVAL, " +
-		"2VERSION, " +
-		"3MEMBER_ID, " +
-		"SysDate, " +
-		"4POINT_SYS, " +
-		"5ORG_POINT_BALANCE, " +
-		"6LEVEL_POINT, " +
-		"7ACTIVITY_POINT, " +
-		"8IS_SYNC_BALANCE, " +
-		"9POINT_BALANCE, " +
-		"10ISDELETE, " +
-		"11EXCHANGE_POINT, " +
-		"12PRODUCT_NAME, " +
-		"13ORDER_ID, " +
-		"SysDate, " +
-		"14POINT_TRANS_TYPE, " +
-		"15IS_SUCCEED, " +
-		"16CREATE_BY, " +
-		"17CINEMA_INNER_CODE, " +
-		"18POINT_TRANS_CODE)";
-		*/
 		SqlHelp.operate(conn, SQLConstDef.INSERT_POINT_HISTORY, 
 				"6", //1 POINT_TYPE
 				"1", //2 VERSION
