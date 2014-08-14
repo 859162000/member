@@ -7,7 +7,6 @@
 	SET FLAG_MBR_POINTS=1,
 	  time_mbr_points  =sysdate
 	WHERE ymd          = to_char(to_date(#{bizDate,jdbcType=VARCHAR}, 'yyyy-mm-dd'),'yyyymmdd')
-	AND FLAG_MBR       =1
 	AND FLAG_ETL_SQL   =1
 	AND FLAG_MBR_POINTS=0
   </update>
@@ -16,7 +15,6 @@
   	SELECT count(1)
 	FROM CCS_REPORT.T_SYS_DATA_JOB j
 	WHERE ymd          = to_char(to_date(#{bizDate,jdbcType=VARCHAR}, 'yyyy-mm-dd'),'yyyymmdd')
-	AND FLAG_MBR       =1
 	AND FLAG_ETL_SQL   =1
 	AND FLAG_MBR_POINTS=0
   </select>
