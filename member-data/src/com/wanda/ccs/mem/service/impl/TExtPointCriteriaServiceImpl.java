@@ -51,6 +51,7 @@ public class TExtPointCriteriaServiceImpl extends BaseCrudServiceImpl<TExtPointC
 	public String getCriteriaScheme(long id) {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("id", id);
+		setQueryCacheable(false);
 		List<Map<String, ?>> result = getDao().queryNativeSQL("select t.criteria_scheme from T_EXT_POINT_CRITERIA t where t.ext_point_criteria_id = :id", params);
 		if(result != null && result.size() > 0) {
 			Map<String, ?> map = result.get(0);
@@ -59,7 +60,6 @@ public class TExtPointCriteriaServiceImpl extends BaseCrudServiceImpl<TExtPointC
 				return parseType(obj.toString());
 			}
 		}
-		
 		return null;
 	}
 	
