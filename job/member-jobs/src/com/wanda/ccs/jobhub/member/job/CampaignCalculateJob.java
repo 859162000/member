@@ -5,6 +5,7 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -37,12 +38,6 @@ public class CampaignCalculateJob implements Job {
 	public static final Integer MAX_AVAILABLE = 1;	
 	
 	public List<CampaignDetailVo> queryCampaignDetailById(Long campaignId) throws Exception {
-		Calendar cal = Calendar.getInstance();
-		cal.add(Calendar.DAY_OF_MONTH, -1);
-		String date = new SimpleDateFormat("yyyy-MM-dd").format(cal.getTime());
-		String[] dates = date.split("-");
-		int ymd = Integer.parseInt(dates[0]+""+dates[1]+""+dates[2]);
-		
 		List<CampaignDetailVo> newList = new ArrayList<CampaignDetailVo>();
 		CampaignVo vo = campaignCalculateService.queryCampaignById(campaignId);
 		if(vo == null) {
@@ -51,20 +46,19 @@ public class CampaignCalculateJob implements Job {
 		
 		campaignCalculateService.updateCampaignStatus(new Long[] {campaignId}, CampaignVo.STATUS_EXECUTION);
 		vo.setCampaignStatus(CampaignVo.STATUS_EXECUTION);
-		
 		campaignCalculateService.deleteCampaignDetail(vo.getCampaignId());
-		String[] startTime = new SimpleDateFormat("yyyy-MM-dd").format(vo.getStartDate()).split("-");
-		String[] endTime = new SimpleDateFormat("yyyy-MM-dd").format(vo.getEndDate()).split("-");
-		int start = Integer.parseInt(startTime[0]+""+startTime[1]+""+startTime[2]);
-		int end = Integer.parseInt(endTime[0]+""+endTime[1]+""+endTime[2]);
+		
+		Calendar cal = Calendar.getInstance();
+		cal.add(Calendar.DAY_OF_MONTH, -1);
+		Date curr = cal.getTime();
+		Date start = vo.getStartDate();
+		Date end = vo.getEndDate();
+		List<Integer> list = parserDate(curr, start, end);
 		
 		CampaignDetailVo cvo = null;
-		for(int j=start; j<=end; j++) {
-			if(j > ymd) {
-				break;
-			}
+		for(Integer i : list) {
 			cvo = new CampaignDetailVo(vo);
-			cvo.setYmd(j);
+			cvo.setYmd(i);
 			cvo.setCinemaScheme(vo.getCinemaScheme());
 			cvo.setCriteriaScheme(vo.getCriteriaScheme());
 			newList.add(cvo);
@@ -76,6 +70,27 @@ public class CampaignCalculateJob implements Job {
 		}
 		
 		return newList;
+	}
+	
+	public List<Integer> parserDate(Date curr, Date start, Date end) {
+		List<Integer> list = new ArrayList<Integer>();
+		SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(end);
+		cal.add(Calendar.DAY_OF_MONTH, 1);
+		end = cal.getTime();
+		
+		cal.setTime(start);
+		while(start.before(end)) {
+			if(start.after(curr)) {
+				break;
+			}
+			list.add(Integer.parseInt(format.format(start)));
+			cal.add(Calendar.DAY_OF_MONTH, 1);
+			start = cal.getTime();
+		}
+		
+		return list;
 	}
 	
 	public List<CampaignDetailVo> queryBeforeCampaignDetail(String date) throws Exception {
