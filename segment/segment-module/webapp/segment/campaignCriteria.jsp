@@ -746,7 +746,7 @@ function setValue(name, value) {
 				<tr>
 					<td width="15%" align="right">编码: </td>
 					<td width="35%" align="left"><input type="text" wrType="text" name="code"/></td>
-					<td width="15%" align="right">名称: </td>
+					<td width="15%" align="right">活动名称: </td>
 					<td width="35%" align="left"><input type="text" wrType="text" name="name"/></td>
 				</tr>
 				<tr>
