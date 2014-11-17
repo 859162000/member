@@ -14,7 +14,7 @@ import com.wanda.ccs.jobhub.member.vo.SegmentVo;
  */
 public class SegmentCalculateJob implements Job {
 	
-	public final static int DEFAULT_QUERY_TIMEOUT = 60 * 30; //计算客群数量的超时时间单位秒
+	public final static int DEFAULT_QUERY_TIMEOUT = 60 * 90; //计算客群数量的超时时间单位秒
 
 	@InstanceIn(path = "SegmentService")
 	private SegmentService segmentService;
