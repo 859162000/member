@@ -87,6 +87,8 @@ public class TMember {
 	public String ccsCardBalance;
 	public long ccsCardInfoId;
 	public String ccsCardValueType;
+	public String arrivalType="C";//到达影城方式C:开车，F:步行，B:公共方式
+	public String oftenChannel="WEB";//常用购票渠道'WEB:万达官网，APP:万达手机平台，POS:万达影城，THIRD：团购以及第三方平台，OTHER;其他'; 
 	
 	public String getNewMobile() {
 		return newMobile;
@@ -508,4 +510,18 @@ public class TMember {
 	public void setMemberID(Long memberID) {
 		this.memberID = memberID;
 	}
+	public String getArrivalType() {
+		return arrivalType;
+	}
+	public void setArrivalType(String arrivalType) {
+		this.arrivalType = arrivalType;
+	}
+	public String getOftenChannel() {
+		return oftenChannel;
+	}
+	public void setOftenChannel(String oftenChannel) {
+		this.oftenChannel = oftenChannel;
+	}
+	
+	
 }

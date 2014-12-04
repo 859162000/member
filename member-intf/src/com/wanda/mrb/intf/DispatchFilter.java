@@ -26,6 +26,7 @@ import com.wanda.mrb.intf.member.QueryVoucherList;
 import com.wanda.mrb.intf.member.RedeemOnline;
 import com.wanda.mrb.intf.member.RedeemResult;
 import com.wanda.mrb.intf.member.Register;
+import com.wanda.mrb.intf.member.Reward;
 import com.wanda.mrb.intf.member.SendCheckCode;
 import com.wanda.mrb.intf.member.UpdateMember;
 import com.wanda.mrb.intf.member.WebTransOrder;
@@ -55,6 +56,7 @@ public class DispatchFilter implements Filter {
 	public static final String PASS_CHECK_CODE = "/member/passcheckcode";
 	public static final String MEMBER_JOIN_CARD = "/member/memberjoincard";
 	public static final String WEB_TRANS_ORDER = "/member/webtransorder";
+	public static final String REWARD = "/member/reward";
 	
     public DispatchFilter() {
 	}
@@ -108,6 +110,8 @@ public class DispatchFilter implements Filter {
 			action=new MemberJoinCard();
 		}else if (url.startsWith(WEB_TRANS_ORDER)) {
 			action=new WebTransOrder();
+		}else if (url.startsWith(REWARD)) {
+			action=new Reward();
 		}else if (url.equals("/")) {
 			request.getRequestDispatcher("/a.html").forward(request, response);                    
 			return;

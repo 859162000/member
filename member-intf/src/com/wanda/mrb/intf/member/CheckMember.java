@@ -35,13 +35,9 @@ public class CheckMember extends ServiceBase {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		if ((member.memberNo != null) && !("".equals(member.memberNo))) {
-			System.err.print("t_member");
 			ps = conn.prepareStatement(SQLConstDef.MEMBER_CHECK_BY_MEMBERNO);
 			ps.setString(1, member.memberNo);
 		} else if ((member.mobile != null) && !("".equals(member.mobile))) {
-			// 验证手机号
-			//checkMobileNO(conn, member.mobile);
-			System.err.print("t_member");
 			ps = conn.prepareStatement(SQLConstDef.MEMBER_CHECK_BY_MOBILE);
 			ps.setString(1, member.mobile);
 		} else if ((member.cardNumber != null)
@@ -67,13 +63,14 @@ public class CheckMember extends ServiceBase {
 				// 获取到了memberid之后，可以根据memberid获取到会员信息
 				// t_member基本信息
 				
-				System.err.print("T_MEMBER,T_CINEMA");
 				ps = conn.prepareStatement(SQLConstDef.MEMBER_CHECK_BY_MEMBERID);
 				ps.setLong(1, memberSeqId);
 				rs = ps.executeQuery();
 				if (rs != null && rs.next()) {
 					member.memberNo = rs.getString("MEMBER_NO");
 					member.name = rs.getString("NAME");
+					member.arrivalType = rs.getString("ARRIVAL_TYPE");
+					member.oftenChannel = rs.getString("OFTEN_CHANNEL");
 					/*member.name = member.name.replace("&", "&amp;");
 					member.name = member.name.replace("<", "&lt;");
 					member.name = member.name.replace(">", "&gt;");
@@ -383,6 +380,8 @@ public class CheckMember extends ServiceBase {
 		buf.append(createXmlTag("MAN_CINEMA_NAME", member.manCinemaName));
 		buf.append(createXmlTag("REG_TIME", member.registDate));
 		buf.append(createXmlTag("OPERATOR_NAME", member.operatorName));
+		buf.append(createXmlTag("ARRIVAL_TYPE", member.arrivalType==null?"":member.arrivalType));
+		buf.append(createXmlTag("OFTEN_CHANNEL", member.oftenChannel==null?"":member.oftenChannel));
 		return buf.toString();
 	}
 

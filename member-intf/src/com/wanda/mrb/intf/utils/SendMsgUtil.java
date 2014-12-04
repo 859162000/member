@@ -27,8 +27,9 @@ public class SendMsgUtil {
 	 * @param mobileNo	手机号
 	 * @param systemId	系统编号
 	 * @param msgContent	短信内容
+	 * @throws Exception 
 	 */
-	public static void sendMsgCheckCode(Connection conn, String msgSvcIp,String msgChannelId,String mobileNo,String systemId,String msgContent){
+	public static void sendMsgCheckCode(Connection conn, String msgSvcIp,String msgChannelId,String mobileNo,String systemId,String msgContent) throws Exception{
 		try {
 			PreparedStatement ps = conn.prepareStatement(SQLConstDef.SELECT_MSG_SVC_INFO);
 			ps.setString(1, "MSG_OPEN");
@@ -70,7 +71,7 @@ public class SendMsgUtil {
 			}
 			System.out.println(wq.sendSuccessCount);
 		} catch (Exception e) {
-			e.printStackTrace();
+			throw e;
 		}
 	}
 	
@@ -96,7 +97,12 @@ public class SendMsgUtil {
 	 */
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-
+		try {
+			sendMsgCheckCode(null, null, null, null, "234242", null);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }

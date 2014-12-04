@@ -29,6 +29,7 @@ public class ConstDef {
 	public final static String CONST_INTFCODE_M_PASSCHECKCODE = "M1014";
 	public final static String CONST_INTFCODE_M_MEMBERJOINCARD = "M1015";
 	public final static String CONST_INTFCODE_M_WEBTRANSORDER = "M1016";
+	public final static String CONST_INTFCODE_M_REWARD = "M1018";
 	
 	
 	//业务参数标签名

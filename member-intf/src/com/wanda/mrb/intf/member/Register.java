@@ -3,7 +3,6 @@ package com.wanda.mrb.intf.member;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.Map;
 
 import org.w3c.dom.Element;
 
@@ -17,7 +16,6 @@ import com.wanda.mrb.intf.member.vo.TContent;
 import com.wanda.mrb.intf.member.vo.TMember;
 import com.wanda.mrb.intf.utils.FormatTools;
 import com.wanda.mrb.intf.utils.MemberUtils;
-import com.wanda.mrb.intf.utils.SmsConfigFactory;
 import com.wanda.mrb.intf.utils.SqlHelp;
 import com.wanda.mrb.intf.utils.Utils;
 
@@ -115,6 +113,8 @@ public class Register extends ServiceBase {
 			ps.setString(19, member.registDate);
 			ps.setString(20, member.dtsId);//会员来源
 			ps.setString(21, registOpSystem);//会员来源
+			ps.setString(22, member.arrivalType);//交通方式
+			ps.setString(23, member.oftenChannel);//常用购票渠道
 			ps.execute();
 		} catch (Exception e) {
 			conn.rollback();
@@ -241,9 +241,9 @@ public class Register extends ServiceBase {
 		}
 		
 		//获取短信平台代理地址和通道号
-		String msgSvcIp = "";
-		String msgChannelId = "";
-		String msgRegOpen = "";
+//		String msgSvcIp = "";
+//		String msgChannelId = "";
+//		String msgRegOpen = "";
 //		try {
 //			ps = conn.prepareStatement(SQLConstDef.SELECT_MSG_SVC_INFO);
 //			ps.setString(1, "MSG_MQ_IP");
@@ -269,10 +269,10 @@ public class Register extends ServiceBase {
 //			conn.rollback();
 //			throw e;
 //		}
-		Map<String,String> msgConfigMap = SmsConfigFactory.getSmsConfigInstance(conn);
-		msgSvcIp = msgConfigMap.get("MSG_MQ_IP");
-		msgChannelId = msgConfigMap.get("MSG_CHANNEL_ID");
-		msgRegOpen = msgConfigMap.get("MSG_REG_OPEN");
+//		Map<String,String> msgConfigMap = SmsConfigFactory.getSmsConfigInstance(conn);
+//		msgSvcIp = msgConfigMap.get("MSG_MQ_IP");
+//		msgChannelId = msgConfigMap.get("MSG_CHANNEL_ID");
+//		msgRegOpen = msgConfigMap.get("MSG_REG_OPEN");
 		
 		//发送欢迎短信
 /*		if(super.cinemaCode != null && !"99999999".equals(super.cinemaCode)){
@@ -309,6 +309,14 @@ public class Register extends ServiceBase {
 	@Override
 	protected void parseXMLParam(Element root) throws Exception {
 		try {
+			try {
+				//常用购票渠道
+				member.oftenChannel = getChildValueByName(root,"OFTEN_CHANNEL", 15);
+				// 到达影城方式 交通方式
+				member.arrivalType = getChildValueByName(root,"ARRIVAL_TYPE", 2);
+			} catch (Exception e) {
+				System.out.println("OFTEN_CHANNEL,ARRIVAL_TYPE is not writed");
+			}
 			// 姓名
 			member.name = getChildValueByName(root,
 					ConstDef.CONST_INTFCODE_M_REGISTER_NAME, 50);

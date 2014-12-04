@@ -103,7 +103,9 @@ public class UpdateMember extends ServiceBase {
 						ps.setLong(8, favCinemaCodeId);
 						ps.setString(9, member.sourceType);
 						ps.setString(10, member.mobile);
-						ps.setString(11, member.memberNo);
+						ps.setString(11, member.arrivalType);
+						ps.setString(12, member.oftenChannel);
+						ps.setString(13, member.memberNo);
 						ps.execute();
 					} catch (Exception e) {
 						conn.rollback();
@@ -121,7 +123,10 @@ public class UpdateMember extends ServiceBase {
 						ps.setString(7, member.tel);
 						ps.setString(8, member.sourceType);
 						ps.setString(9, member.mobile);
-						ps.setString(10, member.memberNo);
+						ps.setString(10, member.arrivalType);
+						ps.setString(11, member.oftenChannel);
+						ps.setString(12, member.memberNo);
+					
 						ps.execute();
 					} catch (Exception e) {
 						conn.rollback();
@@ -144,7 +149,9 @@ public class UpdateMember extends ServiceBase {
 					ps.setLong(8, favCinemaCodeId);
 					ps.setString(9, member.sourceType);
 					ps.setString(10, member.mobile);
-					ps.setString(11, member.memberNo);
+					ps.setString(11, member.arrivalType);
+					ps.setString(12, member.oftenChannel);
+					ps.setString(13, member.memberNo);
 					ps.execute();
 				} catch (Exception e) {
 					conn.rollback();
@@ -162,7 +169,9 @@ public class UpdateMember extends ServiceBase {
 					ps.setString(7, member.tel);
 					ps.setString(8, member.sourceType);
 					ps.setString(9, member.mobile);
-					ps.setString(10, member.memberNo);
+					ps.setString(10, member.arrivalType);
+					ps.setString(11, member.oftenChannel);
+					ps.setString(12, member.memberNo);
 					ps.execute();
 				} catch (Exception e) {
 					conn.rollback();
@@ -196,6 +205,15 @@ public class UpdateMember extends ServiceBase {
 	@Override
 	protected void parseXMLParam(Element root) throws Exception {
 		try {
+			try {
+				//常用购票渠道
+				member.oftenChannel = getChildValueByName(root,"OFTEN_CHANNEL", 15);
+				// 到达影城方式 交通方式
+				member.arrivalType = getChildValueByName(root,"ARRIVAL_TYPE", 2);
+			} catch (Exception e) {
+				System.out.println("OFTEN_CHANNEL,ARRIVAL_TYPE is not writed");
+			}
+//		 
 			// 会员编码
 			member.memberNo = getChildValueByName(root,
 					ConstDef.CONST_INTFCODE_M_REGISTER_MEMBERNO, 64);

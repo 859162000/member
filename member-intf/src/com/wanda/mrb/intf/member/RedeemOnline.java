@@ -36,7 +36,6 @@ public class RedeemOnline  extends ServiceBase{
 	private String operator;
 	private String memberStatus = "";
 	private String orderType;
-	private String expireDate;
 	private Vector<TFilmInfo> films = null;
 	private Vector<TGoodsInfo> goods = null;
 	private String mobile;
@@ -89,14 +88,6 @@ public class RedeemOnline  extends ServiceBase{
 			throwsBizException("M070003", "该订单已经消费成功！");
 		}
 		rsq.free();
-		
-		//查询积分有效期
-//		rsq=SqlHelp.query(conn, SQLConstDef.SELECT_POINT_EXPIRE_DATE);
-//		rs=rsq.getResultSet();
-//		if(rs.next()){
-//			expireDate = rs.getString("expiretime");
-//		}
-//		rsq.free();
 		
 		//创建记录  17
 		SqlHelp.operate(conn, SQLConstDef.INSERT_POINT_HISTORY,
@@ -181,32 +172,6 @@ public class RedeemOnline  extends ServiceBase{
 		String msgSvcIp = "";
 		String msgChannelId = "";
 		String msgRedOpen = "";
-//		try {
-//			PreparedStatement ps = conn.prepareStatement(SQLConstDef.SELECT_MSG_SVC_INFO);
-//			ps.setString(1, "MSG_MQ_IP");
-//			rs = ps.executeQuery();
-//			while (rs.next()) {
-//				msgSvcIp = rs.getString("parameter_value");
-//			}
-//			
-//			ps = conn.prepareStatement(SQLConstDef.SELECT_MSG_SVC_INFO);
-//			ps.setString(1, "MSG_CHANNEL_ID");
-//			rs = ps.executeQuery();
-//			while (rs.next()) {
-//				msgChannelId = rs.getString("parameter_value");
-//			}
-//			
-//			ps = conn.prepareStatement(SQLConstDef.SELECT_MSG_SVC_INFO);
-//			ps.setString(1, "MSG_RED_OPEN");
-//			rs = ps.executeQuery();
-//			while (rs.next()) {
-//				msgRedOpen = rs.getString("parameter_value");
-//			}
-//		} catch (Exception e) {
-//			conn.rollback();
-//			throw e;
-//		}
-		
 		Map<String,String> msgConfigMap = SmsConfigFactory.getSmsConfigInstance(conn);
 		msgSvcIp = msgConfigMap.get("MSG_MQ_IP");
 		msgChannelId = msgConfigMap.get("MSG_CHANNEL_ID");
@@ -228,36 +193,21 @@ public class RedeemOnline  extends ServiceBase{
 				conn.rollback();
 				throw e;
 			}
-//			SendCheckCodeMsg.sendMsgCheckCode(mobile, cinemaInnerCode, 
-//					gec.getRedeemEvenContent(conn).getRedeemContent().replace("${时间}", nowTime)
-//					.replace("${渠道}", "POS").replace("${积分数}", balance).replace("${订单号}", orderNo)
-//					.replace("${goodname}", filmName+goodName).replace("${point}", balance)
-//					.replace("{balance}", String.valueOf(myBalance-Double.valueOf(balance))));
-//			SMSControl smsSendObj = new SMSControl();
-//			smsSendObj.smssend(conn, mobile, 
-//					gec.getRedeemEvenContent(conn).getRedeemContent().replace("${transtime}", nowTime)
-//					.replace("${渠道}", "POS").replace("${订单号}", orderNo)
-//					.replace("${goodname}", filmName+goodName).replace("${point}", balance)
-//					.replace("${balance}", String.valueOf((int)(myBalance-Double.valueOf(balance)))));
 			if ("1".equals(msgRedOpen)) {
-				SendMsgUtil.sendMsgCheckCode(conn, msgSvcIp, msgChannelId, mobile, cinemaInnerCode, gec.getRedeemEvenContent(conn).getRedeemContent().replace("${transtime}", nowTime)
-						.replace("${渠道}", "POS").replace("${订单号}", orderNo)
-						.replace("${goodname}", filmName+goodName).replace("${point}", balance)
-						.replace("${balance}", String.valueOf((int)(myBalance-Double.valueOf(balance)))));
+				try {
+					SendMsgUtil.sendMsgCheckCode(conn, msgSvcIp, msgChannelId, mobile, cinemaInnerCode, gec.getRedeemEvenContent(conn).getRedeemContent().replace("${transtime}", nowTime)
+							.replace("${渠道}", "POS").replace("${订单号}", orderNo)
+							.replace("${goodname}", filmName+goodName).replace("${point}", balance)
+							.replace("${balance}", String.valueOf((int)(myBalance-Double.valueOf(balance)))));
+				} catch (Exception e) {
+					SendMsgUtil.sendMsgCheckCode(conn, msgSvcIp, msgChannelId, mobile, "002", gec.getRedeemEvenContent(conn).getRedeemContent().replace("${transtime}", nowTime)
+							.replace("${渠道}", "POS").replace("${订单号}", orderNo)
+							.replace("${goodname}", filmName+goodName).replace("${point}", balance)
+							.replace("${balance}", String.valueOf((int)(myBalance-Double.valueOf(balance)))));
+				}
+				
 			}
 		} else {
-			//WEB
-//			SendCheckCodeMsg.sendMsgCheckCode(mobile, "10002", 
-//					gec.getRedeemEvenContent(conn).getRedeemContent().replace("${时间}", nowTime)
-//					.replace("${渠道}", "WEB").replace("${积分数}", balance).replace("${订单号}", orderNo)
-//					.replace("${goodname}", filmName+goodName).replace("${point}", balance)
-//					.replace("{balance}", String.valueOf(myBalance-Double.valueOf(balance))));
-//			SMSControl smsSendObj = new SMSControl();
-//			smsSendObj.smssend(conn, mobile, 
-//					gec.getRedeemEvenContent(conn).getRedeemContent().replace("${transtime}", nowTime)
-//					.replace("${渠道}", "POS").replace("${订单号}", orderNo)
-//					.replace("${goodname}", filmName+goodName).replace("${point}", balance)
-//					.replace("${balance}", String.valueOf((int)(myBalance-Double.valueOf(balance)))));
 			if ("1".equals(msgRedOpen)) {
 				SendMsgUtil.sendMsgCheckCode(conn, msgSvcIp, msgChannelId, mobile, "002", gec.getRedeemEvenContent(conn).getRedeemContent().replace("${transtime}", nowTime)
 						.replace("${渠道}", "POS").replace("${订单号}", orderNo)

@@ -163,10 +163,13 @@ public class MemberUtils {
 //		if("GA".indexOf(orderType) >= 0 ){
 //			System.out.println("1");
 //		}
-		String a  = "今日观影双倍积分;今日免费获得观影套餐一份;今日免费获得2D影票一张;今日免费获得3D影票一张";
-		String[] msgArray = a.split(";");
-		for (int j = 0; j < msgArray.length; j++) {
-			System.out.println("<MSG>"+msgArray[j]+"</MSG>");
-		}
+//		String a  = "今日观影双倍积分;今日免费获得观影套餐一份;今日免费获得2D影票一张;今日免费获得3D影票一张";
+//		String[] msgArray = a.split(";");
+//		for (int j = 0; j < msgArray.length; j++) {
+//			System.out.println("<MSG>"+msgArray[j]+"</MSG>");
+//		}
+		Random rand = new Random();
+		int randomCinemaNo = rand.nextInt(3) + 1;
+		System.out.println(randomCinemaNo);
 	}
 }
