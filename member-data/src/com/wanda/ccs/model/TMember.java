@@ -71,6 +71,8 @@ public class TMember extends BlameableEntity implements java.io.Serializable {
 
 	private String strBackDate;
 	private Date registDate;
+	private String arrivalType;//C:开车，F:步行，B:公共方式
+	private String oftenChannel;//WEB:万达官网，APP:万达手机平台，POS:万达影城，THIRD：团购以及第三方平台，OTHER;其他
 	public TMember() {
 
 	}
@@ -412,6 +414,24 @@ public class TMember extends BlameableEntity implements java.io.Serializable {
 
 	public void setRegistDate(Date registDate) {
 		this.registDate = registDate;
+	}
+
+	@Column(name = "ARRIVAL_TYPE")
+	public String getArrivalType() {
+		return arrivalType;
+	}
+
+	public void setArrivalType(String arrivalType) {
+		this.arrivalType = arrivalType;
+	}
+
+	@Column(name = "OFTEN_CHANNEL")
+	public String getOftenChannel() {
+		return oftenChannel;
+	}
+
+	public void setOftenChannel(String oftenChannel) {
+		this.oftenChannel = oftenChannel;
 	}
 	
 	
