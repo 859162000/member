@@ -236,7 +236,18 @@
 						repeatable : false,
 						required : false,
 						validate : { type:'datetime' }
-					}*/ ]
+					}*/ 
+					,{
+						id : "memberDNA",
+						label : "人群细分",
+						desc : "会员人群细分(DNA)",
+						type : "multiselect",
+						param : "sourceId:dimdef;typeId:2018;filter:false",
+						allowedOperators : "in",
+						repeatable : false,
+						required : false
+					}
+					]
 				},
 				{
 					id : "memberCount",

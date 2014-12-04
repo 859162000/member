@@ -242,6 +242,9 @@ public class SegmentCriteriaDef {
 		Clause mbrTagResult = newPlain().in("from").output(MBRODS+".T_MBR_TAG_RESULT mbr_tag_result")
 				.depends(newPlain().in("where").output("mbr_tag_result.MEMBER_ID = member.MEMBER_KEY"));
 		
+		Clause acx_behavior_segment = newPlain().in("from").output(MBRODS+".ACX_BEHAVIOR_SEGMENT acx_behavior_segment")
+				.depends(newPlain().in("where").output("acx_behavior_segment.MEMBER_KEY = member.MEMBER_KEY"));
+		
 		//Clause points = newPlain().in("from").output(RPT2+".T_D_CON_FILM transSales_film")
 		//		.depends(newPlain().in("where").output("transSales_film.FILM_KEY = transSales.FILM_KEY"));
 		
@@ -412,6 +415,9 @@ public class SegmentCriteriaDef {
 		.add(notEmpty("mobileNews"), newExpression().in("where").output("member.NEWSPAPER_FLAG", DataType.STRING))
 		//会员注册方式
 		.add(notEmpty("recruitType"), newExpression().in("where").output("member.RECRUIT_TYPE", DataType.STRING))
+		//会员注册方式
+		.add(notEmpty("memberDNA"), newExpression().in("where").output("acx_behavior_segment.BEHAVIOR_SEGMENT_VALUE", DataType.INTEGER).depends(acx_behavior_segment))
+		
 		//是否希望联络
 		.add(notEmpty("noDisturb"), newExpression().in("where").output("member.ISCONTACTABLE", DataType.STRING))
 		//管理影城
