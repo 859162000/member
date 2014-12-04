@@ -216,6 +216,42 @@
 									</c:otherwise>
 								</c:choose>
 							</td>
+						</tr>
+						<tr>
+							<td align="right">如何到达影城:</td>
+							<td align="left">
+							<c:choose>
+								<c:when test="${EDITMEMBER or CREATEMEMBER}">
+									<input:select name="arrivalType" class="txtinput_wid80"  property="tModel.arrivalType" validate="validate">
+										<c:forEach items="${dims['2020']}" var="item">
+										<input:option value="${item.key}">${item.value}</input:option>
+										</c:forEach>
+									</input:select> 
+								</c:when>
+								<c:otherwise>
+									<c:forEach items="${DIMS['2020']}" var="item">
+										<c:if test="${item.key eq model.arrivalType }">${item.value}</c:if>
+									</c:forEach>
+								</c:otherwise>
+							</c:choose>
+							</td>
+							<td align="right">常用购票渠道:</td>
+							<td align="left">
+							<c:choose>
+								<c:when test="${EDITMEMBER or CREATEMEMBER}">
+									<input:select name="oftenChannel" class="txtinput_wid80"  property="tModel.oftenChannel" validate="validate">
+										<c:forEach items="${dims['2021']}" var="item">
+										<input:option value="${item.key}">${item.value}</input:option>
+										</c:forEach>
+									</input:select> 
+								</c:when>
+								<c:otherwise>
+									<c:forEach items="${DIMS['2021']}" var="item">
+										<c:if test="${item.key eq model.oftenChannel }">${item.value}</c:if>
+									</c:forEach>
+								</c:otherwise>
+							</c:choose>
+							</td>
 						</tr>	
 						<c:choose>
 							<c:when test="${EDITMEMBER or CREATEMEMBER}">
