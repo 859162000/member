@@ -57,7 +57,7 @@ public class SendMemberSMSJobConf implements JobConfig {
 	}
 
 	public boolean scheduleOnStart() {
-		return true;
+		return false;
 	}
 
 	public void setJobGroup(String jobGroup) {
