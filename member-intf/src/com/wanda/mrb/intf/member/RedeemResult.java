@@ -101,8 +101,8 @@ public class RedeemResult extends ServiceBase {
 				productName,  //12 PRODUCT_NAME
 				orderNo,  //13 ORDER_ID
 				"2",  //14 POINT_TRANS_TYPE
-				"1",  //15 IS_SUCCEED
-				"",   //16 CREATE_BY
+				"0",  //15 IS_SUCCEED  1成功
+				"T",   //16 CREATE_BY
 				cinemaInnerCode,  //17 CINEMA_INNER_CODE
 				orderNo); //18 POINT_TRANS_CODE
 		
