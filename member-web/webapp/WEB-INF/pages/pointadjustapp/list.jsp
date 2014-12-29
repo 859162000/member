@@ -7,13 +7,14 @@
 <%@ taglib uri="http://displaytag.sf.net" prefix="display"%>
 <%@ taglib tagdir="/WEB-INF/tags/adk/html/input" prefix="input"%>
 <%@ taglib tagdir="/WEB-INF/tags/ex" prefix="ex"%>
-<adk:form name="frmApprovePoint"
-	action="doApproves">
-	<adk:func name="doApproves" submit="yes" />
+<adk:form name="frmApprovePoint" action="doApproves">
+	<input type="hidden" name="id">
+	<adk:func name="doApproves" param="id" submit="yes" />
 </adk:form> 
 <adk:form name="frmUnApprovePoint"
 	action="doUnApproves">
-	<adk:func name="doUnApproves" submit="yes" />
+		<input type="hidden" name="id">
+	<adk:func name="doUnApproves" param="id" submit="yes" />
 </adk:form> 
 <adk:form name="frmPagingPoint" action="search">
 	<adk:func name="search" submit="yes" />
@@ -67,7 +68,7 @@
 				<c:when test="${row.approve eq 'N' }">
 					审批未通过
 				</c:when>
-				<c:when test="${row.approve eq 'W' }">
+				<c:when test="${row.approve eq 'Y' }">
 					已审批
 				</c:when>
 			</c:choose>
