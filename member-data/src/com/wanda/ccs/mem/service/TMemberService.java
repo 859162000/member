@@ -42,4 +42,6 @@ public interface TMemberService extends ICrudService<TMember> {
 	 * @return
 	 */
 	public String checkMobile(String mobileNo);
+	
+	public TMember queryMemByMobile(String mobileNo);
 }
