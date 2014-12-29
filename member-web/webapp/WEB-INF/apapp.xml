@@ -125,5 +125,15 @@
 	     <!-- 实体会员卡 -->
 	     <win path="card_order_main" module="com.wanda.ccs.mackdaddycard.MackDaddyCardOrderLet" view="main" scope="page" />
 	     <win path="card_order_edit" module="com.wanda.ccs.mackdaddycard.MackDaddyCardOrderLet" view="edit" scope="page" />
+	     
+	      <!-- 积分调整 -->
+	     <win path="mem_adjust_search" module="com.wanda.ccs.member.MemberPointAdjustLet" view="search" scope="page" />
+	     <win path="mem_adjust_list" module="com.wanda.ccs.member.MemberPointAdjustLet" view="list" scope="page" />
+	     <win path="mem_adjust_edit" module="com.wanda.ccs.member.MemberPointAdjustLet" view="edit" scope="page" />
+	     
+	      <!-- 积分调整审批 -->
+	     <win path="mem_approve_search" module="com.wanda.ccs.member.MemberPointAdjustApproveLet" view="search" scope="page" />
+	     <win path="mem_approve_list" module="com.wanda.ccs.member.MemberPointAdjustApproveLet" view="list" scope="page" />
+	     <win path="mem_approve_edit" module="com.wanda.ccs.member.MemberPointAdjustApproveLet" view="edit" scope="page" />
 	</uri>
 </webapp>
