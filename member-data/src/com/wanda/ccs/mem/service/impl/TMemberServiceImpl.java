@@ -295,4 +295,19 @@ public class TMemberServiceImpl extends BaseCrudServiceImpl<TMember> implements
 		}
 	}
 
+	@Override
+	public TMember queryMemByMobile(String mobileNo) {
+		String sql = "select mem from TMember mem where mem.mobile = :mobileNo and mem.isDeleted = 0";
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("mobileNo", mobileNo);
+		getDao().setCacheable(false);
+		
+		List<TMember> list = getDao().queryHql(sql, params);
+		if (list != null && !list.isEmpty()&& list.get(0) != null ) {
+			return list.get(0);
+		}else{
+			return null;
+		}
+	}
+
 }
