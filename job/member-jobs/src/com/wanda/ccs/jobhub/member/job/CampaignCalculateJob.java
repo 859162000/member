@@ -330,8 +330,8 @@ public class CampaignCalculateJob implements Job {
 				if(CampaignVo.STATUS_COMPLETE.equals(vo.getCampaignStatus())) { //如果是执行完成删除落地客群
 					System.out.println("delete segment");
 					campaignCalculateService.deleteMemberSegment(vo.getCampaignId());
-					System.out.println("delete cal member");
-					campaignCalculateService.clearSyncCalMemeber(vo.getCampaignId());
+//					System.out.println("delete cal member");
+//					campaignCalculateService.clearSyncCalMemeber(vo.getCampaignId());
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
