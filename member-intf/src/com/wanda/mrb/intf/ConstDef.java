@@ -69,6 +69,7 @@ public class ConstDef {
 	public final static String CONST_INTFCODE_M_REGISTER_CARD_TYPE = "CARD_TYPE";
 	public final static String CONST_INTFCODE_M_REGISTER_FAV_CINEMA = "FAV_CINEMA";
 	public final static String CONST_INTFCODE_M_REGISTER_DATE = "REGIST_DATE";
+	public final static String CONST_INTFCODE_M_REGISTER_SOURCEFOR_EXT = "SOURCE_FOR_EXT";
 	
 	public final static String CONST_INTFCODE_M_GET_TRANS_HISTORY_START_DATE = "START_DATE";
 	public final static String CONST_INTFCODE_M_GET_TRANS_HISTORY_END_DATE = "END_DATE";
