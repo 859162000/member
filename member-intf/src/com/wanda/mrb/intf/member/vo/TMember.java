@@ -20,6 +20,7 @@ public class TMember {
 	public String birthday;// 会员生日
 	public Long registType;// 注册类型 1:新会员;2:卡转换;3:合作伙伴
 	public String registChnID;//招募渠道
+	public String registChnExtID;//招募渠道扩展
 	public String sourceType;//会员来源
 	public String registOpNo;// 注册员工号
 	public String registOpName;// 注册员工姓名
@@ -402,6 +403,13 @@ public class TMember {
 	public void setRegistChnID(String registChnID) {
 		this.registChnID = registChnID;
 	}
+	public String getRegistChnExtID() {
+		return registChnExtID;
+	}
+	public void setRegistChnExtID(String registChnExtID) {
+		this.registChnExtID = registChnExtID;
+	}
+	
 	public String getRegistOpNo() {
 		return registOpNo;
 	}
