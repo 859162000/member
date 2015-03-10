@@ -85,6 +85,7 @@ public class CheckMember extends ServiceBase {
 					member.operatorName = rs.getString("REGIST_OP_NAME");
 					member.dtsId = rs.getString("SOURCE_TYPE");
 					member.registChnID = rs.getString("REGIST_CHNID");
+					member.registChnExtID = rs.getString("REGIST_CHN_EXT_ID");
 					member.counterName = rs.getString("SHORT_NAME");
 					member.tel = rs.getString("PHONE");
 					member.registDate = rs.getString("REGIST_DATE");
@@ -358,6 +359,7 @@ public class CheckMember extends ServiceBase {
 		buf.append(createXmlTag("OPERATOR", member.operator));
 		buf.append(createXmlTag("DTSID", member.dtsId));// 会员来源
 		buf.append(createXmlTag("SOURCE_FOR", member.registChnID));// 招募渠道
+		buf.append(createXmlTag("SOURCE_FOR_EXT", member.registChnExtID));// 招募渠道扩展
 		buf.append(createXmlTag("OTHER_NO", member.otherNo));
 		buf.append(createXmlTag("SALES_TALK_XML",member.talk));
 		buf.append(createXmlTag("LEVEL_POINT_TOTAL", ""

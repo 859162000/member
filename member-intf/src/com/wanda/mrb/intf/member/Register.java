@@ -115,6 +115,7 @@ public class Register extends ServiceBase {
 			ps.setString(21, registOpSystem);//会员来源
 			ps.setString(22, member.arrivalType);//交通方式
 			ps.setString(23, member.oftenChannel);//常用购票渠道
+			ps.setString(24,member.registChnExtID);//招募渠道扩展
 			ps.execute();
 		} catch (Exception e) {
 			conn.rollback();
@@ -414,6 +415,9 @@ public class Register extends ServiceBase {
 			// 招募渠道
 			member.registChnID = getChildValueByName(root,
 					ConstDef.CONST_INTFCODE_M_REGISTER_SOURCEFOR, 11);
+			//招募渠道扩展
+			member.registChnExtID = getChildValueByName(root,
+					ConstDef.CONST_INTFCODE_M_REGISTER_SOURCEFOR_EXT, 11);
 			// 会员来源
 			member.dtsId = getChildValueByName(root,
 					ConstDef.CONST_INTFCODE_M_REGISTER_DTSID, 11);
