@@ -100,6 +100,11 @@ public class TMemberServiceImpl extends BaseCrudServiceImpl<TMember> implements
 		}
 		queryParam.add("c.channelId =:channelId");
 		
+		if(query.get("channelExtId") != null && !"".equals(query.get("channelExtId"))){
+			query.put("channelExtId", query.get("channelExtId"));
+		}
+		queryParam.add("c.channelExtId =:channelExtId");
+		
 		if("F".equals(query.get("hasResult"))){
 			queryParam.add(" 1 !=1 ");
 		}
