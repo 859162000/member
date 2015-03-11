@@ -39,6 +39,7 @@ public class TMember extends BlameableEntity implements java.io.Serializable {
 	private static final long serialVersionUID = 5991158056553829783L;
 	private Long memberId;
 	private String channelId;// 'BO:影城','POS:POS','WEB:电影网','Mobile:移动终端','SinaWeibo:合作渠道'
+	private String channelExtId;//招募渠道扩展
 	private String memberNo;// 会员序列号
 	private String mobile;// 会员唯一标识，非空，不允许重复
 	private String phone;
@@ -251,6 +252,15 @@ public class TMember extends BlameableEntity implements java.io.Serializable {
 		this.channelId = channelId;
 	}
 
+	@Column(name = "REGIST_CHN_EXT_ID")
+	public String getChannelExtId() {
+		return channelExtId;
+	}
+
+	public void setChannelExtId(String channelExtId) {
+		this.channelExtId = channelExtId;
+	}
+	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "REGIST_CINEMA_ID", insertable = false, updatable = false)
 	public TCinema gettCinema() {
