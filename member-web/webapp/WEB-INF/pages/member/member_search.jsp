@@ -97,6 +97,18 @@
 			</tr>
 			
 			<tr>
+				<td align="right" nowrap="nowrap" valign="top">招募渠道扩展:</td>
+				<td valign="top" align="left" nowrap="nowrap">
+					<input:select  name="channelExtId" >
+						<input:option value="">--请选择招募渠道扩展--</input:option>
+						<c:forEach items="${DIMS['264']}" var="item">
+							<input:option value="${item.key}">${item.value}</input:option>
+						</c:forEach>
+					</input:select> 
+				</td>
+			</tr>
+			
+			<tr>
 				<td colspan="6" align="right">
 					<button class="btn search" value="查询" type="submit">查询</button>
 					<button type="button" value="清除日期" name="reset" class="btn clear" onclick="${adk:func('clearDate')}();">清除日期</button> 

@@ -253,6 +253,29 @@
 							</c:choose>
 							</td>
 						</tr>	
+						
+						<tr>
+						    <td align="right"  nowrap="nowrap">招募渠道扩展:</td>
+							<td align="left">
+								<c:choose>
+									<c:when test="${EDITMEMBER or CREATEMEMBER}">
+										<input:select  name="channelExtId" class="txtinput_wid80" property="tModel.channelExtId" validate="validate" mandatory="yes">
+											<input:option value="">--请选择渠道扩展--</input:option>
+										<c:forEach items="${DIMS['264']}" var="item">
+										<input:option value="${item.key}">${item.value}</input:option>
+										</c:forEach>
+										</input:select> 
+									</c:when>
+									<c:otherwise>
+										<c:forEach items="${DIMS['264']}" var="item">
+											<c:if test="${item.key eq model.channelExtId }">${item.value}</c:if>
+										</c:forEach>
+									</c:otherwise>
+								</c:choose>
+							</td>
+							<td align="right"  nowrap="nowrap"></td>
+							<td></td>
+						</tr>
 						<c:choose>
 							<c:when test="${EDITMEMBER or CREATEMEMBER}">
 							</c:when>

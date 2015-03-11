@@ -109,6 +109,9 @@
 		<display:column class="ac" title="招募渠道" >
 			${DIMS['216'][row.channelId]}
 		</display:column>
+		<display:column class="ac" title="招募渠道扩展" >
+			${DIMS['264'][row.channelExtId]}
+		</display:column>
 		<display:column title="会员状态" class="ac">
 			<c:choose>
 				<c:when test="${row.status == 1 }">
