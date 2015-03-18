@@ -187,7 +187,9 @@ public class SegmentDao {
 	public Long getCountInDw(CriteriaQueryResult criteriaResult, int timeout) {
 		StringBuilder bsql=new StringBuilder();
 		bsql.append("select count(*) from (SELECT distinct member.MEMBER_KEY ");
-		bsql.append(criteriaResult.getComposedText() + ")");
+		bsql.append(criteriaResult.getParameterizeText() + ")");
+		
+		System.out.println("~~~~~~~~~~~~~~~~" + bsql);
 		
 		getJdbcTemplateDw().setQueryTimeout(timeout);
 		
@@ -197,7 +199,7 @@ public class SegmentDao {
 		//tsql.append(criteriaResult.getParameterizeText() + ")");
 		//System.out.println("~~~~~~~~~~~~~~~~" + tsql);
 				
-		return getJdbcTemplateDw().queryForLong(bsql.toString(), criteriaResult.getParameters().toArray());
+		return getJdbcTemplateDw().queryForLong(bsql.toString());
 	}
 	
 	public SegmentExportVo getSegmentExport(Long segmentExportId) {
