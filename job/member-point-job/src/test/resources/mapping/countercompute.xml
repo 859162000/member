@@ -4,13 +4,11 @@
 			<db conn="db.mbr">
 				<sql>
 					<![CDATA[      
-                select p.MEMBER_ID MEMBER_ID,sysdate UPDATE_DATE
-					  from T_MEMBER_POINT p, T_MEMBER m
-					 where p.member_id = m.member_id
-					   and m.status = '1'
-					   and m.isdelete = '0'
-					   and p.update_date < sysdate
-					   and p.update_date >= sysdate-1
+                select   m.MEMBER_ID MEMBER_ID, sysdate UPDATE_DATE
+                 from  T_MEMBER m
+                 where m.member_id  in (select p.member_id  from T_MEMBER_POINT p where  p.update_date   < sysdate   and p.update_date >= sysdate - 1 )
+                 and m.status = '1'
+                 and m.isdelete = '0'
 
 					]]>
 				</sql>
