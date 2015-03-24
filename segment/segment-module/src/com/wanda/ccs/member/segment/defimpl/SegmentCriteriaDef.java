@@ -415,8 +415,8 @@ public class SegmentCriteriaDef {
 		.add(notEmpty("mobileNews"), newExpression().in("where").output("member.NEWSPAPER_FLAG", DataType.STRING))
 		//会员注册方式
 		.add(notEmpty("recruitType"), newExpression().in("where").output("member.RECRUIT_TYPE", DataType.STRING))
-		//会员注册方式
-		.add(notEmpty("memberDNA"), newExpression().in("where").output("acx_behavior_segment.BEHAVIOR_SEGMENT_VALUE", DataType.INTEGER).depends(acx_behavior_segment))
+		//会员细分
+		.add(notEmpty("memberDNA"), newExpression().in("where").output("acx_behavior_segment.BEHAVIOR_SEGMENT_VALUE", DataType.STRING).depends(acx_behavior_segment))
 		
 		//是否希望联络
 		.add(notEmpty("noDisturb"), newExpression().in("where").output("member.ISCONTACTABLE", DataType.STRING))
