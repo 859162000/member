@@ -86,6 +86,7 @@ public class SegmentServiceImpl implements SegmentService {
 			//更新客群数量，并设置客群状态为计算完成
 			segmentDao.updateCalCount(segmentId, newCount, controlNum, SegmentVo.STATUS_COMPLETE);
 		} catch (Exception e) {
+			e.printStackTrace();
 			segmentDao.updateSegmentStatus(segmentId, SegmentVo.STATUS_FAILED);
 			throw new SegmentCalCountException(e);
 		}
