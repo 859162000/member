@@ -16,7 +16,7 @@
        T.CINEMA_INNER_CODE
   from T_GOODS_TRANS_DETAIL t
  where t.is_point is not null
-   and trunc(BIZ_DATE)=to_date('${bizdate}', 'yyyy-mm-dd')
+   and BIZ_DATE=to_date('${bizdate}', 'yyyy-mm-dd')
 	 and CINEMA_INNER_CODE='${cinema}'
 
 				]]>

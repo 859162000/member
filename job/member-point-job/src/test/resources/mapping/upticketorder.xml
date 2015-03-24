@@ -7,7 +7,7 @@
  					              select TRANS_ID, IS_POINT, POINT, CINEMA_INNER_CODE, BIZ_DATE
    from T_TICKET_TRANS_ORDER 
   where IS_POINT = 1
-	 and trunc(BIZ_DATE)=to_date('${bizdate}', 'yyyy-mm-dd')
+	 and BIZ_DATE=to_date('${bizdate}', 'yyyy-mm-dd')
 	 and CINEMA_INNER_CODE='${cinema}'
 
   

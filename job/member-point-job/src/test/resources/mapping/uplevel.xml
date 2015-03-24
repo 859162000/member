@@ -1,30 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <etl>
 		<source>
-			<db conn="db.mbr_uat">
+			<db conn="db.mbr">
 				<sql>
-					<![CDATA[ 
- 					          
-select p.MEMBER_ID,p.UPDATE_DATE
-  from T_MEMBER_POINT p, T_MEMBER m
- where p.member_id = m.member_id
-   and m.status = '1'
-   and m.isdelete = '0'
-   and p.update_date < to_date('${bizdate}', 'yyyy-mm-dd') + 1
-   and p.update_date >= to_date('${bizdate}', 'yyyy-mm-dd')
-  
+			
+	<![CDATA[ 	          
+			select p.MEMBER_ID,p.UPDATE_DATE from T_MEMBER_POINT p where p.member_id in (
+				 select a.member_id 
+				  from ccs_mbr_prod.t_point_history a,ccs_mbr_prod.t_member_level b ,T_MEMBER_POINT c,T_MEMBER m
+				 where a.is_history = '0'
+				   and a.member_id = b.member_id
+				   and c.member_id = b.member_id
+				   and c.member_id = m.member_id
+				    and m.status = '1'
+				               and m.isdelete = '0'
+				    and a.isdelete =0
+				    and c.update_date < to_date('${bizdate}', 'yyyy-mm-dd') 
+				         and c.update_date >= to_date('${bizdate}', 'yyyy-mm-dd')-1					
+				 group by a.member_id
+				having sum(a.level_point) >= 500 or sum(a.ticket_count) >= 12
+				)
 				]]>
 				</sql>
 			</db>
 		</source>
 		<destination>
-			<db conn="db.mbr_uat">
+			<db conn="db.mbr">
 				<table>T_MEMBER_LEVEL</table>
 			</db>
 		</destination>
 
 		<linefilter>
 			<filter name="uplevellinehandle" />
+			
+			<!-- <filter name="memberUpgradeHandler" /> -->
 		</linefilter>
 
 		<mapping>

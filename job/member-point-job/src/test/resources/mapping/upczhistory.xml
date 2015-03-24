@@ -15,7 +15,7 @@
        RECALCU_STATUS
   from T_POINT_HISTORY t
  where t.point_type <> 6
-   and trunc(set_time) = to_date('${bizdate}', 'yyyy-mm-dd')
+   and set_time = to_date('${bizdate}', 'yyyy-mm-dd')
    and t.Cinema_Inner_Code = '${cinema}'
    and RECALCU_STATUS='1'
    group by MEMBER_ID,SET_TIME,ISDELETE, CINEMA_INNER_CODE,RECALCU_STATUS

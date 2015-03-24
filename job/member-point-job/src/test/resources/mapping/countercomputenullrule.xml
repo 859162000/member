@@ -9,7 +9,7 @@
 									where t1.member_id = t2.member_key(+)
 			            and a.member_id = t1.member_id
 			            and a.is_repaired=0
-			            and rownum<=10000
+			            and rownum<=30000
 									and t2.member_key is null
               
 

@@ -30,7 +30,7 @@
   from T_GOODS_TRANS_DETAIL
    where IS_POINT  =2 and IS_GOODS=0 and ACTIVITY_POINT<>0  
       and CINEMA_INNER_CODE='${cinema}'
-   and trunc(BIZ_DATE)=to_date('${bizdate}', 'yyyy-mm-dd')
+   and BIZ_DATE=to_date('${bizdate}', 'yyyy-mm-dd')
 				]]>
 				</sql>
 			</db>

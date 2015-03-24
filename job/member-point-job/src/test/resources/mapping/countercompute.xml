@@ -9,10 +9,9 @@
 					 where p.member_id = m.member_id
 					   and m.status = '1'
 					   and m.isdelete = '0'
-					   and p.member_id not in (select c.member_id from t_member_repair c where c.UPDATE_DATE>=sysdate-1 )
 					   and p.update_date < sysdate
 					   and p.update_date >= sysdate-1
-					   and rownum<=5000
+
 					]]>
 				</sql>
 			</db>

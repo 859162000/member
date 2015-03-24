@@ -18,7 +18,7 @@
 							                 group by member_key, cinema_key)
 							                 )
 							         where cnt_order = 1
-							)where key_seed = 1 and rownum<=1000
+							)where key_seed = 1 and rownum<=4000
 					]]>
 				</sql>
 			</db>
