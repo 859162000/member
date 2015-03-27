@@ -241,9 +241,9 @@ public class ChangeMemberPointDao {
 								try {
 									BigDecimal point = new BigDecimal(beans[c])
 											.setScale(0, BigDecimal.ROUND_DOWN);
-									if (point.longValue() < 0) {
-										rowDateLog(logMsg, beans, "定级积分只能为正", i);
-									}
+//									if (point.longValue() < 0) {
+//										rowDateLog(logMsg, beans, "定级积分只能为正", i);
+//									}
 									pointHistroy.setLevel_Point(point
 											.longValue());
 								} catch (Exception e) {
