@@ -6,7 +6,7 @@
 					<![CDATA[      
                 select   m.MEMBER_ID MEMBER_ID, sysdate UPDATE_DATE
                  from  T_MEMBER m
-                 where m.member_id  in (select p.member_id  from T_MEMBER_POINT p where  p.update_date   < sysdate   and p.update_date >= sysdate - 1 )
+                 where m.member_id  in (select  /*+ index(p IND_T_MEMBER_POINT_COMP1) */ p.member_id  from T_MEMBER_POINT p where  p.update_date   < sysdate   and p.update_date >= sysdate - 1 )
                  and m.status = '1'
                  and m.isdelete = '0'
 
