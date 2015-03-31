@@ -421,7 +421,7 @@ public class Register extends ServiceBase {
 				member.registChnExtID = getChildValueByName(root,
 						ConstDef.CONST_INTFCODE_M_REGISTER_SOURCEFOR_EXT, 11);
 			} catch (Exception e) {
-				member.registChnExtID ="WANDAWEB";
+				member.registChnExtID ="POS";
 			}
 			// 会员来源
 			member.dtsId = getChildValueByName(root,
