@@ -307,9 +307,13 @@ public class UpdateMember extends ServiceBase {
 			// 招募渠道
 			member.registChnID = getChildValueByName(root,
 					ConstDef.CONST_INTFCODE_M_REGISTER_SOURCEFOR, 11);
-			// 招募渠道扩展
-			member.registChnExtID = getChildValueByName(root,
-					ConstDef.CONST_INTFCODE_M_REGISTER_SOURCEFOR_EXT, 11);
+			try {
+				//招募渠道扩展
+				member.registChnExtID = getChildValueByName(root,
+						ConstDef.CONST_INTFCODE_M_REGISTER_SOURCEFOR_EXT, 11);
+			} catch (Exception e) {
+				member.registChnExtID ="WANDAWEB";
+			}
 			// 会员来源
 			member.sourceType = getChildValueByName(root,
 					ConstDef.CONST_INTFCODE_M_REGISTER_DTSID, 11);
