@@ -88,6 +88,7 @@ $(function() {
 	var getCountUrl = '<%=context%>/segment/SegmentAction/getCount.do';
 	var criteriaResultUrl = '<%=context%>/segment/SegmentAction/getCriteriaResult.do';
 	var resetStatusUrl = '<%=context%>/segment/SegmentAction/resetStatus.do';
+	var doCreateUrl = '<%=context%>/segment/SegmentMessageAction/createMessage.do';
 	
 	var calCountTimerId = null; //calculating timer id
 	
@@ -155,7 +156,7 @@ $(function() {
 			    } */
 				cellHtml += '<button name="onDeleteBtn" key=' + rowdata['SEGMENT_ID'] + ' type="button" wrType="button" wrParam="icon:ui-icon-trash;text:false" style="height:22px;" title="删除"/>';
 			}
-			
+			cellHtml += '<button name="onCreateBtn" key=' + rowdata['SEGMENT_ID'] + ' type="button" wrType="button" wrParam="icon:ui-icon-pencil;text:false" style="height:22px;" title="创建客群短信"/>&nbsp;';
 			$(this).setCell(rowid, 'ACTIONS', cellHtml);
 			$('button[wrType=button]', this).wrender();
 		}
@@ -396,6 +397,27 @@ $(function() {
 					var schemeObj = $.parseJSON(result.criteriaScheme);
 					schemeAction.applySchemeView($.segment.settings.member, schemeObj);
 					viewDialog.dialog('open');
+			   }
+			});
+		}
+	});
+	
+	$(resultList).on('click', 'button[name=onCreateBtn]', function () {
+		var segmentId = $(this).attr('key');
+        var queryString = 'segmentId=' + segmentId;
+        var segmentType = $(this).attr('segmentType');
+		if(segmentType == '复合') {
+			combineAction.openDialog(segmentId, 'view');	//查看复合客群
+			combineAction.combineSegmentBtn(true);
+		} else {	//查看普通客群
+			$.ajax({
+			   url: doCreateUrl,
+			   data: queryString,
+			   success: function(result) {
+				   alert("客群短信创建成功！");
+			   },
+			   error: function(result) {
+				   alert("客群短信创建失败，请重新创建！");
 			   }
 			});
 		}
