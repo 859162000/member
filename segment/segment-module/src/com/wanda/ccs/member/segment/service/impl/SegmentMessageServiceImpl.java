@@ -9,10 +9,12 @@
 package com.wanda.ccs.member.segment.service.impl;
 
 import static com.wanda.ccs.sqlasm.CriteriaParserBuilder.SELECT_PARAGRAPHS;
+import static com.wanda.ccs.sqlasm.CriteriaParserBuilder.equalsValue;
 import static com.wanda.ccs.sqlasm.CriteriaParserBuilder.newParser;
 import static com.wanda.ccs.sqlasm.CriteriaParserBuilder.notEmpty;
 import static com.wanda.ccs.sqlasm.expression.ExpressionClauseBuilder.newExpression;
 import static com.wanda.ccs.sqlasm.expression.ExpressionClauseBuilder.newPlain;
+import static com.wanda.ccs.sqlasm.expression.ExpressionClauseBuilder.newValue;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -22,8 +24,13 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Timer;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
 
 import javax.sql.DataSource;
+
+
+
 
 //import org.apache.commons.io.FileUtils;
 import org.apache.commons.logging.Log;
@@ -41,10 +48,12 @@ import com.google.code.pathlet.vo.QueryParamVo;
 import com.google.code.pathlet.vo.QueryResultVo;
 import com.wanda.ccs.member.ap2in.UserLevel;
 import com.wanda.ccs.member.ap2in.UserProfile;
+import com.wanda.ccs.member.segment.MessageSendConf;
 import com.wanda.ccs.member.segment.MessageSendJob;
 import com.wanda.ccs.member.segment.service.SegmentMessageService;
 import com.wanda.ccs.member.segment.vo.MessageApproveVo;
 import com.wanda.ccs.member.segment.vo.SegmentMessageVo;
+import com.wanda.ccs.member.segment.vo.SendLogVo;
 import com.wanda.ccs.member.segment.web.SegmentMessageAction;
 import com.wanda.ccs.sqlasm.Clause;
 import com.wanda.ccs.sqlasm.Condition;
@@ -55,6 +64,7 @@ import com.wanda.ccs.sqlasm.expression.ArrayExpCriterion;
 import com.wanda.ccs.sqlasm.expression.ExpressionCriterion;
 //import com.wanda.ccs.sqlasm.expression.JsonCriteriaHelper;
 import com.wanda.ccs.sqlasm.expression.Operator;
+import com.wanda.ccs.sqlasm.expression.SingleExpCriterion;
 
 /**
  * @ClassName: SegmentMessageServiceImpl
@@ -63,83 +73,15 @@ import com.wanda.ccs.sqlasm.expression.Operator;
  * @date 2015年5月21日 上午11:12:37
  *
  */
-public class SegmentMessageServiceImpl implements SegmentMessageService {
+public class SegmentMessageServiceImpl implements SegmentMessageService,MessageSendConf {
 
 	private static Log logger = LogFactory.getLog(SegmentMessageAction.class);
 
-	private static Timer timer = new Timer(); // 定时发送短信定时任务对象
-
-	private final String VERSION = "1.0"; // 客群短信版本号
-
-	private final String APPROVEVOVERSION = "1.0";// 审批版本号
+	private static Timer timer = null; // 定时发送短信定时任务对象
 
 	private ExtJdbcTemplate queryTemplate = null;
 
-	// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 审批状态汇总   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-	/**
-	 * @Fields APPROVE_PIZHUN :提交状态
-	 */
-	private final String TIJIAO = "1";
-	/**
-	 * @Fields APPROVE_PIZHUN :保存状态
-	 */
-	private final String BAOCUN = "0";
-	/**
-	 * @Fields APPROVE_PIZHUN :审批批准状态
-	 */
-	private final String APPROVE_PIZHUN = "1";
-
-	/**
-	 * @Fields APPROVE_TUIHUI : 审批退回状态
-	 */
-	private final String APPROVE_TUIHUI = "0";
-
-	/**
-	 * @Fields APPROVE_CHEXIAO : 审批撤销状态
-	 */
-	private final String APPROVE_CHEXIAO = "9";
-
-	/**
-	 * @Fields WAIT_C_APPROVE : 待影城经理审批
-	 */
-	private final String WAIT_C_APPROVE = "1000";
-
-	/**
-	 * @Fields WAIT_R_APPROVE : 待区域经理审批
-	 */
-	private final String WAIT_R_APPROVE = "2000";
-
-	/**
-	 * @Fields WAIT_G_APPROVE : 待院线会员经理审批
-	 */
-	private final String WAIT_G_APPROVE = "3000";
-
-	/**
-	 * @Fields BACK_C_APPROVE : 由影城经理退回修改
-	 */
-	private final String BACK_C_APPROVE = "1999";
-
-	/**
-	 * @Fields BACK_R_APPROVE : 区域经理退回修改
-	 */
-	private final String BACK_R_APPROVE = "2999";
-
-	/**
-	 * @Fields BACK_G_APPROVE : 院线经理退回修改
-	 */
-	private final String BACK_G_APPROVE = "3999";
-
-	/**
-	 * @Fields NO_PASS_APPROVE : 不通过状态
-	 */
-	private final String NO_PASS_APPROVE = "9999";
-
-	/**
-	 * @Fields PASS_APPROVE : 通过状态
-	 */
-	private final String PASS_APPROVE = "9000";
-
+	
 	String status = null;
 
 	private Timestamp time = null;
@@ -157,116 +99,14 @@ public class SegmentMessageServiceImpl implements SegmentMessageService {
 			queryTemplate
 					.registerInsertEntity(new EntityInsertDef("insertApprove",
 							MessageApproveVo.class, "MESSAGE_APPROVE"));
+			queryTemplate
+			.registerInsertEntity(new EntityInsertDef("insertLog",
+					SendLogVo.class, "MESSAGE_SEND_LOG"));
 		}
 
 		return this.queryTemplate;
 	}
 
-	// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ SQL string  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
-
-	/**
-	* @Fields NO_SEND_CAL_SQL :计算客群不希望联系人数的SQL
-	*/
-	private final String NO_SEND_CAL_SQL = "select COUNT(1)\n"
-			+ "from T_SEGM_MEMBER SEME\n"
-			+ "LEFT JOIN T_MEMBER ME ON SEME.MEMBER_ID = ME.MEMBER_ID \n"
-			+ "WHERE ME.ISCONTACTABLE = 0 and SEME.SEGMENT_ID=?";
-
-
-	/**
-	* @Fields NEXT_SEQ_ID_SQL : 获取SEGM_MESSAGE主键的SQL
-	*/
-	private final String NEXT_SEQ_ID_SQL = "select S_SEGM_MESSAGE.NEXTVAL from DUAL";
-
-	/**
-	* @Fields NEXT_APPROVE_ID_SQL : 获取MESSAGE_APPROVE主键的SQL
-	*/
-	private final String NEXT_APPROVE_ID_SQL = "select S_MESSAGE_APPROVE.NEXTVAL from DUAL";
-	/**
-	* @Fields SAVE_MESSAGE : 修改SEGM_MESSAGE信息的SQL
-	*/
-	private final String SAVE_TIJIAO_MESSAGE = "update SEGM_MESSAGE set APPROVE_STATUS=?,CONTENT=?,SEND_TIME=?,UPDATE_BY=?,UPDATE_DATE=?,APPROVER=? where SEGM_MESSAGE_ID=?";
-	/**
-	* @Fields SAVE_MESSAGE : 修改SEGM_MESSAGE信息的SQL
-	*/
-	private final String SAVE_BAOCUN_MESSAGE = "update SEGM_MESSAGE set APPROVE_STATUS=?,CONTENT=?,SEND_TIME=?,UPDATE_BY=?,UPDATE_DATE=? where SEGM_MESSAGE_ID=?";
-
-	/**
-	* @Fields UPDATE_APPROVE_STATUS : 修改SEGM_MESSAGE审批状态的SQL
-	*/
-	private final String UPDATE_APPROVE_STATUS = "update SEGM_MESSAGE set APPROVE_STATUS=?,APPROVER=? where SEGM_MESSAGE_ID=?";
-
-	/**
-	* @Fields SQL : 获取影城级别审批人账号的SQL
-	*/
-	private final String CINEMA_SQL = "with regions as (select orgid,orgcode from ehr_wd_org@read_DL where parentunitid = 68468088 	and status = 1) "
-			+ "select u.username rtx "
-			+ "from ehr_wd_org@read_DL     o, "
-			+ "regions                          r, "
-			+ "ehr_wd_user@read_DL        u, "
-			+ "ehr_wd_user_pos_rel@read_DL prel, "
-			+ "ehr_wd_pos@read_DL         p, "
-			+ "t_cinema@read_DL            c "
-			+ "where o.parentunitid = r.orgid  "
-			+ "and o.status = 1  "
-			+ "and c.orgcode = o.orgcode "
-			+ "and u.employeeStatus = 2 "
-			+ "and u.orgid = o.orgid "
-			+ "and u.employeeid = prel.employeeid "
-			+ "and prel.jobid = p.jobid "
-			+ "and p.jobname = '影城经理' and c.seqid=? " 
-			+ "and rownum = 1";
-	/**
-	* @Fields SQL : 获取区域级别审批人账号的SQL
-	*/
-	private final String REGION_SQL = "with regions as (select orgid,orgcode from ehr_wd_org@read_DL where parentunitid = 68468088 	and status = 1) "
-			+ "select u.username rtx "
-			+ "from ehr_wd_org@read_DL     o, "
-			+ "regions                          r, "
-			+ "ehr_wd_user@read_DL        u, "
-			+ "ehr_wd_user_pos_rel@read_DL prel, "
-			+ "ehr_wd_pos@read_DL         p, "
-			+ "t_cinema@read_DL            c "
-			+ "where o.parentunitid = r.orgid  "
-			+ "and o.status = 1  "
-			+ "and c.orgcode = o.orgcode "
-			+ "and u.employeeStatus = 2 "
-			+ "and u.orgid = o.orgid "
-			+ "and u.employeeid = prel.employeeid "
-			+ "and prel.jobid = p.jobid "
-			+ "	and p.jobname = '区域总经理' and c.area=? " 
-			+ "and rownum = 1";
-	/**
-	* @Fields GROUP_SQL : 获取院线级审批人账号
-	*/
-	private String GROUP_SQL = "select  u.username " +
-			"from  " +
-			"ehr_wd_user@read_DL        u,  " +
-			"ehr_wd_user_pos_rel@read_DL prel  " +
-			"where  u.employeeStatus = 2  " +
-			"and u.employeeid = prel.employeeid  " +
-			"and prel.jobid =  '1255477183'  " +
-			"and rownum = 1"; 
-	/**
-	* @Fields CREATE_TABLE_SQL : 创建手机号临时表
-	*/
-	private final String CREATE_TABLE_SQL =  "create table ${tableName} as   (select ME.MOBILE,SEME.SEGMENT_ID  " +
-				"from T_SEGM_MEMBER SEME  " + 
-				"LEFT JOIN T_MEMBER ME ON SEME.MEMBER_ID = ME.MEMBER_ID  " +    
-				"WHERE ME.ISCONTACTABLE <> 0 and SEME.SEGMENT_ID=${SEGMENT_ID})";
-	/**
-	* @Fields CREATE_TABLE_SQL : 创建手机号临时表
-	*/
-	private final String DROP_TABLE_SQL =  "drop table ${tableName}";
-	/**
-	* @Fields CREATE_TABLE_SQL : 创建手机号临时表
-	*/
-	private final String EXITS_TABLE_SQL =  "select count(*) from  all_tables where table_name = '${tableName}' ";
-	
-	/**
-	* @Fields MOBILE_GET_SQL : 获取客群手机号的SQL
-	*/
-	private final String MOBILE_GET_SQL = "select MOBILE from ${tableName}";
 	/*
 	 * (非 Javadoc) <p>Title: insert</p> <p>Description: </p>
 	 * 
@@ -275,6 +115,7 @@ public class SegmentMessageServiceImpl implements SegmentMessageService {
 	 * @see com.wanda.ccs.member.segment.service.SegmentMessageService#insert()
 	 */
 
+	
 	@Override
 	public String insert(SegmentMessageVo entity) {
 		seqId = getJdbcTemplate().queryForLong(NEXT_SEQ_ID_SQL);
@@ -461,7 +302,7 @@ public class SegmentMessageServiceImpl implements SegmentMessageService {
 			String approveStatus) {
 		SegmentMessageVo vo = get(entity.getSegmMessageId());
 		setStatus(vo, userProfile, approveStatus);
-		getJdbcTemplate().update(UPDATE_APPROVE_STATUS, vo.getApproveStatus(),getGroupJingLi(),
+		getJdbcTemplate().update(UPDATE_APPROVE_STATUS, vo.getApproveStatus(),"院线会员经理",
 				entity.getSegmMessageId());
 		setApproveStatus(entity, status, approveStatus);
 		insertApprove(entity, userProfile);
@@ -515,6 +356,10 @@ public class SegmentMessageServiceImpl implements SegmentMessageService {
 			QueryParamVo queryParam, List<ExpressionCriterion> criteria,
 			UserProfile userinfo) {
 
+		criteria.add(new SingleExpCriterion("userLevel", userinfo.getLevel().name()));
+		criteria.add(new ArrayExpCriterion("userInfo",
+				new String[] {userinfo.getId(), Long.toString(userinfo.getCinemaId()), userinfo.getRegionCode()}));
+		
 		criteria.add(new ArrayExpCriterion("orderby", null, null, null,
 				new String[] { queryParam.getSortName(),
 						queryParam.getSortOrder() }));
@@ -532,6 +377,10 @@ public class SegmentMessageServiceImpl implements SegmentMessageService {
 
 		Map<Condition, Clause> clauseMap = new LinkedHashMap<Condition, Clause>();
 
+		clauseMap.put(equalsValue("userLevel", "REGION"), newValue().from("userInfo").in("where")
+				.output(" e.AREA={2} ", DataType.STRING, false));
+		clauseMap.put(equalsValue("userLevel", "CINEMA"), newValue().from("userInfo").in("where")
+				.output(" e.CINEMA={1} ", DataType.STRING, false));
 		clauseMap.put(
 				notEmpty("code"),
 				newExpression().in("where")
@@ -608,30 +457,28 @@ public class SegmentMessageServiceImpl implements SegmentMessageService {
 	 */
 	public String getJingLi(UserProfile userProfile){
 		if (UserLevel.CINEMA.equals(userProfile.getLevel())) {
-			return getJdbcTemplate().queryForObject(CINEMA_SQL,
-					new Object[] { userProfile.getCinemaId() }, String.class);
+			return "影城经理";
 		} else if (UserLevel.REGION.equals(userProfile.getLevel())) {
-			return getJdbcTemplate().queryForObject(REGION_SQL,
-					new Object[] { userProfile.getRegionCode() }, String.class);
+			return "区域经理";
 		} else if (UserLevel.GROUP.equals(userProfile.getLevel())) {
-			return getGroupJingLi();
+			return "院线会员经理";
 		}
 		return "";
 	}
-
-	/**
-	 * @Title: getGroupJingLi
-	 * @Description: 由操作人信息找到院线级审批人
-	 * @param @param userProfile
-	 * @param @return
-	 * @param @throws IOException 设定文件
-	 * @return String 返回类型
-	 * @throws
-	 */
-	public String getGroupJingLi() {
-			return getJdbcTemplate().queryForObject(GROUP_SQL, new Object[] {},
-					String.class);
-	}
+//
+//	/**
+//	 * @Title: getGroupJingLi
+//	 * @Description: 由操作人信息找到院线级审批人
+//	 * @param @param userProfile
+//	 * @param @return
+//	 * @param @throws IOException 设定文件
+//	 * @return String 返回类型
+//	 * @throws
+//	 */
+//	public String getGroupJingLi() {
+//			return getJdbcTemplate().queryForObject(GROUP_SQL, new Object[] {},
+//					String.class);
+//	}
 //	 /**
 //	 * @Title: getThisPackageFile
 //	 * @Description: 获取当前包路径下文件方法
@@ -700,21 +547,44 @@ public class SegmentMessageServiceImpl implements SegmentMessageService {
 	 */
 	@Override
 	public void sendMessage(Long messageSendId, UserProfile userProfile) {
-		SegmentMessageVo messageSendVo = this.get(messageSendId);
-		List<String> moibleList = this.getMoible(messageSendVo.getSegmentId());
 		MessageSendJob sendJob = null;
-		try {
-			sendJob = new MessageSendJob(messageSendVo, moibleList,
-					dataSource.getConnection());
-		} catch (SQLException e) {
-			logger.warn("A SQLException at com.wanda.ccs.member.segment.service.impl.SegmentMessageServiceImpl#sendMessage() at row 605 !");
-			e.printStackTrace();
-		}
+		SegmentMessageVo messageSendVo = this.get(messageSendId);
 		time = Timestamp.valueOf(messageSendVo.getSendTime());
+		List<String> moibleList = this.getMoible(messageSendVo.getSegmentId());
+		BlockingQueue<String> que = new ArrayBlockingQueue<String>(moibleList.size(), false, moibleList);
 		Long timec = new Date().getTime();
 		if (time.getTime() <= timec) {// 如果当前时间大于设定时间，立即调用
 			time.setTime(timec);
 		}
-		timer.schedule(sendJob, time);// 以time为参数，指定某个时间点执行线程
+			try {
+				sendJob = new MessageSendJob(messageSendVo, que,
+						dataSource.getConnection());
+			} catch (SQLException e) {
+				logger.warn("A SQLException at com.wanda.ccs.member.segment.service.impl.SegmentMessageServiceImpl#sendMessage() at row 723 !");
+				e.printStackTrace();
+			}
+			if(timer==null){
+				timer = new Timer();
+			}
+			timer.schedule(sendJob, time);// 以time为参数，指定某个时间点执行线程
+	}
+
+	/* (非 Javadoc)
+	* <p>Title: insertSendLog</p>
+	* <p>Description: </p>
+	* @param entity
+	* @param userProfile
+	* @return
+	* @see com.wanda.ccs.member.segment.service.SegmentMessageService#insertSendLog(com.wanda.ccs.member.segment.vo.SendLogVo, com.wanda.ccs.member.ap2in.UserProfile)
+	*/
+	@Override
+	public String insertSendLog(SendLogVo entity) {
+		seqId = getJdbcTemplate().queryForLong(NEXT_MESSAGE_SEND_LOG);
+		entity.setSendLogId(seqId);
+		entity.setCreateDate(new Timestamp(new Date().getTime()));
+		getJdbcTemplate().insertEntity("insertLog", entity);
+		logger.info("A SendLogVo has been Create SendLogId="
+				+ seqId);
+		return "DONE";
 	}
 }

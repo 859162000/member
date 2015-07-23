@@ -28,6 +28,7 @@ import com.google.code.pathlet.web.widget.ResponseLevel;
 import com.google.code.pathlet.web.widget.ResponseMessage;
 import com.google.code.pathlet.web.widget.ResultRowMapper;
 import com.wanda.ccs.member.ap2in.AuthUserHelper;
+import com.wanda.ccs.member.ap2in.UserLevel;
 import com.wanda.ccs.member.ap2in.UserProfile;
 import com.wanda.ccs.member.segment.service.SegmentMessageService;
 import com.wanda.ccs.member.segment.service.SegmentService;
@@ -183,15 +184,19 @@ public class SegmentMessageAction {
 		UserProfile userProfile = AuthUserHelper.getUser();
 		SegmentMessageVo segment = new SegmentMessageVo();
 		segment.setSegmentId(String.valueOf(segmentId));
-		segment.setCreateBy(userProfile.getName());
+		segment.setCreateBy(userProfile.getId());
+		if (UserLevel.CINEMA.equals(userProfile.getLevel())) {
+			segment.setCinema(userProfile.getCinemaId()+"");
+			segment.setArea(userProfile.getRegionCode());
+		} else if (UserLevel.REGION.equals(userProfile.getLevel())) {
+			segment.setArea(userProfile.getRegionCode());
+		}
 		try {
 			if (SEGM_FUHE.equals(segmentType)) {
 				return new ResponseMessage(ResponseLevel.INFO,
 						"请选择普通客群创建客群信息项！");
 			}
-			System.out.println(userProfile.getRegionCode());
-			System.out.println(userProfile.getCinemaId());
-			System.out.println(userProfile.getEmployeeCode());
+			
 
 			segmentMessageService.insert(segment);
 			return new ResponseMessage(ResponseLevel.INFO, "客群短信新建成功！");
@@ -230,6 +235,10 @@ public class SegmentMessageAction {
 	public JqgridQueryResult<Map<String, Object>> query() throws Exception {
 
 		final UserProfile user = AuthUserHelper.getUser();
+		final boolean C_EditRight = user.getRights().contains("member.messageApprove.cinema");
+		final boolean R_EditRight = user.getRights().contains("member.messageApprove.region");
+		final boolean G_EditRight = user.getRights().contains("member.messageApprove.group");
+
 		List<ExpressionCriterion> criterionList = parseSimple(this.queryData);
 		JqgridQueryConverter converter = new JqgridQueryConverter();
 
@@ -242,19 +251,14 @@ public class SegmentMessageAction {
 					public Map<String, Object> convert(Map<String, Object> row) {
 						row.put("APPROVEABLE", false);// 默认为非当前审批人
 						row.put("EDITABLE", false);// 默认为非创建人
+						row.put("SENDABLE", false);// 默认为未发送
 						if (row.get("SEND_STATUS") == null||"-1".equals(row.get("SEND_STATUS").toString())) {
 							row.put("SEND_STATUS", "未发送");
 						}else if("0".equals(row.get("SEND_STATUS").toString())){
 							row.put("SEND_STATUS", "发送失败");
 						} else{
 							row.put("SEND_STATUS", "成功发送短信"+row.get("SEND_STATUS").toString()+"条");
-						}
-						if (user.getId().equals(row.get("APPROVER"))
-								&& (!"9000".equals(row.get("APPROVE_STATUS"))) // 审批完成
-																				// 隐藏审批按钮
-								&& (!"9999".equals(row.get("APPROVE_STATUS")))) { // 审批不通过
-																					// 隐藏审批按钮
-							row.put("APPROVEABLE", true);
+							row.put("SENDABLE", true);// 已发送
 						}
 						if (row.get("APPROVE_STATUS") == null) {
 							row.put("APPROVE_STATUS", "未提交审批");
@@ -270,12 +274,21 @@ public class SegmentMessageAction {
 							}
 							if ("3000".equals(row.get("APPROVE_STATUS"))) {
 								row.put("APPROVE_STATUS", "待院线会员经理审批");
+								if(G_EditRight){
+									row.put("APPROVEABLE", true);
+								}
 							}
 							if ("2000".equals(row.get("APPROVE_STATUS"))) {
 								row.put("APPROVE_STATUS", "待区域经理审批");
+								if(R_EditRight){
+									row.put("APPROVEABLE", true);
+								}
 							}
 							if ("1000".equals(row.get("APPROVE_STATUS"))) {
 								row.put("APPROVE_STATUS", "待影城经理审批");
+								if(C_EditRight){
+									row.put("APPROVEABLE", true);
+								}
 							}
 							if ("9000".equals(row.get("APPROVE_STATUS"))) {
 								row.put("APPROVE_STATUS", "审批完成");
@@ -286,6 +299,7 @@ public class SegmentMessageAction {
 						}
 						if (user.getId().equals(row.get("CREATE_BY"))) {
 							row.put("EDITABLE", true);
+							row.put("SENDABLE", true);// 不可发送
 						}
 						// 当STATUS为下边三种时，“实际数量”列显示状态，而非数量。
 						String status = (String) row.get("STATUS");

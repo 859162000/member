@@ -12,14 +12,21 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
+import java.sql.Timestamp;
 import java.util.Map;
 import java.util.TimerTask;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.google.code.pathlet.config.anno.InstanceIn;
+import com.wanda.ccs.member.segment.service.SegmentMessageService;
 import com.wanda.ccs.member.segment.vo.SegmentMessageVo;
+import com.wanda.ccs.member.segment.vo.SendLogVo;
 
 /**
  * @ClassName: MessageSendJob
@@ -28,30 +35,25 @@ import com.wanda.ccs.member.segment.vo.SegmentMessageVo;
  * @date 2015年6月1日 上午10:16:25
  *
  */
-public class MessageSendJob extends TimerTask {
+public class MessageSendJob extends TimerTask implements MessageSendConf{
 
 	private static Log log = LogFactory.getLog(MessageSendJob.class);
 
+	@InstanceIn(path = "SegmentMessageService")
+	private SegmentMessageService segmentMessageService;
+	
 	private SegmentMessageVo messageSendVo;
 
-	private List<String> moibleList;
+	private BlockingQueue<String> moibleQue;
 
 	private Connection conn;
-
-	/**
-	* @Fields SELECT_MSG_SVC_INFO
-	*/
-	private static final String SELECT_MSG_SVC_INFO = "select mc.parameter_value from t_member_config mc where mc.parameter_name = ?";
-
-	/**
-	 * @Fields UPDATE_APPROVE_STATUS : 修改SEGM_MESSAGE审批状态的SQL
-	 */
-	private final String UPDATE_SEND_STATUS = "update SEGM_MESSAGE set SEND_STATUS=? where SEGM_MESSAGE_ID=?";
+	
+	public static AtomicInteger count = new AtomicInteger(0);//标示成功的记录数 线程安全integer
 
 	public MessageSendJob(SegmentMessageVo messageSendVo,
-			List<String> moibleList, Connection conn) {
+			BlockingQueue<String> moibleQue, Connection conn) {
 		this.messageSendVo = messageSendVo;
-		this.moibleList = moibleList;
+		this.moibleQue = moibleQue;
 		this.conn = conn;
 	}
 
@@ -62,62 +64,70 @@ public class MessageSendJob extends TimerTask {
 	 */
 	@Override
 	public void run() {
-		// 获取短信平台代理地址和通道号
-		String msgSvcIp = "";
-		String msgChannelId = "";
-		String systemId = "001";
+//		// 获取短信平台代理地址和通道号
+//		String msgSvcIp = "";
+//		String msgChannelId = "";
+//		String systemId = "001";
 		PreparedStatement upstatusPs = null;
-		int sendSuccessCount = 0;
+		ExecutorService executorService = Executors.newCachedThreadPool();
 		try {
-			Map<String, String> msgConfigMap = SmsConfigFactory
-					.getSmsConfigInstance(conn);
-			try {
-				PreparedStatement ps = conn
-						.prepareStatement(SELECT_MSG_SVC_INFO);
+//			Map<String, String> msgConfigMap = SmsConfigFactory
+//					.getSmsConfigInstance(conn);
+//			try {
+//				PreparedStatement ps = conn
+//						.prepareStatement(SELECT_MSG_SVC_INFO);
 				upstatusPs = conn.prepareStatement(UPDATE_SEND_STATUS);
-				ps.setString(1, "MSG_OPEN");
-				ResultSet rs = ps.executeQuery();
-				while (rs.next()) {
-					String isMsgOpen = rs.getString("parameter_value");
-					if ("0".equals(isMsgOpen)) {
-						systemId = "001";
-					}
-				}
-			} catch (Exception e) {
-				log.warn("AN Exception here is ",e);
-				e.printStackTrace();
-			}
-			msgSvcIp = msgConfigMap.get("MSG_MQ_IP");
-			msgChannelId = msgConfigMap.get("MSG_CHANNEL_ID");
-			if (messageSendVo == null || moibleList == null
-					|| moibleList.size() == 0) {
-				log.warn("An Exception here is messageSend or moibleList object is null, so can't send!");
-			} else {
-				String content = messageSendVo.getContent();
-				for (String moible : moibleList) {
-					for (int i = 0; i < 3; i++) {// 失败尝试三次
-						int j = SendMsgUtil.sendSegmMsg(conn, msgSvcIp,
-								msgChannelId, moible, systemId, content);
-						if (j != 0) {
-							sendSuccessCount += 1;
-							break;
-						}
-					}
-				}
-			}
+//				ps.setString(1, "MSG_OPEN");
+//				ResultSet rs = ps.executeQuery();
+//				while (rs.next()) {
+//					String isMsgOpen = rs.getString("parameter_value");
+//					if ("0".equals(isMsgOpen)) {
+//						systemId = "001";
+//					}
+//				}
+//			} catch (Exception e) {
+//				log.warn("AN Exception here is ",e);
+//				e.printStackTrace();
+//			}
+//			msgSvcIp = msgConfigMap.get("MSG_MQ_IP");
+//			msgChannelId = msgConfigMap.get("MSG_CHANNEL_ID");
+//			
+			
+			Timestamp start = new Timestamp(System.currentTimeMillis());
+			SendLogVo sendLogVo = new SendLogVo();
+			sendLogVo.setStartTime(start);//短信发送开始时间
+		    int treadCount = 20;//定义线程池线程总数  
+		    new SMSConfig().initSMSConfig();
+		    //调用短信接口发送短信 
+		      for (int i = 0; i < treadCount; i++) {  
+		    	  executorService.execute(new SendJobThread(messageSendVo,messageSendVo.getContent(),
+		    				moibleQue));
+		      }  
+		      
+		    Timestamp end = new Timestamp(System.currentTimeMillis());
+			sendLogVo.setEndTime(end);//短信发送结束时间
+			sendLogVo.setSendCount(MessageSendJob.count.longValue());//短信发送成功总数
+			sendLogVo.setSegm_messageId(messageSendVo.getSegmMessageId());
+			sendLogVo.setSendStatus("T");//标示发送成功
 			conn.prepareStatement("DROP TABLE T_MOIBLE_"+messageSendVo.getSegmentId()).execute();//删除对应客群的电话号表
 			log.info("MESSAGE HAS BEEN SEND SEND CALCOUNT IS "
-					+ sendSuccessCount);
+					+ MessageSendJob.count.longValue());
+			segmentMessageService.insertSendLog(sendLogVo);
 		} catch (Exception e) {
 			log.warn("An Exception here is " + e.getMessage(), e);
 			e.printStackTrace();
-		} finally {
+		} 
+		finally {//释放资源更新状态
 			try {
-				upstatusPs.setString(1, "" + sendSuccessCount);
+				upstatusPs.setString(1, "" + MessageSendJob.count.longValue());
 				upstatusPs.setString(2, "" + messageSendVo.getSegmMessageId());
 				upstatusPs.execute();
+				upstatusPs.close();//释放PreparedStatement Connection还在使用不需要释放
 			} catch (SQLException e) {
 				e.printStackTrace();
+			}finally{
+				MessageSendJob.count.set(0);//标示成功记录数置0
+			    executorService.shutdown(); //释放线程池
 			}
 		}
 	}
@@ -130,6 +140,14 @@ public class MessageSendJob extends TimerTask {
 		this.messageSendVo = messageSendVo;
 	}
 
+	/**
+	* @Title: getMsgIpConfig
+	* @Description: 获取短信发送配置
+	* @param @param conn
+	* @param @return    设定文件
+	* @return MsgIpConfigBean    返回类型
+	* @throws
+	*/
 	public static MsgIpConfigBean getMsgIpConfig(Connection conn) {
 		MsgIpConfigBean msgIpMap = new MsgIpConfigBean();
 		PreparedStatement ps;

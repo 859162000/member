@@ -54,6 +54,22 @@ public class SegmentMessageVo  implements Serializable{
 	
 	private String approver;
 	
+	private String cinema;
+	
+	public String getCinema() {
+		return cinema;
+	}
+	public void setCinema(String cinema) {
+		this.cinema = cinema;
+	}
+	public String getArea() {
+		return area;
+	}
+	public void setArea(String area) {
+		this.area = area;
+	}
+	private String area;
+	
 	public String getApprover() {
 		return approver;
 	}

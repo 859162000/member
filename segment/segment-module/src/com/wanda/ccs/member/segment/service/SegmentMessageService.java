@@ -16,6 +16,7 @@ import com.google.code.pathlet.vo.QueryResultVo;
 import com.wanda.ccs.member.ap2in.UserProfile;
 import com.wanda.ccs.member.segment.vo.MessageApproveVo;
 import com.wanda.ccs.member.segment.vo.SegmentMessageVo;
+import com.wanda.ccs.member.segment.vo.SendLogVo;
 import com.wanda.ccs.sqlasm.expression.ExpressionCriterion;
 
 /**
@@ -34,7 +35,7 @@ public interface SegmentMessageService {
 	String saveMessage(SegmentMessageVo entity, UserProfile userProfile, String status);
 
 	String insertApprove(MessageApproveVo entity, UserProfile userProfile);
-
+	
 	String approve(MessageApproveVo entity, UserProfile userProfile,
 			String status);
 
@@ -45,5 +46,7 @@ public interface SegmentMessageService {
 	@SuppressWarnings("rawtypes")
 	QueryResultVo<Map<String, Object>> queryList(QueryParamVo queryParam,
 			List<ExpressionCriterion> criteria, UserProfile userinfo);
+
+	String insertSendLog(SendLogVo entity);
 	
 }

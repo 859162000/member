@@ -38,7 +38,7 @@ public class SendMsgUtil {
 	 *            短信内容
 	 * @throws Exception
 	 */
-	public static int sendSegmMsg(Connection conn, String msgSvcIp,
+	public static int sendSegmMsg( String msgSvcIp,
 			String msgChannelId, String mobileNo, String systemId,
 			String msgContent) throws Exception {
 		ServiceUrl.setMqUrl(msgSvcIp);
