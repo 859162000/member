@@ -1,15 +1,18 @@
 <?xml version='1.0' encoding='utf-8'?>
 <Context>
-	 
-	<Resource name="/ccs/member/app_datasource" url="jdbc:oracle:thin:@10.199.201.105:1521:ccsstag"
-		auth="Container" maxActive="10" maxIdle="3" maxWait="-1" username="ccs_mbr_prod" password="ccs_mbr_prod"
-		type="javax.sql.DataSource" driverClassName="oracle.jdbc.OracleDriver"/>
-
+	
+	<!-- UAT测试数据库地址 -->
+    <Resource name="/ccs/member/app_datasource" url="jdbc:oracle:thin:@10.199.200.242:1521:orcl"
+                auth="Container"  username="ccs_mbr_prod" password="ccs_mbr_prod"
+                 maxActive="50" maxIdle="10" maxWait="10000" removeAbandoned="true" removeAbandonedTimeout="60" logAbandoned="true" 
+                 type="javax.sql.DataSource" driverClassName="oracle.jdbc.OracleDriver"/>
 	<!-- 
 	<Resource name="/ccs/member/app_datasource" auth="Container" driverClassName="oracle.jdbc.OracleDriver"
 		maxActive="10" maxIdle="3" maxWait="-1" username="ccs_member" password="ccs_member"
 		defaultAutoCommit="false" type="javax.sql.DataSource" url="jdbc:oracle:thin:@localhost:1521:xe"/>
 	-->
+
+	
 	<Environment name="/ccs/member/jobhub_address" value="http://localhost:8090/jobhub"
          type="java.lang.String" override="false"/>
 	
