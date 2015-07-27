@@ -1,7 +1,9 @@
 package com.wanda.ccs.member.segment.web;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.beanutils.PropertyUtils;
 
@@ -17,6 +19,7 @@ import com.google.code.pathlet.web.widget.ResultRowMapper;
 import com.wanda.ccs.member.ap2in.AuthUserHelper;
 import com.wanda.ccs.member.ap2in.UserLevel;
 import com.wanda.ccs.member.ap2in.UserProfile;
+import com.wanda.ccs.member.segment.defimpl.ExtPointCriteriaDef;
 import com.wanda.ccs.member.segment.service.CriteriaQueryService;
 import com.wanda.ccs.member.segment.service.ExtPointCriteriaService;
 import com.wanda.ccs.member.segment.vo.ExtPointCriteriaVo;
@@ -197,19 +200,36 @@ public class ExtPointCriteriaAction {
 					epc.setOwnerRegion((userProfile.getRegionCode()));
 				}
 			}
+			@SuppressWarnings("rawtypes")
+			List<ExpressionCriterion> criteria = JsonCriteriaHelper.parse(epc.getCriteriaScheme());
+			Set<String> groupIds = getGroupIdSet(criteria);
+			if(isMemberRule(groupIds)){
+				String memsql = criteriaQueryService.getExtPointMemberQuery(criteria).getParameterizeText();
+				if(null!=memsql&&memsql.length()>0){
+					epc.setMemberSql(memsql);
+				}
+			}else{
+				String ticketsql = criteriaQueryService.getExtPointTicketQuery(criteria).getParameterizeText();
+				if(null!=ticketsql&&ticketsql.length()>0){
+					epc.setTicketSql(ticketsql);
+				}
+				String consql = criteriaQueryService.getExtPointConSaleQuery(criteria).getParameterizeText();
+				if(null!=consql&&consql.length()>0){
+					epc.setGoodsSql(consql);
+				}
+			}
+			
 			
 			service.insert(epc);
 			return new VersionResponseMessage(ResponseLevel.INFO, "特殊积分条件保存成功！", epc.getVersion());
 		}
 	}
 	
+	@SuppressWarnings("rawtypes")
 	public ResponseMessage update() throws Exception {
 		ExtPointCriteriaVo vo = JsonCriteriaHelper.parseSimple(json, ExtPointCriteriaVo.class);
-		
 		System.out.println("Updating extPointCriteriaId:" + vo.getExtPointCriteriaId() + ", Version:" + vo.getVersion());
-		
 		vo.setCriteriaScheme(criteriaScheme);
-		
 		if(service.hasSameName(vo.getName(), vo.getExtPointCriteriaId())) {
 			return new ResponseMessage(ResponseLevel.ERROR, "已有相同名称的特殊积分条件，请修改名称！");
 		}
@@ -217,12 +237,54 @@ public class ExtPointCriteriaAction {
 			return new ResponseMessage(ResponseLevel.ERROR, "已选择条件中不能为空,请修改！");
 		}
 		else {
+			List<ExpressionCriterion> criteria = JsonCriteriaHelper.parse(vo.getCriteriaScheme());
+			Set<String> groupIds = getGroupIdSet(criteria);
+			if(isMemberRule(groupIds)){
+				String memsql = criteriaQueryService.getExtPointMemberQuery(criteria).getParameterizeText();
+				if(null!=memsql&&memsql.length()>0){
+					vo.setMemberSql(memsql);
+				}
+			}else{
+				String ticketsql = criteriaQueryService.getExtPointTicketQuery(criteria).getParameterizeText();
+				if(null!=ticketsql&&ticketsql.length()>0){
+					vo.setTicketSql(ticketsql);
+				}
+				String consql = criteriaQueryService.getExtPointConSaleQuery(criteria).getParameterizeText();
+				if(null!=consql&&consql.length()>0){
+					vo.setGoodsSql(consql);
+				}
+			}
 			service.update(vo);
 			return new VersionResponseMessage(ResponseLevel.INFO, "特殊积分条件更新成功！", vo.getVersion());
 		}
 	}
 	
 
+	@SuppressWarnings("rawtypes")
+	private Set<String> getGroupIdSet(List<ExpressionCriterion> criteria) {
+		HashSet<String> groupIds = new HashSet<String>();
+		
+		for(ExpressionCriterion cri : criteria) {
+			String groupId = cri.getGroupId();
+			if(groupIds.contains(groupId) == false) {
+				groupIds.add(groupId);
+			}
+		}
+		
+		return groupIds;
+	}
+	private boolean isMemberRule(Set<String> groupIds){
+		boolean isMemberRule = false;
+		//只有会员基本条件
+		if(groupIds.contains(ExtPointCriteriaDef.GROUP_ID_MEMBER) 
+				&& (!groupIds.contains(ExtPointCriteriaDef.GROUP_ID_CON_ITEM) 
+						&& !groupIds.contains(ExtPointCriteriaDef.GROUP_ID_TICKET))
+						){
+			isMemberRule = true;
+			
+		}
+		return isMemberRule;
+	}
 	/**
 	 * 用于和界面交互时的特殊积分条件对象
 	 * @author Charlie Zhang
