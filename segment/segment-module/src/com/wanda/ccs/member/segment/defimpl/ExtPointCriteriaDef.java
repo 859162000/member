@@ -105,7 +105,10 @@ public class ExtPointCriteriaDef {
 		Clause consale_item = newPlain().in("from").output(RPT2+".T_D_CON_CS_SALE_ITEM consale_item")
 				.depends(newPlain().in("where").output("consale.SALE_ITEM_KEY = consale_item.SALE_ITEM_KEY"))
 				.depends(consale);
-		
+		//卖品支付方式
+		Clause consale_paymethod = newPlain().in("from").output(RPT2+".T_D_CON_PAY_METHOD consale_paymethod")
+						.depends(newPlain().in("where").output("consale_paymethod.PAY_METHOD_KEY = consale.PAY_METHOD_KEY"))
+						.depends(consale);
 		
 
 		this.conSaleParser = newParser(QUERY_PARAGRAPHS)
@@ -143,6 +146,9 @@ public class ExtPointCriteriaDef {
 			//生日观影，卖品条件
 			.add(notEmpty("birthdayFilm"), newPlain().in("where").output("to_char(member.BIRTHDAY,'mm/dd')=to_char(consale.BOOK_DATE_KEY,'mm/dd')")
 					.depends(consale))
+			//卖品支付方式
+		    .add(notEmpty("conSalePayMethod"), newExpression().in("where").output("consale_paymethod.PAY_METHOD_CODE", DataType.STRING)
+				.depends(consale_paymethod))
 			//添加会员基本信息的查询
 			.add(notEmpty("registerCinema"), member_registerCinema)//注册影城
 			.add(notEmpty("gender"), member_gender) //性别
@@ -173,6 +179,9 @@ public class ExtPointCriteriaDef {
 				.depends(newPlain().in("where").output("transSales_film.FILM_KEY = transSales.FILM_KEY"))
 				.depends(transSales);
 	
+		Clause transSales_paymethod = newPlain().in("from").output(RPT2+".T_D_CON_PAY_METHOD transSales_paymethod")
+				.depends(newPlain().in("where").output("transSales_paymethod.PAY_METHOD_KEY = transSales.PAY_METHOD_KEY"))
+				.depends(transSales);
 
 		this.ticketSaleParser = newParser(QUERY_PARAGRAPHS)
 			.add(newPlain().in("select").output("transSales_cinema.INNER_CODE,member.MEMBER_KEY,sum(transSales.Bk_Admissions -  transSales.Re_Admissions) Admissions,nvl(transSales.BK_CT_ORDER_CODE,transSales.RE_CT_ORDER_CODE) CT_ORDER_CODE,nvl(transSales.BK_TICKET_NUMBER,transSales.re_TICKET_NUMBER) TICKET_NUMBER"))
@@ -202,6 +211,9 @@ public class ExtPointCriteriaDef {
 			//生日当天观影
 			.add(notEmpty("birthdayFilm"), newPlain().in("where").output("to_char(member.BIRTHDAY,'mm/dd')=to_char(transSales.SHOW_DATE_KEY,'mm/dd')")
 					.depends(transSales))
+			//观影支付方式
+			.add(notEmpty("watchPayMethod"), newExpression().in("where").output("transSales_paymethod.PAY_METHOD_CODE", DataType.STRING)
+				.depends(transSales_paymethod))
 			//添加会员基本信息的查询
 			.add(notEmpty("registerCinema"), member_registerCinema)//注册影城
 			.add(notEmpty("gender"), member_gender) //性别

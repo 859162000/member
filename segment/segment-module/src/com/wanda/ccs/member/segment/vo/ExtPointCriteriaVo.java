@@ -1,9 +1,5 @@
 package com.wanda.ccs.member.segment.vo;
 
-import com.wanda.ccs.member.ap2in.UserLevel;
-
-
-
 public class ExtPointCriteriaVo extends BaseAuditVo {
 	private static final long serialVersionUID = 451896339250572185L;
 
@@ -16,6 +12,9 @@ public class ExtPointCriteriaVo extends BaseAuditVo {
 	private String ownerLevel; //创建者所属级别:GROUP:院线,REGION:区域;CINEMA:影城
 	private String ownerRegion;//创建者所属区域:区域代码,dim104
 	private Long ownerCinema;  //创建者所属影城:影城seqid
+	private String ticketSql;//票房sql
+	private String goodsSql;//卖品sql
+	private String memberSql;//会员sql
 
 	public String getOwnerLevel() {
 		return ownerLevel;
@@ -81,4 +80,29 @@ public class ExtPointCriteriaVo extends BaseAuditVo {
 		this.configVersion = configVersion;
 	}
 
+	public String getTicketSql() {
+		return ticketSql;
+	}
+
+	public void setTicketSql(String ticketSql) {
+		this.ticketSql = ticketSql;
+	}
+
+	public String getGoodsSql() {
+		return goodsSql;
+	}
+
+	public void setGoodsSql(String goodsSql) {
+		this.goodsSql = goodsSql;
+	}
+
+	public String getMemberSql() {
+		return memberSql;
+	}
+
+	public void setMemberSql(String memberSql) {
+		this.memberSql = memberSql;
+	}
+
+	
 }

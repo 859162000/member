@@ -209,11 +209,20 @@ public class ExtPointCriteriaAction {
 					epc.setMemberSql(memsql);
 				}
 			}else{
-				String ticketsql = criteriaQueryService.getExtPointTicketQuery(criteria).getParameterizeText();
+				CriteriaResult ticketcr = criteriaQueryService.getExtPointTicketQuery(criteria);
+				String ticketsql = null;
+				if(ticketcr!=null){
+					ticketsql = ticketcr.getParameterizeText();
+				}
 				if(null!=ticketsql&&ticketsql.length()>0){
 					epc.setTicketSql(ticketsql);
 				}
-				String consql = criteriaQueryService.getExtPointConSaleQuery(criteria).getParameterizeText();
+				CriteriaResult concr = criteriaQueryService.getExtPointConSaleQuery(criteria);
+				String consql = null;
+				if(concr!=null){
+					consql = concr.getParameterizeText();
+				}
+				
 				if(null!=consql&&consql.length()>0){
 					epc.setGoodsSql(consql);
 				}
