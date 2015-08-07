@@ -30,7 +30,7 @@ public class ConstDef {
 	public final static String CONST_INTFCODE_M_MEMBERJOINCARD = "M1015";
 	public final static String CONST_INTFCODE_M_WEBTRANSORDER = "M1016";
 	public final static String CONST_INTFCODE_M_REWARD = "M1018";
-	
+	public final static String CONST_INTFCODE_M_BATCHBIND = "M1019";
 	
 	//业务参数标签名
 	public final static String CONST_INTFCODE_M_REGISTER_NAME = "NAME";
@@ -77,6 +77,9 @@ public class ConstDef {
 	public final static String CONST_RESPCODE_MOBILE_NOT_RIGHT = "C010001"; //手机号不正确
 	public final static String CONST_RESPCODE_MOBILE_IS_EXIST = "C010002"; //手机号存在
 	public final static String CONST_RESPCODE_EMAIL_NOT_RIGHT = "C010003"; //邮箱不正确
+	public final static String  CONST_RESPCODE_PARAM_EMPTY			= "C010005"; //参数值为空
+	public final static String  CONST_RESPCODE_AESEN_EXCEPTION      = "PT90001"; //AES 加密错误
+	public final static String  CONST_RESPCODE_AESDEC_EXCEPTION      = "PT90002"; //AES 解密错误
 	
 	public final static String CONST_BIZPARAM_FILM_INFO = "FILM_INFO";//场次购票信息
 	public final static String CONST_BIZPARAM_GOODSINFO = "GOODS_INFO";//卖品信息
