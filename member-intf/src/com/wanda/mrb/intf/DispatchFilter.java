@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 
+import com.wanda.mrb.intf.member.BatchBindOrUnbind;
 import com.wanda.mrb.intf.member.BindVoucher;
 import com.wanda.mrb.intf.member.CheckMember;
 import com.wanda.mrb.intf.member.GetPointHistory;
@@ -57,6 +58,7 @@ public class DispatchFilter implements Filter {
 	public static final String MEMBER_JOIN_CARD = "/member/memberjoincard";
 	public static final String WEB_TRANS_ORDER = "/member/webtransorder";
 	public static final String REWARD = "/member/reward";
+	public static final String BATCHBINDORUNBIND = "/member/batchbindorunbind";
 	
     public DispatchFilter() {
 	}
@@ -112,6 +114,9 @@ public class DispatchFilter implements Filter {
 			action=new WebTransOrder();
 		}else if (url.startsWith(REWARD)) {
 			action=new Reward();
+		}
+		else if (url.startsWith(BATCHBINDORUNBIND)) {
+			action=new BatchBindOrUnbind();
 		}else if (url.equals("/")) {
 			request.getRequestDispatcher("/a.html").forward(request, response);                    
 			return;
