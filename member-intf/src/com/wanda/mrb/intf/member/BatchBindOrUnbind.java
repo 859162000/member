@@ -45,8 +45,8 @@ public class BatchBindOrUnbind extends ServiceBase {
 
 		String[] vStrs = voucherNumbers.trim().split("\\,");
 		voucherNumList = Arrays.asList(vStrs);
-		if(voucherNumList.size()>6){
-			throwsBizException("M090011", "被操作的券的个数不能超出6个"+":"+voucherNumbers);
+		if(voucherNumList.size()>10){
+			throwsBizException("M090011", "被操作的券的个数不能超出10个"+":"+voucherNumbers);
 		}
 		for(String voucherNumber : voucherNumList){
 			// 判断券是否存在
