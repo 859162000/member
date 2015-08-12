@@ -263,6 +263,15 @@
 						required : false,
 						validate : {type:'integer'}
 						
+					}, {
+						id : "watchPayMethod",
+						label : "观影支付方式",
+						desc : "观影支付方式",
+						type : "multiselect",
+						param : "sourceId:paymethod;typeId:1",
+						allowedOperators : "in",
+						repeatable : false,
+						required : false
 					} ]
 				}, {
 					id : "conSale",
@@ -344,7 +353,16 @@
 						allowedOperators : "in",
 						repeatable : false,
 						required : false
-					}
+					}, {
+						id : "conSalePayMethod",
+						label : "卖品支付方式",
+						desc : "卖品支付方式",
+						type : "multiselect",
+						param : "sourceId:paymethod;typeId:1",
+						allowedOperators : "in",
+						repeatable : false,
+						required : false
+					} 
 					]
 				} ]
 			}
