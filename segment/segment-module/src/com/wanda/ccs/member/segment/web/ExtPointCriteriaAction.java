@@ -204,7 +204,11 @@ public class ExtPointCriteriaAction {
 			List<ExpressionCriterion> criteria = JsonCriteriaHelper.parse(epc.getCriteriaScheme());
 			Set<String> groupIds = getGroupIdSet(criteria);
 			if(isMemberRule(groupIds)){
-				String memsql = criteriaQueryService.getExtPointMemberQuery(criteria).getParameterizeText();
+				CriteriaResult memcr = criteriaQueryService.getExtPointTicketQuery(criteria);
+				String memsql = null;
+				if(memcr !=null){
+					memsql = memcr.getComposedText();
+				}
 				if(null!=memsql&&memsql.length()>0){
 					epc.setMemberSql(memsql);
 				}
@@ -212,7 +216,7 @@ public class ExtPointCriteriaAction {
 				CriteriaResult ticketcr = criteriaQueryService.getExtPointTicketQuery(criteria);
 				String ticketsql = null;
 				if(ticketcr!=null){
-					ticketsql = ticketcr.getParameterizeText();
+					ticketsql = ticketcr.getComposedText();
 				}
 				if(null!=ticketsql&&ticketsql.length()>0){
 					epc.setTicketSql(ticketsql);
@@ -220,7 +224,7 @@ public class ExtPointCriteriaAction {
 				CriteriaResult concr = criteriaQueryService.getExtPointConSaleQuery(criteria);
 				String consql = null;
 				if(concr!=null){
-					consql = concr.getParameterizeText();
+					consql = concr.getComposedText();
 				}
 				
 				if(null!=consql&&consql.length()>0){
