@@ -41,7 +41,63 @@ public class ExtPointCriteriaDef {
 		Map<Object, Object> booleanMapper = new HashMap<Object, Object>();
 		booleanMapper.put("0", "is null");
 		booleanMapper.put("1", "is not null");	
-		
+		Map<Object, Object> payMethMapper = new HashMap<Object, Object>();
+		payMethMapper.put("Card", "consale.CARD_KEY <> -999");
+		payMethMapper.put("Voucher","consale.PAY_METHOD_KEY = 227");
+		payMethMapper.put("bank","consale.PAY_METHOD_KEY = 228");
+		payMethMapper.put("Cash","consale.PAY_METHOD_KEY = 230");
+		payMethMapper.put("Cheque","consale.PAY_METHOD_KEY = 231");
+		payMethMapper.put("ratio","consale.PAY_METHOD_KEY = 232");
+		payMethMapper.put("CreditCard","consale.PAY_METHOD_KEY = 233");
+		payMethMapper.put("Corp","consale.PAY_METHOD_KEY = 234");
+		payMethMapper.put("Arrearage","consale.PAY_METHOD_KEY = 235");
+		payMethMapper.put("Alipay","consale.PAY_METHOD_KEY = 236");
+		payMethMapper.put("PayPal","consale.PAY_METHOD_KEY = 237");
+		payMethMapper.put("Lakala","consale.PAY_METHOD_KEY = 238");
+		payMethMapper.put("BankAlipay","consale.PAY_METHOD_KEY = 239");
+		payMethMapper.put("PostalPay","consale.PAY_METHOD_KEY = 240");
+		payMethMapper.put("Telpay","consale.PAY_METHOD_KEY = 241");
+		payMethMapper.put("Tenpay","consale.PAY_METHOD_KEY = 242");
+		payMethMapper.put("Zero","consale.PAY_METHOD_KEY = 243");
+		payMethMapper.put("CommPay","consale.PAY_METHOD_KEY = 244");
+		payMethMapper.put("CmbPay","consale.PAY_METHOD_KEY = 245");
+		payMethMapper.put("UnionPay","consale.PAY_METHOD_KEY = 246");
+		payMethMapper.put("BOC","consale.PAY_METHOD_KEY = 247");
+		payMethMapper.put("Present","consale.PAY_METHOD_KEY = 248");
+		payMethMapper.put("ZhaoDai","consale.PAY_METHOD_KEY = 249");
+		payMethMapper.put("OC","consale.PAY_METHOD_KEY = 250");
+		payMethMapper.put("O","consale.PAY_METHOD_KEY = 251");
+		payMethMapper.put("OV","consale.PAY_METHOD_KEY = 252");
+		payMethMapper.put("未知","consale.PAY_METHOD_KEY = -999 ");
+		Map<Object, Object> transPayMethMapper = new HashMap<Object, Object>();
+		transPayMethMapper.put("Card", "transSales.CARD_KEY <> -999");
+		transPayMethMapper.put("Voucher","transSales.PAY_METHOD_KEY = 227");
+		transPayMethMapper.put("bank","transSales.PAY_METHOD_KEY = 228");
+		transPayMethMapper.put("Cash","transSales.PAY_METHOD_KEY = 230");
+		transPayMethMapper.put("Cheque","transSales.PAY_METHOD_KEY = 231");
+		transPayMethMapper.put("ratio","transSales.PAY_METHOD_KEY = 232");
+		transPayMethMapper.put("CreditCard","transSales.PAY_METHOD_KEY = 233");
+		transPayMethMapper.put("Corp","transSales.PAY_METHOD_KEY = 234");
+		transPayMethMapper.put("Arrearage","transSales.PAY_METHOD_KEY = 235");
+		transPayMethMapper.put("Alipay","transSales.PAY_METHOD_KEY = 236");
+		transPayMethMapper.put("PayPal","transSales.PAY_METHOD_KEY = 237");
+		transPayMethMapper.put("Lakala","transSales.PAY_METHOD_KEY = 238");
+		transPayMethMapper.put("BankAlipay","transSales.PAY_METHOD_KEY = 239");
+		transPayMethMapper.put("PostalPay","transSales.PAY_METHOD_KEY = 240");
+		transPayMethMapper.put("Telpay","transSales.PAY_METHOD_KEY = 241");
+		transPayMethMapper.put("Tenpay","transSales.PAY_METHOD_KEY = 242");
+		transPayMethMapper.put("Zero","transSales.PAY_METHOD_KEY = 243");
+		transPayMethMapper.put("CommPay","transSales.PAY_METHOD_KEY = 244");
+		transPayMethMapper.put("CmbPay","transSales.PAY_METHOD_KEY = 245");
+		transPayMethMapper.put("UnionPay","transSales.PAY_METHOD_KEY = 246");
+		transPayMethMapper.put("BOC","transSales.PAY_METHOD_KEY = 247");
+		transPayMethMapper.put("Present","transSales.PAY_METHOD_KEY = 248");
+		transPayMethMapper.put("ZhaoDai","transSales.PAY_METHOD_KEY = 249");
+		transPayMethMapper.put("OC","transSales.PAY_METHOD_KEY = 250");
+		transPayMethMapper.put("O","transSales.PAY_METHOD_KEY = 251");
+		transPayMethMapper.put("OV","transSales.PAY_METHOD_KEY = 252");
+		transPayMethMapper.put("未知","transSales.PAY_METHOD_KEY = -999 ");
+	
 		//公共条件
 		Clause whereDef = newPlain().in("where").output("member.STATUS='1' and member.ISDELETE = 0");
 		
@@ -147,8 +203,9 @@ public class ExtPointCriteriaDef {
 			.add(notEmpty("birthdayFilm"), newPlain().in("where").output("to_char(member.BIRTHDAY,'mm/dd')=to_char(consale.BOOK_DATE_KEY,'mm/dd')")
 					.depends(consale))
 			//卖品支付方式
-		    .add(notEmpty("conSalePayMethod"), newExpression().in("where").output("consale_paymethod.PAY_METHOD_CODE", DataType.STRING)
-				.depends(consale_paymethod))
+			.add(notEmpty("conSalePayMethod"), newValue().in("where").output("({*|or})", DataType.SQL, true).addValueMapper(0, payMethMapper).depends(consale))
+//		    .add(notEmpty("conSalePayMethod"), newExpression().in("where").output("consale_paymethod.PAY_METHOD_CODE", DataType.STRING)
+//				.depends(consale_paymethod))
 			//添加会员基本信息的查询
 			.add(notEmpty("registerCinema"), member_registerCinema)//注册影城
 			.add(notEmpty("gender"), member_gender) //性别
@@ -212,8 +269,8 @@ public class ExtPointCriteriaDef {
 			.add(notEmpty("birthdayFilm"), newPlain().in("where").output("to_char(member.BIRTHDAY,'mm/dd')=to_char(transSales.SHOW_DATE_KEY,'mm/dd')")
 					.depends(transSales))
 			//观影支付方式
-			.add(notEmpty("watchPayMethod"), newExpression().in("where").output("transSales_paymethod.PAY_METHOD_CODE", DataType.STRING)
-				.depends(transSales_paymethod))
+					.add(notEmpty("watchPayMethod"), newValue().in("where").output("({*|or})", DataType.SQL, true).addValueMapper(0, transPayMethMapper).depends(transSales))
+//			.add(notEmpty("watchPayMethod"), newExpression().in("where").output("transSales_paymethod.PAY_METHOD_CODE", DataType.STRING).depends(transSales_paymethod))
 			//添加会员基本信息的查询
 			.add(notEmpty("registerCinema"), member_registerCinema)//注册影城
 			.add(notEmpty("gender"), member_gender) //性别
