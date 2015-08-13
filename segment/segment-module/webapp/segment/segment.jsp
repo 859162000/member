@@ -156,7 +156,7 @@ $(function() {
 			    } */
 				cellHtml += '<button name="onDeleteBtn" key=' + rowdata['SEGMENT_ID'] + ' type="button" wrType="button" wrParam="icon:ui-icon-trash;text:false" style="height:22px;" title="删除"/>';
 			}
-			cellHtml += '<button name="onCreateBtn" key=' + rowdata['SEGMENT_ID'] + ' type="button" wrType="button" wrParam="icon:ui-icon-pencil;text:false" style="height:22px;" title="创建客群短信"/>&nbsp;';
+// 			cellHtml += '<button name="onCreateBtn" key=' + rowdata['SEGMENT_ID'] + ' type="button" wrType="button" wrParam="icon:ui-icon-pencil;text:false" style="height:22px;" title="创建客群短信"/>&nbsp;';
 			$(this).setCell(rowid, 'ACTIONS', cellHtml);
 			$('button[wrType=button]', this).wrender();
 		}
