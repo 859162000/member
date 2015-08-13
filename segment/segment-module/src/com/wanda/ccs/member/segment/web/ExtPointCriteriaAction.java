@@ -207,7 +207,7 @@ public class ExtPointCriteriaAction {
 				CriteriaResult memcr = criteriaQueryService.getExtPointTicketQuery(criteria);
 				String memsql = null;
 				if(memcr !=null){
-					memsql = memcr.getComposedText();
+					memsql = memcr.getParameterizeText();
 				}
 				if(null!=memsql&&memsql.length()>0){
 					epc.setMemberSql(memsql);
@@ -216,7 +216,7 @@ public class ExtPointCriteriaAction {
 				CriteriaResult ticketcr = criteriaQueryService.getExtPointTicketQuery(criteria);
 				String ticketsql = null;
 				if(ticketcr!=null){
-					ticketsql = ticketcr.getComposedText();
+					ticketsql = ticketcr.getParameterizeText();
 				}
 				if(null!=ticketsql&&ticketsql.length()>0){
 					epc.setTicketSql(ticketsql);
@@ -224,7 +224,7 @@ public class ExtPointCriteriaAction {
 				CriteriaResult concr = criteriaQueryService.getExtPointConSaleQuery(criteria);
 				String consql = null;
 				if(concr!=null){
-					consql = concr.getComposedText();
+					consql = concr.getParameterizeText();
 				}
 				
 				if(null!=consql&&consql.length()>0){
@@ -253,16 +253,29 @@ public class ExtPointCriteriaAction {
 			List<ExpressionCriterion> criteria = JsonCriteriaHelper.parse(vo.getCriteriaScheme());
 			Set<String> groupIds = getGroupIdSet(criteria);
 			if(isMemberRule(groupIds)){
-				String memsql = criteriaQueryService.getExtPointMemberQuery(criteria).getParameterizeText();
+				CriteriaResult mquery =  criteriaQueryService.getExtPointMemberQuery(criteria);
+				String memsql = null;
+				if(mquery!=null){
+					memsql = mquery.getParameterizeText();
+				}
 				if(null!=memsql&&memsql.length()>0){
 					vo.setMemberSql(memsql);
 				}
 			}else{
-				String ticketsql = criteriaQueryService.getExtPointTicketQuery(criteria).getParameterizeText();
+				CriteriaResult ticketQuery = criteriaQueryService.getExtPointTicketQuery(criteria);
+				String ticketsql = null;
+				if(ticketQuery!=null){
+					ticketsql = ticketQuery.getParameterizeText();
+				}
 				if(null!=ticketsql&&ticketsql.length()>0){
 					vo.setTicketSql(ticketsql);
 				}
-				String consql = criteriaQueryService.getExtPointConSaleQuery(criteria).getParameterizeText();
+				
+				CriteriaResult conQuery = criteriaQueryService.getExtPointConSaleQuery(criteria);
+				String consql = null;
+				if(ticketQuery!=null){
+					consql = conQuery.getParameterizeText();
+				}
 				if(null!=consql&&consql.length()>0){
 					vo.setGoodsSql(consql);
 				}
