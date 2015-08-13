@@ -273,7 +273,7 @@ public class ExtPointCriteriaAction {
 				
 				CriteriaResult conQuery = criteriaQueryService.getExtPointConSaleQuery(criteria);
 				String consql = null;
-				if(ticketQuery!=null){
+				if(conQuery!=null){
 					consql = conQuery.getParameterizeText();
 				}
 				if(null!=consql&&consql.length()>0){
