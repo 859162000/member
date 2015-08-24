@@ -259,17 +259,20 @@ public class ExtPointCriteriaDef {
 			//观影交易小时
 			.add(notEmpty("watchTradeHour"), newExpression().in("where").output("transSales.SHOW_HOUR_KEY", DataType.STRING)
 					.depends(transSales))
+			//交易星期
+			.add(notEmpty("transWeeks"), newExpression().in("where").output("transSales_date.FEW_WEEK_ID", DataType.STRING)
+		 		.depends(transSales_date))
 			//观影交易影城
 			.add(notEmpty("watchTradeCinema"), newExpression().in("where").output("transSales_cinema.INNER_CODE", DataType.STRING, cinemaCom)
-					.depends(transSales_cinema))
+			.depends(transSales_cinema))
 			//观影影片
 			.add(notEmpty("transFilm"), newExpression().in("where").output("transSales_film.FILM_CODE", DataType.STRING, filmCom)
-					.depends(transSales_film))
+			.depends(transSales_film))
 			//生日当天观影
 			.add(notEmpty("birthdayFilm"), newPlain().in("where").output("to_char(member.BIRTHDAY,'mm/dd')=to_char(transSales.SHOW_DATE_KEY,'mm/dd')")
-					.depends(transSales))
+			.depends(transSales))
 			//观影支付方式
-					.add(notEmpty("watchPayMethod"), newValue().in("where").output("({*|or})", DataType.SQL, true).addValueMapper(0, transPayMethMapper).depends(transSales))
+			.add(notEmpty("watchPayMethod"), newValue().in("where").output("({*|or})", DataType.SQL, true).addValueMapper(0, transPayMethMapper).depends(transSales))
 //			.add(notEmpty("watchPayMethod"), newExpression().in("where").output("transSales_paymethod.PAY_METHOD_CODE", DataType.STRING).depends(transSales_paymethod))
 			//添加会员基本信息的查询
 			.add(notEmpty("registerCinema"), member_registerCinema)//注册影城
