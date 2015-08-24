@@ -159,7 +159,7 @@
 					selLabel: null, //选择返回显示名称的列名
 					sortName: null, //排序列名
 					sortOrder: "asc", //排序顺序, 可选值："asc", "desc"
-					maxSelections: 200, //最大可选目标数量，缺省为200
+					maxSelections: 500, //最大可选目标数量，缺省为500
 					width: 700,
 					height: 500,
 					inputs: [
