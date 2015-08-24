@@ -233,6 +233,15 @@
 						required : false,
 						validate : {type:'number'}
 					}, {
+						id : "transWeeks",
+						label : "交易星期",
+						desc : "交易星期",
+						type : "multiselect",
+						param : "sourceId:dimdef;typeId:1020",
+						allowedOperators : "in",
+						repeatable : false,
+						required : false
+					}, {
 						id : "holidayWatchTrade",
 						label : "节假日观影",
 						desc : "节假日观影",
