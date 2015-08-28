@@ -29,6 +29,7 @@ public class CheckMember extends ServiceBase {
 	TContent content = new TContent();
 	GetEventCmn gec = new GetEventCmn();
 
+	@SuppressWarnings("unused")
 	@Override
 	protected void bizPerform() throws Exception {
 		Connection conn = getDBConnection();
@@ -59,7 +60,7 @@ public class CheckMember extends ServiceBase {
 		if (rs != null && rs.next()) {
 			memberSeqId = rs.getLong("MEMBER_ID"); // 获取主键
 			memberStatus = rs.getString("STATUS");
-			if ("1".equals(memberStatus)) {
+			if ("1".equals(memberStatus)||"-1".equals(memberStatus)) {
 				// 获取到了memberid之后，可以根据memberid获取到会员信息
 				// t_member基本信息
 				
@@ -71,11 +72,6 @@ public class CheckMember extends ServiceBase {
 					member.name = rs.getString("NAME");
 					member.arrivalType = rs.getString("ARRIVAL_TYPE");
 					member.oftenChannel = rs.getString("OFTEN_CHANNEL");
-					/*member.name = member.name.replace("&", "&amp;");
-					member.name = member.name.replace("<", "&lt;");
-					member.name = member.name.replace(">", "&gt;");
-					member.name = member.name.replace("&apos;", "&apos;");
-					member.name = member.name.replace("\"", "&quot;");*/
 					member.mobile = rs.getString("MOBILE");
 					member.email = rs.getString("EMAIL");
 					member.birthday = rs.getString("BIRTHDAY");
@@ -193,55 +189,11 @@ public class CheckMember extends ServiceBase {
 					member.exgPointBalance = rs.getInt("EXG_POINT_BALANCE");
 					member.exgExpirePointBal = rs.getInt("EXG_EXPIRE_POINT_BALANCE");
 				}
-				
 				//获取短信平台代理地址和通道号
 				String msgSvcIp = "";
 				String msgChannelId = "";
 				String msgCheckOpen = "";
 				String msgOpen = "";
-//				try {
-//					ps = conn.prepareStatement(SQLConstDef.SELECT_MSG_SVC_INFO);
-//					ps.setString(1, "MSG_MQ_IP");
-//					rs = ps.executeQuery();
-//					while (rs.next()) {
-//						msgSvcIp = rs.getString("parameter_value");
-//					}
-//					
-//					ps = conn.prepareStatement(SQLConstDef.SELECT_MSG_SVC_INFO);
-//					ps.setString(1, "MSG_CHANNEL_ID");
-//					rs = ps.executeQuery();
-//					while (rs.next()) {
-//						msgChannelId = rs.getString("parameter_value");
-//					}
-//					
-//					ps = conn.prepareStatement(SQLConstDef.SELECT_MSG_SVC_INFO);
-//					ps.setString(1, "MSG_CHECK_OPEN");
-//					rs = ps.executeQuery();
-//					while (rs.next()) {
-//						msgCheckOpen = rs.getString("parameter_value");
-//					}
-//					
-//					ps = conn.prepareStatement(SQLConstDef.SELECT_MSG_SVC_INFO);
-//					ps.setString(1, "MSG_OPEN");
-//					rs = ps.executeQuery();
-//					while (rs.next()) {
-//						msgOpen = rs.getString("parameter_value");
-//					} 
-//					
-//					if ("0".equals(msgOpen)) {
-//						cinemaInnerCode = "001";
-//					} else {
-//						ps = conn.prepareStatement(SQLConstDef.SELECT_MSG_CINEMA_INNERCODE);
-//						ps.setLong(1, memberSeqId);
-//						rs = ps.executeQuery();
-//						while (rs.next()) {
-//							cinemaInnerCode = rs.getString("inner_code");
-//						}
-//					}
-//				} catch (Exception e) {
-//					conn.rollback();
-//					throw e;
-//				}
 				
 				Map<String,String> msgConfigMap = SmsConfigFactory.getSmsConfigInstance(conn);
 				msgSvcIp = msgConfigMap.get("MSG_MQ_IP");
@@ -266,27 +218,13 @@ public class CheckMember extends ServiceBase {
 					content = gec.getCheckEvenContent(member.birthday, member.levelCode, member.setTime, 
 							member.levelPointOffset, member.ticketOffset, memberSeqId, conn, triggerSystem);
 					member.talk = content.getPosIntfCount();
-//					ResultQuery rsq=SqlHelp.query(conn, SQLConstDef.MEMBER_SELECT_INNERCODE_BY_CODE, super.cinemaCode);
-//					rs=rsq.getResultSet();
-//					while (rs.next()) {
-//						cinemaInnerCode = rs.getString("INNER_CODE");
-//					}
-//					SendCheckCodeMsg.sendMsgCheckCode(member.mobile,cinemaInnerCode,content.getPosMsgContent());
-//					SMSControl smsSendObj = new SMSControl();
-//					smsSendObj.smssend(conn, member.mobile, content.getPosMsgContent());
 					System.err.print(content.getPosMsgContent());
-					String posMsgContent = content.getPosMsgContent();
-//					if ("1".equals(msgCheckOpen) && !"".equals(posMsgContent) && posMsgContent != null) {
-//						SendMsgUtil.sendMsgCheckCode(conn, msgSvcIp, msgChannelId, member.mobile, cinemaInnerCode, content.getPosMsgContent());
-//					}
-//					member.talk = gec.getCheckEvenContent(member.birthday, member.levelCode, member.setTime, 
-//							member.levelPointOffset, member.ticketOffset, memberSeqId, conn, triggerSystem).getPosIntfCount();
 				} else{
 					triggerSystem = "WEB";
 					member.talk = gec.getCheckEvenContent(member.birthday, member.levelCode, member.setTime, 
 							member.levelPointOffset, member.ticketOffset, memberSeqId, conn, triggerSystem).getWebIntfContent();
 				}
-			} else {
+			} else if("0".equals(memberStatus)){
 				throwsBizException("M030004", "该会员已禁用！");
 			}
 		} else {
@@ -387,6 +325,7 @@ public class CheckMember extends ServiceBase {
 		buf.append(createXmlTag("OPERATOR_NAME", member.operatorName));
 		buf.append(createXmlTag("ARRIVAL_TYPE", member.arrivalType==null?"":member.arrivalType));
 		buf.append(createXmlTag("OFTEN_CHANNEL", member.oftenChannel==null?"":member.oftenChannel));
+		buf.append(createXmlTag("STATUS",memberStatus));
 		return buf.toString();
 	}
 
