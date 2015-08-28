@@ -117,6 +117,9 @@
 				<c:when test="${row.status == 1 }">
 					有效
 				</c:when>
+				<c:when test="${row.status == 2 }">
+					冻结
+				</c:when>
 				<c:otherwise>禁用</c:otherwise>
 			</c:choose>
 			
