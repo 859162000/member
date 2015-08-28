@@ -30,10 +30,11 @@
 	<table width="100%" bordercolor="#CCCCCC" border="1" style=" background-color:#fbfbfb">
 		<tbody>
 			<tr>
-				<td align="right" nowrap="nowrap" width="80px">是否禁用:</td>
+				<td align="right" nowrap="nowrap" width="80px">选择会员状态:</td>
 				<td align="left" nowrap="nowrap" width="200px">
-					<input type="radio" name="status" value="0"  />是
-					<input type="radio" name="status" value="1" />否
+					<input type="radio" name="status" value="0"  />禁用
+					<input type="radio" name="status" value="-1" />冻结
+					<input type="radio" name="status" value="1" />有效(解冻/解禁)
 				</td>
 			</tr>
 			<tr>
