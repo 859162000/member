@@ -75,7 +75,7 @@ public class SQLConstDef {
 	public static final String MEMBER_CONTACT_BY_MEMBERID = "SELECT mfc.CONTACT_MEANS " +
 			"FROM T_MEM_FAV_CONTACT mfc WHERE mfc.MEMBER_ID = ?";
 	public static final String MEMBER_LEVEL_BY_MEMBERID = "SELECT ml.MEM_LEVEL,to_char(ml.EXPIRE_DATE,'yyyy-mm-dd') AS EXPIRE_DATE,ml.ORG_LEVEL," +
-			"to_char(ml.SET_TIME,'yyyy-mm-dd hh24:mi:ss') AS SET_TIME,ml.TARGET_LEVEL,ml.LEVEL_POINT_OFFSET,ml.TICKET_OFFSET " +
+			"to_char(ml.SET_TIME,'yyyy-mm-dd hh24:mi:ss') AS SET_TIME,ml.TARGET_LEVEL,ml.LEVEL_POINT_OFFSET,ml.TICKET_OFFSET,ml.TICKET_OFFSET_UP " +
 			"FROM T_MEMBER_LEVEL ml WHERE ml.MEMBER_ID = ?";
 	public static final String MEMBER_CARD_BY_MEMBERID = "SELECT mc.CARD_NUMBER " +
 			"FROM T_MACK_DADDY_CARD mc WHERE mc.MEMBER_ID = ?";
