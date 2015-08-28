@@ -52,7 +52,7 @@ public class TMember extends BlameableEntity implements java.io.Serializable {
 	private String registOpNo;// 注册号
 	private String registOpName;// 注册名
 	private Long registCinemaId;// 影院全国长码
-	private Long status;// 1:有效;0:无效
+	private Long status;// 1:有效;0:禁用 ;-1冻结
 	private TMemFavFilmtype tMemFavFilmtypes = new TMemFavFilmtype();
 	private TMemFavContact tMemFavContacts = new TMemFavContact();
 	private TMemberAddr tMemberAddrs = new TMemberAddr();
