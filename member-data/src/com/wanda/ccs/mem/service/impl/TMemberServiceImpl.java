@@ -270,7 +270,7 @@ public class TMemberServiceImpl extends BaseCrudServiceImpl<TMember> implements
 				super.createOrUpdate(tMember);
 				
 				TMemberLog tMemberLog = new TMemberLog();
-				tMemberLog.setChangedBy(tMember.getUpdatedBy());
+				tMemberLog.setChangedBy(user.getId());
 				tMemberLog.setChangedDate(new Date());
 				tMemberLog.setMeberId(tMember.getId());
 				tMemberLog.setMemberMobile(tMember.getMobile());
