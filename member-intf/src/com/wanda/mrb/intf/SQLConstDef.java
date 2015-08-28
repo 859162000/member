@@ -83,7 +83,7 @@ public class SQLConstDef {
 	public static final String MEMBER_CHECK_MOBILE_NO = "SELECT * FROM T_MEMBER where MOBILE = ? and ISDELETE = '0'";
 	public static final String MEMBER_SELECT_INFO = "SELECT m.MEMBER_NO,tmp.LEVEL_POINT_TOTAL," +
 			"tmp.ACTIVITY_POINT,tmp.EXG_POINT_BALANCE,tml.MEM_LEVEL,to_char(tml.EXPIRE_DATE,'yyyy-mm-dd') AS EXPIRE_DATE,tml.ORG_LEVEL," +
-			"to_char(tml.SET_TIME,'yyyy-mm-dd hh24:mi:ss') AS SET_TIME,tml.TARGET_LEVEL,tml.LEVEL_POINT_OFFSET " +
+			"to_char(tml.SET_TIME,'yyyy-mm-dd hh24:mi:ss') AS SET_TIME,tml.TARGET_LEVEL,tml.LEVEL_POINT_OFFSET,tml.TICKET_OFFSET,tml.TICKET_OFFSET_UP " +
 			"FROM T_MEMBER m, T_MEMBER_LEVEL tml, T_MEMBER_POINT tmp " +
 			"WHERE m.MEMBER_ID = tml.MEMBER_ID and m.MEMBER_ID = tmp.MEMBER_ID and m.MEMBER_ID = ?";
 	/*根据影城编码获得影城id*/

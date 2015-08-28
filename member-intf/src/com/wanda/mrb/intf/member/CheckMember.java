@@ -170,6 +170,7 @@ public class CheckMember extends ServiceBase {
 					member.targetLevel = rs.getString("TARGET_LEVEL");
 					member.levelPointOffset = rs.getString("LEVEL_POINT_OFFSET");
 					member.ticketOffset = rs.getString("TICKET_OFFSET");
+					member.ticketOffsetUp = rs.getString("TICKET_OFFSET_UP");
 				}
 
 				// 会员卡
@@ -375,6 +376,8 @@ public class CheckMember extends ServiceBase {
 		buf.append(createXmlTag("SET_TIME", member.setTime));
 		buf.append(createXmlTag("TARGET_LEVEL", member.targetLevel));
 		buf.append(createXmlTag("LEVEL_POINT_OFFSET", member.levelPointOffset));
+		buf.append(createXmlTag("TICKET_OFFSET", member.ticketOffset));
+		buf.append(createXmlTag("TICKET_OFFSET_UP", member.ticketOffsetUp));
 		buf.append(createXmlTag("MEMBER_CARD_NO", member.cardNumber));// 会员卡号
 		buf.append(createXmlTag("FAV_CINEMA", member.favCinema));
 		buf.append(createXmlTag("FAV_CINEMA_NAME", member.favCinemaName));

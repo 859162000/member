@@ -78,6 +78,7 @@ public class TMember {
 	public String registDate;//注册时间
 	public String talk;
 	public String ticketOffset;
+	public String ticketOffsetUp;
 	public String newMobile;
 	public String oldMobile;
 	public String cardTypeName;
@@ -114,6 +115,14 @@ public class TMember {
 	}
 	public void setTicketOffset(String ticketOffset) {
 		this.ticketOffset = ticketOffset;
+	}
+	
+	
+	public String getTicketOffsetUp() {
+		return ticketOffsetUp;
+	}
+	public void setTicketOffsetUp(String ticketOffsetUp) {
+		this.ticketOffsetUp = ticketOffsetUp;
 	}
 	public String getCounterName() {
 		return counterName;
