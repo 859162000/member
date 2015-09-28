@@ -31,6 +31,7 @@ public class ConstDef {
 	public final static String CONST_INTFCODE_M_WEBTRANSORDER = "M1016";
 	public final static String CONST_INTFCODE_M_REWARD = "M1018";
 	public final static String CONST_INTFCODE_M_BATCHBIND = "M1019";
+	public final static String CONST_INTFCODE_M_BING_BYMOBILE = "M1020";
 	
 	//业务参数标签名
 	public final static String CONST_INTFCODE_M_REGISTER_NAME = "NAME";

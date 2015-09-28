@@ -96,6 +96,9 @@ public class SQLConstDef {
 	/*验证会员是否存在*/
 	public static final String CHECK_MEMBER = "select MEMBER_ID from T_MEMBER where MEMBER_NO=? and ISDELETE = '0'";
 	
+	/*验证会员是否存在*/
+	public static final String CHECK_MEMBER_BY_MOBILE = "select MEMBER_ID,STATUS from T_MEMBER where MOBILE=? and ISDELETE = '0' ";
+	
 	public static final String MEMBER_CARD_REL="select c.CARD_NUMBER, y.TYPE_NAME ,y.TYPE_CODE " +
 			"from T_CARD c ,T_MEM_CARD_REL  r ,T_MEMBER m, T_CARD_TYPE y " +
 			"where c.CARD_TYPE_ID=y.CARD_TYPE_ID and c.card_id=r.card_id " +
