@@ -15,7 +15,7 @@ import org.apache.log4j.Logger;
 
 import com.wanda.mrb.intf.member.BatchBindOrUnbind;
 import com.wanda.mrb.intf.member.BindVoucher;
-import com.wanda.mrb.intf.member.BindVoucherByMobile;
+import com.wanda.mrb.intf.member.ByMobileBinded;
 import com.wanda.mrb.intf.member.CheckMember;
 import com.wanda.mrb.intf.member.GetPointHistory;
 import com.wanda.mrb.intf.member.GetTransHistory;
@@ -60,7 +60,7 @@ public class DispatchFilter implements Filter {
 	public static final String WEB_TRANS_ORDER = "/member/webtransorder";
 	public static final String REWARD = "/member/reward";
 	public static final String BATCHBINDORUNBIND = "/member/batchbindorunbind";
-	public static final String BINGBYMOBILE = "/member/bindvoucherbyphone";
+	public static final String BINGBYMOBILE = "/member/bvbymobile";
 	
     public DispatchFilter() {
 	}
@@ -120,7 +120,7 @@ public class DispatchFilter implements Filter {
 		else if (url.startsWith(BATCHBINDORUNBIND)) {
 			action=new BatchBindOrUnbind();
 		}else if (url.startsWith(BINGBYMOBILE)) {
-			action=new BindVoucherByMobile();
+			action=new ByMobileBinded();
 		}else if (url.equals("/")) {
 			request.getRequestDispatcher("/a.html").forward(request, response);                    
 			return;
