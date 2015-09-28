@@ -405,6 +405,32 @@ public abstract class ServiceBase{
 		return memberId;
 	}
 	
+	public int checkMemberByMobile(Connection conn,String... memberNo) throws BusinessException, SQLException {
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		int memberId=0;
+		ps = conn.prepareStatement(SQLConstDef.CHECK_MEMBER_BY_MOBILE);
+		if(memberNo!=null&&memberNo.length!=0){
+			ps.setString(1, memberNo[0]);
+		}else{
+			ps.setString(1, this.memberNo);
+		}
+		rs = ps.executeQuery();
+		if(rs ==null || !rs.next()){
+			throwsBizException("M0001", "会员不存在");
+		}else{
+			String status = rs.getString("STATUS");
+			if("0".equals(status)){
+				throwsBizException("E00010", "会员已禁用");
+			}
+			if("-1".equals(status)){
+				throwsBizException("E00011", "会员已冻结");
+			}
+			memberId=rs.getInt("MEMBER_ID");
+		}
+		return memberId;
+	}
+	
 	public void checkMobileNO(Connection conn,String mobileNO) throws BusinessException, SQLException {
 		//校验手机号是否合法
 		String regExp = "(^[\\d]{0,0}$)|(^[1][3-8]+\\d{9})";
