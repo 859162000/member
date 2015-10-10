@@ -79,6 +79,10 @@ public class UpdateMember extends ServiceBase {
 			}
 		}
 		if (updateBirth || updateMobile) {
+			// 验证手机号
+			if(updateMobile){
+				checkMobile(conn, member.mobile);
+			}			
 			SqlHelp.operate(conn, SQLConstDef.INSERT_MEMBER_LOG,
 					""+memberId,member.mobile,member.operator,member.operator,member.operator,member.birthday);
 		}

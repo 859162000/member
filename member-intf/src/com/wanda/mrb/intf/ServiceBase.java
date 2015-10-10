@@ -458,4 +458,24 @@ public abstract class ServiceBase{
 			throwsBizException("M010003","邮箱不正确");
 		}
 	}
+	
+	
+	public void checkMobile(Connection conn,String mobileNO) throws BusinessException, SQLException {
+		//校验手机号是否合法
+		String regExp = "(^[\\d]{0,0}$)|(^[1][3-8]+\\d{9})";
+		Pattern p = Pattern.compile(regExp);
+		Matcher m = p.matcher(mobileNO);
+		if(!m.find()){
+			throwsBizException("M010001","手机号不正确");
+		}
+	}
+	public void checkEmails(Connection conn,String email) throws BusinessException{
+		//校验邮箱地址是否合法
+		String regExp = "(^[\\S]{0,0}$)|(^[\\S]*@[\\S]*.[\\S]*$)";
+		Pattern p = Pattern.compile(regExp);
+		Matcher m = p.matcher(email);
+		if(!m.find()){
+			throwsBizException("M010003","邮箱不正确");
+		}
+	}
 }
