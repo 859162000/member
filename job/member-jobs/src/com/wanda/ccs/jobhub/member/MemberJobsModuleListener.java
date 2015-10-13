@@ -28,7 +28,7 @@ public class MemberJobsModuleListener implements ModuleListener {
 	private Log log = LogFactory.getLog(MemberJobsModuleListener.class);
 	
 	private Class[] jobConfigs = {
-		HelloJobConf.class,
+//		HelloJobConf.class,
 		ChangeMemberPointJobConf.class,
 		CreateCardJobConf.class,
 		CreateContactHistoryJobConf.class,
@@ -39,7 +39,7 @@ public class MemberJobsModuleListener implements ModuleListener {
 		SegmentExportJobConf.class,
 		CampaignCalculateJobConf.class,
 		StatusChangingJobConf.class,
-		MemberNextLevelJobConf.class,
+//		MemberNextLevelJobConf.class,
 	};
 	
 	public void init(PathletContainer container, Module module) {
