@@ -258,10 +258,10 @@ public class ChangeMemberPointDao {
 								try {
 									BigDecimal point = new BigDecimal(beans[c])
 											.setScale(0, BigDecimal.ROUND_DOWN);
-									if (point.longValue() > 0) {
-										rowDateLog(logMsg, beans, "非定级积分只能为负",
-												i);
-									}
+//									if (point.longValue() > 0) {
+//										rowDateLog(logMsg, beans, "非定级积分只能为负",
+//												i);
+//									}
 									if (pointHistroy.getLevel_Point() != 0) {
 										rowDateLog(logMsg, beans,
 												"定级或非定级积分不能同时出现", i);
