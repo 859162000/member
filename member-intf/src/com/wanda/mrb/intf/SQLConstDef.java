@@ -118,7 +118,7 @@ public class SQLConstDef {
 	public static final String MEMBER_VOUCHER_REL="select A.* from (select distinct p.PRINT_CODE,"+
 	"to_char(o.SALE_DATE,'yyyy-mm-dd hh24:mi:ss') AS SALE_DATE,"+ 
 	"to_char(o.EXPIRY_DATE,'yyyy-mm-dd hh24:mi:ss') AS EXPIRY_DATE,"+ 
-	"t.TYPE_CODE,t.TYPE_NAME,t.USE_TYPE, m.member_no, p.OPERRATE_TYPE, a.SHOW_VALUE as UNIT_VALUE ,a.MIN_PRICE"+ 
+	"t.TYPE_CODE,t.TYPE_NAME,t.USE_TYPE, m.member_no, p.OPERRATE_TYPE, a.SHOW_VALUE as UNIT_VALUE ,a.MIN_PRICE "+ 
 	"from T_MEMBER m, T_VOUCHER_POOL_DETAIL p ,T_VOUCHER v,T_VOUCHER_ORDER o,T_VOUCHER_TYPE t,T_VOUCHER_TYPE_DEF a "+ 
 	"where v.VOUCHER_ORDER_ID=o.VOUCHER_ORDER_ID and v.VOUCHER_TYPE_ID=t.VOUCHER_TYPE_ID  and a.voucher_type_id = v.voucher_type_id "+ 
 	"and m.member_id=p.member_id and p.BAR_CODE=v.BAR_CODE "+ 
