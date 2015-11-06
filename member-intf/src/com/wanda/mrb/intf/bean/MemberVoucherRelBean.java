@@ -9,6 +9,7 @@ public class MemberVoucherRelBean {
 	private String useType;
 	private String operateType;
 	private String unitValue;
+	private String mimPrice;
 	
 	public String getOperateType() {
 		return operateType;
@@ -60,4 +61,11 @@ public class MemberVoucherRelBean {
 	public void setVoucherTypeCodeName(String voucherTypeCodeName) {
 		this.voucherTypeCodeName = voucherTypeCodeName;
 	}
+	public String getMimPrice() {
+		return mimPrice;
+	}
+	public void setMimPrice(String mimPrice) {
+		this.mimPrice = mimPrice;
+	}
+	
 }
