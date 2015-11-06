@@ -118,7 +118,7 @@ public class SQLConstDef {
 	public static final String MEMBER_VOUCHER_REL="select A.* from (select distinct p.PRINT_CODE,"+
 	"to_char(o.SALE_DATE,'yyyy-mm-dd hh24:mi:ss') AS SALE_DATE,"+ 
 	"to_char(o.EXPIRY_DATE,'yyyy-mm-dd hh24:mi:ss') AS EXPIRY_DATE,"+ 
-	"t.TYPE_CODE,t.TYPE_NAME,t.USE_TYPE, m.member_no, p.OPERRATE_TYPE, a.SHOW_VALUE as UNIT_VALUE "+ 
+	"t.TYPE_CODE,t.TYPE_NAME,t.USE_TYPE, m.member_no, p.OPERRATE_TYPE, a.SHOW_VALUE as UNIT_VALUE ,a.MIN_PRICE"+ 
 	"from T_MEMBER m, T_VOUCHER_POOL_DETAIL p ,T_VOUCHER v,T_VOUCHER_ORDER o,T_VOUCHER_TYPE t,T_VOUCHER_TYPE_DEF a "+ 
 	"where v.VOUCHER_ORDER_ID=o.VOUCHER_ORDER_ID and v.VOUCHER_TYPE_ID=t.VOUCHER_TYPE_ID  and a.voucher_type_id = v.voucher_type_id "+ 
 	"and m.member_id=p.member_id and p.BAR_CODE=v.BAR_CODE "+ 
@@ -185,9 +185,9 @@ public class SQLConstDef {
 	/*生成注册影城*/
 	public static final String QUERY_CINEMA_NUM_FROM_CITY = "select count(*) as cinemanum from t_cinema where city = (select city from t_cinema where isopen = 1 and code = ?)";
 	public static final String QUERY_CINEMA_FROM_CITY = "select * from t_cinema where city = (select city from t_cinema where isopen = 1 and code = ?)";
-	
+	public static final String QUERY_VOUCHER_ORDER = "SELECT VOUCHER_ORDER_ID FROM T_VOUCHER_ORDER where APP_STATUS = 'P' and ORDER_STATUS = 'E' AND ORDER_NUM = ? ";
 	/*验证券在总部系统中是否存在*/
-	public static final String QUERY_VOUCHER_BY_BARCODE = "SELECT voucher_number FROM T_VOUCHER where bar_code = ? and voucher_status = 'A'";
+	public static final String QUERY_VOUCHER_BY_BARCODE = "SELECT VOUCHER_NUMBER ,VOUCHER_ORDER_ID FROM T_VOUCHER where bar_code = ? and voucher_status = 'A'";
 	/*验证券是否在券库中*/
 	public static final String QUERY_VOUCHER_POOL_BY_BARCODE = "SELECT VOUCHER_POOL_ID,MEMBER_ID FROM T_VOUCHER_POOL_DETAIL WHERE BAR_CODE = ?";
 	/*查询卡的状态*/
