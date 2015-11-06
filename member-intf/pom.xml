@@ -116,6 +116,11 @@
 			<artifactId>wsdl4j</artifactId>
 			<version>1.6.2</version>
 		</dependency>
+		<dependency>
+		  <groupId>com.wanda.ccs.other</groupId>
+		  <artifactId>bcprov-jdk</artifactId>
+		  <version>14-127</version>
+		</dependency>
 
 		<dependency>
 			<groupId>com.wanda.ccs.member</groupId>
