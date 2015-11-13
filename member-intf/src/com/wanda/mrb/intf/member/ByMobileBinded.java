@@ -29,6 +29,7 @@ public class ByMobileBinded extends ServiceBase {
 	private boolean bindThisMemberFlag = false;// 用来判断是否被绑定到该会员
 	private String orderNumber;
 	private String voucherOrderId;
+	private boolean flag =false;
 
 	public ByMobileBinded() {
 		super();
@@ -39,21 +40,29 @@ public class ByMobileBinded extends ServiceBase {
 	@Override
 	protected void bizPerform() throws Exception {
 		Connection conn = getDBConnection();
+		ResultSet rs = null;
 		memberId = this.checkMemberByMobile(conn, memberNo);
-		// 判断 销售单是否存在 存在取出voucher_order_id
-		ResultQuery rsq1 = SqlHelp.query(conn, SQLConstDef.QUERY_VOUCHER_ORDER,
-				orderNumber);
-		ResultSet rs = rsq1.getResultSet();
-		if (rs == null || !rs.next()) {
-			throwsBizException("M090021", "销售单不存在！");
+		String vNum = null;
+		if(flag){
+			vNum = voucherNumber;
+		}else{
+			// 判断 销售单是否存在 存在取出voucher_order_id
+			ResultQuery rsq1 = SqlHelp.query(conn, SQLConstDef.QUERY_VOUCHER_ORDER,
+					orderNumber);
+			rs = rsq1.getResultSet();
+			if (rs == null || !rs.next()) {
+				throwsBizException("M090021", "销售单不存在！");
+			}else{
+				voucherOrderId = rs.getString("VOUCHER_ORDER_ID");
+			}
+			rsq1.free();
+			vNum = AES.decrypt(voucherNumber, voucherOrderId);
 		}
-		voucherOrderId = rs.getString("VOUCHER_ORDER_ID");
-		rsq1.free();
+		
 		// 判断券是否存在
 		ResultQuery rsq = SqlHelp.query(conn,
 				SQLConstDef.QUERY_VOUCHER_BY_BARCODE,
-				VoucherNumberEncoder.md5Encrypt(AES.decrypt(
-						voucherNumber, voucherOrderId)));
+				VoucherNumberEncoder.md5Encrypt(vNum));
 		rs = rsq.getResultSet();
 		if (rs == null || !rs.next()) {
 			throwsBizException("M090001", "券不存在或券不可用！");
@@ -62,7 +71,7 @@ public class ByMobileBinded extends ServiceBase {
 
 		// 判断券是否在券库中，是否已绑定
 		rsq = SqlHelp.query(conn, SQLConstDef.QUERY_VOUCHER_POOL_BY_BARCODE,
-				VoucherNumberEncoder.md5Encrypt(voucherNumber));
+				VoucherNumberEncoder.md5Encrypt(vNum));
 		rs = rsq.getResultSet();
 		if (rs != null && rs.next()) {
 			bindMemberId = rs.getString("MEMBER_ID");
@@ -74,7 +83,7 @@ public class ByMobileBinded extends ServiceBase {
 						.prepareStatement(SQLConstDef.CHECK_VOUCHER_REL);
 				psBindThisMember.setString(1, this.memberNo);
 				psBindThisMember.setString(2,
-						VoucherNumberEncoder.md5Encrypt(this.voucherNumber));
+						VoucherNumberEncoder.md5Encrypt(vNum));
 				ResultSet rsBindThisMember = psBindThisMember.executeQuery();
 				if (rsBindThisMember != null && rsBindThisMember.next()) {
 					bindThisMemberFlag = true;// 券绑定到了该会员
@@ -102,12 +111,12 @@ public class ByMobileBinded extends ServiceBase {
 							String.valueOf(memberId), "2", // 补充缺少的参数，Fixed by
 															// Zhang Chen
 															// Long(2014-04-29)
-							VoucherNumberEncoder.md5Encrypt(voucherNumber));
+							VoucherNumberEncoder.md5Encrypt(vNum));
 				}
 			} else {// 不在券库中，绑定
 				SqlHelp.operate(conn, SQLConstDef.INSERT_MEMBER_VOUCHER_REL,
-						VoucherCodeUtil.desEncrypt(voucherNumber),
-						VoucherNumberEncoder.md5Encrypt(voucherNumber),
+						VoucherCodeUtil.desEncrypt(vNum),
+						VoucherNumberEncoder.md5Encrypt(vNum),
 						String.valueOf(memberId), "2");
 			}
 		} else if ("2".equals(bindFlag)) {// 2.解绑
@@ -117,7 +126,7 @@ public class ByMobileBinded extends ServiceBase {
 				throwsBizException("M090004", "该券和该会员没有绑定关系，不能解绑！");
 			} else {// 解绑
 				SqlHelp.operate(conn, SQLConstDef.DELETE_MEMBER_VOUCHER_REL,
-						VoucherNumberEncoder.md5Encrypt(voucherNumber));
+						VoucherNumberEncoder.md5Encrypt(vNum));
 			}
 		}
 		rsq.free();
@@ -128,7 +137,6 @@ public class ByMobileBinded extends ServiceBase {
 		memberNo = getChildValueByName(root, "MEMBER_MOBILE", 64);
 		voucherNumber = getChildValueByName(root, "VOUCHER_NUMBER", 64);
 		bindFlag = getChildValueByName(root, "BIND_TYPE", 64);
-		orderNumber = getChildValueByName(root, "ORDER_NUMBER", 100);
 		if ("".equals(bindFlag)) {
 			throwsBizException("M090006", "绑定类型不能为空！");
 		}
@@ -138,9 +146,17 @@ public class ByMobileBinded extends ServiceBase {
 		if ("".equals(voucherNumber)) {
 			throwsBizException("M090008", "券码不能为空！");
 		}
-		if ("".equals(orderNumber)) {
-			throwsBizException("M090009", "销售单号不能为空！");
+		try {
+			orderNumber = getChildValueByName(root, "ORDER_NUMBER", 100);
+			flag =false;
+//			if ("".equals(orderNumber)) {
+//				throwsBizException("M090009", "销售单号不能为空！");
+//			}
+		} catch (Exception e) {
+			orderNumber = null;
+			flag = true;
 		}
+	
 	}
 
 	@Override
