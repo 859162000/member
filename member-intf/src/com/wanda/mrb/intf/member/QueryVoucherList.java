@@ -63,7 +63,7 @@ public class QueryVoucherList  extends ServiceBase{
 			sb.append(this.createXmlTag("USE_TYPE", bean.getUseType()));
 			sb.append(this.createXmlTag("OPERRATE_TYPE", bean.getOperateType()));
 			sb.append(this.createXmlTag("SHOW_VALUE", bean.getUnitValue()));
-			sb.append(this.createXmlTag("MIN_PRICE", bean.getUnitValue()));
+			sb.append(this.createXmlTag("MIN_PRICE", bean.getMimPrice()));
 			sb.append("</VOUCHER_INFO>");
 		}
 		return sb.toString();
