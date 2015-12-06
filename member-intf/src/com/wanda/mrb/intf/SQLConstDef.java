@@ -187,7 +187,7 @@ public class SQLConstDef {
 	public static final String QUERY_CINEMA_FROM_CITY = "select * from t_cinema where city = (select city from t_cinema where isopen = 1 and code = ?)";
 	public static final String QUERY_VOUCHER_ORDER = "SELECT VOUCHER_ORDER_ID FROM T_VOUCHER_ORDER where APP_STATUS = 'P' and ORDER_STATUS = 'E' AND ORDER_NUM = ? ";
 	/*验证券在总部系统中是否存在*/
-	public static final String QUERY_VOUCHER_BY_BARCODE = "SELECT VOUCHER_NUMBER ,VOUCHER_ORDER_ID FROM T_VOUCHER where bar_code = ? and voucher_status = 'A'";
+	public static final String QUERY_VOUCHER_BY_BARCODE = "SELECT VOUCHER_NUMBER ,VOUCHER_ORDER_ID , EXPIRY_DATE,VOUCHER_STATUS FROM T_VOUCHER where bar_code = ? and voucher_status = 'A'";
 	/*验证券是否在券库中*/
 	public static final String QUERY_VOUCHER_POOL_BY_BARCODE = "SELECT VOUCHER_POOL_ID,MEMBER_ID FROM T_VOUCHER_POOL_DETAIL WHERE BAR_CODE = ?";
 	/*查询卡的状态*/

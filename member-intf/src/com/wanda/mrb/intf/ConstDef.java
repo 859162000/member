@@ -84,4 +84,6 @@ public class ConstDef {
 	
 	public final static String CONST_BIZPARAM_FILM_INFO = "FILM_INFO";//场次购票信息
 	public final static String CONST_BIZPARAM_GOODSINFO = "GOODS_INFO";//卖品信息
+	public final static String CONST_RESPCODE_VOUCHER_EXPIRED ="M090020";//券已到期
+	public final static String CONST_RESPCODE_UN_CHANGE = "M090021";//券状态异常
 }
