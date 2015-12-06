@@ -3,13 +3,16 @@ package com.wanda.mrb.intf.member;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.Date;
 
 import org.w3c.dom.Element;
 
 import com.wanda.mrb.intf.ConstDef;
 import com.wanda.mrb.intf.SQLConstDef;
 import com.wanda.mrb.intf.ServiceBase;
+import com.wanda.mrb.intf.exception.BusinessException;
 import com.wanda.mrb.intf.utils.AES;
+import com.wanda.mrb.intf.utils.MemberUtils;
 import com.wanda.mrb.intf.utils.ResultQuery;
 import com.wanda.mrb.intf.utils.SqlHelp;
 import com.wanda.mrb.intf.utils.VoucherCodeUtil;
@@ -66,6 +69,12 @@ public class ByMobileBinded extends ServiceBase {
 		rs = rsq.getResultSet();
 		if (rs == null || !rs.next()) {
 			throwsBizException("M090001", "券不存在或券不可用！");
+		}
+		if (!MemberUtils.compareDateTime(rs.getDate("EXPIRY_DATE"), new Date())) {
+			throw new BusinessException(ConstDef.CONST_RESPCODE_VOUCHER_EXPIRED,"券已到期");
+		}
+		if(!"A".equals(rs.getString("VOUCHER_STATUS"))){
+			throw new BusinessException(ConstDef.CONST_RESPCODE_UN_CHANGE,"券状态未非启用状态");
 		}
 		rsq.free();
 

@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import org.w3c.dom.Element;
@@ -12,6 +13,8 @@ import org.w3c.dom.Element;
 import com.wanda.mrb.intf.ConstDef;
 import com.wanda.mrb.intf.SQLConstDef;
 import com.wanda.mrb.intf.ServiceBase;
+import com.wanda.mrb.intf.exception.BusinessException;
+import com.wanda.mrb.intf.utils.MemberUtils;
 import com.wanda.mrb.intf.utils.ResultQuery;
 import com.wanda.mrb.intf.utils.SqlHelp;
 import com.wanda.mrb.intf.utils.VoucherCodeUtil;
@@ -56,6 +59,12 @@ public class BatchBindOrUnbind extends ServiceBase {
 			ResultSet rs = rsq.getResultSet();
 			if (rs == null || !rs.next()) {
 				throwsBizException("M090001", voucherNumber.trim()+":券不存在或券不可用！");
+			}
+			if (!MemberUtils.compareDateTime(rs.getDate("EXPIRY_DATE"), new Date())) {
+				throw new BusinessException(ConstDef.CONST_RESPCODE_VOUCHER_EXPIRED,"券已到期");
+			}
+			if(!"A".equals(rs.getString("VOUCHER_STATUS"))){
+				throw new BusinessException(ConstDef.CONST_RESPCODE_UN_CHANGE,"券状态未非启用状态");
 			}
 			rsq.free();
 			// 判断券是否在券库中，是否已绑定
