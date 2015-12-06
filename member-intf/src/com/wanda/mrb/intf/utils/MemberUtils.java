@@ -7,6 +7,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -123,7 +126,31 @@ public class MemberUtils {
 		rsq.free();// 释放对象
 		return randomCinema;
 	}
-
+	/**
+	 * 比较时间是否大于
+	 * @param date1
+	 * @param date2
+	 * @return
+	 */
+	public static boolean compareDateTime(Date date1, Date date2){
+		String da = new SimpleDateFormat("yyyy-MM-dd").format(date1) + " 23:59:59";
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		try {
+			date1 = df.parse(da);
+			if(date1.after(date2)){
+				   return true;
+			}else{
+				String date1String = df.format(date1);
+				String date2String = df.format(date2);
+				if(date1String.equals(date2String)){
+				   return true;
+				}
+			}
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
 	/**
 	 * @param args
 	 */
