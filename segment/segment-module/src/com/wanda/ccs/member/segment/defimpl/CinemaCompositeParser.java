@@ -1,6 +1,7 @@
 package com.wanda.ccs.member.segment.defimpl;
 
 import static com.wanda.ccs.member.segment.SegmentConstants.Schemas.RPT2;
+import static com.wanda.ccs.member.segment.SegmentConstants.Schemas.CCSDW;
 import static com.wanda.ccs.sqlasm.CriteriaParserBuilder.SELECT_PARAGRAPHS;
 import static com.wanda.ccs.sqlasm.CriteriaParserBuilder.newParser;
 import static com.wanda.ccs.sqlasm.CriteriaParserBuilder.notEmpty;
@@ -21,11 +22,11 @@ public class CinemaCompositeParser extends CompositeCriteriaParser {
 		if(this.parser == null) {
 			this.parser = newParser(SELECT_PARAGRAPHS)
 				.add(newPlain().output("C.INNER_CODE").in("select"))
-				.add(newPlain().output(RPT2+".T_D_CON_CINEMA C").in("from"))
-				
+//				.add(newPlain().output(RPT2+".T_D_CON_CINEMA C").in("from"))
+				.add(newPlain().output(CCSDW+".T_DW_D_CINEMA C").in("from"))//切换数据用户T_D_CON_CINEMA--》T_DW_D_CINEMA
 				.add(notEmpty("innerName"), newExpression().output("C.INNER_NAME", STRING).in("where"))
 				.add(notEmpty("area"), newExpression().output("C.AREA_ID", STRING).in("where"))
-				.add(notEmpty("cityLevel"), newExpression().output("C.CITY_LEVEL_ID", STRING).in("where"))
+				.add(notEmpty("cityLevel"), newExpression().output("C.CITY_LEVEL_CODE", STRING).in("where"))//CITY_LEVEL_id-->CITY_LEVEL_CODE
 				.add(notEmpty("cityName"), newExpression().output("C.CITY_NAME", STRING).in("where"));
 		}
 		return parser.parse(criteria);

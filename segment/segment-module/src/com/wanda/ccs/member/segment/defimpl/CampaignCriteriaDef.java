@@ -1,6 +1,7 @@
 package com.wanda.ccs.member.segment.defimpl;
 
-import static com.wanda.ccs.member.segment.SegmentConstants.Schemas.RPT2;
+//import static com.wanda.ccs.member.segment.SegmentConstants.Schemas.RPT2;
+import static com.wanda.ccs.member.segment.SegmentConstants.Schemas.CCSDW;
 import static com.wanda.ccs.member.segment.SegmentConstants.Schemas.MBRODS;
 import static com.wanda.ccs.sqlasm.CriteriaParserBuilder.QUERY_PARAGRAPHS;
 import static com.wanda.ccs.sqlasm.CriteriaParserBuilder.newParser;
@@ -40,36 +41,36 @@ public class CampaignCriteriaDef {
 		booleanMapper.put("1", "is not null");	
 		
 		//公共条件
-		Clause whereDef = newPlain().in("where").output("transSales.SHOW_BIZ_DATE_KEY=to_date('#ymd','yyyy-mm-dd') and campaign_segment.CAMPAIGN_ID=#cid and member.STATUS='1' and member.ISDELETE = 0");
+		Clause whereDef = newPlain().in("where").output("transSales.SHOW_BIZ_DATE=to_date('#ymd','yyyy-mm-dd') and campaign_segment.CAMPAIGN_ID=#cid and member.STATUS='1' and member.ISDELETE = 0");
 		
 		//票房交易
-		Clause memberTicketTable = newPlain().in("from").output(RPT2+".T_F_CON_MEMBER_TICKET transSales")
-				.depends(newPlain().in("where").output("member.MEMBER_KEY=transSales.MEMBER_KEY"));
+		Clause memberTicketTable = newPlain().in("from").output(/**RPT2*/CCSDW+".V_DW_F_MEMBER_TICKET transSales")
+				.depends(newPlain().in("where").output("member.MEMBER_KEY=transSales.MEMBER_ID"));
 		
-		Clause ticketDateTable = newPlain().in("where").output("transSales_date.DATE_KEY=transSales.SHOW_DATE_KEY")
-				.depends(newPlain().in("from").output(RPT2+".T_D_CON_DATE transSales_date")).depends(memberTicketTable);
+		Clause ticketDateTable = newPlain().in("where").output("transSales_date.DATE_KEY=transSales.SHOW_BIZ_DATE")
+				.depends(newPlain().in("from").output(/**RPT2*/CCSDW+".T_DW_D_DATE transSales_date")).depends(memberTicketTable);
 		
-		Clause ticketHourTable = newPlain().in("from").output(RPT2+".T_D_CON_HOUR transSales_hour")
-				.depends(newPlain().in("where").output("transSales_hour.HOUR_KEY=transSales.SHOW_HOUR_KEY"))
+		Clause ticketHourTable = newPlain().in("from").output(/**RPT2*/CCSDW+".T_DW_D_HOUR transSales_hour")
+				.depends(newPlain().in("where").output("transSales_hour.HOUR_KEY=transSales.HOUR_KEY"))
 				.depends(memberTicketTable);
 		
-		Clause ticketCinemaTable = newPlain().in("from").output(RPT2+".T_D_CON_CINEMA transSales_cinema")
+		Clause ticketCinemaTable = newPlain().in("from").output(/**RPT2*/CCSDW+".T_DW_D_CINEMA transSales_cinema")
 				.depends(newPlain().in("where").output("transSales_cinema.CINEMA_KEY = transSales.CINEMA_KEY"))
 				.depends(memberTicketTable);
 		
-		Clause ticketFilmTable = newPlain().in("from").output(RPT2+".T_D_CON_FILM transSales_film")
+		Clause ticketFilmTable = newPlain().in("from").output(/**RPT2*/CCSDW+".T_DW_D_FILM transSales_film")
 				.depends(newPlain().in("where").output("transSales_film.FILM_KEY = transSales.FILM_KEY"))
 				.depends(memberTicketTable);
 		
 		Clause campaignSegmentTable = newPlain().in("from").output(MBRODS+".T_CAMPAIGN_SEGMENT campaign_segment")
-				.depends(newPlain().in("where").output("transSales.MEMBER_KEY = campaign_segment.MEMBER_ID"))
+				.depends(newPlain().in("where").output("transSales.MEMBER_ID = campaign_segment.MEMBER_ID"))
 				.depends(memberTicketTable);
 		
-		Clause groupBy = newPlain().in("groupby").output("member.MEMBER_KEY,campaign_segment.IS_CONTROL,transSales.PAY_METHOD_KEY,nvl(transSales.BK_CT_ORDER_CODE,transSales.RE_CT_ORDER_CODE) ,nvl(transSales.BK_TICKET_NUMBER,transSales.re_TICKET_NUMBER)");
+		Clause groupBy = newPlain().in("groupby").output("member.MEMBER_KEY,campaign_segment.IS_CONTROL,transSales.PAY_METHOD_NAME,nvl(transSales.BK_ORDER_ID,transSales.RE_ORDER_ID) ,nvl(transSales.BK_TICKET_NUM,transSales.re_TICKET_NUM)");
 		
 		ticketParser = newParser(QUERY_PARAGRAPHS)
-			.add(newPlain().in("select").output("member.MEMBER_KEY,campaign_segment.IS_CONTROL,transSales.PAY_METHOD_KEY,nvl(transSales.BK_CT_ORDER_CODE,transSales.RE_CT_ORDER_CODE) ORDER_CODE,nvl(transSales.BK_TICKET_NUMBER,transSales.re_TICKET_NUMBER) ITEM_CODE,sum(transSales.Bk_Admissions-transSales.Re_Admissions) INCOME"))
-			.add(newPlain().in("from").output(RPT2+".T_D_CON_MEMBER member")
+			.add(newPlain().in("select").output("member.MEMBER_KEY,campaign_segment.IS_CONTROL,transSales.PAY_METHOD_NAME,nvl(transSales.BK_ORDER_ID,transSales.RE_ORDER_ID) ORDER_CODE,nvl(transSales.BK_TICKET_NUM,transSales.re_TICKET_NUM) ITEM_CODE,sum(transSales.Bk_PAYMENT_MOUNT-transSales.Re_PAYMENT_MOUNT) INCOME"))
+			.add(newPlain().in("from").output(/**RPT2*/CCSDW+".V_DW_F_MEMBER member")
 					.depends(memberTicketTable)
 					.depends(ticketCinemaTable)
 					.depends(campaignSegmentTable))
@@ -83,7 +84,7 @@ public class CampaignCriteriaDef {
 			.add(notEmpty("watchTradeTime"), newExpression().in("where").output("transSales_hour.TIME_DIVIDING_ID", DataType.STRING)
 					.depends(ticketHourTable))
 			//观影交易小时
-			.add(notEmpty("watchTradeHour"), newExpression().in("where").output("transSales.SHOW_HOUR_KEY", DataType.STRING)
+			.add(notEmpty("watchTradeHour"), newExpression().in("where").output("transSales.HOUR_KEY", DataType.STRING)
 					.depends(memberTicketTable))
 			//观影交易影城
 			.add(notEmpty("watchTradeCinema"), newExpression().in("where").output("transSales_cinema.INNER_CODE", DataType.STRING, new CinemaCompositeParser())
@@ -92,7 +93,7 @@ public class CampaignCriteriaDef {
 			.add(notEmpty("transFilm"), newExpression().in("where").output("transSales_film.FILM_CODE", DataType.STRING, new FilmCompositeParser())
 					.depends(ticketFilmTable))
 			//生日当天观影
-			.add(notEmpty("birthdayFilm"), newPlain().in("where").output("to_char(member.BIRTHDAY,'mm/dd')=to_char(transSales.SHOW_BIZ_DATE_KEY,'mm/dd')")
+			.add(notEmpty("birthdayFilm"), newPlain().in("where").output("to_char(member.BIRTHDAY,'mm/dd')=to_char(transSales.SHOW_BIZ_DATE,'mm/dd')")
 					.depends(memberTicketTable));
 		
 		return ticketParser;
@@ -112,41 +113,41 @@ public class CampaignCriteriaDef {
 		booleanMapper.put("1", "is not null");	
 		
 		//公共条件
-		Clause whereDef = newPlain().in("where").output("consale.BOOK_BIZ_DATE_KEY=to_date('#ymd','yyyy-mm-dd') and campaign_segment.CAMPAIGN_ID=#cid and consale.BK_SALE_QUANTITY > 0 and member.STATUS='1' and member.ISDELETE = 0");
+		Clause whereDef = newPlain().in("where").output("consale.BIZ_DATE=to_date('#ymd','yyyy-mm-dd') and campaign_segment.CAMPAIGN_ID=#cid and consale.GOODS_COUNT > 0 and member.STATUS='1' and member.ISDELETE = 0");
 		
 		//卖品交易
-		Clause memberSaleTable = newPlain().in("from").output(RPT2+".T_F_CON_MEMBER_SALE consale")
-				.depends(newPlain().in("where").output("member.MEMBER_KEY=consale.MEMBER_KEY"));
+		Clause memberSaleTable = newPlain().in("from").output(/**RPT2*/CCSDW+".V_DW_F_MEMBER_SALE consale")
+				.depends(newPlain().in("where").output("member.MEMBER_KEY=consale.MEMBER_ID"));
 		
-		Clause saleDateTable = newPlain().in("where").output("consale_date.DATE_KEY=consale.BOOK_DATE_KEY")
-				.depends(newPlain().in("from").output(RPT2+".T_D_CON_DATE consale_date"))
+		Clause saleDateTable = newPlain().in("where").output("consale_date.DATE_KEY=consale.BIZ_DATE")
+				.depends(newPlain().in("from").output(/**RPT2*/CCSDW+".T_DW_D_DATE consale_date"))
 				.depends(memberSaleTable);
 
-		Clause saleHourTable =newPlain().in("from").output(RPT2+".T_D_CON_HOUR consale_hour")
-				.depends(newPlain().in("where").output("consale_hour.HOUR_KEY=consale.BOOK_HOUR_KEY"))
+		Clause saleHourTable =newPlain().in("from").output(/**RPT2*/CCSDW+".T_DW_D_HOUR consale_hour")
+				.depends(newPlain().in("where").output("consale_hour.HOUR_KEY=consale.HOUR_KEY"))
 				.depends(memberSaleTable);
 		
-		Clause saleCinemaTable = newPlain().in("from").output(RPT2+".T_D_CON_CINEMA consale_cinema")
+		Clause saleCinemaTable = newPlain().in("from").output(/**RPT2*/CCSDW+".T_DW_D_CINEMA consale_cinema")
 				.depends(newPlain().in("where").output("consale_cinema.CINEMA_KEY = consale.CINEMA_KEY"))
 				.depends(memberSaleTable);
 		
-		Clause saleClassTable = newPlain().in("from").output(RPT2+".T_D_CON_CS_CLASS consale_cate")
-				.depends(newPlain().in("where").output("consale.SALE_CLASS_KEY = consale_cate.SALE_CLASS_KEY"))
+		Clause saleClassTable = newPlain().in("from").output(/**RPT2*/CCSDW+".T_DW_D_SALE_CLASS consale_cate")
+				.depends(newPlain().in("where").output("consale.ITEM_CLASS_CODE = consale_cate.ITEM_CLASS_ID"))
 				.depends(memberSaleTable);
 		
-		Clause saleItemTable = newPlain().in("from").output(RPT2+".T_D_CON_CS_SALE_ITEM consale_item")
-				.depends(newPlain().in("where").output("consale.SALE_ITEM_KEY = consale_item.SALE_ITEM_KEY"))
+		Clause saleItemTable = newPlain().in("from").output(/**RPT2*/CCSDW+".T_DW_D_SALE_ITEM consale_item")
+				.depends(newPlain().in("where").output("consale.ITEM_CODE = consale_item.ITEM_ID"))
 				.depends(memberSaleTable);
 		
 		Clause campaignSegmentTable = newPlain().in("from").output(MBRODS+".T_CAMPAIGN_SEGMENT campaign_segment")
-				.depends(newPlain().in("where").output("consale.MEMBER_KEY = campaign_segment.MEMBER_ID"))
+				.depends(newPlain().in("where").output("consale.MEMBER_ID = campaign_segment.MEMBER_ID"))
 				.depends(memberSaleTable);
 		
-		Clause groupBy = newPlain().in("groupby").output("member.MEMBER_KEY,campaign_segment.IS_CONTROL,consale.PAY_METHOD_KEY,nvl(consale.BK_CS_ORDER_CODE,consale.RE_CS_ORDER_CODE),consale_item.ITEM_CODE");
+		Clause groupBy = newPlain().in("groupby").output("member.MEMBER_KEY,campaign_segment.IS_CONTROL,consale.PAYMENT_CODE,nvl(consale.BK_ORDER_ID,consale.RE_ORDER_ID),consale_item.ITEM_CODE");
 		
 		conSaleParser = newParser(QUERY_PARAGRAPHS)
-				.add(newPlain().in("select").output("member.MEMBER_KEY,campaign_segment.IS_CONTROL,consale.PAY_METHOD_KEY,nvl(consale.BK_CS_ORDER_CODE,consale.RE_CS_ORDER_CODE) ORDER_CODE,consale_item.ITEM_CODE,sum(consale.BK_SALE_QUANTITY * (consale.BK_SALE_AMOUNT - consale.RE_SALE_AMOUNT)) INCOME"))
-				.add(newPlain().in("from").output(RPT2+".T_D_CON_MEMBER member")
+				.add(newPlain().in("select").output("member.MEMBER_KEY,campaign_segment.IS_CONTROL,consale.PAYMENT_CODE,nvl(consale.BK_ORDER_ID,consale.RE_ORDER_ID) ORDER_CODE,consale_item.ITEM_CODE,sum(consale.GOODS_COUNT * (consale.BK_SALE_AMOUNT - consale.RE_SALE_AMOUNT)) INCOME"))
+				.add(newPlain().in("from").output(/**RPT2*/CCSDW+".V_DW_F_MEMBER member")
 						.depends(saleCinemaTable)
 						.depends(saleItemTable)
 						.depends(campaignSegmentTable))
@@ -160,7 +161,7 @@ public class CampaignCriteriaDef {
 				.add(notEmpty("conSaleHourPeriod"), newExpression().in("where").output("consale_hour.TIME_DIVIDING_ID", DataType.STRING)
 					.depends(saleHourTable))
 				//卖品交易小时
-				.add(notEmpty("conSaleHour"), newExpression().in("where").output("consale.BOOK_HOUR_KEY", DataType.STRING)
+				.add(notEmpty("conSaleHour"), newExpression().in("where").output("consale.HOUR_KEY", DataType.STRING)
 						.depends(memberSaleTable))
 				//卖品交易影城
 				.add(notEmpty("conSaleCinema"), newExpression().in("where").output("consale_cinema.INNER_CODE", DataType.STRING, new CinemaCompositeParser())
@@ -169,7 +170,7 @@ public class CampaignCriteriaDef {
 				.add(notEmpty("conSaleAmount"), newExpression().in("having").output("sum(consale.BK_SALE_AMOUNT) - sum(consale.RE_SALE_AMOUNT)", DataType.DOUBLE)
 						.depends(memberSaleTable))
 				//卖品品类
-				.add(notEmpty("conSaleCategory"), newExpression().in("where").output("consale_cate.THIRD_CLASS_ID", DataType.LONG)
+				.add(notEmpty("conSaleCategory"), newExpression().in("where").output("consale_cate.ITEM_CLASS_CODE", DataType.LONG)
 						.depends(saleClassTable))
 				//卖品品项
 				.add(notEmpty("conSaleItem"), newExpression().in("where").output("consale_item.item_code", DataType.STRING, new ConItemCompositeParser())

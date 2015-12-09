@@ -1,7 +1,8 @@
 package com.wanda.ccs.member.segment.defimpl;
 
 import static com.wanda.ccs.member.segment.SegmentConstants.Schemas.MBRODS;
-import static com.wanda.ccs.member.segment.SegmentConstants.Schemas.RPT2;
+//import static com.wanda.ccs.member.segment.SegmentConstants.Schemas.RPT2;
+import static com.wanda.ccs.member.segment.SegmentConstants.Schemas.CCSDW;
 import static com.wanda.ccs.sqlasm.CriteriaParserBuilder.QUERY_PARAGRAPHS_SEGMENT;
 import static com.wanda.ccs.sqlasm.CriteriaParserBuilder.newParser;
 import static com.wanda.ccs.sqlasm.CriteriaParserBuilder.notEmpty;
@@ -59,184 +60,184 @@ public class SegmentCriteriaDef {
 		booleanMapper.put("1", "is not null");	
 		
 		Map<Object, Object> booleanTransAllMapper = new HashMap<Object, Object>();
-		booleanTransAllMapper.put("0", " <> -999 ");//否
-		booleanTransAllMapper.put("1", " = -999");	//是
+		booleanTransAllMapper.put("0", " IS NOT NULL ");//否
+		booleanTransAllMapper.put("1", " IS NULL");	//是
 		
 		Map<Object, Object> booleanChannelMapper = new HashMap<Object, Object>();
 		booleanChannelMapper.put("0", " not in ('05','06','07') ");//否
 		booleanChannelMapper.put("1", " in ('05','06','07') ");//是
 		
 		
-		Clause consale = newPlain().in("from").output(RPT2+".T_F_CON_MEMBER_SALE consale")
-				.depends(newPlain().in("where").output("member.MEMBER_KEY=consale.MEMBER_KEY"));
+		Clause consale = newPlain().in("from").output(CCSDW+".V_DW_F_MEMBER_SALE consale")
+				.depends(newPlain().in("where").output("member.MEMBER_KEY=consale.MEMBER_ID"));
 		
-		Clause consaleNot = newPlain().in("notexistsConFrom").output(RPT2+".T_F_CON_MEMBER_SALE consaleNot")
-		.depends(newPlain().in("notexistsConWhere").output("member.MEMBER_KEY=consaleNot.MEMBER_KEY"));
+		Clause consaleNot = newPlain().in("notexistsConFrom").output(CCSDW+".V_DW_F_MEMBER_SALE consaleNot")
+		.depends(newPlain().in("notexistsConWhere").output("member.MEMBER_KEY=consaleNot.MEMBER_ID"));
 
 		//Clause consale_date = new SqlClause("from", DW+".T_D_CON_DATE consale_date")
 		//		.depends(new SqlClause("where").output("consale_date.DATE_KEY=consale.BOOK_DATE_KEY"))
 		//		.depends(consale);
 		
-		Clause consale_date = newPlain().in("where").output("consale_date.DATE_KEY=consale.BOOK_BIZ_DATE_KEY")
-				.depends(newPlain().in("from").output(RPT2+".T_D_CON_DATE consale_date"))
+		Clause consale_date = newPlain().in("where").output("consale_date.DATE_KEY=consale.BIZ_DATE")
+				.depends(newPlain().in("from").output(CCSDW+".T_DW_D_DATE consale_date"))
 				.depends(consale);
 		//未发生卖品交易
-		Clause consale_dateNot = newPlain().in("notexistsConWhere").output("consale_dateNot.DATE_KEY=consaleNot.BOOK_BIZ_DATE_KEY")
-				.depends(newPlain().in("notexistsConFrom").output(RPT2+".T_D_CON_DATE consale_dateNot"))
+		Clause consale_dateNot = newPlain().in("notexistsConWhere").output("consale_dateNot.DATE_KEY=consaleNot.BIZ_DATE")
+				.depends(newPlain().in("notexistsConFrom").output(CCSDW+".T_DW_D_DATE consale_dateNot"))
 				.depends(consaleNot);
 		
-		Clause consale_hour = newPlain().in("from").output(RPT2+".T_D_CON_HOUR consale_hour")
-				.depends(newPlain().in("where").output("consale_hour.HOUR_KEY=consale.BOOK_HOUR_KEY"))
+		Clause consale_hour = newPlain().in("from").output(CCSDW+".T_DW_D_HOUR consale_hour")
+				.depends(newPlain().in("where").output("consale_hour.HOUR_KEY=consale.HOUR_KEY"))
 				.depends(consale);
 		//未发生卖品交易
-		Clause consale_hourNot = newPlain().in("notexistsConFrom").output(RPT2+".T_D_CON_HOUR consale_hourNot")
-				.depends(newPlain().in("notexistsConWhere").output("consale_hourNot.HOUR_KEY=consaleNot.BOOK_HOUR_KEY"))
+		Clause consale_hourNot = newPlain().in("notexistsConFrom").output(CCSDW+".T_DW_D_HOUR consale_hourNot")
+				.depends(newPlain().in("notexistsConWhere").output("consale_hourNot.HOUR_KEY=consaleNot.HOUR_KEY"))
 				.depends(consaleNot);
 		
-		Clause consale_cinema = newPlain().in("from").output(RPT2+".T_D_CON_CINEMA consale_cinema")
+		Clause consale_cinema = newPlain().in("from").output(CCSDW+".T_DW_D_CINEMA consale_cinema")
 				.depends(newPlain().in("where").output("consale_cinema.CINEMA_KEY = consale.CINEMA_KEY"))
 				.depends(consale);
 		//未发生卖品交易
-		Clause consale_cinemaNot = newPlain().in("notexistsConFrom").output(RPT2+".T_D_CON_CINEMA consale_cinemaNot")
+		Clause consale_cinemaNot = newPlain().in("notexistsConFrom").output(CCSDW+".T_DW_D_CINEMA consale_cinemaNot")
 				.depends(newPlain().in("notexistsConWhere").output("consale_cinemaNot.CINEMA_KEY = consaleNot.CINEMA_KEY"))
 				.depends(consaleNot);
 		
-		Clause member_cinema = newPlain().in("from").output(RPT2+".T_D_CON_CINEMA member_cinema")
+		Clause member_cinema = newPlain().in("from").output(CCSDW+".T_DW_D_CINEMA member_cinema")
 				.depends(newPlain().in("where").output("member_cinema.CINEMA_KEY = member.CINEMA_KEY"));
 		
-		Clause consale_cate = newPlain().in("from").output(RPT2+".T_D_CON_CS_CLASS consale_cate")
-				.depends(newPlain().in("where").output("consale.SALE_CLASS_KEY = consale_cate.SALE_CLASS_KEY"))
+		Clause consale_cate = newPlain().in("from").output(CCSDW+".T_DW_D_SALE_CLASS consale_cate")
+				.depends(newPlain().in("where").output("consale.ITEM_CLASS_CODE = consale_cate.ITEM_CLASS_CODE"))
 				.depends(consale);
 		//未发生卖品交易
-		Clause consale_cateNot = newPlain().in("notexistsConFrom").output(RPT2+".T_D_CON_CS_CLASS consale_cateNot")
-				.depends(newPlain().in("notexistsConWhere").output("consaleNot.SALE_CLASS_KEY = consale_cateNot.SALE_CLASS_KEY"))
+		Clause consale_cateNot = newPlain().in("notexistsConFrom").output(CCSDW+".T_DW_D_SALE_CLASS consale_cateNot")
+				.depends(newPlain().in("notexistsConWhere").output("consaleNot.ITEM_CLASS_CODE = consale_cateNot.ITEM_CLASS_CODE"))
 				.depends(consaleNot);
 		
-		Clause consale_item = newPlain().in("from").output(RPT2+".T_D_CON_CS_SALE_ITEM consale_item")
-				.depends(newPlain().in("where").output("consale.SALE_ITEM_KEY = consale_item.SALE_ITEM_KEY"))
+		Clause consale_item = newPlain().in("from").output(CCSDW+".T_DW_D_SALE_ITEM consale_item")
+				.depends(newPlain().in("where").output("consale.ITEM_CLASS_CODE = consale_item.ITEM_CODE"))
 				.depends(consale);
 		//未发生卖品交易
-		Clause consale_itemNot = newPlain().in("notexistsConFrom").output(RPT2+".T_D_CON_CS_SALE_ITEM consale_itemNot")
-				.depends(newPlain().in("notexistsConWhere").output("consaleNot.SALE_ITEM_KEY = consale_itemNot.SALE_ITEM_KEY"))
+		Clause consale_itemNot = newPlain().in("notexistsConFrom").output(CCSDW+".T_DW_D_SALE_ITEM consale_itemNot")
+				.depends(newPlain().in("notexistsConWhere").output("consaleNot.ITEM_CLASS_CODE = consale_itemNot.ITEM_CODE"))
 				.depends(consaleNot);
 		//卖品支付方式
-		Clause consale_paymethod = newPlain().in("from").output(RPT2+".T_D_CON_PAY_METHOD consale_paymethod")
-				.depends(newPlain().in("where").output("consale_paymethod.PAY_METHOD_KEY = consale.PAY_METHOD_KEY"))
+		Clause consale_paymethod = newPlain().in("from").output(CCSDW+".V_DW_D_PAY_METHOD consale_paymethod")
+				.depends(newPlain().in("where").output("consale_paymethod.PAYMENT_CODE = consale.PAYMENT_CODE"))
 				.depends(consale);
 		//卖品支付方式未发生
-		Clause consale_paymethodNot = newPlain().in("notexistsConFrom").output(RPT2+".T_D_CON_PAY_METHOD consale_paymethodNot")
-				.depends(newPlain().in("notexistsConWhere").output("consale_paymethodNot.PAY_METHOD_KEY = consaleNot.PAY_METHOD_KEY"))
+		Clause consale_paymethodNot = newPlain().in("notexistsConFrom").output(CCSDW+".V_DW_D_PAY_METHOD consale_paymethodNot")
+				.depends(newPlain().in("notexistsConWhere").output("consale_paymethodNot.PAYMENT_CODE = consaleNot.PAYMENT_CODE"))
 				.depends(consaleNot);
 		
 		//总交易
-		Clause transSalesAll = newPlain().in("from").output(RPT2+".T_F_CON_MEMBER_CINEMA transSalesAll")
-				.depends(newPlain().in("where").output("member.MEMBER_KEY=transSalesAll.MEMBER_KEY"));
-		
-		Clause transSalesAllNot = newPlain().in("notexistsTransAllFrom").output(RPT2+".T_F_CON_MEMBER_CINEMA transSalesAllNot")
-		.depends(newPlain().in("notexistsTransAllWhere").output("member.MEMBER_KEY=transSalesAllNot.MEMBER_KEY"));
+		Clause transSalesAll = newPlain().in("from").output(CCSDW+".V_DW_F_MEMBER_CINEMA transSalesAll")
+				.depends(newPlain().in("where").output("member.MEMBER_KEY=transSalesAll.MEMBER_ID"));
+		Clause transSalesAllNot = newPlain().in("notexistsTransAllFrom").output(CCSDW+".V_DW_F_MEMBER_CINEMA transSalesAllNot")
+		.depends(newPlain().in("notexistsTransAllWhere").output("member.MEMBER_KEY=transSalesAllNot.MEMBER_ID"));
 		
 		//Clause transSalesAll_date = newPlain().in("from").output(DW+".T_D_CON_DATE transSalesAll_date")
 		//		.depends(newPlain().in("where").output("transSalesAll_date.DATE_KEY=transSalesAll.DATE_KEY"))
 		//		.depends(transSalesAll);
 		
-		Clause transSalesAll_date = newPlain().in("where").output("transSalesAll_date.DATE_KEY=transSalesAll.DATE_KEY")
-				.depends(newPlain().in("from").output(RPT2+".T_D_CON_DATE transSalesAll_date")).depends(transSalesAll);
+		Clause transSalesAll_date = newPlain().in("where").output("transSalesAll_date.DATE_KEY=transSalesAll.SHOW_BIZ_DATE")
+				.depends(newPlain().in("from").output(CCSDW+".T_DW_D_DATE transSalesAll_date")).depends(transSalesAll);
 		//未交易
-		Clause transSalesAll_dateNot = newPlain().in("notexistsTransAllWhere").output("transSalesAll_dateNot.DATE_KEY=transSalesAllNot.DATE_KEY")
-		.depends(newPlain().in("notexistsTransAllFrom").output(RPT2+".T_D_CON_DATE transSalesAll_dateNot")).depends(transSalesAllNot);
+		Clause transSalesAll_dateNot = newPlain().in("notexistsTransAllWhere").output("transSalesAll_dateNot.DATE_KEY=transSalesAllNot.SHOW_BIZ_DATE")
+		.depends(newPlain().in("notexistsTransAllFrom").output(CCSDW+".T_DW_D_DATE transSalesAll_dateNot")).depends(transSalesAllNot);
 		
-		Clause transSalesAll_hour = newPlain().in("from").output(RPT2+".T_D_CON_HOUR transSalesAll_hour")
+		Clause transSalesAll_hour = newPlain().in("from").output(CCSDW+".T_DW_D_HOUR transSalesAll_hour")
 				.depends(newPlain().in("where").output("transSalesAll_hour.HOUR_KEY=transSalesAll.HOUR_KEY"))
 				.depends(transSalesAll);
 		//未交易
-		Clause transSalesAll_hourNot = newPlain().in("notexistsTransAllFrom").output(RPT2+".T_D_CON_HOUR transSalesAll_hourNot")
+		Clause transSalesAll_hourNot = newPlain().in("notexistsTransAllFrom").output(CCSDW+".T_DW_D_HOUR transSalesAll_hourNot")
 		.depends(newPlain().in("notexistsTransAllWhere").output("transSalesAll_hourNot.HOUR_KEY=transSalesAllNot.HOUR_KEY")).depends(transSalesAllNot);
 		
-		Clause transSalesAll_cinema = newPlain().in("from").output(RPT2+".T_D_CON_CINEMA transSalesAll_cinema")
+		Clause transSalesAll_cinema = newPlain().in("from").output(CCSDW+".T_DW_D_CINEMA transSalesAll_cinema")
 				.depends(newPlain().in("where").output("transSalesAll_cinema.CINEMA_KEY = transSalesAll.CINEMA_KEY"))
 				.depends(transSalesAll);
 		//未交易
-		Clause transSalesAll_cinemaNot = newPlain().in("notexistsTransAllFrom").output(RPT2+".T_D_CON_CINEMA transSalesAll_cinemaNot")
+		Clause transSalesAll_cinemaNot = newPlain().in("notexistsTransAllFrom").output(CCSDW+".T_DW_D_CINEMA transSalesAll_cinemaNot")
 		.depends(newPlain().in("notexistsTransAllWhere").output("transSalesAll_cinemaNot.CINEMA_KEY = transSalesAllNot.CINEMA_KEY")).depends(transSalesAllNot);
 		
-		Clause transSalesAll_paymethod = newPlain().in("from").output(RPT2+".T_D_CON_PAY_METHOD transSalesAll_paymethod")
-		.depends(newPlain().in("where").output("transSalesAll_paymethod.PAY_METHOD_KEY = transSalesAll.PAY_METHOD_KEY"))
+		Clause transSalesAll_paymethod = newPlain().in("from").output(CCSDW+".V_DW_D_PAY_METHOD transSalesAll_paymethod")
+		.depends(newPlain().in("where").output("transSalesAll_paymethod.POS_PAYMENT_NAME = transSalesAll.POS_PAYMENT_NAME"))
 		.depends(transSalesAll);
 		//未交易
-		Clause transSalesAll_paymethodNot = newPlain().in("notexistsTransAllFrom").output(RPT2+".T_D_CON_PAY_METHOD transSalesAll_paymethodNot")
-		.depends(newPlain().in("notexistsTransAllWhere").output("transSalesAll_paymethodNot.PAY_METHOD_KEY = transSalesAllNot.PAY_METHOD_KEY")).depends(transSalesAllNot);
+		Clause transSalesAll_paymethodNot = newPlain().in("notexistsTransAllFrom").output(CCSDW+".V_DW_D_PAY_METHOD transSalesAll_paymethodNot")
+		.depends(newPlain().in("notexistsTransAllWhere").output("transSalesAll_paymethodNot.POS_PAYMENT_NAME = transSalesAllNot.POS_PAYMENT_NAME")).depends(transSalesAllNot);
 		
 		//票房交易
-		Clause transSales = newPlain().in("from").output(RPT2+".T_F_CON_MEMBER_TICKET transSales")
-				.depends(newPlain().in("where").output("member.MEMBER_KEY=transSales.MEMBER_KEY"));
+		Clause transSales = newPlain().in("from").output(CCSDW+".V_DW_F_MEMBER_TICKET transSales")
+				.depends(newPlain().in("where").output("member.MEMBER_KEY=transSales.MEMBER_ID"));
 		
-		Clause transSalesNot = newPlain().in("notexistsTransFrom").output(RPT2+".T_F_CON_MEMBER_TICKET transSalesNot")
-		.depends(newPlain().in("notexistsTransWhere").output("member.MEMBER_KEY=transSalesNot.MEMBER_KEY"));
+		Clause transSalesNot = newPlain().in("notexistsTransFrom").output(CCSDW+".V_DW_F_MEMBER_TICKET transSalesNot")
+		.depends(newPlain().in("notexistsTransWhere").output("member.MEMBER_KEY=transSalesNot.MEMBER_ID"));
 		
-		Clause transSales_date = newPlain().in("where").output("transSales_date.DATE_KEY=transSales.SHOW_BIZ_DATE_KEY")
-				.depends(newPlain().in("from").output(RPT2+".T_D_CON_DATE transSales_date")).depends(transSales);
+		Clause transSales_date = newPlain().in("where").output("transSales_date.DATE_KEY=transSales.SHOW_BIZ_DATE")
+				.depends(newPlain().in("from").output(CCSDW+".T_DW_D_DATE transSales_date")).depends(transSales);
 		//未交易
-		Clause transSales_dateNot = newPlain().in("notexistsTransWhere").output("transSales_dateNot.DATE_KEY=transSalesNot.SHOW_DATE_KEY")
-		.depends(newPlain().in("notexistsTransFrom").output(RPT2+".T_D_CON_DATE transSales_dateNot")).depends(transSalesNot);
+		Clause transSales_dateNot = newPlain().in("notexistsTransWhere").output("transSales_dateNot.DATE_KEY=transSalesNot.SHOW_BIZ_DATE")
+		.depends(newPlain().in("notexistsTransFrom").output(CCSDW+".T_DW_D_DATE transSales_dateNot")).depends(transSalesNot);
 		
-		Clause transSales_tickettype = newPlain().in("from").output(RPT2+".T_D_CON_TICKET_TYPE transSales_tickettype")
-				.depends(newPlain().in("where").output("transSales_tickettype.TICKET_TYPE_KEY=transSales.TICKET_TYPE_KEY"))
+		Clause transSales_tickettype = newPlain().in("from").output(CCSDW+".T_DW_D_TICKET_TYPE transSales_tickettype")
+				.depends(newPlain().in("where").output("transSales_tickettype.TYPE_CODE=transSales.TICKET_TYPE"))
 				.depends(transSales);
 		//未交易
-		Clause transSales_tickettypeNot = newPlain().in("notexistsTransFrom").output(RPT2+".T_D_CON_TICKET_TYPE transSales_tickettypeNot")
-		.depends(newPlain().in("notexistsTransWhere").output("transSales_tickettypeNot.TICKET_TYPE_KEY=transSalesNot.TICKET_TYPE_KEY"))
+		Clause transSales_tickettypeNot = newPlain().in("notexistsTransFrom").output(CCSDW+".T_DW_D_TICKET_TYPE transSales_tickettypeNot")
+		.depends(newPlain().in("notexistsTransWhere").output("transSales_tickettypeNot.TYPE_CODE=transSalesNot.TICKET_TYPE"))
 		.depends(transSalesNot);
 		
-		Clause transSales_hour = newPlain().in("from").output(RPT2+".T_D_CON_HOUR transSales_hour")
-				.depends(newPlain().in("where").output("transSales_hour.HOUR_KEY=transSales.SHOW_HOUR_KEY"))
+		Clause transSales_hour = newPlain().in("from").output(CCSDW+".T_DW_D_HOUR transSales_hour")
+				.depends(newPlain().in("where").output("transSales_hour.HOUR_KEY=transSales.HOUR_KEY"))
 				.depends(transSales);
 		//未交易
-		Clause transSales_hourNot = newPlain().in("notexistsTransFrom").output(RPT2+".T_D_CON_HOUR transSales_hourNot")
-				.depends(newPlain().in("notexistsTransWhere").output("transSales_hourNot.HOUR_KEY=transSalesNot.SHOW_HOUR_KEY"))
+		Clause transSales_hourNot = newPlain().in("notexistsTransFrom").output(CCSDW+".T_DW_D_HOUR transSales_hourNot")
+				.depends(newPlain().in("notexistsTransWhere").output("transSales_hourNot.HOUR_KEY=transSalesNot.HOUR_KEY"))
 				.depends(transSalesNot);
 		
-		Clause transSales_cinema = newPlain().in("from").output(RPT2+".T_D_CON_CINEMA transSales_cinema")
+		Clause transSales_cinema = newPlain().in("from").output(CCSDW+".T_DW_D_CINEMA transSales_cinema")
 				.depends(newPlain().in("where").output("transSales_cinema.CINEMA_KEY = transSales.CINEMA_KEY"))
 				.depends(transSales);
 		//未发生
-		Clause transSales_cinemaNot = newPlain().in("notexistsTransFrom").output(RPT2+".T_D_CON_CINEMA transSales_cinemaNot")
+		Clause transSales_cinemaNot = newPlain().in("notexistsTransFrom").output(CCSDW+".T_DW_D_CINEMA transSales_cinemaNot")
 				.depends(newPlain().in("notexistsTransWhere").output("transSales_cinemaNot.CINEMA_KEY = transSalesNot.CINEMA_KEY"))
 				.depends(transSalesNot);
-		
-		Clause transSales_film = newPlain().in("from").output(RPT2+".T_D_CON_FILM transSales_film")
+		// TODO T_DW_D_FILM 加 SEQID
+		Clause transSales_film = newPlain().in("from").output(CCSDW+".T_DW_D_FILM_01 transSales_film")
 				.depends(newPlain().in("where").output("transSales_film.FILM_KEY = transSales.FILM_KEY"))
 				.depends(transSales);
 		
 		//观影类型（首映场）
+		
 		Clause schedule_plan = newPlain().in("from").output(MBRODS+".T_SCHEDULE_PLAN_B schedule_plan")
 				.depends(newPlain().in("where").output("schedule_plan.FILM_ID = transSales_film.SEQID"))
 				.depends(transSales_film);
 		
 		//未发生
-		Clause transSales_filmNot = newPlain().in("notexistsTransFrom").output(RPT2+".T_D_CON_FILM transSales_filmNot")
+		Clause transSales_filmNot = newPlain().in("notexistsTransFrom").output(CCSDW+".T_DW_D_FILM transSales_filmNot")
 				.depends(newPlain().in("notexistsTransWhere").output("transSales_filmNot.FILM_KEY = transSalesNot.FILM_KEY"))
 				.depends(transSalesNot);
 		
-		Clause transSales_paymethod = newPlain().in("from").output(RPT2+".T_D_CON_PAY_METHOD transSales_paymethod")
-				.depends(newPlain().in("where").output("transSales_paymethod.PAY_METHOD_KEY = transSales.PAY_METHOD_KEY"))
+		Clause transSales_paymethod = newPlain().in("from").output(CCSDW+".V_DW_D_PAY_METHOD transSales_paymethod")
+				.depends(newPlain().in("where").output("transSales_paymethod.POS_PAYMENT_NAME = transSales.POS_PAYMENT_NAME"))
 				.depends(transSales);
 		
 		//未发生
-		Clause transSales_paymethodNot = newPlain().in("notexistsTransFrom").output(RPT2+".T_D_CON_PAY_METHOD transSales_paymethodNot")
-				.depends(newPlain().in("notexistsTransWhere").output("transSales_paymethodNot.PAY_METHOD_KEY = transSalesNot.PAY_METHOD_KEY"))
+		Clause transSales_paymethodNot = newPlain().in("notexistsTransFrom").output(CCSDW+".V_DW_D_PAY_METHOD transSales_paymethodNot")
+				.depends(newPlain().in("notexistsTransWhere").output("transSales_paymethodNot.POS_PAYMENT_NAME = transSalesNot.POS_PAYMENT_NAME"))
 				.depends(transSalesNot);
 		
-		Clause transSales_channel = newPlain().in("from").output(RPT2+".T_D_CON_CHANNEL transSales_channel")
-		.depends(newPlain().in("where").output("transSales_channel.CHANNEL_KEY = transSales.CHANNEL_KEY"))
+		Clause transSales_channel = newPlain().in("from").output(CCSDW+".T_DW_D_CHANNEL transSales_channel")
+		.depends(newPlain().in("where").output("transSales_channel.CHANNEL_CODE = transSales.CHANNEL_CODE"))
 		.depends(transSales);
 		//未发生
-		Clause transSales_channelNot = newPlain().in("notexistsTransFrom").output(RPT2+".T_D_CON_CHANNEL transSales_channelNot")
-		.depends(newPlain().in("notexistsTransWhere").output("transSales_channelNot.CHANNEL_KEY = transSalesNot.CHANNEL_KEY"))
+		Clause transSales_channelNot = newPlain().in("notexistsTransFrom").output(CCSDW+".T_DW_D_CHANNEL transSales_channelNot")
+		.depends(newPlain().in("notexistsTransWhere").output("transSales_channelNot.CHANNEL_CODE = transSalesNot.CHANNEL_CODE"))
 		.depends(transSalesNot);
 		
 		
-		Clause transSalesAll_channel = newPlain().in("from").output(RPT2+".T_D_CON_CHANNEL transSalesAll_channel")
-		.depends(newPlain().in("where").output("transSalesAll_channel.CHANNEL_KEY = transSalesAll.CHANNEL_KEY"))
+		Clause transSalesAll_channel = newPlain().in("from").output(CCSDW+".T_DW_D_CHANNEL transSalesAll_channel")
+		.depends(newPlain().in("where").output("transSalesAll_channel.CHANNEL_CODE = transSalesAll.CHANNEL_CODE"))
 		.depends(transSalesAll);
 		
 		Clause mbrTagResult = newPlain().in("from").output(MBRODS+".T_MBR_TAG_RESULT mbr_tag_result")
@@ -302,8 +303,8 @@ public class SegmentCriteriaDef {
 		// ==================== 假日信息表 ======================
 		
 		// 假日信息表
-		Clause holidayDate = newPlain().in("from").output(RPT2+".T_D_CON_DATE holiday")
-				.depends(newPlain().in("where").output("holiday.DATE_KEY=transSalesAll.DATE_KEY")
+		Clause holidayDate = newPlain().in("from").output(CCSDW+".T_DW_D_DATE holiday")
+				.depends(newPlain().in("where").output("holiday.DATE_KEY=transSalesAll.SHOW_BIZ_DATE")
 				.depends(transSalesAll));
 		
 		// ==================== 假日信息表 ======================
@@ -314,14 +315,14 @@ public class SegmentCriteriaDef {
 		this.parser = newParser(QUERY_PARAGRAPHS_SEGMENT)
 		
 		.add(newPlain().in("where").output("member.STATUS='1' and member.ISDELETE = 0"))
-		.add(newPlain().in("from").output(RPT2+".T_D_CON_MEMBER member"))
+		.add(newPlain().in("from").output(CCSDW+".V_DW_F_MEMBER member"))
 		
 		////////////卖品交易条件////////////
 		//卖品交易日期
-		.add(notEmpty("conSaleDate"), newExpression().in("where").output("consale.BOOK_DATE_KEY", DataType.DATE)
+		.add(notEmpty("conSaleDate"), newExpression().in("where").output("consale.BIZ_DATE", DataType.DATE)
 				.depends(consale))
 		//卖品交易日期未发生
-		.add(notEmpty("conSaleDateNot"), newExpression().in("notexistsConWhere").output("consaleNot.BOOK_DATE_KEY", DataType.DATE)
+		.add(notEmpty("conSaleDateNot"), newExpression().in("notexistsConWhere").output("consaleNot.BIZ_DATE", DataType.DATE)
 				.depends(consaleNot))
 				
 		//节假日卖品交易
@@ -347,10 +348,10 @@ public class SegmentCriteriaDef {
 		.add(notEmpty("conSaleHourPeriodNot"), newExpression().in("notexistsConWhere").output("consale_hourNot.TIME_DIVIDING_ID", DataType.STRING)
 				.depends(consale_hourNot))
 		//卖品交易小时
-		.add(notEmpty("conSaleHour"), newExpression().in("where").output("consale.BOOK_HOUR_KEY", DataType.STRING)
+		.add(notEmpty("conSaleHour"), newExpression().in("where").output("consale.HOUR_KEY", DataType.STRING)
 				.depends(consale))
 		//卖品交易小时未发生
-		.add(notEmpty("conSaleHourNot"), newExpression().in("notexistsConWhere").output("consaleNot.BOOK_HOUR_KEY", DataType.STRING)
+		.add(notEmpty("conSaleHourNot"), newExpression().in("notexistsConWhere").output("consaleNot.HOUR_KEY", DataType.STRING)
 				.depends(consaleNot))
 		//卖品交易影城
 		.add(notEmpty("conSaleCinema"), newExpression().in("where").output("consale_cinema.INNER_CODE", DataType.STRING, cinemaCom)
@@ -362,14 +363,14 @@ public class SegmentCriteriaDef {
 		.add(notEmpty("conSaleAmount"), newExpression().in("having").output("sum(consale.BK_SALE_AMOUNT) - sum(consale.RE_SALE_AMOUNT)", DataType.DOUBLE)
 				.depends(consale).depends(group_by))
 		//卖品消费次数
-		.add(notEmpty("conSaleConsumeTime"), newExpression().in("having").output("count(distinct consale.Bk_CS_ORDER_CODE)", DataType.INTEGER)
+		.add(notEmpty("conSaleConsumeTime"), newExpression().in("having").output("count(distinct consale.BK_ORDER_ID)", DataType.INTEGER)
 				.depends(consale).depends(group_by))
 		//卖品品类
-		.add(notEmpty("conSaleCategory"), newExpression().in("where").output("consale_cate.THIRD_CLASS_ID", DataType.LONG)
+		.add(notEmpty("conSaleCategory"), newExpression().in("where").output("consale_cate.ITEM_CLASS_CODE", DataType.LONG)
 				.depends(consale_cate))
 				
 		//卖品品类未发生
-		.add(notEmpty("conSaleCategoryNot"), newExpression().in("notexistsConWhere").output("consale_cateNot.THIRD_CLASS_ID", DataType.LONG)
+		.add(notEmpty("conSaleCategoryNot"), newExpression().in("notexistsConWhere").output("consale_cateNot.ITEM_CLASS_CODE", DataType.LONG)
 				.depends(consale_cateNot))
 		//卖品品项
 		.add(notEmpty("conSaleItem"), newExpression().in("where").output("consale_item.item_code", DataType.STRING, conitemCom)
@@ -384,10 +385,10 @@ public class SegmentCriteriaDef {
 		.add(notEmpty("conSaleWeeksNot"), newExpression().in("notexistsConWhere").output("consale_dateNot.FEW_WEEK_ID", DataType.STRING, conitemCom)
 				.depends(consale_dateNot))
 		//卖品支付方式
-		.add(notEmpty("conSalePayMethod"), newExpression().in("where").output("consale_paymethod.PAY_METHOD_CODE", DataType.STRING)
+		.add(notEmpty("conSalePayMethod"), newExpression().in("where").output("consale_paymethod.PAYMENT_CODE", DataType.STRING)
 				.depends(consale_paymethod))
 		//卖品支付方式未发生
-		.add(notEmpty("conSalePayMethodNot"), newExpression().in("notexistsConWhere").output("consale_paymethodNot.PAY_METHOD_CODE", DataType.STRING)
+		.add(notEmpty("conSalePayMethodNot"), newExpression().in("notexistsConWhere").output("consale_paymethodNot.PAYMENT_CODE", DataType.STRING)
 				.depends(consale_paymethodNot))
 
 		////////////添加会员基本条件////////////
@@ -462,7 +463,7 @@ public class SegmentCriteriaDef {
 	
 		////////////总交易条件////////////
 		//交易日期
-		.add(notEmpty("transDay"), newExpression().in("where").output("transSalesAll.DATE_KEY", DataType.DATE)
+		.add(notEmpty("transDay"), newExpression().in("where").output("transSalesAll.SHOW_BIZ_DATE", DataType.DATE)
 				.depends(transSalesAll))
 
 		//交易节日
@@ -470,7 +471,7 @@ public class SegmentCriteriaDef {
 		 		.depends(holidayDate))
 				
 		//交易日期未交易
-		.add(notEmpty("transDayNot"), newExpression().in("notexistsTransAllWhere").output("transSalesAllNot.DATE_KEY", DataType.DATE).depends(transSalesAllNot))
+		.add(notEmpty("transDayNot"), newExpression().in("notexistsTransAllWhere").output("transSalesAllNot.SHOW_BIZ_DATE", DataType.DATE).depends(transSalesAllNot))
 		//节假日交易
 		.add(notEmpty("holidayTrans"), newValue().in("where").output("transSalesAll_date.HOLIDAY_ID  {0}", DataType.SQL, true).addValueMapper(0, booleanMapper)
 		 		.depends(transSalesAll_date))
@@ -502,7 +503,7 @@ public class SegmentCriteriaDef {
 		//交易小时未交易
 		.add(notEmpty("transHourNot"), newExpression().in("notexistsTransAllWhere").output("transSalesAllNot.HOUR_KEY", DataType.STRING).depends(transSalesAllNot))
 		//曾经持卡消费
-		.add(notEmpty("transCards"), newValue().in("where").output("transSalesAll.CARD_KEY  {0}", DataType.SQL, true).addValueMapper(0, booleanTransAllMapper)
+		.add(notEmpty("transCards"), newValue().in("where").output("transSalesAll.CARD_NUM  {0}", DataType.SQL, true).addValueMapper(0, booleanTransAllMapper)
 						.depends(transSalesAll))
 		//电子渠道交易
 		.add(notEmpty("transElectronic"), newValue().in("where").output("transSalesAll_channel.CHANNEL_CODE  {0}", DataType.SQL, true).addValueMapper(0, booleanChannelMapper)
@@ -515,26 +516,26 @@ public class SegmentCriteriaDef {
 		.add(notEmpty("transCinemaNot"), newExpression().in("notexistsTransAllWhere").output("transSalesAll_cinemaNot.INNER_CODE", DataType.STRING, cinemaCom)
 				.depends(transSalesAll_cinemaNot))
 		//观影支付方式
-		.add(notEmpty("transPayMethod"), newExpression().in("where").output("transSalesAll_paymethod.PAY_METHOD_CODE", DataType.STRING)
+		.add(notEmpty("transPayMethod"), newExpression().in("where").output("transSalesAll_paymethod.POS_PAYMENT_NAME", DataType.STRING)
 				.depends(transSalesAll_paymethod))
 				
 		//观影支付方式未交易
-		.add(notEmpty("transPayMethodNot"), newExpression().in("notexistsTransAllWhere").output("transSalesAll_paymethodNot.PAY_METHOD_CODE", DataType.STRING)
+		.add(notEmpty("transPayMethodNot"), newExpression().in("notexistsTransAllWhere").output("transSalesAll_paymethodNot.POS_PAYMENT_NAME", DataType.STRING)
 				.depends(transSalesAll_paymethodNot))
 		//总交易消费金额
-		.add(notEmpty("transMoney"), newExpression().in("having").output("sum(transSalesAll.BK_TOTAL_INCOME)", DataType.DOUBLE)
+		.add(notEmpty("transMoney"), newExpression().in("having").output("sum(transSalesAll.PAYMENT_AMOUNT)", DataType.DOUBLE)
 				.depends(transSalesAll).depends(group_by))
 		//transNumber
-		.add(notEmpty("transNumber"), newExpression().in("having").output("count(distinct transSalesAll.Bk_ORDER_CODE)", DataType.INTEGER)
+		.add(notEmpty("transNumber"), newExpression().in("having").output("count(distinct transSalesAll.Bk_ORDER_ID)", DataType.INTEGER)
 				.depends(transSalesAll).depends(group_by))
 				
 				
 		//票房交易
 		//观影日期
-		.add(notEmpty("watchTradeDay"), newExpression().in("where").output("transSales.SHOW_BIZ_DATE_KEY", DataType.DATE)
+		.add(notEmpty("watchTradeDay"), newExpression().in("where").output("transSales.SHOW_BIZ_DATE", DataType.DATE)
 				.depends(transSales))
 		//观影日期未交易
-		.add(notEmpty("watchTradeDayNot"), newExpression().in("notexistsTransWhere").output("transSalesNot.SHOW_BIZ_DATE_KEY", DataType.DATE)
+		.add(notEmpty("watchTradeDayNot"), newExpression().in("notexistsTransWhere").output("transSalesNot.SHOW_BIZ_DATE", DataType.DATE)
 				.depends(transSalesNot))
 		//是否节假日观影
 //		 .add(notEmpty("holidayWatchTrade"), newValue().in("where").output("transSales_date.HOLIDAY_ID {0}", DataType.SQL, true).addValueMapper(0, booleanMapper)
@@ -566,17 +567,17 @@ public class SegmentCriteriaDef {
 		.add(notEmpty("watchTradeTimeNot"), newExpression().in("notexistsTransWhere").output("transSales_hourNot.TIME_DIVIDING_ID", DataType.STRING)
 				.depends(transSales_hourNot))
 		//观影交易小时
-		.add(notEmpty("watchTradeHour"), newExpression().in("where").output("transSales.SHOW_HOUR_KEY", DataType.STRING)
+		.add(notEmpty("watchTradeHour"), newExpression().in("where").output("transSales.HOUR_KEY", DataType.STRING)
 				.depends(transSales))
 				
 		//观影交易小时未发生
-		.add(notEmpty("watchTradeHourNot"), newExpression().in("notexistsTransWhere").output("transSalesNot.SHOW_HOUR_KEY", DataType.STRING)
+		.add(notEmpty("watchTradeHourNot"), newExpression().in("notexistsTransWhere").output("transSalesNot.HOUR_KEY", DataType.STRING)
 				.depends(transSalesNot))
 		//观影支付方式
-		.add(notEmpty("watchPayMethod"), newExpression().in("where").output("transSales_paymethod.PAY_METHOD_CODE", DataType.STRING)
+		.add(notEmpty("watchPayMethod"), newExpression().in("where").output("transSales_paymethod.POS_PAYMENT_NAME", DataType.STRING)
 				.depends(transSales_paymethod))
 		//观影支付方式未发生
-		.add(notEmpty("watchPayMethodNot"), newExpression().in("notexistsTransWhere").output("transSales_paymethodNot.PAY_METHOD_CODE", DataType.STRING)
+		.add(notEmpty("watchPayMethodNot"), newExpression().in("notexistsTransWhere").output("transSales_paymethodNot.POS_PAYMENT_NAME", DataType.STRING)
 				.depends(transSales_paymethodNot))
 		//观影交易影城
 		.add(notEmpty("watchTradeCinema"), newExpression().in("where").output("transSales_cinema.INNER_CODE", DataType.STRING, cinemaCom)
@@ -585,10 +586,10 @@ public class SegmentCriteriaDef {
 		.add(notEmpty("watchTradeCinemaNot"), newExpression().in("notexistsTransWhere").output("transSales_cinemaNot.INNER_CODE", DataType.STRING, cinemaCom)
 				.depends(transSales_cinemaNot))
 		//观影消费金额
-		.add(notEmpty("purchaseMoney"), newExpression().in("having").output("sum(transSales.BK_ADMISSIONS)-sum(transSales.RE_ADMISSIONS)", DataType.INTEGER)
+		.add(notEmpty("purchaseMoney"), newExpression().in("having").output("sum(transSales.BK_PAYMENT_MOUNT)-sum(transSales.RE_PAYMENT_MOUNT)", DataType.INTEGER)
 				.depends(transSales).depends(group_by))
 		//观影消费次数
-		.add(notEmpty("purchaseNumber"), newExpression().in("having").output("count(distinct transSales.BK_CT_ORDER_CODE)", DataType.INTEGER)
+		.add(notEmpty("purchaseNumber"), newExpression().in("having").output("count(distinct transSales.BK_ORDER_ID)", DataType.INTEGER)
 				.depends(transSales).depends(group_by))
 		//观影购票数
 		.add(notEmpty("ticketNumber"), newExpression().in("having").output("count(distinct transSales.BK_TICKET_NUMBER)-count(distinct transSales.RE_TICKET_NUMBER)", DataType.INTEGER)
@@ -605,10 +606,10 @@ public class SegmentCriteriaDef {
 		.add(notEmpty("transFilmNot"), newExpression().in("notexistsTransWhere").output("transSales_filmNot.FILM_CODE", DataType.STRING, filmCom)
 				.depends(transSales_filmNot))
 		//观影票类
-		.add(notEmpty("ticketType"), newExpression().in("where").output("transSales_tickettype.TYPE_GROUP_ID", DataType.STRING)
+		.add(notEmpty("ticketType"), newExpression().in("where").output("transSales_tickettype.TYPE_GROUP", DataType.STRING)
 				.depends(transSales_tickettype))
 		//观影票类未交易
-		.add(notEmpty("ticketTypeNot"), newExpression().in("notexistsTransWhere").output("transSales_tickettypeNot.TYPE_GROUP_ID", DataType.STRING)
+		.add(notEmpty("ticketTypeNot"), newExpression().in("notexistsTransWhere").output("transSales_tickettypeNot.TYPE_GROUP", DataType.STRING)
 				.depends(transSales_tickettypeNot))
 		//观影交易渠道		
 		.add(notEmpty("watchTradeChannel"), newExpression().in("where").output("transSales_channel.CHANNEL_CODE", DataType.STRING)
@@ -667,7 +668,6 @@ public class SegmentCriteriaDef {
 		
 		
 		
-		//TODO 这块儿需要整理
 		this.orderByMap = new HashMap<String, String>();
 		orderByMap.put("40", "member.MEMBER_LEVEL_CODE"); 			//会员级别
 		orderByMap.put("10", "member_point.EXG_POINT_BALANCE");		//可用积分余额
