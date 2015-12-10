@@ -119,6 +119,7 @@ public class Reward  extends ServiceBase{
 		//修改会员积分
 		SqlHelp.operate(conn, SQLConstDef.UPDATE_POINT_BALANCE, 
 				String.valueOf(Integer.parseInt(balance)),
+				String.valueOf(Integer.parseInt(balance)),
 				String.valueOf(mid));
 		
 		//获取短信平台代理地址和通道号

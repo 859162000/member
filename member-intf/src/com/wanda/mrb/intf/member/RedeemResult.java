@@ -108,7 +108,7 @@ public class RedeemResult extends ServiceBase {
 		
 		// 积分回滚
 		SqlHelp.operate(conn, SQLConstDef.UPDATE_POINT_BALANCE,
-				String.valueOf(Double.valueOf(exPoint)), String.valueOf(mid));
+				String.valueOf(Double.valueOf(exPoint)),String.valueOf(Double.valueOf(exPoint)), String.valueOf(mid));
 	}
 
 	@Override
