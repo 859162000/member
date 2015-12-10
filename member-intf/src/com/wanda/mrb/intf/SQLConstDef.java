@@ -137,7 +137,7 @@ public class SQLConstDef {
 
 	public static final String CHECK_TRANS_ORDER="select POINT_HISTORY_ID from T_POINT_HISTORY where ORDER_ID=? and CINEMA_INNER_CODE=? and IS_SUCCEED=? and MEMBER_ID=?";
 	
-	public static final String UPDATE_POINT_BALANCE="update T_MEMBER_POINT set EXG_POINT_BALANCE=EXG_POINT_BALANCE+? where MEMBER_ID=?";
+	public static final String UPDATE_POINT_BALANCE="update T_MEMBER_POINT set EXG_POINT_BALANCE=EXG_POINT_BALANCE+? ,EXG_EXPIRE_POINT_BALANCE = EXG_EXPIRE_POINT_BALANCE+? where MEMBER_ID=?";
 	
 	/*会员积分历史查询*/
 	public static final String QUERY_POINT_HISTORY = "select to_char(ph.SET_TIME,'yyyy-mm-dd hh24:mi:ss') AS SET_TIME,ph.POINT_TYPE,ph.EXCHANGE_POINT," +
