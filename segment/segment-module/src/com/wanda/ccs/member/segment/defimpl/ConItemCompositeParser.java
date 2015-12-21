@@ -23,7 +23,7 @@ public class ConItemCompositeParser extends CompositeCriteriaParser {
 			this.parser = newParser(SELECT_PARAGRAPHS)
 					.add(newPlain().output("I.ITEM_CODE").in("select"))
 //					.add(newPlain().output(RPT2+".T_D_CON_CS_SALE_ITEM I").in("from"))
-					.add(newPlain().output(CCSDW+".T_DW_D_SALE_ITEM I").in("from"))
+					.add(newPlain().output(CCSDW+".V_DW_D_SALE_ITEM I").in("from"))
 					
 					.add(notEmpty("itemCode"), newExpression().output("I.ITEM_CODE", STRING).in("where"))
 					.add(notEmpty("itemName"), newExpression().output("I.ITEM_NAME", STRING).in("where"))

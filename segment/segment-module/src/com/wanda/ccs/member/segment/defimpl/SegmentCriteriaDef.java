@@ -113,11 +113,11 @@ public class SegmentCriteriaDef {
 				.depends(newPlain().in("notexistsConWhere").output("consaleNot.ITEM_CLASS_CODE = consale_cateNot.ITEM_CLASS_CODE"))
 				.depends(consaleNot);
 		
-		Clause consale_item = newPlain().in("from").output(CCSDW+".T_DW_D_SALE_ITEM consale_item")
+		Clause consale_item = newPlain().in("from").output(CCSDW+".V_DW_D_SALE_ITEM consale_item")
 				.depends(newPlain().in("where").output("consale.ITEM_CODE = consale_item.ITEM_CODE"))
 				.depends(consale);
 		//未发生卖品交易
-		Clause consale_itemNot = newPlain().in("notexistsConFrom").output(CCSDW+".T_DW_D_SALE_ITEM consale_itemNot")
+		Clause consale_itemNot = newPlain().in("notexistsConFrom").output(CCSDW+".V_DW_D_SALE_ITEM consale_itemNot")
 				.depends(newPlain().in("notexistsConWhere").output("consaleNot.ITEM_CODE = consale_itemNot.ITEM_CODE"))
 				.depends(consaleNot);
 		//卖品支付方式

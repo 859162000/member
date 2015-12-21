@@ -159,7 +159,7 @@ public class ExtPointCriteriaDef {
 				.depends(newPlain().in("where").output("consale.ITEM_CLASS_CODE = consale_cate.ITEM_CLASS_CODE"))
 				.depends(consale);
 		
-		Clause consale_item = newPlain().in("from").output(CCSDW+".T_DW_D_SALE_ITEM consale_item")
+		Clause consale_item = newPlain().in("from").output(CCSDW+".V_DW_D_SALE_ITEM consale_item")
 				.depends(newPlain().in("where").output("consale.ITEM_CODE = consale_item.ITEM_CODE"))
 				.depends(consale);
 		//卖品支付方式

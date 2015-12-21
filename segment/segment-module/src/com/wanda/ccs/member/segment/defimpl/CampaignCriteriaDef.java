@@ -135,7 +135,7 @@ public class CampaignCriteriaDef {
 				.depends(newPlain().in("where").output("consale.ITEM_CLASS_CODE = consale_cate.ITEM_CLASS_ID"))
 				.depends(memberSaleTable);
 		
-		Clause saleItemTable = newPlain().in("from").output(/**RPT2*/CCSDW+".T_DW_D_SALE_ITEM consale_item")
+		Clause saleItemTable = newPlain().in("from").output(/**RPT2*/CCSDW+".V_DW_D_SALE_ITEM consale_item")
 				.depends(newPlain().in("where").output("consale.ITEM_CODE = consale_item.ITEM_ID"))
 				.depends(memberSaleTable);
 		
