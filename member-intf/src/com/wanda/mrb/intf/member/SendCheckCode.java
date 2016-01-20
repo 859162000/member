@@ -32,7 +32,8 @@ public class SendCheckCode extends ServiceBase {
 		String msgChannelId = "";
 		Map<String, String> msgConfigMap = SmsConfigFactory
 				.getSmsConfigInstance(conn);
-		msgSvcIp = msgConfigMap.get("MSG_MQ_IP");
+//		msgSvcIp = msgConfigMap.get("MSG_MQ_IP");
+		msgSvcIp = msgConfigMap.get("MSG_NEW_PROXY_IP");
 		msgChannelId = msgConfigMap.get("MSG_CHANNEL_ID");
 		String msgRedOpen = msgConfigMap.get("MSG_RED_OPEN");
 		if (super.cinemaCode != null && !"99999999".equals(super.cinemaCode)) {

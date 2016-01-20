@@ -43,10 +43,11 @@ public class VoucherCodeUtil {
 
 	public static void main(String[] args) {
 		try {
-			String encryptName = desEncrypt("1111111111111111111111");
-			System.out.println(encryptName);
-			String decryptName = desDecrypt(encryptName);
-			System.out.println(decryptName);
+//			String encryptName = desEncrypt("1111111111111111111111");
+//			System.out.println(encryptName);
+//			String decryptName = desDecrypt(encryptName);
+//			System.out.println(decryptName);
+			System.out.println(AES.decrypt("1M44sOIHP3MV+YLrZ/qRRekaP0+TOW0pK8HoYSUWz08=","862108"));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

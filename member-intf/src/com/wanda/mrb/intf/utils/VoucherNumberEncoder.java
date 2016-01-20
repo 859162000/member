@@ -29,6 +29,6 @@ public class VoucherNumberEncoder {
 	}
 	
 	public static void main(String args[]){
-		System.out.println(VoucherNumberEncoder.md5Encrypt("ZYL6H5Y4AQDJSBX35VTW"));
+		System.out.println(VoucherNumberEncoder.md5Encrypt("3653426611101307285"));
 	}
 }

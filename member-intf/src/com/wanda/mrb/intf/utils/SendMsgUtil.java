@@ -3,6 +3,11 @@
  */
 package com.wanda.mrb.intf.utils;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -43,36 +48,8 @@ public class SendMsgUtil {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		ServiceUrl.setMqUrl(msgSvcIp);
-		ServiceUrl.setWebServiceUrl("http://"+msgSvcIp+"/SmsPlatform/messagePlatform/smsService?wsdl");
-		SettleResult sr;
-		String settleId = "";
-		try {
-			sr = ServiceClient.getSettleInfo(systemId);
-			if ("00".equals(sr.getStatus())) {
-				for (Settle stl : sr.getSettles()) {
-					settleId = stl.getSettleId();
-				}
-			} else {
-				System.out.println("获取商户信息失败，错误码：" + sr.getStatus());
-			}
-			//发送短信
-			WriteToQueue wq=new WriteToQueue();
-			wq.sendBulkSmsToQueue(
-					msgChannelId,
-					mobileNo, 
-					"001", 
-					settleId, 
-					msgContent, 
-					0
-					);
-			if(wq.isSendSeccess){
-				System.out.println("发送成功");
-			}
-			System.out.println(wq.sendSuccessCount);
-		} catch (Exception e) {
-			throw e;
-		}
+		String result = sendSMSNew(msgSvcIp, mobileNo, msgContent,"MW2");
+		System.out.println("send sms resutl " + result + " send mobile is " + mobileNo);
 	}
 	
 	public static MsgIpConfigBean getMsgIpConfig(Connection conn){
@@ -91,7 +68,46 @@ public class SendMsgUtil {
 		return msgIpMap;
 	}
 	
-
+	/**
+	 * 
+	 * @param url 短信服务url
+	 * @param mobile 接收短信手机号
+	 * @param sendcontent 短信内容
+	 * @return 发送结果 
+	 * "success","S001"," the mobile param is null ","S002",
+    " the send data param is null ","S003"," send faild ","S004"," no param ","S005";
+	 */
+    public static String sendSMSNew(String url, String mobile,String sendContent,String smstype) {
+        PrintWriter out = null;
+        String result = "";
+        try {
+        	StringBuffer jsonstr = new StringBuffer();
+    		jsonstr.append("{").append("\"mobile\"").append(":\"").append(mobile).append("\",").append("\"smsdata\"").append(":\"").append(sendContent).append("\",").append("\"smstype\"").append(":\"").append(smstype).append("\"}");
+    		System.out.println(jsonstr.toString());
+    		url += "/"+jsonstr.toString();
+            URL urlconn = new URL(url);
+			//使用代理打开网页
+			HttpURLConnection action = (HttpURLConnection) urlconn.openConnection(); 
+			BufferedReader br = new BufferedReader(new InputStreamReader(action.getInputStream(),"UTF-8"));
+			String line = "";
+			 while ((line = br.readLine()) != null) {
+	                result += line;
+	            }
+			br.close();
+        } catch (Exception e) {
+        	e.printStackTrace();
+            System.out.println("发送 POST 请求出现异常！"+e);
+            result = e.getLocalizedMessage(); 
+        }
+        //使用finally块来关闭输出流、输入流
+        finally{
+            if(out!=null){
+			    out.close();
+			}
+        }
+        System.out.println("sms send resut is " + result + "send mobile is " + mobile);
+        return result;
+    }
 	/**
 	 * @param args
 	 */
