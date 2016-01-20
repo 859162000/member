@@ -174,7 +174,8 @@ public class RedeemOnline  extends ServiceBase{
 		String msgChannelId = "";
 		String msgRedOpen = "";
 		Map<String,String> msgConfigMap = SmsConfigFactory.getSmsConfigInstance(conn);
-		msgSvcIp = msgConfigMap.get("MSG_MQ_IP");
+//		msgSvcIp = msgConfigMap.get("MSG_MQ_IP");
+		msgSvcIp = msgConfigMap.get("MSG_NEW_PROXY_IP");
 		msgChannelId = msgConfigMap.get("MSG_CHANNEL_ID");
 		msgRedOpen = msgConfigMap.get("MSG_RED_OPEN");
 		
