@@ -8,8 +8,6 @@
  */
 package com.wanda.ccs.member.segment;
 
-import java.sql.Connection;
-
 import com.hp.smsplatform.server.ServiceClient;
 import com.hp.smsplatform.server.ServiceUrl;
 import com.hp.smsplatform.server.rabbitmq.WriteToQueue;

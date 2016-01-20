@@ -21,12 +21,13 @@ public class SMSConfig {
 //					"messageConfig.properties"));
 			in = getClass().getClassLoader().getResourceAsStream("messageConfig.properties");
 			prop.load(in);
-			smsUrl = prop.getProperty("SMS_URL");
+//			smsUrl = prop.getProperty("SMS_URL");
 			smsProxyUrl = prop.getProperty("HP_SMS_PROXY_URL");
 			smsFromsys = prop.getProperty("SMS_FROMSYS");
 			smsTitle = prop.getProperty("CARD_SMS_TITLE");
 			msgMqIp = prop.getProperty("msgMqIp");
 			msgSvcIp = prop.getProperty("msgSvcIp");
+			smsUrl = prop.getProperty("NEW_SMS_URL");
 			msgChannelId= prop.getProperty("msgChannelId");
 		} catch (Exception e) {
 			e.printStackTrace();

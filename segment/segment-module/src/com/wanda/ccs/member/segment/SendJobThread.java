@@ -57,7 +57,7 @@ public class SendJobThread extends Thread {
 					for (int i = 0; i < 3; i++) {// 失败尝试三次
 						String j = MSGSendUtil.sendSMSBySysC(moible,content);
 						System.out.println();
-						if ("OK".equals(j)) {
+						if ("S001".equals(j)) {
 							int count = MessageSendJob.count.getAndIncrement();
 							log.info("Send Message : 第" + count + "条， 已发送！" );
 							break;

@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.List;
@@ -174,7 +175,46 @@ public class SendSMSHttpUtils  {
 		}
 		return isOk;
 	}
-	
+	/**
+	 * 
+	 * @param url 短信服务url
+	 * @param mobile 接收短信手机号
+	 * @param sendcontent 短信内容
+	 * @return 发送结果 
+	 * "success","S001"," the mobile param is null ","S002",
+    " the send data param is null ","S003"," send faild ","S004"," no param ","S005";
+	 */
+    public static String sendSMSNew(String url, String mobile,String sendContent,String smstype) {
+        PrintWriter out = null;
+        String result = "";
+        try {
+        	StringBuffer jsonstr = new StringBuffer();
+    		jsonstr.append("{").append("\"mobile\"").append(":\"").append(mobile).append("\",").append("\"smsdata\"").append(":\"").append(sendContent).append("\",").append("\"smstype\"").append(":\"").append(smstype).append("\"}");
+    		System.out.println(jsonstr.toString());
+    		url += "/"+jsonstr.toString();
+            URL urlconn = new URL(url);
+			//使用代理打开网页
+			HttpURLConnection action = (HttpURLConnection) urlconn.openConnection(); 
+			BufferedReader br = new BufferedReader(new InputStreamReader(action.getInputStream(),"UTF-8"));
+			String line = "";
+			 while ((line = br.readLine()) != null) {
+	                result += line;
+	            }
+			br.close();
+        } catch (Exception e) {
+        	e.printStackTrace();
+            System.out.println("发送 POST 请求出现异常！"+e);
+            result = e.getLocalizedMessage(); 
+        }
+        //使用finally块来关闭输出流、输入流
+        finally{
+            if(out!=null){
+			    out.close();
+			}
+        }
+        System.out.println("sms send resut is " + result + "send mobile is " + mobile);
+        return result;
+    }
 	/**
 	 * 随机6位密码
 	 * @param n
