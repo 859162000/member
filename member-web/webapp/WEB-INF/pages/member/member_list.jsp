@@ -120,7 +120,10 @@
 				<c:when test="${row.status == '-1' }">
 					冻结
 				</c:when>
-				<c:otherwise>禁用</c:otherwise>
+				<c:when test="${row.status == '0' }">
+					禁用
+				</c:when>
+				<c:otherwise>有效</c:otherwise>
 			</c:choose>
 			
 		</display:column>
