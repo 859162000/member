@@ -37,7 +37,10 @@
 				<c:when test="${row.memberStatus eq 0 }">
 					禁用
 				</c:when>
-				<c:otherwise>冻结</c:otherwise>
+				<c:when test="${row.memberStatus eq -1 }">
+					冻结
+				</c:when>
+				<c:otherwise></c:otherwise>
 			</c:choose>
 			
 		</display:column>
