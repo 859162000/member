@@ -37,7 +37,7 @@
 				<c:when test="${row.memberStatus eq 0 }">
 					禁用
 				</c:when>
-				<c:when test="${row.memberStatus eq -1 }">
+				<c:when test="${row.memberStatus == '-1' }">
 					冻结
 				</c:when>
 				<c:otherwise></c:otherwise>
