@@ -24,6 +24,15 @@ public class SegmentVo extends BaseAuditVo {
 	private java.sql.Timestamp calCountTime;
 	private String allowModifier;
 	private String occupied;
+	public long getWordId() {
+		return wordId;
+	}
+
+	public void setWordId(long wordId) {
+		this.wordId = wordId;
+	}
+
+	private long wordId;
 
 	//added by fuby 20130728 start
 	private String ownerLevel; //创建者所属级别:GROUP:院线,REGION:区域;CINEMA:影城

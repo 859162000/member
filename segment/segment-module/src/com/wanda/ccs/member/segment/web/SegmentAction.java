@@ -694,6 +694,7 @@ public class SegmentAction {
 		private String sortName;
 		/*  */
 		private String sortOrder;
+		private long wordId;
 		/* 版本号 */
 		private Long version;
 		/* 包含的子客群 */
@@ -704,6 +705,7 @@ public class SegmentAction {
 		public CombineSegmentDo(SegmentVo vo) {
 			this.segmentId = vo.getSegmentId();
 			this.name = vo.getName();
+			this.wordId=vo.getWordId();
 			this.code = vo.getCode();
 			this.calCount = vo.getCalCount();
 			this.calCountTime = vo.getCalCountTime();
@@ -731,6 +733,7 @@ public class SegmentAction {
 			SegmentVo vo = new SegmentVo();
 			vo.setSegmentId(segmentId);
 			vo.setName(name);
+			vo.setWordId(wordId);
 			vo.setCriteriaScheme(criteriaScheme);
 			vo.setAllowModifier(allowModifier);
 			vo.setConfigVersion(configVersion);

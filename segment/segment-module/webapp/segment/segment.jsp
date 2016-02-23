@@ -109,6 +109,7 @@ $(function() {
 						{name:'EXPORTABLE', label:'EXPORTABLE', hidden:true},
 						{name:'CODE', label:'编码', width:70, sortable:true},
 						{name:'NAME', label:'名称', width:100, sortable:true},
+						{name:'WORD_ID', label:'敏感词编码', width:100, sortable:true},
 						{name:'CAL_COUNT', label:'实际数量', width:50, sortable:false},
 						{name:'CONTROL_COUNT', label:'对比组数量', width:50, sortable:false, 
 							formatter: function(cellvalue, options, rowObject) { 
@@ -989,6 +990,13 @@ $(function() {
 					  <div name="controlCount" wrType="readtext"></div>
 				  </td>
 				</tr>
+					<tr>
+				  <td width="25%" align="right">敏感词编码: </td>
+				  <td width="10%" align="left"><input name="wordId" type="text" wrType="text"/></td>
+				  <td width="25%" align="right"> </td>
+				  <td width="40%" align="left">
+				  </td>
+				</tr>
 				</tbody>
 	   		</table>
 	   	</form>
@@ -1069,6 +1077,13 @@ $(function() {
 				  <td width="25%" align="right">对比组数量: </td>
 				  <td width="350%" align="left">
 					  <div name="controlCount" wrType="readtext"></div>
+				  </td>
+				</tr>
+				<tr>
+				  <td width="25%" align="right">敏感词编码: </td>
+				  <td width="10%" align="left"><input name="wordId" type="text" wrType="text"/></td>
+				  <td width="25%" align="right"> </td>
+				  <td width="40%" align="left">
 				  </td>
 				</tr>
 				</tbody>
