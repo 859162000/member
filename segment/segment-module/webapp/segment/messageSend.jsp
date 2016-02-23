@@ -71,7 +71,8 @@ $(function() {
 	var queryUrl = '<%=context%>/segment/SegmentMessageAction/query.do';
 	var approveUrl = '<%=context%>/segment/SegmentMessageAction/approve.do';
 	var getSegmentMessageUrl = '<%=context%>/segment/SegmentMessageAction/get.do';
-	
+	var deleteUrl = '<%=context%>/segment/SegmentMessageAction/delete.do';
+
 	//To indicate the open user input dialog is new creation or not. 
 	var girdColumns = [
 						{name:'SEGM_MESSAGE_ID', label:'客群短信ID', hidden:true},
@@ -81,10 +82,10 @@ $(function() {
 						{name:'CODE', label:'客群编码', width:70, sortable:false},
 						{name:'NAME', label:'客群名称', width:110, sortable:false},
 						{name:'CAL_COUNT', label:'客群人数', width:70, sortable:false},
-						{name:'CREATE_BY', label:'创建人', width:50, sortable:false},
 						{name:'APPROVE_STATUS', label:'审批状态', width:50, sortable:false},
-						{name:'NO_SEND_CAL', label:'不希望联络人数', width:50, sortable:false},
 						{name:'SEND_STATUS', label:'短信发送状态', width:70, sortable:false},
+						{name:'CREATE_BY', label:'创建人', width:50, sortable:false},
+						{name:'UPDATE_DATE', label:'更新时间', width:50, sortable:false},
 						{name:'ACTIONS', label:'操作', width:50, align:'center'}
 						];
 	
@@ -107,8 +108,9 @@ $(function() {
 		sortorder: "desc",
 		afterInsertRow: function(rowid, rowdata, rowelem) {
 			//加入每行后的操作按钮
-			if(rowdata['EDITABLE']&&'审批不通过'!=rowdata['APPROVE_STATUS']){
+			if(rowdata['EDITABLE']&&('审批不通过'==rowdata['APPROVE_STATUS'] || '未提交审批'==rowdata['APPROVE_STATUS'])){
 			    var cellHtml = '<button name="onViewBtn" key=' + rowdata['SEGM_MESSAGE_ID'] + ' approveStatus=' + rowdata['APPROVE_STATUS'] + ' approveAble=' + rowdata['APPROVEABLE'] + ' type="button" wrType="button" wrParam="icon:ui-icon-pencil;text:false" style="height:22px;" title="编辑客群短信"/>&nbsp;';
+			    cellHtml +=	'<button name="onDeleteBtn" key=' + rowdata['SEGM_MESSAGE_ID'] + ' type="button" wrType="button" wrParam="icon:ui-icon-trash;text:false" style="height:22px;" title="删除"/>';
 			}else{
 			    var cellHtml = '<button name="onShowBtn" key=' + rowdata['SEGM_MESSAGE_ID'] + ' type="button" wrType="button" wrParam="icon:ui-icon-zoomin;text:false" style="height:22px;" title="查看客群短信"/>&nbsp;';
 			}
@@ -224,7 +226,27 @@ $(function() {
 			   }
 			});
 	});
-
+	
+	$(resultList).on('click', 'button[name=onDeleteBtn]', function (){
+		var segmMessageId = $(this).attr('key');
+		$.msgBox('confirm', '',  '是否要删除选中的客群短信？',  function(result) { 
+			if(result == true) {
+        		var queryString = 'deletes=' + segmMessageId;
+				$.ajax({
+					   url: deleteUrl,
+					   data: queryString,
+					   success: function(result) {
+						   if(result.level == 'ERROR') {
+							   $.msgBox('error', '', result.message);
+						   }
+						   else {
+						   	reloadSearch();
+						   }
+					   }
+				});
+			}
+		});
+	});
 	function reloadSearch(){
 		var queryData =JSON.stringify( $('input[wrType],select[wrType]', searchForm).wrender('getValue'));
 		resultList.setGridParam({datatype:'json', postData:{'queryData' :queryData}, page:1}).trigger("reloadGrid");
