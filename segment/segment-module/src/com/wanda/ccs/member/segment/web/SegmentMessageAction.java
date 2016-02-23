@@ -11,8 +11,11 @@ package com.wanda.ccs.member.segment.web;
 import static com.wanda.ccs.sqlasm.expression.JsonCriteriaHelper.parseSimple;
 
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.logging.Log;
@@ -71,7 +74,11 @@ public class SegmentMessageAction {
 	private JqgridQueryParamVo queryParam;
 
 	private String queryData;
-
+	
+	private String segmentIds;
+	
+	private String[] deletes;
+	
 	public String getApprove() {
 		return approve;
 	}
@@ -127,7 +134,22 @@ public class SegmentMessageAction {
 	public void setSegmentId(Long segmentId) {
 		this.segmentId = segmentId;
 	}
+	
+	public String getSegmentIds() {
+		return segmentIds;
+	}
 
+	public void setSegmentIds(String segmentIds) {
+		this.segmentIds = segmentIds;
+	}
+	
+	public String[] getDeletes() {
+		return deletes;
+	}
+	
+	public void setDeletes(String[] deletes) {
+		this.deletes = deletes;
+	}
 	/**
 	 * @Fields APPROVE_PIZHUN :提交状态
 	 */
@@ -196,8 +218,6 @@ public class SegmentMessageAction {
 				return new ResponseMessage(ResponseLevel.INFO,
 						"请选择普通客群创建客群信息项！");
 			}
-			
-
 			segmentMessageService.insert(segment);
 			return new ResponseMessage(ResponseLevel.INFO, "客群短信新建成功！");
 		} catch (Throwable t) {
@@ -241,7 +261,6 @@ public class SegmentMessageAction {
 
 		List<ExpressionCriterion> criterionList = parseSimple(this.queryData);
 		JqgridQueryConverter converter = new JqgridQueryConverter();
-
 		QueryResultVo<Map<String, Object>> result = segmentMessageService
 				.queryList(converter.convertParam(queryParam), criterionList,
 						user);
@@ -257,7 +276,8 @@ public class SegmentMessageAction {
 						}else if("0".equals(row.get("SEND_STATUS").toString())){
 							row.put("SEND_STATUS", "发送失败");
 						} else{
-							row.put("SEND_STATUS", "成功发送短信"+row.get("SEND_STATUS").toString()+"条");
+							Integer failSend = row.get("CAL_COUNT").toString() != "-1"?Integer.parseInt(row.get("CAL_COUNT").toString())-Integer.parseInt(row.get("SEND_STATUS").toString()):0;
+							row.put("SEND_STATUS", "短信发送成功"+row.get("SEND_STATUS").toString()+"条，失败"+failSend+"条");
 							row.put("SENDABLE", true);// 已发送
 						}
 						if (row.get("APPROVE_STATUS") == null) {
@@ -354,7 +374,7 @@ public class SegmentMessageAction {
 			segmentMessageService.sendMessage(segment.getSegmMessageId(),userProfile);
 			return new ResponseMessage(ResponseLevel.INFO, "客群短信提交成功！");
 		} catch (Throwable t) {
-			log.error("Message commit fail error! segmentId=" + this.segmentId,
+			log.error("Message commit fail error! segmentMessageId=" + segment.getSegmMessageId(),
 					t);
 			return new ResponseMessage(ResponseLevel.WARNING,
 					"客群短信提交失败！请与系统管理员联系。");
@@ -516,4 +536,147 @@ public class SegmentMessageAction {
 
 	}
 
+	/**
+	 * @Title: createMessage
+	 * @Description: 创建信息方法
+	 * @param @return
+	 * @param @throws Exception 设定文件
+	 * @return ResponseMessage 返回类型
+	 * @throws
+	 */
+	public ResponseMessage saveMessages() throws Exception {
+		UserProfile userProfile = AuthUserHelper.getUser();
+		if (segmentIds != "" && segmentIds.length() > 0) {
+			SegmentMessageVo segment = JsonCriteriaHelper.parseSimple(json,
+					SegmentMessageVo.class);
+			segment.setCreateBy(userProfile.getId());
+			segment.setUpdateBy(userProfile.getId());
+			if (UserLevel.CINEMA.equals(userProfile.getLevel())) {
+				segment.setCinema(userProfile.getCinemaId()+"");
+				segment.setArea(userProfile.getRegionCode());
+			} else if (UserLevel.REGION.equals(userProfile.getLevel())) {
+				segment.setArea(userProfile.getRegionCode());
+			}
+			String batchId = segment.getBatchId();
+			if (batchId == null || batchId == "") {
+				batchId = UUID.randomUUID().toString();
+				batchId = batchId.replaceAll("-", "");
+				segment.setBatchId(batchId);
+			}
+			try {
+				if (SEGM_FUHE.equals(segmentType)) {
+					return new ResponseMessage(ResponseLevel.INFO,
+							"请选择普通客群创建客群信息项！");
+				}
+				segmentIds = segmentIds.substring(1);
+				String[] segmentIdArray = segmentIds.split(",");
+				for (int i = 0; i < segmentIdArray.length; i++) {
+					segment.setSegmentId(segmentIdArray[i]);
+					segmentMessageService.insert(segment);
+				}
+				return new ResponseMessage(ResponseLevel.INFO, batchId);
+			} catch (Throwable t) {
+				log.error("Start calculate count error! segmentId="
+						+ this.segmentId, t);
+				return new ResponseMessage(ResponseLevel.WARNING,
+						"客群短信新建失败！请与系统管理员联系。");
+			}
+		} else {
+			return new ResponseMessage(ResponseLevel.WARNING,
+					"请选择客群信息！");
+		}
+		
+	}
+	
+	/**
+	 * @Title: toApprve
+	 * @Description: 创建人提交调用的方法
+	 * @param @return
+	 * @param @throws Exception 设定文件
+	 * @return ResponseMessage 返回类型
+	 * @throws
+	 */
+	public ResponseMessage toApproveMassages() throws Exception {
+		UserProfile userProfile = AuthUserHelper.getUser();
+		SegmentMessageVo segment = JsonCriteriaHelper.parseSimple(json,
+				SegmentMessageVo.class);
+		try {
+			if (segment.getBatchId() != null || segment.getBatchId() != "") {
+				List<SegmentMessageVo> list = segmentMessageService.getSegmentMessageByBatchId(segment.getBatchId());
+				for (SegmentMessageVo segmentVo : list) {
+					segmentMessageService.saveMessage(segmentVo, userProfile,TIJIAO);//提交审批
+				}
+				return new ResponseMessage(ResponseLevel.INFO, "提交审批成功！");
+			} else {
+				return new ResponseMessage(ResponseLevel.WARNING,
+						"请先保存客群短信信息然后在进行提交操作！");
+			}
+			
+		} catch (Throwable t) {
+			log.error("Message commit fail error! segmentId=" + this.segmentId,
+					t);
+			return new ResponseMessage(ResponseLevel.WARNING,
+					"客群短信提交失败！请与系统管理员联系。");
+		}
+	}
+	
+	public ResponseMessage delete() throws Exception {
+		try {
+			String batchId = "";
+			for(String segmentMessageIdStr : deletes) {
+				Long segmMessageId = Long.parseLong(segmentMessageIdStr);
+				
+				SegmentMessageVo vo = segmentMessageService.get(segmMessageId);
+				batchId = vo.getBatchId();
+				UserProfile userProfile = AuthUserHelper.getUser();
+				if(userProfile != null) {
+					if(userProfile.getId().equals(vo.getCreateBy()) == false) {
+						return new ResponseMessage(ResponseLevel.ERROR, "您不是创建人，不能删除该客群短信");
+					}
+				}
+			}
+			segmentMessageService.logicDelete(deletes);
+			return new ResponseMessage(ResponseLevel.INFO, batchId);
+		} catch (Throwable t) {
+			log.error("Message commit fail error! segmentMessageId=" + this.segmMessageId,
+					t);
+			return new ResponseMessage(ResponseLevel.WARNING,
+					"客群短信删除失败！请与系统管理员联系。");
+		}
+	}
+	/**
+	 * @Title: checkWord
+	 * @Description: 校验敏感字方法
+	 * @param @return
+	 * @param @throws Exception 设定文件
+	 * @return ResponseMessage 返回类型
+	 * @throws
+	 */
+	public ResponseMessage checkWord() throws Exception {
+		try {
+			String[] strs = json.split("-W!O@R#D-");
+			String content = strs[0];
+			String wordStr = strs[1];
+			wordStr = wordStr.replace(",", "，");
+			String[] wordArgs =wordStr.split("，");
+			Set<String> keyWordSet = new HashSet<String>();
+			for (int i =0; i < wordArgs.length; i++) {
+				String word = wordArgs[i];
+				keyWordSet.add(word);
+			}
+			SensitivewordFilter filter = new SensitivewordFilter(keyWordSet);
+			Set<String> set = filter.getSensitiveWord(content, 1);
+			if (set != null && set.size() > 0) {
+				String massage = "短信中含有敏感字："+set+" ，请核查！";
+				return new ResponseMessage(ResponseLevel.WARNING, massage);
+			} else {
+				return new ResponseMessage(ResponseLevel.INFO, "提交成功！");
+			}
+			
+		}catch (Throwable t) {
+			log.error("客群短信敏感字校验失败！请与系统管理员联系。");
+			return new ResponseMessage(ResponseLevel.WARNING,
+					"客群短信敏感字校验失败！请与系统管理员联系。");
+		}
+	}
 }

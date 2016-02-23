@@ -56,6 +56,8 @@ public class SegmentMessageVo  implements Serializable{
 	
 	private String cinema;
 	
+	private String batchId;
+	
 	public String getCinema() {
 		return cinema;
 	}
@@ -163,5 +165,12 @@ public class SegmentMessageVo  implements Serializable{
 	public void setOccupied(String occupied) {
 		this.occupied = occupied;
 	}
+
+	public String getBatchId() {
+		return batchId;
+	}
 	
+	public void setBatchId(String batchId) {
+		this.batchId = batchId;
+	}
 }

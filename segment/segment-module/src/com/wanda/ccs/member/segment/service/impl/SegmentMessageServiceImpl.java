@@ -126,7 +126,15 @@ public class SegmentMessageServiceImpl implements SegmentMessageService,MessageS
 		entity.setVersion(VERSION);
 		entity.setSend_status(-1L);//默认发送状态为未发送
 		entity.setCreateDate(new Timestamp(new Date().getTime()));
-		getJdbcTemplate().insertEntity("insert", entity);
+		entity.setUpdateDate(new Timestamp(new Date().getTime()));
+		if (entity.getSendTime() != null && entity.getSendTime() != "" && !"null".equals(entity.getSendTime())) {
+			time = Timestamp.valueOf(entity.getSendTime());
+		}
+		getJdbcTemplate().update(INSERT_BAOCUN_MESSAGE, entity.getContent(), entity.getApproveStatus(), entity.getSegmentId(), time, entity.getCreateBy(),entity.getCinema(), 
+				entity.getArea(), entity.getUpdateBy(), entity.getCreateDate(),entity.getUpdateDate(),entity.getNoSendCal(),entity.getVersion(),
+				entity.getSend_status(),entity.getOccupied(),entity.getAllowModifier(),entity.getApprover(),entity.getBatchId());
+
+//		getJdbcTemplate().insertEntity("insert", entity);
 		String CREATE_TABLE = CREATE_TABLE_SQL.replace("${tableName}", "T_MOIBLE_" + entity.getSegmentId());
 		CREATE_TABLE = CREATE_TABLE.replace("${SEGMENT_ID}", entity.getSegmentId());
 		String DROP_TABLE = DROP_TABLE_SQL.replace("${tableName}", "T_MOIBLE_" + entity.getSegmentId());
@@ -207,7 +215,9 @@ public class SegmentMessageServiceImpl implements SegmentMessageService,MessageS
 	@Override
 	public String saveMessage(SegmentMessageVo entity, UserProfile userProfile, String status) {
 		try {
-			time = Timestamp.valueOf(entity.getSendTime());
+			if (entity.getSendTime() != null && entity.getSendTime() != "" && entity.getSendTime() != "null") {
+				time = Timestamp.valueOf(entity.getSendTime());
+			}
 		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
 			logger.warn(
@@ -306,6 +316,7 @@ public class SegmentMessageServiceImpl implements SegmentMessageService,MessageS
 				entity.getSegmMessageId());
 		setApproveStatus(entity, status, approveStatus);
 		insertApprove(entity, userProfile);
+		this.sendMessage(entity.getSegmMessageId(), userProfile);
 		logger.info("A SegmMessageInfo's approveStatus has been update "
 				+ "SegmMessageId=" + entity.getSegmMessageId()
 				+ "ApproveStatus=" + vo.getApproveStatus());
@@ -369,7 +380,7 @@ public class SegmentMessageServiceImpl implements SegmentMessageService,MessageS
 				.output("T_SEGMENT s")
 				.depends(
 						newPlain().in("where").output(
-								"e.SEGMENT_ID=s.SEGMENT_ID"))
+								"e.SEGMENT_ID=s.SEGMENT_ID and (e.ISDELETE is null or e.ISDELETE <> '1') "))
 				.depends(newPlain().in("orderby").output("e.create_date desc"));
 
 		Clause segmMessageTable = newPlain().in("from")
@@ -399,7 +410,11 @@ public class SegmentMessageServiceImpl implements SegmentMessageService,MessageS
 		clauseMap.put(notEmpty("approveStatus"), newExpression().in("where")
 				.output("e.APPROVE_STATUS", DataType.LONG, Operator.EQUAL)
 				.depends(segmMessageTable));
-
+		clauseMap.put(
+				notEmpty("batchId"),
+				newExpression().in("where")
+						.output("e.BATCH_ID", DataType.STRING, Operator.EQUAL)
+						.depends(segmentTable));
 		CriteriaParser countParser = newParser(SELECT_PARAGRAPHS)
 				.add(newPlain().in("select").output("count(e.SEGM_MESSAGE_ID)"))
 				.add(segmentTable).add(segmMessageTable).add(clauseMap);
@@ -408,7 +423,7 @@ public class SegmentMessageServiceImpl implements SegmentMessageService,MessageS
 		CriteriaParser listParser = newParser(SELECT_PARAGRAPHS)
 				.add(newPlain()
 						.in("select")
-						.output("e.SEGM_MESSAGE_ID, s.SEGMENT_ID, s.CODE, s.NAME, s.CAL_COUNT, s.STATUS , e.CREATE_BY, e.APPROVE_STATUS , e.NO_SEND_CAL,e.SEND_STATUS,e.APPROVER"))
+						.output("e.SEGM_MESSAGE_ID, s.SEGMENT_ID, s.CODE, s.NAME, s.CAL_COUNT, s.STATUS , e.CREATE_BY, e.APPROVE_STATUS , e.NO_SEND_CAL,e.SEND_STATUS,e.APPROVER,e.SEND_TIME,e.UPDATE_DATE"))
 				.add(segmentTable).add(segmMessageTable).add(clauseMap);
 
 		CriteriaResult listResult = listParser.parse(criteria);
@@ -549,7 +564,12 @@ public class SegmentMessageServiceImpl implements SegmentMessageService,MessageS
 	public void sendMessage(Long messageSendId, UserProfile userProfile) {
 		MessageSendJob sendJob = null;
 		SegmentMessageVo messageSendVo = this.get(messageSendId);
-		time = Timestamp.valueOf(messageSendVo.getSendTime());
+		if (messageSendVo.getSendTime() != null && !"".equals(messageSendVo.getSendTime()) && !"null".equals(messageSendVo.getSendTime())) {
+			time = Timestamp.valueOf(messageSendVo.getSendTime());
+		} else {
+			time = new Timestamp(new Date().getTime());
+		}
+		
 		List<String> moibleList = this.getMoible(messageSendVo.getSegmentId());
 		BlockingQueue<String> que = new ArrayBlockingQueue<String>(moibleList.size(), false, moibleList);
 		Long timec = new Date().getTime();
@@ -586,5 +606,53 @@ public class SegmentMessageServiceImpl implements SegmentMessageService,MessageS
 		logger.info("A SendLogVo has been Create SendLogId="
 				+ seqId);
 		return "DONE";
+	}
+
+	/**
+	 * 根据客群短信批次ID查询客群短信列表
+	 */
+	@Override
+	public List<SegmentMessageVo> getSegmentMessageByBatchId(String batchId) {
+		StringBuilder sql = new StringBuilder("select * from SEGM_MESSAGE where (ISDELETE is null or ISDELETE <> '1')  and BATCH_ID = ?");
+		List<SegmentMessageVo> list = getJdbcTemplate().query(sql.toString(), new Object[] { batchId }, new RowMapper<SegmentMessageVo>() {
+			public SegmentMessageVo mapRow(ResultSet rs, int rowNum)
+					throws SQLException {
+				SegmentMessageVo segmentMessageVo = new SegmentMessageVo();
+				segmentMessageVo.setSegmMessageId(rs.getLong("SEGM_MESSAGE_ID"));
+				segmentMessageVo.setContent(rs.getString("CONTENT"));
+				segmentMessageVo.setApproveStatus(rs.getString("APPROVE_STATUS"));
+				segmentMessageVo.setSegmentId(rs.getString("SEGMENT_ID"));
+				segmentMessageVo.setSendTime(rs.getString("SEND_TIME"));
+				segmentMessageVo.setCreateBy(rs.getString("CREATE_BY"));
+				segmentMessageVo.setCinema(rs.getString("CINEMA"));
+				segmentMessageVo.setArea(rs.getString("AREA"));
+				segmentMessageVo.setUpdateBy(rs.getString("UPDATE_BY"));
+				segmentMessageVo.setUpdateDate(rs.getTimestamp("UPDATE_DATE"));
+				segmentMessageVo.setCreateDate(rs.getTimestamp("CREATE_DATE"));
+				segmentMessageVo.setNoSendCal(rs.getLong("NO_SEND_CAL"));
+				segmentMessageVo.setVersion(rs.getString("VERSION"));
+				segmentMessageVo.setSend_status(rs.getLong("SEND_STATUS"));
+				segmentMessageVo.setOccupied(rs.getString("OCCUPIED"));
+				segmentMessageVo.setAllowModifier(rs.getString("ALLOW_MODIFIER"));
+				segmentMessageVo.setApprover(rs.getString("APPROVER"));
+				segmentMessageVo.setBatchId(rs.getString("BATCH_ID"));
+				return segmentMessageVo;
+			}
+		});
+		return list;
+	}
+
+	@Override
+	public void logicDelete(String[] deletes) {
+		StringBuffer sbf = new StringBuffer("");
+		for (String segmentIdStr : deletes) {
+			Long segmentId = new Long(segmentIdStr.trim());
+			sbf.append(segmentId).append(",");
+		}
+		if (sbf.length() > 0) {
+			sbf = sbf.deleteCharAt(sbf.length()-1);
+		}
+		String ids = sbf.toString();
+		getJdbcTemplate().update(DELETE_MESSAGE, ids);
 	}
 }

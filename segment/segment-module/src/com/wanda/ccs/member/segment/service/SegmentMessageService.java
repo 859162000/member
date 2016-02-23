@@ -48,5 +48,13 @@ public interface SegmentMessageService {
 			List<ExpressionCriterion> criteria, UserProfile userinfo);
 
 	String insertSendLog(SendLogVo entity);
-	
+	/**
+	 * 根据批次ID获取客群短信信息
+	 */
+	List<SegmentMessageVo> getSegmentMessageByBatchId(String batchId);
+
+	/**
+	 * 删除短信信息
+	 */
+	void logicDelete(String[] deletes);
 }

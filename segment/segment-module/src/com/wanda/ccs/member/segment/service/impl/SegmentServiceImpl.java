@@ -44,6 +44,7 @@ import com.wanda.ccs.member.segment.vo.CombineSegmentSubVo;
 import com.wanda.ccs.member.segment.vo.SegmentVo;
 import com.wanda.ccs.member.segment.web.SegmentAction.CombineSegmentDo;
 import com.wanda.ccs.sqlasm.Clause;
+import com.wanda.ccs.sqlasm.ClauseParagraph;
 import com.wanda.ccs.sqlasm.Condition;
 import com.wanda.ccs.sqlasm.CriteriaParser;
 import com.wanda.ccs.sqlasm.CriteriaResult;
@@ -52,6 +53,7 @@ import com.wanda.ccs.sqlasm.expression.ArrayExpCriterion;
 import com.wanda.ccs.sqlasm.expression.ExpressionCriterion;
 import com.wanda.ccs.sqlasm.expression.Operator;
 import com.wanda.ccs.sqlasm.expression.SingleExpCriterion;
+import com.wanda.ccs.sqlasm.impl.DefaultClauseParagraph;
 
 
 public class SegmentServiceImpl implements SegmentService {
@@ -90,7 +92,15 @@ public class SegmentServiceImpl implements SegmentService {
 
 	public QueryResultVo<Map<String, Object>> queryList (
 			QueryParamVo queryParam, List<ExpressionCriterion> criteria, UserProfile userinfo) {
-		
+		ClauseParagraph[] groups = {
+				new DefaultClauseParagraph("select",  " select ",   " ",  ","),
+				new DefaultClauseParagraph("from",    " from ",     " ",  ","),
+				new DefaultClauseParagraph("leftjoin","",      "",  " "),
+				new DefaultClauseParagraph("where",   " where ",    " ",  " and "),
+				new DefaultClauseParagraph("having",  " having ",   " ",  " and "),
+				new DefaultClauseParagraph("groupby", " group by ", " ",  ","),
+				new DefaultClauseParagraph("orderby", " order by ", " ",  ","),
+			};
 		criteria.add(new SingleExpCriterion("userLevel", userinfo.getLevel().name()));
 		criteria.add(new ArrayExpCriterion("userInfo",
 				new String[] {userinfo.getId(), Long.toString(userinfo.getCinemaId()), userinfo.getRegionCode()}));
@@ -99,7 +109,7 @@ public class SegmentServiceImpl implements SegmentService {
 				new String[]{queryParam.getSortName(), queryParam.getSortOrder()}));
 		
 		Clause segmentTable = newPlain().in("from").output("T_SEGMENT s");
-		
+		Clause memberSensitiveJion = newPlain().in("leftjoin").output("left join t_member_sensitive m on m.WORD_ID=s.WORD_ID");
 		Map<Condition, Clause> clauseMap = new LinkedHashMap<Condition, Clause>();
 		
 		clauseMap.put(notEmpty("code"), newExpression().in("where").output("s.CODE", DataType.STRING, Operator.EQUAL));
@@ -115,18 +125,20 @@ public class SegmentServiceImpl implements SegmentService {
 				.output("s.OWNER_LEVEL='CINEMA' and s.OWNER_CINEMA={1}", DataType.LONG, false));
 		clauseMap.put(notEmpty("orderby"), newValue().in("orderby").output("s.{0} {1}", DataType.SQL, true));
 
-		CriteriaParser countParser = newParser(SELECT_PARAGRAPHS)
+		CriteriaParser countParser = newParser(groups)
 			.add(newPlain().in("select").output("count(s.SEGMENT_ID)"))
 			.add(newPlain().in("where").output("s.ISDELETE='0'"))
 			.add(segmentTable)
+			.add(memberSensitiveJion)
 			.add(clauseMap);
 		
 		CriteriaResult countResult = countParser.parse(criteria);
 		
-		CriteriaParser listParser = newParser(SELECT_PARAGRAPHS)
-				.add(newPlain().in("select").output("s.SEGMENT_ID, s.CODE, s.NAME, s.CAL_COUNT, s.CONTROL_COUNT ,s.STATUS, s.COMBINE_SEGMENT, s.CREATE_BY, s.UPDATE_BY, s.UPDATE_DATE, s.ALLOW_MODIFIER"))
+		CriteriaParser listParser = newParser(groups)
+				.add(newPlain().in("select").output("s.SEGMENT_ID, s.CODE, s.NAME, s.CAL_COUNT, s.CONTROL_COUNT ,s.STATUS, s.COMBINE_SEGMENT, s.CREATE_BY, s.UPDATE_BY, s.UPDATE_DATE, s.ALLOW_MODIFIER,s.WORD_ID,m.WORD_TITLE,m.WORD_CONTENT"))
 				.add(newPlain().in("where").output("s.ISDELETE='0'"))
 				.add(segmentTable)
+				.add(memberSensitiveJion)
 				.add(clauseMap);
 
 		CriteriaResult listResult = listParser.parse(criteria);

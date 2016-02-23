@@ -62,7 +62,16 @@ public interface MessageSendConf {
 		* @Fields UPDATE_APPROVE_STATUS : 修改SEGM_MESSAGE审批状态的SQL
 		*/
 		final String UPDATE_APPROVE_STATUS = "update SEGM_MESSAGE set APPROVE_STATUS=?,APPROVER=? where SEGM_MESSAGE_ID=?";
-
+		
+		/**
+		* @Fields SAVE_MESSAGE : 新增SEGM_MESSAGE信息的SQL
+		*/
+		final String INSERT_BAOCUN_MESSAGE = "INSERT INTO SEGM_MESSAGE (SEGM_MESSAGE_ID, CONTENT, APPROVE_STATUS, SEGMENT_ID, SEND_TIME, CREATE_BY, CINEMA, AREA, UPDATE_BY, CREATE_DATE, UPDATE_DATE, NO_SEND_CAL, VERSION, SEND_STATUS, OCCUPIED, ALLOW_MODIFIER, APPROVER, BATCH_ID) VALUES (s_segm_message.NEXTVAL,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+		
+		/**
+		* @Fields UPDATE_APPROVE_STATUS : 删除SEGM_MESSAGE的SQL
+		*/
+		final String DELETE_MESSAGE = "update SEGM_MESSAGE set ISDELETE='1' where SEGM_MESSAGE_ID in (?)";
 //		/**
 //		* @Fields SQL : 获取影城级别审批人账号的SQL
 //		*/
