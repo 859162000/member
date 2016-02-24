@@ -14,9 +14,12 @@ import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+
 import javax.sql.DataSource;
+
 import org.springframework.jdbc.core.ColumnMapRowMapper;
 import org.springframework.transaction.annotation.Transactional;
+
 import com.google.code.pathlet.config.anno.InstanceIn;
 import com.google.code.pathlet.jdbc.EntityInsertDef;
 import com.google.code.pathlet.jdbc.EntityRowMapper;
@@ -201,6 +204,25 @@ private ExtJdbcTemplate queryTemplate = null;
 		CriteriaResult result = countParser.parse(criteria);
 		return (CriteriaQueryResult) criteria;
 	}
-	
+	public boolean hasSameName(String segmentName, Long selfSegmentId) {
+		Long sameNameCount;
+
+		if (selfSegmentId != null) {
+			sameNameCount = getJdbcTemplate()
+					.queryForLong(
+							"select count(WORD_ID) from T_MEMBER_SENSITIVE where WORD_TITLE=? and WORD_ID<>? and ISDELETE='0'",
+							segmentName, selfSegmentId);
+		} else {
+			sameNameCount = getJdbcTemplate().queryForLong(
+					"select count(WORD_ID) from T_MEMBER_SENSITIVE where WORD_TITLE=? and ISDELETE='0'",
+					segmentName);
+		}
+
+		if (sameNameCount != null && sameNameCount > 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 
 }

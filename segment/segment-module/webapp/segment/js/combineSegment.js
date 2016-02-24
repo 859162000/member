@@ -91,7 +91,7 @@ $(function() {
 			
 			beforeClose: function(event, ui) {
 				inputCombineForm.resetForm();
-				$('[wrType]', inputCombineForm).wrender('setValue', {code:'',name:'',calCount:'',calCountTime:'',segmentId:'',version:''});
+				$('[wrType]', inputCombineForm).wrender('setValue', {code:'',name:'',calCount:'',calCountTime:'',segmentId:'',wordId:'',version:''});
 				selectedSegment = [];
 				$('tr:[id=ok]', segments).remove();
 				//$('input[name=name]', inputCombineForm).removeAttr('disabled');
@@ -118,7 +118,7 @@ $(function() {
 				
 				//validator.resetForm(); //After dialog closed, clean the validation error style and prompt text.
 				inputCombineForm.resetForm();
-				$('[wrType]', inputCombineForm).wrender('setValue', {code:'',name:'',calCount:'',calCountTime:'',controlCountRate:'10',controlCount:'',segmentId:'',version:''});
+				$('[wrType]', inputCombineForm).wrender('setValue', {code:'',name:'',calCount:'',calCountTime:'',controlCountRate:'10',controlCount:'',segmentId:'',wordId:'',version:''});
 				selectedSegment = [];
 				$('tr:[id=ok]', segments).remove();
 				//$('input[name=name]', inputCombineForm).removeAttr('disabled');
@@ -149,6 +149,7 @@ $(function() {
 		$("td[name=segmentId]", row).html(value.subSegmentId);
 		$("td[name=code]", row).html(value.code);
 		$("td[name=name]", row).html(value.name);
+		$("td[name=wordId]", row).html(value.wordId);
 		
 		if(parseInt(value.calCount) < 0) {
 			if(value.status == '40') {
@@ -420,6 +421,7 @@ $(function() {
 		var voData = $('input[name=name]', inputCombineForm).val();
 		var controlRate = $('select[name=controlCountRate]', inputCombineForm).val();
 		var voSegmentId =$('input[name=segmentId]', inputCombineForm).val();
+		var voWordId =$('input[name=wordID]', inputCombineForm).val();
 		var voVersion =$('input[name=version]', inputCombineForm).val();
 		var rows = $("tr:not([id=title]):not([id=template])", segments);	//获取添加的客群记录
 		if(rows && rows.length > 0) {
@@ -436,7 +438,8 @@ $(function() {
 				ids += (id+"|");
 				types += (type+"|");
 			});
-			schemeData = '{"ids":"'+ids+'","types":"'+types+'","conTypes":"'+conTypes+'","segmentId":"'+voSegmentId+'","name":"'+voData+'","controlRate":"'+controlRate+'","version":"'+voVersion+'"}';
+			schemeData = '{"ids":"'+ids+'","types":"'+types+'","conTypes":"'+conTypes+'","segmentId":"'+voSegmentId+'","wordId":"'+voWordId+'","name":"'+voData+'","controlRate":"'+controlRate+'","version":"'+voVersion+'"}';
+
 		}
 		//alert("json="+schemeData);
 		return "json="+schemeData;

@@ -16,4 +16,5 @@ public interface SensitiveService {
 	public CriteriaQueryResult getSegmentQuery(long wordId);
 	public void update(SensitiveWordVo sensitive) ;
 	public void logicDelete(long  wordId) ;
+	public boolean hasSameName(String segmentName, Long selfSegmentId);
 }

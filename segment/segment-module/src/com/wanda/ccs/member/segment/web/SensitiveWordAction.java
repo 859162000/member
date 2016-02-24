@@ -7,7 +7,6 @@ import com.google.code.pathlet.config.anno.InstanceIn;
 import com.google.code.pathlet.web.widget.JqgridQueryParamVo;
 import com.wanda.ccs.member.segment.service.CriteriaQueryResult;
 import com.wanda.ccs.member.segment.service.CriteriaQueryService;
-import com.wanda.ccs.member.segment.service.SegmentService;
 import com.wanda.ccs.member.segment.service.SensitiveService;
 
 import java.sql.Timestamp;
@@ -87,39 +86,10 @@ public class SensitiveWordAction {
 		QueryResultVo<Map<String, Object>> result = sensitiveService.queryList(
 				converter.convertParam(queryParam), criterionList, userProfile);
 
-		final boolean editRight = userProfile.getRights().contains(
-				"member.segment.edit");
-		final boolean exportRight = userProfile.getRights().contains(
-				"member.segment.export");
-
 		return converter.convertResult(result,
 				new ResultRowMapper<Map<String, Object>>() {
 					public Map<String, Object> convert(Map<String, Object> row) {
 						// 设置该行记录是否可以编辑的标志
-						boolean editable = false;
-						boolean exportAble = false;
-						if (editRight == true
-								&& userProfile.getId().equals(
-										row.get("CREATE_BY"))) {
-							editable = true;
-						} else {
-							String allowModifier = (String) row
-									.get("ALLOW_MODIFIER");
-							if (ValueUtils.notEmpty(allowModifier)) {
-								List<String> users = Arrays
-										.asList(allowModifier.split(","));
-								if (users.contains(userProfile.getId())) {
-									editable = true;
-								}
-							}
-						}
-						if (exportRight == true) {
-							exportAble = true;
-						} else {
-							exportAble = false;
-						}
-						row.put("EDITABLE", editable);
-						row.put("EXPORTABLE", exportAble);
 						return row;
 					}
 				});
@@ -130,27 +100,32 @@ public class SensitiveWordAction {
 				SensitiveDo.class);
 
 		// segment.convertAllowModifier();
-		UserProfile userProfile = AuthUserHelper.getUser();
-		if (userProfile != null) {
-			// 新建用户时保存用户的级别，区域，所属影城信息
+		if(sensitiveService.hasSameName(sensitive.getWordTitle().trim(), null)) {
+			return new ResponseMessage(ResponseLevel.ERROR, "已有相同标题的敏感词，请修改敏感词标题！");
+		}else{
+			UserProfile userProfile = AuthUserHelper.getUser();
+			if (userProfile != null) {
+				// 新建用户时保存用户的级别，区域，所属影城信息
 
-			if (UserLevel.CINEMA == userProfile.getLevel()) {
-				sensitive.setIssueRegion((userProfile.getRegionCode()));
-				sensitive.setIssueCinema(userProfile.getCinemaId());
-			} else if (UserLevel.REGION == userProfile.getLevel()) {
-				sensitive.setIssueRegion((userProfile.getRegionCode()));
+				if (UserLevel.CINEMA == userProfile.getLevel()) {
+					sensitive.setIssueRegion((userProfile.getRegionCode()));
+					sensitive.setIssueCinema(userProfile.getCinemaId());
+				} else if (UserLevel.REGION == userProfile.getLevel()) {
+					sensitive.setIssueRegion((userProfile.getRegionCode()));
+				}
+			}
+			sensitiveService.insert(sensitive);
+
+			try {
+				return new VersionResponseMessage(ResponseLevel.INFO, "敏感词保存成功！",
+						sensitive.getVersion());
+			} catch (Throwable t) {
+				log.error("Start calculate count error! wordId=" + this.wordId, t);
+				return new VersionResponseMessage(ResponseLevel.WARNING,
+						"敏感词保存失败。", sensitive.getVersion());
 			}
 		}
-		sensitiveService.insert(sensitive);
-
-		try {
-			return new VersionResponseMessage(ResponseLevel.INFO, "敏感词保存成功！",
-					sensitive.getVersion());
-		} catch (Throwable t) {
-			log.error("Start calculate count error! wordId=" + this.wordId, t);
-			return new VersionResponseMessage(ResponseLevel.WARNING,
-					"敏感词保存失败。", sensitive.getVersion());
-		}
+		
 
 	}
 
@@ -163,16 +138,21 @@ public class SensitiveWordAction {
 	public ResponseMessage update() throws Exception {
 		SensitiveDo sensitive = JsonCriteriaHelper.parseSimple(json,
 				SensitiveDo.class);
-		sensitiveService.update(sensitive);
-		return new VersionResponseMessage(ResponseLevel.INFO, "客群更新成功！",
-				sensitive.getVersion());
+		if(sensitiveService.hasSameName(sensitive.getWordTitle().trim(), null)) {
+			return new ResponseMessage(ResponseLevel.ERROR, "已有相同标题的敏感词，请修改敏感词标题！");
+		}else{
+			sensitiveService.update(sensitive);
+			return new VersionResponseMessage(ResponseLevel.INFO, "敏感词更新成功！",
+					sensitive.getVersion());
+		}
+		
 	}
 
 	public ResponseMessage delete() throws Exception {
 
 		UserProfile userProfile = AuthUserHelper.getUser();
 		sensitiveService.logicDelete(wordId);
-		return new ResponseMessage(ResponseLevel.INFO, "客群删除成功！");
+		return new ResponseMessage(ResponseLevel.INFO, "敏感词删除成功！");
 	}
 
 	public CriteriaQueryResult getCriteriaResult() throws Exception {
@@ -183,7 +163,7 @@ public class SensitiveWordAction {
 	}
 
 	/**
-	 * 用于和界面交互时的客群对象
+	 * 用于和界面交互时的敏感词对象
 	 * 
 	 */
 	public static class SensitiveDo extends SensitiveWordVo {
