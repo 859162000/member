@@ -135,10 +135,10 @@ public class SegmentMessageServiceImpl implements SegmentMessageService,MessageS
 				entity.getSend_status(),entity.getOccupied(),entity.getAllowModifier(),entity.getApprover(),entity.getBatchId());
 
 //		getJdbcTemplate().insertEntity("insert", entity);
-		String CREATE_TABLE = CREATE_TABLE_SQL.replace("${tableName}", "T_MOIBLE_" + entity.getSegmentId());
+		String CREATE_TABLE = CREATE_TABLE_SQL.replace("${tableName}", "T_MOIBLE_" + entity.getSegmMessageId());
 		CREATE_TABLE = CREATE_TABLE.replace("${SEGMENT_ID}", entity.getSegmentId());
-		String DROP_TABLE = DROP_TABLE_SQL.replace("${tableName}", "T_MOIBLE_" + entity.getSegmentId());
-		String EXITS_TABLE = EXITS_TABLE_SQL.replace("${tableName}", "T_MOIBLE_" + entity.getSegmentId());
+		String DROP_TABLE = DROP_TABLE_SQL.replace("${tableName}", "T_MOIBLE_" + entity.getSegmMessageId());
+		String EXITS_TABLE = EXITS_TABLE_SQL.replace("${tableName}", "T_MOIBLE_" + entity.getSegmMessageId());
 		int exits = getJdbcTemplate().queryForInt(EXITS_TABLE);
 		if(exits!=0){
 			getJdbcTemplate().execute(DROP_TABLE);

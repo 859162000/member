@@ -312,6 +312,9 @@ public class SegmentMessageAction {
 							}
 							if ("9000".equals(row.get("APPROVE_STATUS"))) {
 								row.put("APPROVE_STATUS", "审批完成");
+								if(C_EditRight){
+									row.put("APPROVEABLE", true);
+								}
 							}
 							if ("9999".equals(row.get("APPROVE_STATUS"))) {
 								row.put("APPROVE_STATUS", "审批不通过");

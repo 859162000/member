@@ -109,7 +109,7 @@ public class MessageSendJob extends TimerTask implements MessageSendConf{
 			sendLogVo.setSendCount(MessageSendJob.count.longValue());//短信发送成功总数
 			sendLogVo.setSegm_messageId(messageSendVo.getSegmMessageId());
 			sendLogVo.setSendStatus("T");//标示发送成功
-			conn.prepareStatement("DROP TABLE T_MOIBLE_"+messageSendVo.getSegmentId()).execute();//删除对应客群的电话号表
+			conn.prepareStatement("DROP TABLE T_MOIBLE_"+messageSendVo.getSegmMessageId()).execute();//删除对应客群的电话号表
 			log.info("MESSAGE HAS BEEN SEND SEND CALCOUNT IS "
 					+ MessageSendJob.count.longValue());
 			segmentMessageService.insertSendLog(sendLogVo);
