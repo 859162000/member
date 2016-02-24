@@ -314,6 +314,7 @@ public class SegmentAction {
 		}
 		vo.setCreateBy(user.getId());
 		vo.setUpdateBy(user.getId());
+		vo.setWordId(Long.parseLong( map.get("wordId").toString()));
 		vo.setName(map.get("name").toString());	//客群名称
 		vo.setCombineSegment(true);				//复合客群
 		vo.setControlCountRate(Integer.parseInt(map.get("controlRate").toString()));
@@ -484,7 +485,9 @@ public class SegmentAction {
 				CombineSegmentDo segmentDo = new CombineSegmentDo(vo);
 				Long oldControlNum = segmentDo.getControlCount();
 				int rate = Integer.parseInt(obj.get("controlRate").toString());
+				long wordId=Long.parseLong(obj.get("wordId").toString());
 				segmentDo.setControlCountRate(rate);
+				segmentDo.setWordId(wordId);
 				Long controlNum = segmentDo.getCalCount() / 100 * rate;
 				if(controlNum < 1) {
 					controlNum = 0L;
@@ -669,6 +672,7 @@ public class SegmentAction {
 		private Long segmentId;
 		/* 主客群名称 */
 		private String name;
+		private long wordId;
 		/* 主客群编码 */
 		private String code;
 		/* 主客群计算数量 */
@@ -694,7 +698,6 @@ public class SegmentAction {
 		private String sortName;
 		/*  */
 		private String sortOrder;
-		private long wordId;
 		/* 版本号 */
 		private Long version;
 		/* 包含的子客群 */
@@ -794,7 +797,13 @@ public class SegmentAction {
 		public void setVersion(Long version) {
 			this.version = version;
 		}
-
+		
+		public Long getWordId() {
+			return wordId;
+		}
+		public void setWordId(Long wordId) {
+			this.wordId = wordId;
+		}
 		public String getUpdateBy() {
 			return updateBy;
 		}
