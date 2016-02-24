@@ -58,6 +58,8 @@ public class SegmentMessageVo  implements Serializable{
 	
 	private String batchId;
 	
+	private String wordContent;
+	
 	public String getCinema() {
 		return cinema;
 	}
@@ -173,4 +175,13 @@ public class SegmentMessageVo  implements Serializable{
 	public void setBatchId(String batchId) {
 		this.batchId = batchId;
 	}
+	
+	public String getWordContent() {
+		return wordContent;
+	}
+	public void setWordContent(String wordContent) {
+		this.wordContent = wordContent;
+	}
+	
+	
 }

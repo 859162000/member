@@ -72,6 +72,7 @@ $(function() {
 	var approveUrl = '<%=context%>/segment/SegmentMessageAction/approve.do';
 	var getSegmentMessageUrl = '<%=context%>/segment/SegmentMessageAction/get.do';
 	var deleteUrl = '<%=context%>/segment/SegmentMessageAction/delete.do';
+	var checkWordUrl = '<%=context%>/segment/SegmentMessageAction/checkWord.do';
 
 	//To indicate the open user input dialog is new creation or not. 
 	var girdColumns = [
@@ -117,7 +118,7 @@ $(function() {
 			if (rowdata['APPROVEABLE']){
 				cellHtml += '<button name="onApproveBtn" key=' + rowdata['SEGM_MESSAGE_ID'] + ' type="button" wrType="button" wrParam="icon:ui-icon-arrowthickstop-1-s;text:false" style="height:22px;" title="审批"/>&nbsp;';
 			}
-			if(rowdata['APPROVEABLE']&&'审批完成'==rowdata['APPROVE_STATUS']){
+			if('审批完成'==rowdata['APPROVE_STATUS']){
 			    cellHtml += '<button name="onSendBtn" key=' + rowdata['SEGM_MESSAGE_ID'] + ' type="button" wrType="button" wrParam="icon:ui-icon-pencil;text:false" style="height:22px;" title="客群短信发送"/>&nbsp;';
 			}
 			$(this).setCell(rowid, 'ACTIONS', cellHtml);
@@ -273,17 +274,31 @@ $(function() {
 	}
 
 	function toSave(){
-		var voData =$('[wrType]:not([wrType=readtext]):not([wrType=button])', messageForm).wrender('getValueData');
-		var scheme = schemeAction.getSchemeData();
-		var postData = 'json=' + voData + '&criteriaScheme=' + scheme;
-			$.ajax({
-				url: toSaveUrl,
-				data: postData,
-				success: function(result){
-				viewDialog.dialog('close');
-				reloadSearch();
+		var content = $("#content").val();
+		var word = $("#wordContent").val();
+		var postData = 'json='+content + '-W!O@R#D-' + word;
+		$.ajax({
+			url: checkWordUrl,
+			data: postData,
+			success: function(result){
+				if(result.level == 'WARNING') {
+					$.msgBox('error', '', result.message);
+				} else {
+					var voData =$('[wrType]:not([wrType=readtext]):not([wrType=button])', messageForm).wrender('getValueData');
+					var scheme = schemeAction.getSchemeData();
+					var postData = 'json=' + voData + '&criteriaScheme=' + scheme;
+					$.ajax({
+						url: toSaveUrl,
+						data: postData,
+						success: function(result){
+						viewDialog.dialog('close');
+						reloadSearch();
+						}
+					});
 				}
-			});
+			}
+		});
+		
 	}
 
 	function toPizhun(){
@@ -355,6 +370,7 @@ $(function() {
 <% } %>
 
 <div id="contentArea" style="width:100%;display:none;">
+
 	<form id="searchForm">
 	<table width="100%" align="center" class="ui-widget ui-widget-content">
 		<thead>
@@ -399,6 +415,7 @@ $(function() {
 	<div id="resultPager" style="text-align:center;"></div>
 
 	<div align="center" id="viewDialog" title="客群信息编辑">
+	
 		<form id="viewForm">
 	   		<table width="100%">
 	   			<tbody>
@@ -428,7 +445,11 @@ $(function() {
 			<table width="100%" border="0" cellingspace="0">
 				<tr><td width="25%" align="right"><strong>编辑短信信息</strong></td><td></td></tr>
 				<tr><td width="25%" align="right">短信发送时间:</td><td><input type="text" wrType="datetime" name="sendTime"/></td></tr>
-				<tr><td width="25%" align="right">短信发送内容:</td><td><textarea name="content" wrType="text"></textarea></td></tr>
+				<tr><td width="25%" align="right">短信发送内容:</td><td><textarea id="content" name="content" wrType="text"></textarea></td>
+					<td >
+							<font color='red'>请注意敏感字如下:</font><br/>
+							<textarea id="wordContent" name="wordContent" wrType="text" readonly="readonly"></textarea>
+						</td></tr>
 			</table>
 		</div>
 		</form>

@@ -132,7 +132,7 @@ public class SegmentMessageServiceImpl implements SegmentMessageService,MessageS
 		}
 		getJdbcTemplate().update(INSERT_BAOCUN_MESSAGE, entity.getContent(), entity.getApproveStatus(), entity.getSegmentId(), time, entity.getCreateBy(),entity.getCinema(), 
 				entity.getArea(), entity.getUpdateBy(), entity.getCreateDate(),entity.getUpdateDate(),entity.getNoSendCal(),entity.getVersion(),
-				entity.getSend_status(),entity.getOccupied(),entity.getAllowModifier(),entity.getApprover(),entity.getBatchId());
+				entity.getSend_status(),entity.getOccupied(),entity.getAllowModifier(),entity.getApprover(),entity.getBatchId(),entity.getWordContent());
 
 //		getJdbcTemplate().insertEntity("insert", entity);
 		String CREATE_TABLE = CREATE_TABLE_SQL.replace("${tableName}", "T_MOIBLE_" + entity.getSegmMessageId());

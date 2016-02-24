@@ -168,7 +168,6 @@ $(function() {
 				if(ids.length>0){
 					 for (var i = 0; i < ids.length; i++) {
 						var word = resultList.jqGrid('getCell', ids[i], 'WORD_CONTENT');
-						alert(word);
 						if (word != 0 && word != "0") {
 							wordContents = $.merge(wordContents, word.split("，"));
 						}
@@ -313,6 +312,7 @@ $(function() {
 		});
 		var check = $("#check").val();
 		if (check = "true") {
+			$("#wordContent").val($("#word").html());
 			var ids = resultList.jqGrid('getGridParam', 'selarrrow');
 			var segmentIds = "";
 			if(ids.length>0){
@@ -481,7 +481,10 @@ $(function() {
 					<tr><td align="left">短信内容:</td></tr>
 					<tr>
 						<td ><textarea name="content" id="content" wrType="text" cols="100" rows="4"></textarea></td>
-						<td ><font color='red'>请注意敏感字如下:</font><br/><div id="word" style="width: 240px;"></div></td>
+						<td >
+							<input type="hidden" name="wordContent" wrType="text" id="wordContent" />
+							<font color='red'>请注意敏感字如下:</font><br/><div id="word" style="width: 240px;"></div>
+						</td>
 					</tr>
 					<tr>
 						<td colspan="2" align="center">

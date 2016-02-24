@@ -428,6 +428,8 @@ public class SegmentMessageAction {
 		private Long segmMessageId;
 
 		private String approveStatus;
+		
+		private String wordContent;
 
 		public String getApproveStatus() {
 			return approveStatus;
@@ -463,6 +465,7 @@ public class SegmentMessageAction {
 			this.content = vo.getContent();
 			this.segmMessageId = vo.getSegmMessageId();
 			this.approveStatus = vo.getApproveStatus();
+			this.wordContent = vo.getWordContent();
 			if (ValueUtils.notEmpty(usersStr)) {
 				List<String> users = Arrays.asList(usersStr.split(","));
 				this.compAllowModifier = new CompositeValue(users, users);
@@ -536,6 +539,16 @@ public class SegmentMessageAction {
 		public void setAllowModify(boolean allowModify) {
 			this.allowModify = allowModify;
 		}
+
+		public String getWordContent() {
+			return wordContent;
+		}
+
+		public void setWordContent(String wordContent) {
+			this.wordContent = wordContent;
+		}
+		
+		
 
 	}
 
