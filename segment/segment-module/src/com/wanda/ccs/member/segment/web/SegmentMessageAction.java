@@ -655,23 +655,28 @@ public class SegmentMessageAction {
 	public ResponseMessage checkWord() throws Exception {
 		try {
 			String[] strs = json.split("-W!O@R#D-");
-			String content = strs[0];
-			String wordStr = strs[1];
-			wordStr = wordStr.replace(",", "，");
-			String[] wordArgs =wordStr.split("，");
-			Set<String> keyWordSet = new HashSet<String>();
-			for (int i =0; i < wordArgs.length; i++) {
-				String word = wordArgs[i];
-				keyWordSet.add(word);
-			}
-			SensitivewordFilter filter = new SensitivewordFilter(keyWordSet);
-			Set<String> set = filter.getSensitiveWord(content, 1);
-			if (set != null && set.size() > 0) {
-				String massage = "短信中含有敏感字："+set+" ，请核查！";
-				return new ResponseMessage(ResponseLevel.WARNING, massage);
+			if (strs.length > 1) {
+				String content = strs[0];
+				String wordStr = strs[1];
+				wordStr = wordStr.replace(",", "，");
+				String[] wordArgs =wordStr.split("，");
+				Set<String> keyWordSet = new HashSet<String>();
+				for (int i =0; i < wordArgs.length; i++) {
+					String word = wordArgs[i];
+					keyWordSet.add(word);
+				}
+				SensitivewordFilter filter = new SensitivewordFilter(keyWordSet);
+				Set<String> set = filter.getSensitiveWord(content, 1);
+				if (set != null && set.size() > 0) {
+					String massage = "短信中含有敏感字："+set+" ，请核查！";
+					return new ResponseMessage(ResponseLevel.WARNING, massage);
+				} else {
+					return new ResponseMessage(ResponseLevel.INFO, "提交成功！");
+				}
 			} else {
 				return new ResponseMessage(ResponseLevel.INFO, "提交成功！");
 			}
+			
 			
 		}catch (Throwable t) {
 			log.error("客群短信敏感字校验失败！请与系统管理员联系。");
