@@ -186,11 +186,11 @@ public class SegmentServiceImpl implements SegmentService {
 		if (selfSegmentId != null) {
 			sameNameCount = getJdbcTemplate()
 					.queryForLong(
-							"select count(WORD_ID) from T_MEMBER_SENSITIVE where NAME=? and SEGMENT_ID<>? and ISDELETE='0'",
+							"select count(SEGMENT_ID) from T_SEGMENT where NAME=? and SEGMENT_ID<>? and ISDELETE='0'",
 							segmentName, selfSegmentId);
 		} else {
 			sameNameCount = getJdbcTemplate().queryForLong(
-					"select count(WORD_ID) from T_MEMBER_SENSITIVE where NAME=? and ISDELETE='0'",
+					"select count(SEGMENT_ID) from T_SEGMENT where NAME=? and ISDELETE='0'",
 					segmentName);
 		}
 
