@@ -82,7 +82,6 @@ $(function() {
 	var insertUrl = '<%=context%>/segment/SensitiveWordAction/insert.do';
 	var updateUrl = '<%=context%>/segment/SensitiveWordAction/update.do';
 	var deleteUrl = '<%=context%>/segment/SensitiveWordAction/delete.do';
-	var getCountUrl = '<%=context%>/segment/SegmentAction/getCount.do';
 	var criteriaResultUrl = '<%=context%>/segment/SensitiveWordAction/getCriteriaResult.do';
 	var calCountTimerId = null; //calculating timer id
 	
@@ -183,10 +182,10 @@ $(function() {
 	
 	$(resultList).on('click', 'button[name=onModifyBtn]', function (){
 		isNew = false;
-		var segmentId = $(this).attr('key');
+		var wordId = $(this).attr('key');
 			var rowid = $(this).attr('rowid');
 			var CREATE_BY = resultList.jqGrid('getCell', rowid, 'CREATE_BY');
-	        var queryString = 'wordId=' + segmentId;
+	        var queryString = 'wordId=' + wordId;
 			$.ajax({
 				url: getUrl,
 				data: queryString,

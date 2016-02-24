@@ -9,26 +9,14 @@ import static com.wanda.ccs.sqlasm.expression.ExpressionClauseBuilder.newPlain;
 import static com.wanda.ccs.sqlasm.expression.ExpressionClauseBuilder.newValue;
 
 import java.sql.Timestamp;
-
-
-
-
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-
 import javax.sql.DataSource;
-
-import org.springframework.dao.DataAccessException;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.ColumnMapRowMapper;
-import org.springframework.jdbc.core.ResultSetExtractor;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.google.code.pathlet.config.anno.InstanceIn;
 import com.google.code.pathlet.jdbc.EntityInsertDef;
 import com.google.code.pathlet.jdbc.EntityRowMapper;
@@ -41,12 +29,8 @@ import com.wanda.ccs.jobhub.client.JobScheduleService;
 import com.wanda.ccs.member.ap2in.UserProfile;
 import com.wanda.ccs.member.segment.AuditJdbcTemplate;
 import com.wanda.ccs.member.segment.service.CriteriaQueryResult;
-import com.wanda.ccs.member.segment.service.SegmentService;
 import com.wanda.ccs.member.segment.service.SensitiveService;
-import com.wanda.ccs.member.segment.vo.CombineSegmentSubVo;
-import com.wanda.ccs.member.segment.vo.SegmentVo;
 import com.wanda.ccs.member.segment.vo.SensitiveWordVo;
-import com.wanda.ccs.member.segment.web.SegmentAction.CombineSegmentDo;
 import com.wanda.ccs.sqlasm.Clause;
 import com.wanda.ccs.sqlasm.Condition;
 import com.wanda.ccs.sqlasm.CriteriaParseException;
@@ -201,8 +185,6 @@ private ExtJdbcTemplate queryTemplate = null;
 	public void update(SensitiveWordVo sensitive) {
 		sensitive.setUpdateDate(new Timestamp(System.currentTimeMillis()));
 		getAuditTemplate().updateEntity("update", sensitive);
-		
-		// 更新对比组
 		//getJdbcTemplate().update("update T_MEMBER_SENSITIVE t set t.control_count=?, t.control_count_rate=? where t.segment_id=?", new Object[] {segment.getControlCount(), segment.getControlCountRate(), segment.getSegmentId()});
 	}
 	
