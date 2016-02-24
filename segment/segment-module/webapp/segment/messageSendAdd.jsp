@@ -121,12 +121,28 @@ $(function() {
 		pager: $("#resultPager"),
 		sortname: 'UPDATE_DATE',
 		sortorder: "desc",
-		onSelectRow: function(id) {
+		onSelectRow: function(id) {			
 			var newWordId = resultList.jqGrid('getCell', id, 'WORD_ID');
 			var ids = resultList.jqGrid('getGridParam', 'selarrrow');
 			var isChecked = $.inArray(id, ids);
 			var wordContents = new Array();
 			if (isChecked != -1) {
+				var calCount = resultList.jqGrid('getCell', id, 'CAL_COUNT');
+				if ("计算中..." == calCount) {
+					resultList.jqGrid('setSelection',id);
+					$.msgBox('error', '', "该客群人数正在计算中，请维护客群信息！");
+					return;
+				}
+				if ("未计算" == calCount) {
+					resultList.jqGrid('setSelection',id);
+					$.msgBox('error', '', "该客群人数未计算，请维护客群信息！");
+					return;
+				} 
+				if ("计算失败" == calCount) {
+					resultList.jqGrid('setSelection',id);
+					$.msgBox('error', '', "该客群人数计算失败，请维护客群信息！");
+					return;
+				} 
 				var oldWordId = "";
 				if(ids.length>1){
 					oldWordId = resultList.jqGrid('getCell', ids[0], 'WORD_ID');
@@ -134,7 +150,9 @@ $(function() {
 						  if(confirm("您所选择的客群对应的敏感字信息不一致，是否进行敏感字合并,如不合并则需重新选择客群信息！")){  
 							  for (var i = 0; i < ids.length; i++) {
 									var word = resultList.jqGrid('getCell', ids[i], 'WORD_CONTENT');
-									wordContents = $.merge(wordContents, word.split("，"));
+									if (word != 0 && word != "0") {
+										wordContents = $.merge(wordContents, word.split("，"));
+									}
 								}
 								var words = $.unique(wordContents);
 							  	$("#word").html("" + words);
@@ -150,7 +168,10 @@ $(function() {
 				if(ids.length>0){
 					 for (var i = 0; i < ids.length; i++) {
 						var word = resultList.jqGrid('getCell', ids[i], 'WORD_CONTENT');
-						wordContents = $.merge(wordContents, word.split("，"));
+						alert(word);
+						if (word != 0 && word != "0") {
+							wordContents = $.merge(wordContents, word.split("，"));
+						}
 					}
 					var words = $.unique(wordContents);
 				  	$("#word").html("" + words);
@@ -310,9 +331,10 @@ $(function() {
 		if (batchId == null || batchId == "" || batchId == "null") {
 			return;
 		}
-		var voData =$('[wrType]:not([wrType=readtext]):not([wrType=button])', messageForm).wrender('getValueData');
-		var scheme = schemeAction.getSchemeData();
-		var postData = 'json=' + voData + '&criteriaScheme=' + scheme;
+		if(confirm("确定要提交审批？")){  
+			var voData =$('[wrType]:not([wrType=readtext]):not([wrType=button])', messageForm).wrender('getValueData');
+			var scheme = schemeAction.getSchemeData();
+			var postData = 'json=' + voData + '&criteriaScheme=' + scheme;
 			$.ajax({
 				url: toApproveUrl,
 				data: postData,
@@ -323,6 +345,10 @@ $(function() {
 					window.location.reload();//刷新当前页面.
 				}
 			});
+		} else {
+			return;
+		}
+		
 	});
 	
 	$("#timely").click(function(){
