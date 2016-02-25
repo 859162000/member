@@ -69,6 +69,7 @@ public class MessageSendJob extends TimerTask implements MessageSendConf{
 //		String msgChannelId = "";
 //		String systemId = "001";
 		PreparedStatement upstatusPs = null;
+		PreparedStatement sendLog = null;
 		ExecutorService executorService = Executors.newCachedThreadPool();
 		try {
 //			Map<String, String> msgConfigMap = SmsConfigFactory
@@ -102,27 +103,34 @@ public class MessageSendJob extends TimerTask implements MessageSendConf{
 		      for (int i = 0; i < treadCount; i++) {  
 		    	  executorService.execute(new SendJobThread(messageSendVo,messageSendVo.getContent(),
 		    				moibleQue));
-		      }  
-		      
-		    Timestamp end = new Timestamp(System.currentTimeMillis());
-			sendLogVo.setEndTime(end);//短信发送结束时间
-			sendLogVo.setSendCount(MessageSendJob.count.longValue());//短信发送成功总数
-			sendLogVo.setSegm_messageId(messageSendVo.getSegmMessageId());
-			sendLogVo.setSendStatus("T");//标示发送成功
+		      }		    
 			conn.prepareStatement("DROP TABLE T_MOIBLE_"+messageSendVo.getSegmMessageId()).execute();//删除对应客群的电话号表
 			log.info("MESSAGE HAS BEEN SEND SEND CALCOUNT IS "
 					+ MessageSendJob.count.longValue());
-			segmentMessageService.insertSendLog(sendLogVo);
+			sendLog = conn.prepareStatement(INSERT_MESSAGE_SEND_LOG);
+		    Timestamp end = new Timestamp(System.currentTimeMillis());
+			sendLog.setString(1, "T");
+			sendLog.setTimestamp(2, end);
+			sendLog.setTimestamp(3, end);
+			sendLog.setTimestamp(4, start);
+			sendLog.setTimestamp(5, end);
+			sendLog.setLong(6, messageSendVo.getSegmMessageId());
+			sendLog.setLong(7, MessageSendJob.count.longValue());
+			sendLog.execute();
+			sendLog.close();
 		} catch (Exception e) {
 			log.warn("An Exception here is " + e.getMessage(), e);
 			e.printStackTrace();
 		} 
 		finally {//释放资源更新状态
 			try {
+				log.info("MESSAGE HAS BEEN SEND SEND CALCOUNT IS ======update===="
+						+ MessageSendJob.count.longValue());
 				upstatusPs.setString(1, "" + MessageSendJob.count.longValue());
 				upstatusPs.setString(2, "" + messageSendVo.getSegmMessageId());
 				upstatusPs.execute();
 				upstatusPs.close();//释放PreparedStatement Connection还在使用不需要释放
+				
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}finally{

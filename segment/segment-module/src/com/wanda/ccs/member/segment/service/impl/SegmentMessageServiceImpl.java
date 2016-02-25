@@ -605,9 +605,10 @@ public class SegmentMessageServiceImpl implements SegmentMessageService,MessageS
 	@Override
 	public String insertSendLog(SendLogVo entity) {
 		seqId = getJdbcTemplate().queryForLong(NEXT_MESSAGE_SEND_LOG);
-		entity.setSendLogId(seqId);
 		entity.setCreateDate(new Timestamp(new Date().getTime()));
-		getJdbcTemplate().insertEntity("insertLog", entity);
+		getJdbcTemplate().update(INSERT_MESSAGE_SEND_LOG, seqId, entity.getSendStatus(), entity.getCreateDate(), entity.getUpdateDate(), entity.getStartTime(),entity.getEndTime(), 
+				entity.getSegm_messageId(), entity.getSendCount());
+//		getJdbcTemplate().insertEntity("insertLog", entity);
 		logger.info("A SendLogVo has been Create SendLogId="
 				+ seqId);
 		return "DONE";
