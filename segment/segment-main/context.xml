@@ -18,7 +18,7 @@
 	
 	<!-- 开发环境中用于模拟当前的登录人和登录人所具有的权限 -->
 	<Environment name="/ccs/member/test_user_profile" 
-		value="fromnc:no;name:group;frompos:no;fromsso:no;rights:member.segment.view%2Cmember.segment.export%2Cmember.segment.edit%2Cmember.extpointruleconditon.view%2Cmember.extpointruleconditon.edit;sysid:100;id:group;level:GROUP;" 
+		value="fromnc:no;name:group;frompos:no;fromsso:no;rights:member.segment.view%2Cmember.segment.export%2Cmember.segment.edit%2Cmember.sensit.view%2Cmember.sensit.edit%2Cmember.extpointruleconditon.view%2Cmember.extpointruleconditon.edit;sysid:100;id:group;level:GROUP;" 
 		type="java.lang.String" override="false"/>
 
 </Context>
