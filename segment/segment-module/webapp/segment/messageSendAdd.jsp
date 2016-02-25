@@ -57,10 +57,28 @@ else {
 </style>
 
 <script type="text/javascript">
+$(document).ready(function(){ 
+    var limitNum = 67; 
+    var pattern = '还可以输入<font color="red">' + limitNum + '</font>字符'; 
+    $('#contentwordage').html(pattern); 
+    $('#content').keyup( 
+    function(){ 
+        var remain = $(this).val().length; 
+        if(remain > 67){ 
+                pattern = "<font color='red'>字数超过限制！</font>"; 
+            }else{ 
+                var result = limitNum - remain; 
+                pattern = '还可以输入<font color="red">' + result + '</font>字符'; 
+            } 
+            $('#contentwordage').html(pattern); 
+        } 
+
+    ); 
+
+}); 
 var isNew = true;
 
 var commonMothed = {};
-
 $(function() {
 	var commitControlCount = true;
 	var resultList = $('#resultList');
@@ -188,7 +206,7 @@ $(function() {
 	var validator = messageForm.validate({
 		rules:{
 			'sendTime':{required:true},
-			'content':{required:true, maxlength:29}
+			'content':{required:true, maxlength:67}
 		}
     });
 
@@ -473,7 +491,7 @@ $(function() {
 					</tr>
 					<tr><td align="left">短信内容:</td></tr>
 					<tr>
-						<td ><textarea name="content" id="content" wrType="text" cols="100" rows="4"></textarea></td>
+						<td ><textarea name="content" id="content" wrType="text" cols="100" rows="4"></textarea><div id="contentwordage"></div></td>
 						<td >
 							<input type="hidden" name="wordContent" wrType="text" id="wordContent" />
 							<font color='red'>请注意敏感字如下:</font><br/><div id="word" style="width: 240px;"></div>
