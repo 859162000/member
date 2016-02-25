@@ -90,6 +90,7 @@ public class SensitiveWordAction {
 				new ResultRowMapper<Map<String, Object>>() {
 					public Map<String, Object> convert(Map<String, Object> row) {
 						// 设置该行记录是否可以编辑的标志
+						System.out.println(row+"22222222");
 						return row;
 					}
 				});

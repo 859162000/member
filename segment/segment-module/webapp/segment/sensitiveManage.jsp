@@ -4,8 +4,9 @@
 boolean testFlag = ("true".equals(request.getParameter("test")));//用户测试的标志
 boolean fromAp2 = AuthUserHelper.isFromAp2(request);//是否为AP2发来的请求
 UserProfile user = AuthUserHelper.getUser();
-boolean viewRight = user.getRights().contains("member.sensitive.view");
-boolean editRight = user.getRights().contains("member.sensitive.edit");
+boolean viewRight = user.getRights().contains("member.sensit.view");
+boolean editRight = user.getRights().contains("member.sensit.edit");
+System.out.println("viewRight:"+viewRight+"editRight:"+editRight);
 
 String context;
 if(fromAp2) {
@@ -124,10 +125,12 @@ $(function() {
 		sortorder: "desc",
 		afterInsertRow: function(rowid, rowdata, rowelem) {
 			//加入每行后的操作按钮
+			<% if(editRight|| viewRight) { %>
 				var cellHtml = '<button name="onViewBtn" key=' + rowdata['WORD_ID']+' type="button" wrType="button" wrParam="icon:ui-icon-zoomin;text:false" style="height:22px;" title="查看"/>&nbsp;';
-				cellHtml += '<button name="onModifyBtn" key=' + rowdata['WORD_ID'] +' rowid=' + rowid + ' type="button" wrType="button" wrParam="icon:ui-icon-pencil;text:false" style="height:22px;" title="修改"/>&nbsp;';
+				<%} if(editRight){%>cellHtml += '<button name="onModifyBtn" key=' + rowdata['WORD_ID'] +' rowid=' + rowid + ' type="button" wrType="button" wrParam="icon:ui-icon-pencil;text:false" style="height:22px;" title="修改"/>&nbsp;';
 				cellHtml += '<button name="onDeleteBtn" key=' + rowdata['WORD_ID'] + ' type="button" wrType="button" wrParam="icon:ui-icon-trash;text:false" style="height:22px;" title="删除"/>';
-			$(this).setCell(rowid, 'ACTIONS', cellHtml);
+				<%} %>
+				$(this).setCell(rowid, 'ACTIONS', cellHtml);
 			$('button[wrType=button]', this).wrender();
 		}
 	});
@@ -425,7 +428,9 @@ $(function() {
 	</form>
 	<br/>
 	<div style="text-align:left;">
+	<% if(editRight) { %>
 		<button id="onNewBtn" type="button" wrType="button" wrParam="icon:ui-icon-plusthick;">新增</button>
+		<% } %>
 	</div>
 	<table id="resultList"></table>
 	<div id="resultPager" style="text-align:center;"></div>
