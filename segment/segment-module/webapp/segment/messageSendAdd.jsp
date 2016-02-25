@@ -65,7 +65,7 @@ $(document).ready(function(){
     function(){ 
         var remain = $(this).val().length; 
         if(remain > 67){ 
-                pattern = "<font color='red'>字数超过限制！</font>"; 
+        		$(this).val($(this).val().substring(0,67));
             }else{ 
                 var result = limitNum - remain; 
                 pattern = '还可以输入<font color="red">' + result + '</font>字符'; 
