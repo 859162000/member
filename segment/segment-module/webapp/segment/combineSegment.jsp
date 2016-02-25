@@ -61,6 +61,14 @@ else {
 				  <div name="controlCount" wrType="readtext"></div>
 			  </td>
 			</tr>
+			<tr>
+				  <td width="25%" align="right">敏感词编码: </td>
+				  <td width="10%" align="left"><input name="wordId" type="text" wrType="text" /></td>
+				  <td width="25%" align="right"> </td>
+				  <td width="40%" align="left">
+				  </td>
+				  
+				</tr>
 			</tbody>
    		</table>
    		<table>

@@ -138,7 +138,7 @@ public class SensitiveWordAction {
 	public ResponseMessage update() throws Exception {
 		SensitiveDo sensitive = JsonCriteriaHelper.parseSimple(json,
 				SensitiveDo.class);
-		if(sensitiveService.hasSameName(sensitive.getWordTitle().trim(), null)) {
+		if(sensitiveService.hasSameName(sensitive.getWordTitle().trim(), sensitive.getWordId())) {
 			return new ResponseMessage(ResponseLevel.ERROR, "已有相同标题的敏感词，请修改敏感词标题！");
 		}else{
 			sensitiveService.update(sensitive);

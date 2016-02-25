@@ -89,7 +89,7 @@ $(function() {
 	
 	var validator = inputForm.validate({
 		rules:{
-			'name':{required:true, maxlength:52},
+			'wordTitle':{required:true, maxlength:52},
 			'sortName':{required:true}
 		}
     });

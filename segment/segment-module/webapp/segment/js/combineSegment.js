@@ -421,7 +421,7 @@ $(function() {
 		var voData = $('input[name=name]', inputCombineForm).val();
 		var controlRate = $('select[name=controlCountRate]', inputCombineForm).val();
 		var voSegmentId =$('input[name=segmentId]', inputCombineForm).val();
-		var voWordId =$('input[name=wordID]', inputCombineForm).val();
+		var voWordId =$('input[name=wordId]', inputCombineForm).val();
 		var voVersion =$('input[name=version]', inputCombineForm).val();
 		var rows = $("tr:not([id=title]):not([id=template])", segments);	//获取添加的客群记录
 		if(rows && rows.length > 0) {
