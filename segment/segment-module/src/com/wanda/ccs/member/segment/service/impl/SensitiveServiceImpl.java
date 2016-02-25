@@ -1,7 +1,6 @@
 package com.wanda.ccs.member.segment.service.impl;
 
 import static com.wanda.ccs.sqlasm.CriteriaParserBuilder.SELECT_PARAGRAPHS;
-import static com.wanda.ccs.sqlasm.CriteriaParserBuilder.equalsValue;
 import static com.wanda.ccs.sqlasm.CriteriaParserBuilder.newParser;
 import static com.wanda.ccs.sqlasm.CriteriaParserBuilder.notEmpty;
 import static com.wanda.ccs.sqlasm.expression.ExpressionClauseBuilder.newExpression;
@@ -121,13 +120,13 @@ private ExtJdbcTemplate queryTemplate = null;
 	@Override
 		public QueryResultVo<Map<String, Object>> queryList (
 				QueryParamVo queryParam, List<ExpressionCriterion> criteria, UserProfile userinfo) {
-		criteria.add(new SingleExpCriterion("userLevel", userinfo.getLevel().name()));
+		/*criteria.add(new SingleExpCriterion("userLevel", userinfo.getLevel().name()));
 		criteria.add(new ArrayExpCriterion("userInfo",
-				new String[] {userinfo.getId(), Long.toString(userinfo.getCinemaId()), userinfo.getRegionCode()}));
+				new String[] {userinfo.getId(), Long.toString(userinfo.getCinemaId()), userinfo.getRegionCode()}));*/
 
-		criteria.add(new ArrayExpCriterion("orderby", null, null, null, 
+		/*criteria.add(new ArrayExpCriterion("orderby", null, null, null, 
 				new String[]{queryParam.getSortName(), queryParam.getSortOrder()}));
-		
+		*/
 		Clause segmentTable = newPlain().in("from").output("T_MEMBER_SENSITIVE s");
 		
 		Map<Condition, Clause> clauseMap = new LinkedHashMap<Condition, Clause>();
@@ -136,8 +135,8 @@ private ExtJdbcTemplate queryTemplate = null;
 		clauseMap.put(notEmpty("wordTitle"), newExpression().in("where").output("s.word_title", DataType.STRING, Operator.LIKE));
 		clauseMap.put(notEmpty("createBy"), newExpression().in("where").output("s.CREATE_BY", DataType.STRING, Operator.EQUAL));
 		
-		clauseMap.put(equalsValue("userLevel", "REGION"), newValue().from("userInfo").in("where")
-				.output("(s.issue_region='REGION' or s.issue_region='CINEMA') ", DataType.STRING, false));
+	/*	clauseMap.put(equalsValue("userLevel", "REGION"), newValue().from("userInfo").in("where")
+				.output("(s.issue_region='REGION' or s.issue_region='CINEMA') ", DataType.STRING, false));*/
 		clauseMap.put(notEmpty("orderby"), newValue().in("orderby").output("s.{0} {1}", DataType.SQL, true));
 
 		CriteriaParser countParser = newParser(SELECT_PARAGRAPHS)
@@ -166,6 +165,7 @@ private ExtJdbcTemplate queryTemplate = null;
 				queryParam.getStartIndex(), queryParam.getFetchSize(),
 				listResult.getComposedText(), listResult.getParameters().toArray(),
 				new ColumnMapRowMapper());
+		System.out.println("sqlcount:"+rowCount+"listResult.getComposedText:"+listResult.getComposedText()+"sqlparameterizeText:"+listResult.getParameterizeText());
 
 		return new QueryResultVo<Map<String, Object>>(rowCount, listQueryResult);
 	}

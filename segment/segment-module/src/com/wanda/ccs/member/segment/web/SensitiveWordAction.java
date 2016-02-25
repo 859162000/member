@@ -85,9 +85,9 @@ public class SensitiveWordAction {
 		JqgridQueryConverter converter = new JqgridQueryConverter();
 		QueryResultVo<Map<String, Object>> result = sensitiveService.queryList(
 				converter.convertParam(queryParam), criterionList, userProfile);
-		long count=result.getRowCount();
-		System.out.println("cout:"+result.getRowCount());
-		log.info(count);
+		long querycount=result.getRowCount();
+		System.out.println("querycount:"+result.getRowCount());
+		log.info("querycount:"+querycount);
 
 		return converter.convertResult(result,
 				new ResultRowMapper<Map<String, Object>>() {
