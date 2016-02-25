@@ -118,7 +118,8 @@ $(function() {
 			if (rowdata['APPROVEABLE']){
 				cellHtml += '<button name="onApproveBtn" key=' + rowdata['SEGM_MESSAGE_ID'] + ' type="button" wrType="button" wrParam="icon:ui-icon-arrowthickstop-1-s;text:false" style="height:22px;" title="审批"/>&nbsp;';
 			}
-			if(rowdata['APPROVEABLE'] && '审批完成'==rowdata['APPROVE_STATUS']){
+			
+			if('发送失败' == rowdata['SEND_STATUS'] && rowdata['APPROVEABLE'] && '审批完成'==rowdata['APPROVE_STATUS']){
 			    cellHtml += '<button name="onSendBtn" key=' + rowdata['SEGM_MESSAGE_ID'] + ' type="button" wrType="button" wrParam="icon:ui-icon-pencil;text:false" style="height:22px;" title="客群短信发送"/>&nbsp;';
 			}
 			$(this).setCell(rowid, 'ACTIONS', cellHtml);

@@ -129,21 +129,24 @@ public class SegmentMessageServiceImpl implements SegmentMessageService,MessageS
 		entity.setUpdateDate(new Timestamp(new Date().getTime()));
 		if (entity.getSendTime() != null && entity.getSendTime() != "" && !"null".equals(entity.getSendTime())) {
 			time = Timestamp.valueOf(entity.getSendTime());
+		} else {
+			time = null;
 		}
+		String CREATE_TABLE = CREATE_TABLE_SQL.replace("${tableName}", "T_MOIBLE_" + (seqId+1));
+		CREATE_TABLE = CREATE_TABLE.replace("${SEGMENT_ID}", entity.getSegmentId());
+		String DROP_TABLE = DROP_TABLE_SQL.replace("${tableName}", "T_MOIBLE_" + (seqId+1));
+		String EXITS_TABLE = EXITS_TABLE_SQL.replace("${tableName}", "T_MOIBLE_" + (seqId+1));
 		getJdbcTemplate().update(INSERT_BAOCUN_MESSAGE, entity.getContent(), entity.getApproveStatus(), entity.getSegmentId(), time, entity.getCreateBy(),entity.getCinema(), 
 				entity.getArea(), entity.getUpdateBy(), entity.getCreateDate(),entity.getUpdateDate(),entity.getNoSendCal(),entity.getVersion(),
 				entity.getSend_status(),entity.getOccupied(),entity.getAllowModifier(),entity.getApprover(),entity.getBatchId(),entity.getWordContent());
 
 //		getJdbcTemplate().insertEntity("insert", entity);
-		String CREATE_TABLE = CREATE_TABLE_SQL.replace("${tableName}", "T_MOIBLE_" + entity.getSegmMessageId());
-		CREATE_TABLE = CREATE_TABLE.replace("${SEGMENT_ID}", entity.getSegmentId());
-		String DROP_TABLE = DROP_TABLE_SQL.replace("${tableName}", "T_MOIBLE_" + entity.getSegmMessageId());
-		String EXITS_TABLE = EXITS_TABLE_SQL.replace("${tableName}", "T_MOIBLE_" + entity.getSegmMessageId());
 		int exits = getJdbcTemplate().queryForInt(EXITS_TABLE);
 		if(exits!=0){
 			getJdbcTemplate().execute(DROP_TABLE);
 		}
 		getJdbcTemplate().execute(CREATE_TABLE);
+		logger.info("CREATE_TABLE=================="+CREATE_TABLE);
 		logger.info("A SegmentMessageInfo has been Create SegmentMessageId="
 				+ seqId);
 		return "DONE";
@@ -217,6 +220,8 @@ public class SegmentMessageServiceImpl implements SegmentMessageService,MessageS
 		try {
 			if (entity.getSendTime() != null && entity.getSendTime() != "" && entity.getSendTime() != "null") {
 				time = Timestamp.valueOf(entity.getSendTime());
+			} else {
+				time = null;
 			}
 		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
@@ -380,7 +385,7 @@ public class SegmentMessageServiceImpl implements SegmentMessageService,MessageS
 				.output("T_SEGMENT s")
 				.depends(
 						newPlain().in("where").output(
-								"e.SEGMENT_ID=s.SEGMENT_ID and (e.ISDELETE is null or e.ISDELETE <> '1') "))
+								"e.SEGMENT_ID=s.SEGMENT_ID and (e.ISDELETE is null or e.ISDELETE <> 1) "))
 				.depends(newPlain().in("orderby").output("e.create_date desc"));
 
 		Clause segmMessageTable = newPlain().in("from")
@@ -435,7 +440,7 @@ public class SegmentMessageServiceImpl implements SegmentMessageService,MessageS
 		Long rowCount = getJdbcTemplate().queryForLong(
 				countResult.getComposedText(),
 				countResult.getParameters().toArray());
-
+		logger.info(listResult.getComposedText());
 		return new QueryResultVo<Map<String, Object>>(rowCount, listQueryResult);
 	}
 
@@ -570,7 +575,7 @@ public class SegmentMessageServiceImpl implements SegmentMessageService,MessageS
 			time = new Timestamp(new Date().getTime());
 		}
 		
-		List<String> moibleList = this.getMoible(messageSendVo.getSegmentId());
+		List<String> moibleList = this.getMoible(messageSendVo.getSegmMessageId().toString());
 		BlockingQueue<String> que = new ArrayBlockingQueue<String>(moibleList.size(), false, moibleList);
 		Long timec = new Date().getTime();
 		if (time.getTime() <= timec) {// 如果当前时间大于设定时间，立即调用

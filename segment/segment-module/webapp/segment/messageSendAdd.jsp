@@ -299,51 +299,45 @@ $(function() {
 		var content = $("#content").val();
 		var word = $("#word").html();
 		var postData = 'json='+content + '-W!O@R#D-' + word;
-		var check = $("#check").val();
 		$.ajax({
 			url: checkWordUrl,
 			data: postData,
 			success: function(result){
 				if(result.level == 'WARNING') {
 					$.msgBox('error', '', result.message);
-					$("#check").val("false");
+				} else {
+					$("#wordContent").val($("#word").html());
+					var ids = resultList.jqGrid('getGridParam', 'selarrrow');
+					var segmentIds = "";
+					if(ids.length>0){
+						for(i=0;i<ids.length;i++){
+			        		var segmentId = resultList.jqGrid('getCell', ids[i], 'SEGMENT_ID');
+			        		segmentIds += "," + segmentId;
+						}
+					}
+					var voData =$('[wrType]:not([wrType=readtext]):not([wrType=button])', messageForm).wrender('getValueData');
+					var scheme = schemeAction.getSchemeData();
+					var postData = 'json=' + voData + '&criteriaScheme=' + scheme + '&segmentIds='+segmentIds;
+					$.ajax({
+						url: toSaveUrl,
+						data: postData,
+						success: function(result){
+							if(result.level == 'INFO') {
+								reloadSearch();
+								var batchId = result.message;
+								$("#batchId").val(batchId);
+								jQuery("#resultList2").jqGrid('setGridParam',{url:queryMessageUrl,page:1});
+								var queryData =JSON.stringify( $('input[wrType],select[wrType]', messageForm).wrender('getValue'));
+								resultList2.setGridParam({datatype:'json', postData:{'queryData' :queryData}, page:1}).trigger("reloadGrid");
+							} else {
+								$.msgBox('error', '', result.message);
+							}
+						
+						}
+					});
 				}
 			}
 		});
-		var check = $("#check").val();
-		if (check = "true") {
-			$("#wordContent").val($("#word").html());
-			var ids = resultList.jqGrid('getGridParam', 'selarrrow');
-			var segmentIds = "";
-			if(ids.length>0){
-				for(i=0;i<ids.length;i++){
-	        		var segmentId = resultList.jqGrid('getCell', ids[i], 'SEGMENT_ID');
-	        		segmentIds += "," + segmentId;
-				}
-			}
-			var voData =$('[wrType]:not([wrType=readtext]):not([wrType=button])', messageForm).wrender('getValueData');
-			var scheme = schemeAction.getSchemeData();
-			var postData = 'json=' + voData + '&criteriaScheme=' + scheme + '&segmentIds='+segmentIds;
-			$.ajax({
-				url: toSaveUrl,
-				data: postData,
-				success: function(result){
-					if(result.level == 'INFO') {
-						reloadSearch();
-						var batchId = result.message;
-						$("#batchId").val(batchId);
-						jQuery("#resultList2").jqGrid('setGridParam',{url:queryMessageUrl,page:1});
-						var queryData =JSON.stringify( $('input[wrType],select[wrType]', messageForm).wrender('getValue'));
-						resultList2.setGridParam({datatype:'json', postData:{'queryData' :queryData}, page:1}).trigger("reloadGrid");
-					} else {
-						$.msgBox('error', '', result.message);
-					}
-				
-				}
-			});
-		} else {
-			return;
-		}
 		
 	});
 	$("#onSubmitButton").click(function(){
@@ -424,7 +418,6 @@ $(function() {
 <body>
 <center>
 <% } %>
-<input type="hidden" id="check" value="true"/>
 <div id="contentArea" style="width:100%;display:none;">
 	<form id="searchForm">
 	<table width="100%" align="center" class="ui-widget ui-widget-content">

@@ -19,25 +19,26 @@ public class SMSConfig {
 		try {
 //			in = new BufferedInputStream(new FileInputStream(
 //					"messageConfig.properties"));
-			in = getClass().getClassLoader().getResourceAsStream("messageConfig.properties");
-			prop.load(in);
+//			in = getClass().getClassLoader().getResourceAsStream("messageConfig.properties");
+//			prop.load(in);
 //			smsUrl = prop.getProperty("SMS_URL");
-			smsProxyUrl = prop.getProperty("HP_SMS_PROXY_URL");
-			smsFromsys = prop.getProperty("SMS_FROMSYS");
-			smsTitle = prop.getProperty("CARD_SMS_TITLE");
-			msgMqIp = prop.getProperty("msgMqIp");
-			msgSvcIp = prop.getProperty("msgSvcIp");
-			smsUrl = prop.getProperty("NEW_SMS_URL");
-			msgChannelId= prop.getProperty("msgChannelId");
+//			smsProxyUrl = prop.getProperty("HP_SMS_PROXY_URL");
+//			smsFromsys = prop.getProperty("SMS_FROMSYS");
+//			smsTitle = prop.getProperty("CARD_SMS_TITLE");
+//			msgMqIp = prop.getProperty("msgMqIp");
+//			msgSvcIp = prop.getProperty("msgSvcIp");
+//			smsUrl = prop.getProperty("NEW_SMS_URL");
+//			msgChannelId= prop.getProperty("msgChannelId");
+			smsProxyUrl = "http://10.199.90.26:8080/voucherSMS/sendSMSMsg.do";
+			smsFromsys = "YXZBXT001";
+			smsTitle = "RUNCONTROL";
+			msgMqIp = "10.199.2.33";
+			msgSvcIp = "10.199.2.33";
+			smsUrl = "http://10.199.90.26:8080/WDService/sms/sendSMS";
+			msgChannelId= "00001";
 		} catch (Exception e) {
 			e.printStackTrace();
-		} finally {
-			try {
-				in.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
+		} 
 	}
 	public static void main(String[] agrs){
 		System.out.println(smsTitle);

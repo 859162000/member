@@ -26,6 +26,6 @@ public class MSGSendUtil {
 	}
 
 	public static void main(String[] args) {
-		sendSMSBySysC("13693507880", "亲爱的用户");
+		sendSMSBySysC("18600182641", "亲爱的用户");
 	}
 }
