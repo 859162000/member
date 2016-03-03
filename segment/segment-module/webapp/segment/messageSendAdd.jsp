@@ -58,14 +58,14 @@ else {
 
 <script type="text/javascript">
 $(document).ready(function(){ 
-    var limitNum = 67; 
+    var limitNum = 56; 
     var pattern = '还可以输入<font color="red">' + limitNum + '</font>字符'; 
     $('#contentwordage').html(pattern); 
     $('#content').keyup( 
     function(){ 
         var remain = $(this).val().length; 
-        if(remain > 67){ 
-        		$(this).val($(this).val().substring(0,67));
+        if(remain > 56){ 
+        		$(this).val($(this).val().substring(0,56));
             }else{ 
                 var result = limitNum - remain; 
                 pattern = '还可以输入<font color="red">' + result + '</font>字符'; 
@@ -206,7 +206,7 @@ $(function() {
 	var validator = messageForm.validate({
 		rules:{
 			'sendTime':{required:true},
-			'content':{required:true, maxlength:67}
+			'content':{required:true, maxlength:56}
 		}
     });
 
