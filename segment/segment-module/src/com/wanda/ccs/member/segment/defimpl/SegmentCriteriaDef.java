@@ -203,7 +203,7 @@ public class SegmentCriteriaDef {
 				.depends(newPlain().in("notexistsTransWhere").output("transSales_cinemaNot.CINEMA_KEY = transSalesNot.CINEMA_KEY"))
 				.depends(transSalesNot);
 		// TODO T_DW_D_FILM 加 SEQID
-		Clause transSales_film = newPlain().in("from").output(CCSDW+".T_DW_D_FILM_01 transSales_film")
+		Clause transSales_film = newPlain().in("from").output(CCSDW+".T_DW_D_FILM transSales_film")
 				.depends(newPlain().in("where").output("transSales_film.FILM_KEY = transSales.FILM_KEY"))
 				.depends(transSales);
 		
