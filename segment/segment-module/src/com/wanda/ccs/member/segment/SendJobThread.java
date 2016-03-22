@@ -60,6 +60,7 @@ public class SendJobThread extends Thread {
 						if ("S001".equals(j)) {
 							int count = MessageSendJob.count.getAndIncrement();
 							log.info("Send Message : 第" + count + "条， 已发送！" );
+							System.out.println("Send Message : 第" + count + "条， 已发送！");
 							break;
 						}
 					}

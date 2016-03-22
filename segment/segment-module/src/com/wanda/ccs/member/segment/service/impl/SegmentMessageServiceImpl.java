@@ -270,7 +270,7 @@ public class SegmentMessageServiceImpl implements SegmentMessageService,MessageS
 			}
 		} else if (WAIT_C_APPROVE.equals(status)) {
 			if (APPROVE_PIZHUN.equals(approveStatus)) {
-				entity.setApproveStatus(WAIT_G_APPROVE);
+				entity.setApproveStatus(PASS_APPROVE);
 			} else if (APPROVE_TUIHUI.equals(approveStatus)) {
 				entity.setApproveStatus(BACK_C_APPROVE);
 			} else if (APPROVE_CHEXIAO.equals(approveStatus)) {
@@ -278,7 +278,7 @@ public class SegmentMessageServiceImpl implements SegmentMessageService,MessageS
 			}
 		} else if (WAIT_R_APPROVE.equals(status)) {
 			if (APPROVE_PIZHUN.equals(approveStatus)) {
-				entity.setApproveStatus(WAIT_G_APPROVE);
+				entity.setApproveStatus(PASS_APPROVE);
 			} else if (APPROVE_TUIHUI.equals(approveStatus)) {
 				entity.setApproveStatus(BACK_R_APPROVE);
 			} else if (APPROVE_CHEXIAO.equals(approveStatus)) {
@@ -582,8 +582,10 @@ public class SegmentMessageServiceImpl implements SegmentMessageService,MessageS
 			time.setTime(timec);
 		}
 			try {
+				System.out.println("===========start MessageSendJob =============");
 				sendJob = new MessageSendJob(messageSendVo, que,
 						dataSource.getConnection());
+				System.out.println("===========end MessageSendJob =============");
 			} catch (SQLException e) {
 				logger.warn("A SQLException at com.wanda.ccs.member.segment.service.impl.SegmentMessageServiceImpl#sendMessage() at row 723 !");
 				e.printStackTrace();

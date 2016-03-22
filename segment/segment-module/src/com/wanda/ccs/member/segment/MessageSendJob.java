@@ -64,6 +64,8 @@ public class MessageSendJob extends TimerTask implements MessageSendConf{
 	 */
 	@Override
 	public void run() {
+		log.info("===================MessageSend start ================");
+		System.out.println("===================MessageSend start ================");
 //		// 获取短信平台代理地址和通道号
 //		String msgSvcIp = "";
 //		String msgChannelId = "";
@@ -103,10 +105,14 @@ public class MessageSendJob extends TimerTask implements MessageSendConf{
 		      for (int i = 0; i < treadCount; i++) {  
 		    	  executorService.execute(new SendJobThread(messageSendVo,messageSendVo.getContent(),
 		    				moibleQue));
-		      }		    
-			conn.prepareStatement("DROP TABLE T_MOIBLE_"+messageSendVo.getSegmMessageId()).execute();//删除对应客群的电话号表
+		      }
+		    System.out.println("============MESSAGESEND_COUNT============"+ MessageSendJob.count.longValue());
 			log.info("MESSAGE HAS BEEN SEND SEND CALCOUNT IS "
 					+ MessageSendJob.count.longValue());
+			if (MessageSendJob.count.longValue() != 0) {
+				System.out.println("============MESSAGESEND_DELETE============T_MOIBLE_" + messageSendVo.getSegmMessageId());
+				conn.prepareStatement("DROP TABLE T_MOIBLE_"+messageSendVo.getSegmMessageId()).execute();//删除对应客群的电话号表
+		    }
 			sendLog = conn.prepareStatement(INSERT_MESSAGE_SEND_LOG);
 		    Timestamp end = new Timestamp(System.currentTimeMillis());
 			sendLog.setString(1, "T");
