@@ -109,7 +109,8 @@ $(function() {
 		sortorder: "desc",
 		afterInsertRow: function(rowid, rowdata, rowelem) {
 			//加入每行后的操作按钮
-			if(rowdata['EDITABLE']&&('审批不通过'==rowdata['APPROVE_STATUS'] || '未提交审批'==rowdata['APPROVE_STATUS'])){
+			if(rowdata['EDITABLE']&&(('审批不通过'==rowdata['APPROVE_STATUS']) || ('由院线会员经理退回修改'==rowdata['APPROVE_STATUS']) 
+					|| ('由区域经理退回修改'==rowdata['APPROVE_STATUS']) || ('由影城经理退回修改'==rowdata['APPROVE_STATUS']) || '未提交审批'==rowdata['APPROVE_STATUS'])){
 			    var cellHtml = '<button name="onViewBtn" key=' + rowdata['SEGM_MESSAGE_ID'] + ' approveStatus=' + rowdata['APPROVE_STATUS'] + ' approveAble=' + rowdata['APPROVEABLE'] + ' type="button" wrType="button" wrParam="icon:ui-icon-pencil;text:false" style="height:22px;" title="编辑客群短信"/>&nbsp;';
 			    cellHtml +=	'<button name="onDeleteBtn" key=' + rowdata['SEGM_MESSAGE_ID'] + ' type="button" wrType="button" wrParam="icon:ui-icon-trash;text:false" style="height:22px;" title="删除"/>';
 			}else{
@@ -306,14 +307,26 @@ $(function() {
 		var voData =$('[wrType]:not([wrType=readtext]):not([wrType=button])', approveForm).wrender('getValueData');
 		var scheme = schemeAction.getSchemeData();
 		var postData = 'json=' + voData + '&criteriaScheme=' + scheme + '&approve=1';
-		$.ajax({
-			url: approveUrl,
-			data: postData,
-			success: function(result){
-		    approveDialog.dialog('close');
-		    reloadSearch();
-			}
-		});
+		if(confirm("确定要批准？")){ 
+			$.ajax({
+				url: approveUrl,
+				data: postData,
+				success: function(result){
+					approveDialog.dialog('close');
+				    reloadSearch();
+				    var segmMessageId = $("#approveDialog input[name='segmMessageId']").val();
+				    var queryString = 'segmMessageId=' + segmMessageId;
+				    $.ajax({
+						url: toSendUrl,
+						data: queryString,
+						success: function(result){
+							
+						}
+					});
+				}
+			});
+		}
+		
 	}
 	
 	function toTuihui(){
@@ -347,12 +360,11 @@ $(function() {
 	}
 	
 	function toSend(){
-		var voData =$('[wrType]:not([wrType=readtext]):not([wrType=button])', sendForm).wrender('getValueData');
-		var scheme = schemeAction.getSchemeData();
-		var postData = 'json=' + voData + '&criteriaScheme=' + scheme;
+		 var segmMessageId = $("#sendDialog input[name='segmMessageId']").val();
+		 var queryString = 'segmMessageId=' + segmMessageId;
 		$.ajax({
 			url: toSendUrl,
-			data: postData,
+			data: queryString,
 			success: function(result){
 		    alert(result.message);
 		    sendDialog.dialog('close');

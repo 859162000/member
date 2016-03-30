@@ -317,11 +317,13 @@ $(function() {
 		var content = $("#content").val();
 		var word = $("#word").html();
 		var postData = 'json='+content + '-W!O@R#D-' + word;
+		$("#toSave").attr("disabled","true");
 		$.ajax({
 			url: checkWordUrl,
 			data: postData,
 			success: function(result){
 				if(result.level == 'WARNING') {
+					$("#toSave").removeAttr("disabled");
 					$.msgBox('error', '', result.message);
 				} else {
 					$("#wordContent").val($("#word").html());
@@ -336,11 +338,13 @@ $(function() {
 					var voData =$('[wrType]:not([wrType=readtext]):not([wrType=button])', messageForm).wrender('getValueData');
 					var scheme = schemeAction.getSchemeData();
 					var postData = 'json=' + voData + '&criteriaScheme=' + scheme + '&segmentIds='+segmentIds;
+					
 					$.ajax({
 						url: toSaveUrl,
 						data: postData,
 						success: function(result){
 							if(result.level == 'INFO') {
+								$("#toSave").removeAttr("disabled");
 								reloadSearch();
 								var batchId = result.message;
 								$("#batchId").val(batchId);
@@ -348,6 +352,7 @@ $(function() {
 								var queryData =JSON.stringify( $('input[wrType],select[wrType]', messageForm).wrender('getValue'));
 								resultList2.setGridParam({datatype:'json', postData:{'queryData' :queryData}, page:1}).trigger("reloadGrid");
 							} else {
+								$("#toSave").removeAttr("disabled");
 								$.msgBox('error', '', result.message);
 							}
 						
