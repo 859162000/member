@@ -275,9 +275,15 @@ public class SegmentMessageAction {
 							row.put("SEND_STATUS", "未发送");
 						}else if("0".equals(row.get("SEND_STATUS").toString())){
 							row.put("SEND_STATUS", "发送失败");
+						} else if("2".equals(row.get("SEND_STATUS").toString())){
+							if (row.get("SEND_TIME") == null) {
+								row.put("SEND_STATUS", "正在发送");
+							} else {
+								row.put("SEND_STATUS", "未发送");
+							}
 						} else{
-							Integer failSend = row.get("CAL_COUNT").toString() != "-1"?Integer.parseInt(row.get("CAL_COUNT").toString())-Integer.parseInt(row.get("SEND_STATUS").toString()):0;
-							row.put("SEND_STATUS", "短信发送成功"+row.get("SEND_STATUS").toString()+"条，失败"+failSend+"条");
+							Integer failSend = row.get("CAL_COUNT").toString() != "-1"?Integer.parseInt(row.get("CAL_COUNT").toString())-Integer.parseInt(row.get("SEND_NUM").toString()):0;
+							row.put("SEND_STATUS", "短信发送成功"+row.get("SEND_NUM").toString()+"条，失败"+failSend+"条");
 							row.put("SENDABLE", true);// 已发送
 						}
 						if (row.get("APPROVE_STATUS") == null) {
@@ -371,13 +377,16 @@ public class SegmentMessageAction {
 	 */
 	public ResponseMessage toSend() throws Exception {
 		UserProfile userProfile = AuthUserHelper.getUser();
-		SegmentMessageVo segment = JsonCriteriaHelper.parseSimple(json,
-				SegmentMessageVo.class);
+		if (segmMessageId == null || "".equals(segmMessageId)) {
+			return new ResponseMessage(ResponseLevel.WARNING,
+					"客群短信提交失败！请与系统管理员联系。");
+		} 
+		
 		try {
-			segmentMessageService.sendMessage(segment.getSegmMessageId(),userProfile);
+			segmentMessageService.sendMessage(segmMessageId,userProfile);
 			return new ResponseMessage(ResponseLevel.INFO, "客群短信提交成功！");
 		} catch (Throwable t) {
-			log.error("Message commit fail error! segmentMessageId=" + segment.getSegmMessageId(),
+			log.error("Message commit fail error! segmentMessageId=" + segmMessageId,
 					t);
 			return new ResponseMessage(ResponseLevel.WARNING,
 					"客群短信提交失败！请与系统管理员联系。");

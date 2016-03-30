@@ -8,6 +8,10 @@
  */
 package com.wanda.ccs.member.segment;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.concurrent.BlockingQueue;
 
 import org.apache.commons.logging.Log;
@@ -22,21 +26,24 @@ import com.wanda.ccs.member.segment.vo.SegmentMessageVo;
  * @date 2015年6月1日 上午10:16:25
  *
  */
-public class SendJobThread extends Thread {
+public class SendJobThread extends Thread implements MessageSendConf{
 
 	private static Log log = LogFactory.getLog(SendJobThread.class);
 
 	private SegmentMessageVo messageSendVo;
 
 	private BlockingQueue<String> moibleQue;
-
+	
+	private Connection conn;
+	
 	private String content = "";
 
 	public SendJobThread(SegmentMessageVo messageSendVo, String content,
-			BlockingQueue<String> moibleQue) {
+			BlockingQueue<String> moibleQue, Connection conn) {
 		this.messageSendVo = messageSendVo;
 		this.content = content;
 		this.moibleQue = moibleQue;
+		this.conn = conn;
 	}
 
 	/*
@@ -58,10 +65,14 @@ public class SendJobThread extends Thread {
 						String j = MSGSendUtil.sendSMSBySysC(moible,content);
 						System.out.println();
 						if ("S001".equals(j)) {
+							insertSendMobileLog(moible, "Y");
 							int count = MessageSendJob.count.getAndIncrement();
 							log.info("Send Message : 第" + count + "条， 已发送！" );
-							System.out.println("Send Message : 第" + count + "条， 已发送！");
 							break;
+						} else {
+							if (i == 2) {
+								insertSendMobileLog(moible, "N");
+							}
 						}
 					}
 					moible = moibleQue.poll();
@@ -71,5 +82,31 @@ public class SendJobThread extends Thread {
 			log.warn("An Exception here is " + e.getMessage(), e);
 			e.printStackTrace();
 		}
+	}
+	
+	
+	public void insertSendMobileLog(String moible, String status) {
+		PreparedStatement mobileLog = null;
+		try {
+			mobileLog = conn.prepareStatement(INSERT_T_SEND_MOBILE_LOG);
+			Timestamp sendTime = new Timestamp(System.currentTimeMillis());
+			mobileLog.setLong(1, messageSendVo.getSegmMessageId());
+			mobileLog.setLong(2, Integer.parseInt(messageSendVo.getSegmentId()));
+			mobileLog.setString(3, moible);
+			mobileLog.setTimestamp(4, sendTime);
+			mobileLog.setString(5, status);
+			mobileLog.setString(6, messageSendVo.getUpdateBy());
+			mobileLog.setTimestamp(7, sendTime);
+			mobileLog.setString(8, messageSendVo.getUpdateBy());
+			mobileLog.setTimestamp(9, sendTime);
+			mobileLog.setString(10, null);
+			mobileLog.execute();
+			mobileLog.close();
+			log.info("==========INSERT_T_SEND_MOBILE_LOG========已插入" + moible );
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 }

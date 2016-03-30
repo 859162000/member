@@ -132,21 +132,21 @@ public class SegmentMessageServiceImpl implements SegmentMessageService,MessageS
 		} else {
 			time = null;
 		}
-		String CREATE_TABLE = CREATE_TABLE_SQL.replace("${tableName}", "T_MOIBLE_" + (seqId+1));
-		CREATE_TABLE = CREATE_TABLE.replace("${SEGMENT_ID}", entity.getSegmentId());
-		String DROP_TABLE = DROP_TABLE_SQL.replace("${tableName}", "T_MOIBLE_" + (seqId+1));
-		String EXITS_TABLE = EXITS_TABLE_SQL.replace("${tableName}", "T_MOIBLE_" + (seqId+1));
+//		String CREATE_TABLE = CREATE_TABLE_SQL.replace("${tableName}", "T_MOIBLE_" + (seqId+1));
+//		CREATE_TABLE = CREATE_TABLE.replace("${SEGMENT_ID}", entity.getSegmentId());
+//		String DROP_TABLE = DROP_TABLE_SQL.replace("${tableName}", "T_MOIBLE_" + (seqId+1));
+//		String EXITS_TABLE = EXITS_TABLE_SQL.replace("${tableName}", "T_MOIBLE_" + (seqId+1));
 		getJdbcTemplate().update(INSERT_BAOCUN_MESSAGE, entity.getContent(), entity.getApproveStatus(), entity.getSegmentId(), time, entity.getCreateBy(),entity.getCinema(), 
 				entity.getArea(), entity.getUpdateBy(), entity.getCreateDate(),entity.getUpdateDate(),entity.getNoSendCal(),entity.getVersion(),
 				entity.getSend_status(),entity.getOccupied(),entity.getAllowModifier(),entity.getApprover(),entity.getBatchId(),entity.getWordContent());
 
 //		getJdbcTemplate().insertEntity("insert", entity);
-		int exits = getJdbcTemplate().queryForInt(EXITS_TABLE);
-		if(exits!=0){
-			getJdbcTemplate().execute(DROP_TABLE);
-		}
-		getJdbcTemplate().execute(CREATE_TABLE);
-		logger.info("CREATE_TABLE=================="+CREATE_TABLE);
+//		int exits = getJdbcTemplate().queryForInt(EXITS_TABLE);
+//		if(exits!=0){
+//			getJdbcTemplate().execute(DROP_TABLE);
+//		}
+//		getJdbcTemplate().execute(CREATE_TABLE);
+//		logger.info("CREATE_TABLE=================="+CREATE_TABLE);
 		logger.info("A SegmentMessageInfo has been Create SegmentMessageId="
 				+ seqId);
 		return "DONE";
@@ -162,7 +162,7 @@ public class SegmentMessageServiceImpl implements SegmentMessageService,MessageS
 
 	@Override
 	public List<String> getMoible(String segmId) {
-		String MOBILE_GET = MOBILE_GET_SQL.replace("${tableName}", "T_MOIBLE_" + segmId);
+		String MOBILE_GET = MOBILE_GET_SQL_NEW.replace("?", segmId);
 		List<String> mobileList = getJdbcTemplate().query(MOBILE_GET, new RowMapper<String>() {
 					@Override
 					public String mapRow(ResultSet arg0, int arg1)
@@ -321,7 +321,7 @@ public class SegmentMessageServiceImpl implements SegmentMessageService,MessageS
 				entity.getSegmMessageId());
 		setApproveStatus(entity, status, approveStatus);
 		insertApprove(entity, userProfile);
-		this.sendMessage(entity.getSegmMessageId(), userProfile);
+//		this.sendMessage(entity.getSegmMessageId(), userProfile);
 		logger.info("A SegmMessageInfo's approveStatus has been update "
 				+ "SegmMessageId=" + entity.getSegmMessageId()
 				+ "ApproveStatus=" + vo.getApproveStatus());
@@ -428,7 +428,8 @@ public class SegmentMessageServiceImpl implements SegmentMessageService,MessageS
 		CriteriaParser listParser = newParser(SELECT_PARAGRAPHS)
 				.add(newPlain()
 						.in("select")
-						.output("e.SEGM_MESSAGE_ID, s.SEGMENT_ID, s.CODE, s.NAME, s.CAL_COUNT, s.STATUS , e.CREATE_BY, e.APPROVE_STATUS , e.NO_SEND_CAL,e.SEND_STATUS,e.APPROVER,e.SEND_TIME,e.UPDATE_DATE"))
+						.output("e.SEGM_MESSAGE_ID, s.SEGMENT_ID, s.CODE, s.NAME, s.CAL_COUNT, s.STATUS , e.CREATE_BY, e.APPROVE_STATUS , e.NO_SEND_CAL,e.SEND_STATUS,e.APPROVER,e.SEND_TIME,e.UPDATE_DATE,"
+								+ "(select count(l.send_id) from T_SEND_MOBILE_LOG l where l.segm_message_id = e.SEGM_MESSAGE_ID and l.STATUS='Y') as SEND_NUM"))
 				.add(segmentTable).add(segmMessageTable).add(clauseMap);
 
 		CriteriaResult listResult = listParser.parse(criteria);
@@ -575,7 +576,7 @@ public class SegmentMessageServiceImpl implements SegmentMessageService,MessageS
 			time = new Timestamp(new Date().getTime());
 		}
 		
-		List<String> moibleList = this.getMoible(messageSendVo.getSegmMessageId().toString());
+		List<String> moibleList = this.getMoible(messageSendVo.getSegmentId());
 		BlockingQueue<String> que = new ArrayBlockingQueue<String>(moibleList.size(), false, moibleList);
 		Long timec = new Date().getTime();
 		if (time.getTime() <= timec) {// 如果当前时间大于设定时间，立即调用

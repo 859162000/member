@@ -74,27 +74,7 @@ public class MessageSendJob extends TimerTask implements MessageSendConf{
 		PreparedStatement sendLog = null;
 		ExecutorService executorService = Executors.newCachedThreadPool();
 		try {
-//			Map<String, String> msgConfigMap = SmsConfigFactory
-//					.getSmsConfigInstance(conn);
-//			try {
-//				PreparedStatement ps = conn
-//						.prepareStatement(SELECT_MSG_SVC_INFO);
 				upstatusPs = conn.prepareStatement(UPDATE_SEND_STATUS);
-//				ps.setString(1, "MSG_OPEN");
-//				ResultSet rs = ps.executeQuery();
-//				while (rs.next()) {
-//					String isMsgOpen = rs.getString("parameter_value");
-//					if ("0".equals(isMsgOpen)) {
-//						systemId = "001";
-//					}
-//				}
-//			} catch (Exception e) {
-//				log.warn("AN Exception here is ",e);
-//				e.printStackTrace();
-//			}
-//			msgSvcIp = msgConfigMap.get("MSG_MQ_IP");
-//			msgChannelId = msgConfigMap.get("MSG_CHANNEL_ID");
-//			
 			
 			Timestamp start = new Timestamp(System.currentTimeMillis());
 			SendLogVo sendLogVo = new SendLogVo();
@@ -104,15 +84,15 @@ public class MessageSendJob extends TimerTask implements MessageSendConf{
 		    //调用短信接口发送短信 
 		      for (int i = 0; i < treadCount; i++) {  
 		    	  executorService.execute(new SendJobThread(messageSendVo,messageSendVo.getContent(),
-		    				moibleQue));
+		    				moibleQue,conn));
 		      }
 		    System.out.println("============MESSAGESEND_COUNT============"+ MessageSendJob.count.longValue());
 			log.info("MESSAGE HAS BEEN SEND SEND CALCOUNT IS "
 					+ MessageSendJob.count.longValue());
-			if (MessageSendJob.count.longValue() != 0) {
-				System.out.println("============MESSAGESEND_DELETE============T_MOIBLE_" + messageSendVo.getSegmMessageId());
-				conn.prepareStatement("DROP TABLE T_MOIBLE_"+messageSendVo.getSegmMessageId()).execute();//删除对应客群的电话号表
-		    }
+//			if (MessageSendJob.count.longValue() != 0) {
+//				System.out.println("============MESSAGESEND_DELETE============T_MOIBLE_" + messageSendVo.getSegmMessageId());
+//				conn.prepareStatement("DROP TABLE T_MOIBLE_"+messageSendVo.getSegmMessageId()).execute();//删除对应客群的电话号表
+//		    }
 			sendLog = conn.prepareStatement(INSERT_MESSAGE_SEND_LOG);
 		    Timestamp end = new Timestamp(System.currentTimeMillis());
 			sendLog.setString(1, "T");
@@ -132,7 +112,7 @@ public class MessageSendJob extends TimerTask implements MessageSendConf{
 			try {
 				log.info("MESSAGE HAS BEEN SEND SEND CALCOUNT IS ======update===="
 						+ MessageSendJob.count.longValue());
-				upstatusPs.setString(1, "" + MessageSendJob.count.longValue());
+				upstatusPs.setString(1, "" + 1);
 				upstatusPs.setString(2, "" + messageSendVo.getSegmMessageId());
 				upstatusPs.execute();
 				upstatusPs.close();//释放PreparedStatement Connection还在使用不需要释放

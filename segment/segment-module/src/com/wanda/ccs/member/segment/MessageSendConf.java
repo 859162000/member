@@ -66,7 +66,7 @@ public interface MessageSendConf {
 		/**
 		* @Fields UPDATE_APPROVE_STATUS : 修改SEGM_MESSAGE审批状态的SQL
 		*/
-		final String UPDATE_APPROVE_STATUS = "update SEGM_MESSAGE set APPROVE_STATUS=?,APPROVER=? where SEGM_MESSAGE_ID=?";
+		final String UPDATE_APPROVE_STATUS = "update SEGM_MESSAGE set APPROVE_STATUS=?,APPROVER=?,SEND_STATUS=2 where SEGM_MESSAGE_ID=?";
 		
 		/**
 		* @Fields SAVE_MESSAGE : 新增SEGM_MESSAGE信息的SQL
@@ -148,6 +148,17 @@ public interface MessageSendConf {
 		* @Fields MOBILE_GET_SQL : 获取客群手机号的SQL
 		*/
 		final String MOBILE_GET_SQL = "select MOBILE from ${tableName}";
+		
+		/**
+		* @Fields SAVE_MESSAGE : 新增T_SEND_MOBILE_LOG信息的SQL
+		*/
+		final String INSERT_T_SEND_MOBILE_LOG = "INSERT INTO T_SEND_MOBILE_LOG (SEND_ID, SEGM_MESSAGE_ID, SEGMENT_ID, MOBILE, SEND_TIME, STATUS, CREATE_BY, CREATE_DATE,UPDATE_BY,UPDATE_DATE,REMARKS) VALUES (S_SEND_MOBILE_LOG.NEXTVAL,?,?,?,?,?,?,?,?,?,?)";
+
+		/**
+		* @Fields MOBILE_GET_SQL : 获取客群手机号的SQL
+		*/
+		final String MOBILE_GET_SQL_NEW = "select ME.MOBILE,SEME.SEGMENT_ID  from T_SEGM_MEMBER SEME LEFT JOIN T_MEMBER ME ON SEME.MEMBER_ID = ME.MEMBER_ID  WHERE ME.ISCONTACTABLE <> 0 and SEME.SEGMENT_ID=?";
+		
 		final String VERSION = "1.0"; // 客群短信版本号
 
 		final String APPROVEVOVERSION = "1.0";// 审批版本号
