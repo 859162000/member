@@ -15,7 +15,7 @@ else {
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title>客群信息发送及审批</title>
+<title>客群信息报表查看</title>
 
 <jsp:include page="include.jsp">
 <jsp:param name="context" value="<%=context%>"/>
