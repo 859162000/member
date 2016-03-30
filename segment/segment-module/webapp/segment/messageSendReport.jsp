@@ -72,6 +72,8 @@ $(function() {
 						{name:'CREATE_BY', label:'创建人', width:50, sortable:false},
 						{name:'NO_SEND_CAL', label:'不希望联络人数', width:50, sortable:false},
 						{name:'SEND_STATUS', label:'短信发送状态', width:70, sortable:false},
+						{name:'SEND_SUCCESS', label:'发送成功', width:70, sortable:false},
+						{name:'SEND_NO', label:'未发送', width:70, sortable:false},
 						{name:'SEND_TIME',label:'短信发送时间',width:50,sortable:false},
 						{name:'ACTIONS', label:'操作', width:50, align:'center'}
 						];

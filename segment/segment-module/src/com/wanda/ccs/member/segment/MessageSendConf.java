@@ -66,7 +66,7 @@ public interface MessageSendConf {
 		/**
 		* @Fields UPDATE_APPROVE_STATUS : 修改SEGM_MESSAGE审批状态的SQL
 		*/
-		final String UPDATE_APPROVE_STATUS = "update SEGM_MESSAGE set APPROVE_STATUS=?,APPROVER=?,SEND_STATUS=2 where SEGM_MESSAGE_ID=?";
+		final String UPDATE_APPROVE_STATUS = "update SEGM_MESSAGE set APPROVE_STATUS=?,APPROVER=? where SEGM_MESSAGE_ID=?";
 		
 		/**
 		* @Fields SAVE_MESSAGE : 新增SEGM_MESSAGE信息的SQL

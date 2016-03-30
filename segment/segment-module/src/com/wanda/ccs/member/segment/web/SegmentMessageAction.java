@@ -271,19 +271,17 @@ public class SegmentMessageAction {
 						row.put("APPROVEABLE", false);// 默认为非当前审批人
 						row.put("EDITABLE", false);// 默认为非创建人
 						row.put("SENDABLE", false);// 默认为未发送
+						row.put("SEND_SUCCESS", 0);//发送成功条数
+						row.put("SEND_NO", 0);//未发送条数
 						if (row.get("SEND_STATUS") == null||"-1".equals(row.get("SEND_STATUS").toString())) {
 							row.put("SEND_STATUS", "未发送");
 						}else if("0".equals(row.get("SEND_STATUS").toString())){
 							row.put("SEND_STATUS", "发送失败");
-						} else if("2".equals(row.get("SEND_STATUS").toString())){
-							if (row.get("SEND_TIME") == null) {
-								row.put("SEND_STATUS", "正在发送");
-							} else {
-								row.put("SEND_STATUS", "未发送");
-							}
 						} else{
 							Integer failSend = row.get("CAL_COUNT").toString() != "-1"?Integer.parseInt(row.get("CAL_COUNT").toString())-Integer.parseInt(row.get("SEND_NUM").toString()):0;
-							row.put("SEND_STATUS", "短信发送成功"+row.get("SEND_NUM").toString()+"条，失败"+failSend+"条");
+							row.put("SEND_SUCCESS", row.get("SEND_NUM").toString());
+							row.put("SEND_NO", failSend);
+							row.put("SEND_STATUS", "已发送");
 							row.put("SENDABLE", true);// 已发送
 						}
 						if (row.get("APPROVE_STATUS") == null) {
