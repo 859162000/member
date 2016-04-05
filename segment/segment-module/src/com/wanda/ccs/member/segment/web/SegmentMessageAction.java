@@ -296,24 +296,26 @@ public class SegmentMessageAction {
 							if ("1999".equals(row.get("APPROVE_STATUS"))) {
 								row.put("APPROVE_STATUS", "由影城经理退回修改");
 							}
-							if ("3000".equals(row.get("APPROVE_STATUS"))) {
-								row.put("APPROVE_STATUS", "待院线会员经理审批");
-								if(G_EditRight){
+							if ("3000".equals(row.get("APPROVE_STATUS")) || 
+									"2000".equals(row.get("APPROVE_STATUS")) || 
+									"1000".equals(row.get("APPROVE_STATUS"))) {
+								row.put("APPROVE_STATUS", "待审批");
+								if(G_EditRight || R_EditRight || C_EditRight){
 									row.put("APPROVEABLE", true);
 								}
 							}
-							if ("2000".equals(row.get("APPROVE_STATUS"))) {
-								row.put("APPROVE_STATUS", "待区域经理审批");
-								if(R_EditRight){
-									row.put("APPROVEABLE", true);
-								}
-							}
-							if ("1000".equals(row.get("APPROVE_STATUS"))) {
-								row.put("APPROVE_STATUS", "待影城经理审批");
-								if(C_EditRight){
-									row.put("APPROVEABLE", true);
-								}
-							}
+//							if ("2000".equals(row.get("APPROVE_STATUS"))) {
+//								row.put("APPROVE_STATUS", "待区域经理审批");
+//								if(R_EditRight){
+//									row.put("APPROVEABLE", true);
+//								}
+//							}
+//							if ("1000".equals(row.get("APPROVE_STATUS"))) {
+//								row.put("APPROVE_STATUS", "待影城经理审批");
+//								if(C_EditRight){
+//									row.put("APPROVEABLE", true);
+//								}
+//							}
 							if ("9000".equals(row.get("APPROVE_STATUS"))) {
 								row.put("APPROVE_STATUS", "审批完成");
 								if(C_EditRight){
