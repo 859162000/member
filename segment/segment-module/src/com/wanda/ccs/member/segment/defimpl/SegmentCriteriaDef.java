@@ -312,9 +312,7 @@ public class SegmentCriteriaDef {
 		Clause group_by = newPlain().in("groupby").output("member.MEMBER_KEY");
 		
 		
-		this.parser = newParser(QUERY_PARAGRAPHS_SEGMENT)
-		
-		.add(newPlain().in("where").output("member.STATUS='1' and member.ISDELETE = 0"))
+		this.parser = newParser(QUERY_PARAGRAPHS_SEGMENT).add(newPlain().in("where").output("member.STATUS='1' and member.ISDELETE = 0"))
 		.add(newPlain().in("from").output(CCSDW+".V_DW_F_MEMBER member"))
 		
 		////////////卖品交易条件////////////
@@ -592,7 +590,7 @@ public class SegmentCriteriaDef {
 		.add(notEmpty("purchaseNumber"), newExpression().in("having").output("count(distinct transSales.BK_ORDER_ID)", DataType.INTEGER)
 				.depends(transSales).depends(group_by))
 		//观影购票数
-		.add(notEmpty("ticketNumber"), newExpression().in("having").output("count(distinct transSales.BK_TICKET_NUMBER)-count(distinct transSales.RE_TICKET_NUMBER)", DataType.INTEGER)
+		.add(notEmpty("ticketNumber"), newExpression().in("having").output("count(distinct transSales.BK_TICKET_NUM)-count(distinct transSales.RE_TICKET_NUM)", DataType.INTEGER)
 				.depends(transSales).depends(group_by))
 		//观影影片
 		.add(notEmpty("transFilm"), newExpression().in("where").output("transSales_film.FILM_CODE", DataType.STRING, filmCom)
