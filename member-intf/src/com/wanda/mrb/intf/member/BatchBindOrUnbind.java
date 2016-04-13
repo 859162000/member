@@ -105,12 +105,22 @@ public class BatchBindOrUnbind extends ServiceBase {
 								String.valueOf(memberId),
 								"2", //补充缺少的参数，Fixed by Zhang Chen Long(2014-04-29)
 								VoucherNumberEncoder.md5Encrypt(voucherNumber));
+						SqlHelp.operate(conn, SQLConstDef.INSERT_MEMBER_VOUCHER_LOG,
+								VoucherNumberEncoder.md5Encrypt(voucherNumber),
+								String.valueOf(memberId),
+								"",
+								"2");
 					}
 				} else {// 不在券库中，绑定
 					SqlHelp.operate(conn, SQLConstDef.INSERT_MEMBER_VOUCHER_REL,
 							VoucherCodeUtil.desEncrypt(voucherNumber),
 							VoucherNumberEncoder.md5Encrypt(voucherNumber),
 							String.valueOf(memberId),
+							"2");
+					SqlHelp.operate(conn, SQLConstDef.INSERT_MEMBER_VOUCHER_LOG,
+							VoucherNumberEncoder.md5Encrypt(voucherNumber),
+							String.valueOf(memberId),
+							"",
 							"2");
 				}
 			} else if ("2".equals(bindFlag)) {// 2.解绑
@@ -121,6 +131,11 @@ public class BatchBindOrUnbind extends ServiceBase {
 				} else {// 解绑
 					SqlHelp.operate(conn, SQLConstDef.DELETE_MEMBER_VOUCHER_REL,
 							VoucherNumberEncoder.md5Encrypt(voucherNumber));
+					SqlHelp.operate(conn, SQLConstDef.INSERT_MEMBER_VOUCHER_LOG,
+							VoucherNumberEncoder.md5Encrypt(voucherNumber),
+							String.valueOf(memberId),
+							"",
+							"4");
 				}
 			} else if ("3".equals(bindFlag)) {// 3.赠送
 				if (!bindThisMemberFlag) {
@@ -135,6 +150,11 @@ public class BatchBindOrUnbind extends ServiceBase {
 							String.valueOf(memberId),
 							"3",
 							VoucherNumberEncoder.md5Encrypt(voucherNumber));
+					SqlHelp.operate(conn, SQLConstDef.INSERT_MEMBER_VOUCHER_LOG,
+							VoucherNumberEncoder.md5Encrypt(voucherNumber),
+							"",
+							String.valueOf(memberId),
+							"3");
 				}
 			}
 			rsq.free();

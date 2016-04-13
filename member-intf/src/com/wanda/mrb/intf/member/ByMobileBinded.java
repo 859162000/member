@@ -1,5 +1,6 @@
 package com.wanda.mrb.intf.member;
 
+import java.io.UnsupportedEncodingException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -89,7 +90,7 @@ public class ByMobileBinded extends ServiceBase {
 				bindMemberFlag = true;// 已绑定
 				// 判断该券是否绑定到了该会员
 				PreparedStatement psBindThisMember = conn
-						.prepareStatement(SQLConstDef.CHECK_VOUCHER_REL);
+						.prepareStatement(SQLConstDef.CHECK_VOUCHER_REL_MOBILE);
 				psBindThisMember.setString(1, this.memberNo);
 				psBindThisMember.setString(2,
 						VoucherNumberEncoder.md5Encrypt(vNum));
@@ -117,16 +118,24 @@ public class ByMobileBinded extends ServiceBase {
 				} else {// 只要该券没有绑定到其他会员，就可以进行绑定
 					SqlHelp.operate(conn,
 							SQLConstDef.UPDATE_MEMBER_VOUCHER_REL,
-							String.valueOf(memberId), "2", // 补充缺少的参数，Fixed by
-															// Zhang Chen
-															// Long(2014-04-29)
+							String.valueOf(memberId), "2", 
 							VoucherNumberEncoder.md5Encrypt(vNum));
+					SqlHelp.operate(conn, SQLConstDef.INSERT_MEMBER_VOUCHER_LOG,
+							VoucherNumberEncoder.md5Encrypt(vNum),
+							String.valueOf(memberId),
+							"",
+							"2");
 				}
 			} else {// 不在券库中，绑定
 				SqlHelp.operate(conn, SQLConstDef.INSERT_MEMBER_VOUCHER_REL,
 						VoucherCodeUtil.desEncrypt(vNum),
 						VoucherNumberEncoder.md5Encrypt(vNum),
 						String.valueOf(memberId), "2");
+				SqlHelp.operate(conn, SQLConstDef.INSERT_MEMBER_VOUCHER_LOG,
+						VoucherNumberEncoder.md5Encrypt(vNum),
+						String.valueOf(memberId),
+						"",
+						"2");
 			}
 		} else if ("2".equals(bindFlag)) {// 2.解绑
 			if (!bindMemberFlag) {
@@ -136,6 +145,11 @@ public class ByMobileBinded extends ServiceBase {
 			} else {// 解绑
 				SqlHelp.operate(conn, SQLConstDef.DELETE_MEMBER_VOUCHER_REL,
 						VoucherNumberEncoder.md5Encrypt(vNum));
+				SqlHelp.operate(conn, SQLConstDef.INSERT_MEMBER_VOUCHER_LOG,
+						VoucherNumberEncoder.md5Encrypt(vNum),
+						String.valueOf(memberId),
+						"",
+						"4");
 			}
 		}
 		rsq.free();
@@ -171,5 +185,14 @@ public class ByMobileBinded extends ServiceBase {
 	@Override
 	protected String composeXMLBody() {
 		return null;
+	}
+	public static void main(String[] args) {
+		try {
+			System.out.println(AES.encrypt("9507867161928053912".getBytes("UTF-8"), "837300"));
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+//		System.out.println(AES.decrypt("7612131226984769791", "837300"));
 	}
 }
