@@ -316,4 +316,10 @@ public class SQLConstDef {
 	public static final String SELECT_MOBILE_BIRTH_MEMBER = "select m.member_id,m.mobile,to_char(m.birthday,'yyyy-mm-dd') as birthday from t_member m where m.member_no = ?";
 	public static final String SELECT_BIRTH_UPDATE_TIME = "select m.birthday_update_time from t_member m where m.member_no = ?";
 	public static final String ADD_BIRTH_UPDATE_TIME = "update t_member set birthday_update_time = birthday_update_time + 1 where member_no = ?";
+	/**
+	 * 解绑券日志
+	 */
+	public static final String INSERT_MEMBER_VOUCHER_LOG="INSERT INTO T_VOUCHER_POOL_DETAIL_LOG( BAR_CODE, MEMBER_ID,TO_MEMBER_ID, OPERRATE_TYPE) VALUES( ?, ?, ?, ?)";
+	
+	public static final String CHECK_VOUCHER_REL_MOBILE="select * from T_MEMBER m,T_VOUCHER_POOL_DETAIL p where m.member_id=p.member_id and m.MOBILE=? and p.BAR_CODE=?";
 }
