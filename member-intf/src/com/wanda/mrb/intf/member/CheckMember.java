@@ -83,6 +83,7 @@ public class CheckMember extends ServiceBase {
 					member.registChnID = rs.getString("REGIST_CHNID");
 					member.registChnExtID = rs.getString("REGIST_CHN_EXT_ID");
 					member.counterName = rs.getString("SHORT_NAME");
+					member.counter = rs.getString("INNER_CODE");
 					member.tel = rs.getString("PHONE");
 					member.registDate = rs.getString("REGIST_DATE");
 					// 常驻影城
