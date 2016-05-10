@@ -10,6 +10,7 @@ public class MemberVoucherRelBean {
 	private String operateType;
 	private String unitValue;
 	private String mimPrice;
+	private String useDefault;
 	
 	public String getOperateType() {
 		return operateType;
@@ -66,6 +67,12 @@ public class MemberVoucherRelBean {
 	}
 	public void setMimPrice(String mimPrice) {
 		this.mimPrice = mimPrice;
+	}
+	public String getUseDefault() {
+		return useDefault;
+	}
+	public void setUseDefault(String useDefault) {
+		this.useDefault = useDefault;
 	}
 	
 }

@@ -3,7 +3,9 @@ package com.wanda.mrb.intf.member;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.w3c.dom.Element;
 
@@ -18,6 +20,7 @@ import com.wanda.mrb.intf.utils.VoucherCodeUtil;
 
 public class QueryVoucherList  extends ServiceBase{
 	private List<MemberVoucherRelBean> list;
+	private Map<String,MemberVoucherRelBean> map;
 	public QueryVoucherList(){
 		super();
 		super.intfCode=ConstDef.CONST_INTFCODE_M_QUERYVOUCHERLIST;
@@ -27,6 +30,7 @@ public class QueryVoucherList  extends ServiceBase{
 		Connection conn = getDBConnection();
 		this.checkMember(conn);//验证会员是否存在
 		list=new ArrayList<MemberVoucherRelBean>();
+		map = new HashMap<String, MemberVoucherRelBean>(0);
 		ResultQuery rsq=SqlHelp.query(conn, SQLConstDef.MEMBER_VOUCHER_REL, this.memberNo,"A");
 		ResultSet rs=rsq.getResultSet();
 		while (rs!=null && rs.next()) {
@@ -40,8 +44,19 @@ public class QueryVoucherList  extends ServiceBase{
 			bean.setOperateType(rs.getString("OPERRATE_TYPE"));
 			bean.setUnitValue(rs.getString("UNIT_VALUE"));
 			bean.setMimPrice(rs.getString("MIN_PRICE"));
-			list.add(bean);
+			bean.setUseDefault(rs.getString("USE_DEFAULT"));
+			if(map.get(bean.getVoucherNumber())!=null){
+				if("N".equals(map.get(bean.getVoucherNumber()))){
+					map.put(bean.getVoucherNumber(), bean);
+				}
+			}else{
+				map.put(bean.getVoucherNumber(), bean);
+			}
+			
 		}
+		for (MemberVoucherRelBean mvrb : map.values()) {  
+			list.add(mvrb);
+		}  
 		rsq.free();
 	}
 
