@@ -209,7 +209,7 @@ public class SegmentCriteriaDef {
 		
 		//观影类型（首映场）
 		
-		Clause schedule_plan = newPlain().in("from").output(MBRODS+".T_SCHEDULE_PLAN_B schedule_plan")
+		Clause schedule_plan = newPlain().in("from").output(CCSDW+".T_DW_D_SCHEDULE_PLAN schedule_plan")
 				.depends(newPlain().in("where").output("schedule_plan.FILM_ID = transSales_film.SEQID"))
 				.depends(transSales_film);
 		
@@ -268,8 +268,8 @@ public class SegmentCriteriaDef {
 				.depends(newPlain().in("where").output("point_history.member_id=member.member_key"));
 		
 		//会员级别
-		Clause member_level = newPlain().in("from").output(MBRODS+".T_MEMBER_LEVEL member_level")
-				.depends(newPlain().in("where").output("member_level.member_id=member.member_key"));
+		Clause member_level = newPlain().in("from").output(CCSDW+".V_DW_F_MEMBER member_level")
+				.depends(newPlain().in("where").output("member_level.member_key=member.member_key"));
 		
 		//会员级别历史记录
 		Clause member_level_history = newPlain().in("from").output(MBRODS+".T_LEVEL_HISTORY member_level_history")

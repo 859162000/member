@@ -1,6 +1,7 @@
 package com.wanda.ccs.member.segment.defimpl;
 
 import static com.wanda.ccs.member.segment.SegmentConstants.Schemas.MBRODS;
+import static com.wanda.ccs.member.segment.SegmentConstants.Schemas.CCSDW;
 import static com.wanda.ccs.sqlasm.CriteriaParserBuilder.SELECT_PARAGRAPHS;
 import static com.wanda.ccs.sqlasm.CriteriaParserBuilder.newParser;
 import static com.wanda.ccs.sqlasm.CriteriaParserBuilder.notEmpty;
@@ -20,7 +21,7 @@ public class FilmCompositeParser extends CompositeCriteriaParser {
 		if(this.parser == null) {
 			this.parser = newParser(SELECT_PARAGRAPHS)
 					.add(newPlain().in("select").output("F.FILM_CODE"))
-					.add(newPlain().in("from").output(MBRODS+".T_FILM F"))
+					.add(newPlain().in("from").output(CCSDW +".V_DW_D_FILM F"))
 					
 					.add(notEmpty("filmName"), newExpression().in("where").output("F.FILM_NAME", STRING))
 					.add(notEmpty("showSet"), newExpression().in("where").output("F.SHOW_SET", STRING))
