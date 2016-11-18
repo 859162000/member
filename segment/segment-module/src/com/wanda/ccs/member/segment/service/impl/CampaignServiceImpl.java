@@ -87,7 +87,7 @@ public class CampaignServiceImpl implements CampaignService {
 		clauseMap.put(equalsValue("userLevel", "REGION"), newValue().from("userInfo").in("where")
 				.output("(s.OWNER_LEVEL='REGION' or s.OWNER_LEVEL='CINEMA') and s.OWNER_REGION={2}", DataType.STRING, false));
 		clauseMap.put(equalsValue("userLevel", "CINEMA"), newValue().from("userInfo").in("where")
-				.output("s.OWNER_LEVEL='CINEMA' and s.OWNER_CINEMA={1}", DataType.LONG, false));
+				.output("s.OWNER_LEVEL='CINEMA' and s.OWNER_CINAME={1}", DataType.LONG, false));
 		// 状态
 		clauseMap.put(notEmpty("status"), newExpression().in("where", false).output("s.STATUS", DataType.STRING, Operator.EQUAL));
 		// 排序
@@ -147,7 +147,7 @@ public class CampaignServiceImpl implements CampaignService {
 		clauseMap.put(equalsValue("userLevel", "REGION"), newValue().from("userInfo").in("where")
 				.output("(s.OWNER_LEVEL='REGION' or s.OWNER_LEVEL='CINEMA') and s.OWNER_REGION={2}", DataType.STRING, false));
 		clauseMap.put(equalsValue("userLevel", "CINEMA"), newValue().from("userInfo").in("where")
-				.output("s.OWNER_LEVEL='CINEMA' and s.OWNER_CINEMA={1}", DataType.LONG, false));
+				.output("s.OWNER_LEVEL='CINEMA' and s.OWNER_CINAME={1}", DataType.LONG, false));
 		// 状态
 		clauseMap.put(notEmpty("status"), newExpression().in("where").output("s.STATUS", DataType.STRING, Operator.EQUAL));
 		// 类型
