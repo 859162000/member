@@ -101,6 +101,21 @@ public class FormatTools {
 		return nowTime;
 	}
 	
+	public static String formatTimeForMessage(String str){
+        if(str==null || str.equals("")){
+            return "";
+        }
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-mm-dd HH:mm:ss");
+        SimpleDateFormat formatter2 = new SimpleDateFormat("yyyy年mm月dd日HH时:mm分ss秒");
+        Date d = null;
+        try {
+            d = formatter.parse(str);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+      return formatter2.format(d);
+    }
+	
 	public static String bizDate(String time){
 		if(time==null||"".equals(time)){
 			return "";

@@ -1,11 +1,11 @@
 package com.wanda.mrb.intf.member;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.Map;
 import java.util.Vector;
 
+import org.apache.log4j.Logger;
 import org.w3c.dom.Element;
 
 import com.icebean.core.common.XMLElmEnum;
@@ -27,6 +27,8 @@ public class RedeemOnline  extends ServiceBase{
 		super.intfCode=ConstDef.CONST_INTFCODE_M_REDEEMONLINE;
 		this.timeOutFlag = true;
 	}
+
+    protected final org.apache.log4j.Logger log = Logger.getLogger(this.getClass());
 	private String balance;
 	private String operationType;
 	private String orderNo;
@@ -45,8 +47,13 @@ public class RedeemOnline  extends ServiceBase{
 	protected void bizPerform() throws Exception {
 		Connection conn = getDBConnection();
 		int mid=this.checkMember(conn);//验证会员是否存在
-		String filmName = "";
 		String goodName = "";
+		StringBuffer showTime=new StringBuffer();
+		//替换短信模板中的{goodname}内容
+		StringBuffer filmNameBuff=new StringBuffer();
+		
+		//短信内容是否构造成功标志
+		boolean messageFlag=true;
 		
 		//查询影城内码
 		ResultQuery rsq=SqlHelp.query(conn, SQLConstDef.MEMBER_SELECT_INNERCODE_BY_CODE, cinema);
@@ -113,8 +120,23 @@ public class RedeemOnline  extends ServiceBase{
 			//创建购票记录
 			for (int i = 0; i < films.size(); i++) {
 				TFilmInfo fi = films.get(i);
-				filmName = filmName + fi.hallCode + "; 时间:"+ fi.showTime 
-				+"; 影片:"+fi.filmName+"; "+fi.ticketNum+"张;";
+                try {
+                    // update by mlh 2016/11/17
+                    String showtime = fi.showTime;
+                    // 如果影片放映时间不为空
+                    if (null != showtime && !showtime.equals("")) {
+                        // 格式化放映日期字符串
+                        showTime = bulidFilmName(showTime, showtime);
+                    }
+                    filmNameBuff =filmNameBuff.append(fi.hallCode).append(";时间:").append(showTime)
+                                    .append(";影片:").append(fi.filmName).append(";")
+                                    .append(fi.ticketNum).append("张;");
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    log.warn("设置短信内容中的filmname格式转换报错");
+                    messageFlag = false;
+                }
 				//10个参数
 				//ORDER_ID,TOTAL_AMOUNT,TICKET_NUM,CINEMA_INNER_CODE,MEMBER_ID,FILM_CODE,FILM_NAME,HALL_NUM,SHOW_TIME,BIZ_DATE
 				SqlHelp.operate(conn, SQLConstDef.INSERT_TICKET_TRANS_ORDER, 
@@ -181,43 +203,102 @@ public class RedeemOnline  extends ServiceBase{
 		
 //		发送短信  ${时间}{渠道}{积分数}{订单号}
 		String nowTime = FormatTools.getNowTime();
-		if(super.cinemaCode != null && !"99999999".equals(super.cinemaCode)){
-			//POS
-			String cinemaInnerCode = "";
-			try {
-				PreparedStatement ps = conn.prepareStatement(SQLConstDef.MEMBER_SELECT_INNERCODE_BY_CODE);
-				ps.setString(1, super.cinemaCode);
-				rs = ps.executeQuery();
-				while (rs.next()) {
-					cinemaInnerCode = rs.getString("inner_code");
-				}
-			} catch (Exception e) {
-				conn.rollback();
-				throw e;
-			}
-			if ("1".equals(msgRedOpen)) {
-				try {
-					SendMsgUtil.sendMsgCheckCode(conn, msgSvcIp, msgChannelId, mobile, cinemaInnerCode, gec.getRedeemEvenContent(conn).getRedeemContent().replace("${transtime}", nowTime)
-							.replace("${渠道}", "POS").replace("${订单号}", orderNo)
-							.replace("${goodname}", filmName+goodName).replace("${point}", balance)
-							.replace("${balance}", String.valueOf((int)(myBalance-Double.valueOf(balance)))));
-				} catch (Exception e) {
-					SendMsgUtil.sendMsgCheckCode(conn, msgSvcIp, msgChannelId, mobile, "002", gec.getRedeemEvenContent(conn).getRedeemContent().replace("${transtime}", nowTime)
-							.replace("${渠道}", "POS").replace("${订单号}", orderNo)
-							.replace("${goodname}", filmName+goodName).replace("${point}", balance)
-							.replace("${balance}", String.valueOf((int)(myBalance-Double.valueOf(balance)))));
-				}
-				
-			}
-		} else {
-			if ("1".equals(msgRedOpen)) {
-				SendMsgUtil.sendMsgCheckCode(conn, msgSvcIp, msgChannelId, mobile, "002", gec.getRedeemEvenContent(conn).getRedeemContent().replace("${transtime}", nowTime)
-						.replace("${渠道}", "POS").replace("${订单号}", orderNo)
-						.replace("${goodname}", filmName+goodName).replace("${point}", balance)
-						.replace("${balance}", String.valueOf((int)(myBalance-Double.valueOf(balance)))));
-			}
-		}
+		//update by mlh 2016/11/17
+        
+        String message="";
+        
+        try {
+            // 当操作类型为空时（兑换网站礼品）
+            if ("".equals(orderType) || orderType == null) {
+
+                message =gec.getRedeemEvenContent(conn)
+                                .getRedeemContent()
+                                .replace("${transtime}", nowTime)
+                                .replace("${渠道}", "POS")
+                                .replace("${订单号}", orderNo)
+                                .replace("${goodname}", productName)
+                                .replace("${point}", balance)
+                                .replace("${balance}",String.valueOf((int) (myBalance - Double.valueOf(balance))))     
+                                .replaceAll(" ", "");
+
+            } else {
+
+                message =gec.getRedeemEvenContent(conn)
+                            .getRedeemContent()
+                            .replace("${transtime}", nowTime)
+                            .replace("${渠道}", "POS")
+                            .replace("${订单号}", orderNo)
+                            .replace("${goodname}", filmNameBuff.toString() + goodName)
+                            .replace("${point}", balance)
+                            .replace("${balance}",String.valueOf((int) (myBalance - Double.valueOf(balance))))      
+                            .replaceAll(" ", "");
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.warn("构造短信内容报错");
+            messageFlag = false;
+        }
+        
+        // 如果构造短信内容没有报错
+        if (messageFlag) {
+            if (super.cinemaCode != null && !"99999999".equals(super.cinemaCode)) {
+                // POS
+                String cinemaInnerCode = "";
+                // update by mlh 无用代码
+                /*
+                 * try { PreparedStatement ps =
+                 * conn.prepareStatement(SQLConstDef.MEMBER_SELECT_INNERCODE_BY_CODE);
+                 * ps.setString(1, super.cinemaCode); rs = ps.executeQuery(); while (rs.next()) {
+                 * cinemaInnerCode = rs.getString("inner_code"); } } catch (Exception e) {
+                 * conn.rollback(); throw e; }
+                 */
+                
+                // update by mlh
+                if ("1".equals(msgRedOpen)) {
+                    try {
+                        SendMsgUtil.sendMsgCheckCodeByEncode(conn, msgSvcIp, msgChannelId, mobile,
+                                cinemaInnerCode, message);
+                    } catch (Exception e) {
+                        SendMsgUtil.sendMsgCheckCodeByEncode(conn, msgSvcIp, msgChannelId, mobile,
+                                "002", message);
+                    }
+
+                }
+            } else {
+                if ("1".equals(msgRedOpen)) {
+                    SendMsgUtil.sendMsgCheckCodeByEncode(conn, msgSvcIp, msgChannelId, mobile,
+                            "002", message);
+                }
+            }
+        } else {
+            log.warn("构造短信内容失败，不进行短信发送。");
+        }
+			
 	}
+	
+    /**
+     * 格式化影片放映日期
+     * 
+     * @param showTime
+     * @param FilmShowTime
+     * @return 返回中文格式的日期字符
+     */
+    protected StringBuffer bulidFilmName(StringBuffer showTime, String filmShowTime) {
+
+        log.info("showTime:" + showTime + "  filmShowTime:" + filmShowTime);
+        String[] showTimes = null;
+        showTimes = filmShowTime.split(",");
+        for (String filmtime : showTimes) {
+            filmtime = FormatTools.formatTimeForMessage(filmtime);
+            showTime = showTime.append(filmtime).append(",");
+        }
+        if (showTime.length() > 0) {
+            showTime.deleteCharAt(showTime.length() - 1);
+        }
+        log.info("构造后的showTime:" + showTime);
+        return showTime;
+    }
 
 	@Override
 	protected void parseXMLParam(Element root) throws Exception {
@@ -294,6 +375,14 @@ public class RedeemOnline  extends ServiceBase{
 	@Override
 	protected String composeXMLBody() {
 		return null;
+	}
+	
+	public static void main(String args[]){
+	    String str="2016-11-18 11:20:00";
+	    str=FormatTools.formatTimeForMessage(str);
+	    StringBuffer S= new StringBuffer();
+	    System.out.println(S.toString());
+	    
 	}
 
 }
