@@ -25,7 +25,7 @@ public class RedeemOnline  extends ServiceBase{
 	public RedeemOnline(){
 		super();
 		super.intfCode=ConstDef.CONST_INTFCODE_M_REDEEMONLINE;
-		this.timeOutFlag = true;
+		//this.timeOutFlag = true;
 	}
 
     protected final org.apache.log4j.Logger log = Logger.getLogger(this.getClass());
